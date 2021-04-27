@@ -19,7 +19,6 @@ class SignUpForm2 extends StatelessWidget {
   // NOTE: Progress Bar is top widget in content and is extended behind a Transparent AppBar.
   // This is not a great solution but simplest I could conceive of, it will cause display to be weird on non-notched phones
 
-git
   @override
   Widget build(BuildContext context) => Scaffold(
     backgroundColor: Colors.white,
