@@ -10,8 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import '../authenticationwidgets/forgotpasswordbottomsheet.dart';
-import '../../global/routegenerator.dart';
-import '../../global/theme/elements/simposiicons.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/theme.dart';
 
@@ -25,23 +23,23 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   // Set Variables
-  String email = ' ';
+  String phone = ' ';
   String password = ' ';
   bool _passwordVisible = true;
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _emailController.addListener(() => setState(() {}));
+    _phoneController.addListener(() => setState(() {}));
     _passwordController.addListener(() => setState(() {}));
   }
 
   @override
   void dispose() {
-    _emailController.dispose();
+    _phoneController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -93,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               children: [
 
                                 // EMAIL FIELD
-                                _emailField(),
+                                _phoneField(),
                                 SizedBox(height: 10),
 
                                 // PASSWORD FIELD
@@ -107,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                       if (isValid) {
                                         _formKey.currentState!.save();
-                                        print('Email: ${email}');
+                                        print('Phone: ${phone}');
                                         print('Password: ${password}');
                                         Navigator.of(context).pushReplacementNamed('/home');
                                       }
@@ -166,98 +164,94 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
 
-  // EMAIL FIELD
-  Widget _emailField() => TextFormField(
-    controller: _emailController,
-    keyboardType: TextInputType.emailAddress,
-    textInputAction: TextInputAction.next,
-    enableSuggestions: true,
-    autocorrect: true,
-    obscureText: false,
-    showCursor: true,
+  // PHONE FIELD
+  Widget _phoneField() =>
+      TextFormField(
+        controller: _phoneController,
+        keyboardType: TextInputType.phone,
+        textInputAction: TextInputAction.next,
+        enableSuggestions: true,
+        autocorrect: true,
+        obscureText: false,
+        showCursor: true,
 
-    style: TextStyle(
-      color: SimposiAppColors.simposiLightText,
-      fontWeight: FontWeight.w500,
-      fontSize: 15,
-    ),
+        style: TextStyle(
+          color: SimposiAppColors.simposiLightText,
+          fontWeight: FontWeight.w500,
+          fontSize: 15,
+        ),
 
-    decoration: InputDecoration(
-      labelText: ' Email Address',
-      contentPadding: EdgeInsets.all(20),
-      labelStyle: TextStyle(
-        color: SimposiAppColors.simposiLightText,
-        fontSize: 14,
-        fontWeight: FontWeight.w500,
-        letterSpacing: 1.5,
-      ),
+        decoration: InputDecoration(
+          labelText: ' Phone Number',
+          contentPadding: EdgeInsets.all(20),
+          labelStyle: TextStyle(
+            color: SimposiAppColors.simposiLightText,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            letterSpacing: 1.5,
+          ),
 
-      suffixIcon: _emailController.text.isEmpty
-          ? Container(width: 0)
-          : IconButton(
-        icon: Icon(Icons.close,
-            size: 20, color: SimposiAppColors.simposiLightGrey),
-        onPressed: () => _emailController.clear(),
-      ),
+          // INITIAL STATE
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(40.0)),
+              borderSide: BorderSide(
+                color: SimposiAppColors.simposiLightGrey,
+              )),
 
-      // INITIAL STATE
-      border: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          borderSide: BorderSide(
-            color: SimposiAppColors.simposiLightGrey,
-          )),
+          // FOCUS STATE
+          focusColor: SimposiAppColors.simposiDarkBlue,
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(40.0)),
+              borderSide: BorderSide(
+                color: SimposiAppColors.simposiDarkBlue,
+              )),
 
-      // FOCUS STATE
-      focusColor: SimposiAppColors.simposiDarkBlue,
-      focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          borderSide: BorderSide(
-            color: SimposiAppColors.simposiDarkBlue,
-          )),
+          // FOCUS ERROR STATE
+          focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(40.0)),
+              borderSide: BorderSide(
+                color: SimposiAppColors.simposiPink,
+              )
+          ),
 
-      // FOCUS ERROR STATE
-      focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          borderSide: BorderSide(
+          // ERROR STATE
+          errorStyle: TextStyle(
             color: SimposiAppColors.simposiPink,
-          )
-      ),
+          ),
+          errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(40.0)),
+              borderSide: BorderSide(
+                color: SimposiAppColors.simposiPink,
+              )
+          ),
 
-      // ERROR STATE
-      errorStyle: TextStyle(
-        color: SimposiAppColors.simposiPink,
-      ),
-      errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          borderSide: BorderSide(
-            color: SimposiAppColors.simposiPink,
-          )
-      ),
+          suffixIcon: _phoneController.text.isEmpty
+              ? Container(width: 0)
+              : IconButton(
+            icon: Icon(Icons.close,
+                size: 20, color: SimposiAppColors.simposiLightGrey),
+            onPressed: () => _phoneController.clear(),
+          ),
+        ),
 
-    ),
+        // PHONE VALIDATION LOGIC
+        validator: (value) {
 
-    // EMAIL VALIDATION LOGIC
-    validator: (value) {
-      final pattern = r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
-      final regExp = RegExp(pattern);
+          // IF Empty
+          if (value!.isEmpty) {
+            return 'Phone Required';
+          }
+          if (value.length < 10) {
+            return 'Must be at least 10 characters';
+          }
+          else {
+            return null;
+          }
+        },
 
-      // IF Empty
-      if (value!.isEmpty) {
-        return 'Email Required';
-      }
-      // IF does not match RegEx pattern
-      if (!regExp.hasMatch(value)) {
-        return 'Enter a Valid Email';
-      }
-      // TODO: Add Validation for IF Account does not Exist, display Account does not exist message
-      else {
-        return null;
-      }
-    },
-
-    // OUTPUT ACTIONS
-    onSaved: (value) => setState(() => email = value!),
-  );
+        // OUTPUT ACTIONS
+        onSaved: (value) => setState(() => phone = value!),
+      );
 
 
   // PASSWORD FIELD

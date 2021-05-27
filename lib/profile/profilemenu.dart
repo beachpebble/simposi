@@ -26,106 +26,278 @@ class ProfileMenu extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
           child: SizedBox (
-            height: 500,
+            height: 600,
             child: ListView(
               children: [
-                Divider(),
-                ListTile(
-                  title: Text('Edit Profile',
-                  style: TextStyle(
-                    color: SimposiAppColors.simposiLightText,
-                    fontSize: 17,
-                    fontWeight: FontWeight.w500,
+                Card(
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    side: BorderSide(
+                      color: SimposiAppColors.simposiLightGrey,
                     ),
                   ),
-                  trailing: Icon(Icons.chevron_right,
-                  size: 30
-                  ),
-                  onTap: () {
-                    Navigator.of(context).pushNamed('/editprofile');
-                  },
-                ),
-                Divider(),
-                ListTile(
-                  title: Text('Reset Password',
-                    style: TextStyle(
-                    color: SimposiAppColors.simposiLightText,
-                    fontSize: 17,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                trailing: Icon(Icons.chevron_right,
+                  child: ListTile(
+                    title: Align(
+                      alignment: Alignment(-1.2, 0),
+                      child: Text('Edit Profile',
+                      style: TextStyle(
+                        color: SimposiAppColors.simposiLightText,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    leading: Icon(Icons.person_outline,
+                      color: SimposiAppColors.simposiPink,
+                    ),
+                    trailing: Icon(Icons.chevron_right,
                     size: 30
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/editprofile');
+                    },
                   ),
-                  onTap: () {
-                    Navigator.of(context).pushNamed('/createpassword');
-                  },
                 ),
-                Divider(),
-                ListTile(
-                  title: Text('FAQ',
-                    style: TextStyle(
-                      color: SimposiAppColors.simposiLightText,
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
+                Card(
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    side: BorderSide(
+                      color: SimposiAppColors.simposiLightGrey,
                     ),
                   ),
-                  trailing: Icon(Icons.chevron_right,
-                      size: 30
+                  child: ListTile(
+                    title: Align(
+                      alignment: Alignment(-1.2, 0),
+                      child: Text('Reset Password',
+                        style: TextStyle(
+                          color: SimposiAppColors.simposiLightText,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    leading: Icon(Icons.vpn_key_outlined,
+                      color: SimposiAppColors.simposiYellow,
+                    ),
+                    trailing: Icon(Icons.chevron_right,
+                        size: 30
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/resetpassword');
+                    },
                   ),
-                  onTap: () {
-                    Navigator.of(context).pushNamed('/faq');
-                  },
                 ),
-                Divider(),
-                ListTile(
-                  title: Text('Terms of Use',
-                    style: TextStyle(
-                      color: SimposiAppColors.simposiLightText,
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
+                Card(
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    side: BorderSide(
+                      color: SimposiAppColors.simposiLightGrey,
                     ),
                   ),
+                  child: ListTile(
+                    title: Align(
+                      alignment: Alignment(-1.2, 0),
+                      child: Text('Invitation Settings',
+                        style: TextStyle(
+                        color: SimposiAppColors.simposiLightText,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                      ),
+                  ),
+                    ),
+                    leading: Icon(Icons.markunread_mailbox_outlined,
+                      color: SimposiAppColors.simposiLightBlue,
+                      size: 20,
+                    ),
                   trailing: Icon(Icons.chevron_right,
                       size: 30
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/invitationsettings');
+                    },
                   ),
-                  onTap: () {
-                    Navigator.of(context).pushNamed('/tou');
-                  },
                 ),
-                Divider(),
-                ListTile(
-                  title: Text('Privacy Policy',
-                    style: TextStyle(
-                      color: SimposiAppColors.simposiLightText,
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
+                Card(
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    side: BorderSide(
+                      color: SimposiAppColors.simposiLightGrey,
                     ),
                   ),
-                  trailing: Icon(Icons.chevron_right,
-                      size: 30
+                  child: ListTile(
+                    title: Align(
+                      alignment: Alignment(-1.2, 0),
+                      child: Text('Emergency Contact',
+                        style: TextStyle(
+                          color: SimposiAppColors.simposiLightText,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    leading: Icon(Icons.local_hospital_outlined,
+                      color: SimposiAppColors.simposiPink,
+                    ),
+                    trailing: Icon(Icons.chevron_right,
+                        size: 30
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/emergencycontact');
+                    },
                   ),
-                  onTap: () {
-                    Navigator.of(context).pushNamed('/privacy');
-                  },
                 ),
-                Divider(),
-                ListTile(
-                  title: Text('Sign Out',
-                    style: TextStyle(
-                      color: SimposiAppColors.simposiLightText,
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
+                Card(
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    side: BorderSide(
+                      color: SimposiAppColors.simposiLightGrey,
                     ),
                   ),
-                  trailing: Icon(Icons.chevron_right,
-                      size: 30
+                  child: ListTile(
+                    title: Align(
+                      alignment: Alignment(-1.1, 0),
+                      child: Text('FAQ      ',
+                        style: TextStyle(
+                          color: SimposiAppColors.simposiLightText,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    leading: Icon(Icons.help_outline_outlined,
+                      color: SimposiAppColors.simposiYellow,
+                    ),
+                    trailing: Icon(Icons.chevron_right,
+                        size: 30
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/faq');
+                    },
                   ),
-                  onTap: () {
-                    Navigator.of(context).pushReplacementNamed('/');
-                  },
                 ),
-                Divider(),
+                Card(
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    side: BorderSide(
+                      color: SimposiAppColors.simposiLightGrey,
+                    ),
+                  ),
+                  child: ListTile(
+                    title: Align(
+                      alignment: Alignment(-1.2, 0),
+                      child: Text('Terms of Use',
+                        style: TextStyle(
+                          color: SimposiAppColors.simposiLightText,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    leading: Icon(Icons.sticky_note_2_outlined,
+                      color: SimposiAppColors.simposiLightBlue,
+                    ),
+                    trailing: Icon(Icons.chevron_right,
+                        size: 30
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/tou');
+                    },
+                  ),
+                ),
+                Card(
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    side: BorderSide(
+                      color: SimposiAppColors.simposiLightGrey,
+                    ),
+                  ),
+                  child: ListTile(
+                    title: Align(
+                      alignment: Alignment(-1.2, 0),
+                      child: Text('Privacy Policy',
+                        style: TextStyle(
+                          color: SimposiAppColors.simposiLightText,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    leading: Icon(Icons.privacy_tip_outlined,
+                      color: SimposiAppColors.simposiPink,
+                    ),
+                    trailing: Icon(Icons.chevron_right,
+                        size: 30
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/privacy');
+                    },
+                  ),
+                ),
+                Card(
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    side: BorderSide(
+                      color: SimposiAppColors.simposiLightGrey,
+                    ),
+                  ),
+                  child: ListTile(
+                    title: Align(
+                      alignment: Alignment(-1.2, 0),
+                      child: Text('Support',
+                        style: TextStyle(
+                          color: SimposiAppColors.simposiLightText,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    leading: Icon(Icons.question_answer_outlined,
+                      color: SimposiAppColors.simposiYellow,
+                    ),
+                    trailing: Icon(Icons.chevron_right,
+                        size: 30
+                    ),
+                    onTap: () {},
+                  ),
+                ),
+                Card(
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    side: BorderSide(
+                      color: SimposiAppColors.simposiLightGrey,
+                    ),
+                  ),
+                  child: ListTile(
+                    title: Align(
+                      alignment: Alignment(-1.2, 0),
+                      child: Text('Sign Out',
+                        style: TextStyle(
+                          color: SimposiAppColors.simposiLightText,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    leading: Icon(Icons.exit_to_app,
+                      color: SimposiAppColors.simposiLightBlue,
+                    ),
+                    trailing: Icon(Icons.chevron_right,
+                        size: 30
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushReplacementNamed('/');
+                    },
+                  ),
+                ),
               ]
             ),
           ),

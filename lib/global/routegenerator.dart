@@ -7,6 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/affinityindex/affinityratingcards.dart';
+import 'package:simposi_app_v4/profile/invitationsettings.dart';
 import 'package:simposi_app_v4/profile/privacy.dart';
 import 'package:simposi_app_v4/profile/termsofuse.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
@@ -30,6 +31,7 @@ import 'package:simposi_app_v4/authentication/createprofile/signup9validate.dart
 import 'package:simposi_app_v4/profile/profilescreen.dart';
 import 'package:simposi_app_v4/profile/profilemenu.dart';
 import 'package:simposi_app_v4/profile/editprofileform.dart';
+import 'package:simposi_app_v4/profile/emergencycontact.dart';
 import 'package:simposi_app_v4/profile/faqscreen.dart';
 import 'package:simposi_app_v4/profile/subscribe.dart';
 // Calendar (Home)
@@ -106,6 +108,10 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => ProfileMenu());
       case '/editprofile' :
         return MaterialPageRoute(builder: (_) => EditProfile());
+      case '/invitationsettings' :
+        return MaterialPageRoute(builder: (_) => InvitationSettings());
+      case '/emergencycontact' :
+        return MaterialPageRoute(builder: (_) => EmergencyContact());
       case '/faq' :
         return MaterialPageRoute(builder: (_) => FAQScreen());
       case '/tou' :

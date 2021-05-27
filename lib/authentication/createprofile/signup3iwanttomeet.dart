@@ -80,6 +80,7 @@ class SignUpForm3 extends StatelessWidget {
             children: [
 
               // TODO: Disable Button until user has selected gender for who they want to meet
+              // TODO: Make screen resuable by changing the Continue button to a save button when user comes from profile menu?
               BigGBSelectButton(
                 buttonLabel: 'Continue',
                 buttonAction: () =>

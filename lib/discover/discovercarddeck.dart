@@ -31,23 +31,20 @@ class _DiscoverCardDeckState extends State<DiscoverCardDeck> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0),
               ),
-              child: Expanded(
-                // TODO: Replace Image URL with Variable from Profile
-                child: ShaderMask(
-                  shaderCallback: (rect) {
-                    return LinearGradient(
-                      begin: Alignment.center,
-                      end: Alignment.bottomCenter,
-                      colors: [Colors.white, Colors.transparent],
-                    ).createShader(Rect.fromLTRB(0, 100, rect.width, rect.height));
-                  },
-                  blendMode: BlendMode.dstIn,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20.0),
-                    child: Image.asset(
-                      "assets/images/eventcardbackground2.jpg",
-                      fit: BoxFit.cover,
-                    ),
+              child: ShaderMask(
+                shaderCallback: (rect) {
+                  return LinearGradient(
+                    begin: Alignment.center,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.white, Colors.transparent],
+                  ).createShader(Rect.fromLTRB(0, 100, rect.width, rect.height));
+                },
+                blendMode: BlendMode.dstIn,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20.0),
+                  child: Image.asset(
+                    "assets/images/eventcardbackground2.jpg",
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),

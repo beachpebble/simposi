@@ -96,7 +96,7 @@ class _SignUpForm6State extends State<SignUpForm6> {
                   children: [
 
                     // Header
-                    Text('Who like to do...',
+                    Text('Who like to ...',
                       style: TextStyle(
                         fontSize: 19,
                         fontWeight: FontWeight.w500,

@@ -23,26 +23,26 @@ class _SignUpForm1State extends State<SignUpForm1> {
 
   // Set Variables
   String name = ' ';
-  String email = ' ';
+  String phone = ' ';
   String password = ' ';
   bool _passwordVisible = true;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _nameController.addListener(() => setState(() {}));
-    _emailController.addListener(() => setState(() {}));
+    _phoneController.addListener(() => setState(() {}));
     _passwordController.addListener(() => setState(() {}));
   }
 
   @override
   void dispose() {
     _nameController.dispose();
-    _emailController.dispose();
+    _phoneController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -96,16 +96,15 @@ class _SignUpForm1State extends State<SignUpForm1> {
                             key: _formKey,
                             child: Column(
                               children: [
-
-
+                                
                                 SizedBox(height: 40),
 
                                 // NAME FIELD
                                 _nameField(),
                                 SizedBox(height: 15),
 
-                                // EMAIL FIELD
-                                _emailField(),
+                                // phone FIELD
+                                _phoneField(),
                                 SizedBox(height: 15),
 
                                 // PASSWORD FIELD
@@ -123,7 +122,7 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                       if (isValid) {
                                         _formKey.currentState!.save();
                                         print('Name: ${name}');
-                                        print('Email: ${email}');
+                                        print('phone: ${phone}');
                                         print('Password: ${password}');
                                         Navigator.of(context).pushNamed('/signup2');
                                       }
@@ -131,6 +130,7 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                 ),
                                 SizedBox(height: 10),
 
+                                // TODO: Are we able to reuse this screen for edit profile? Change Button to just a save and hide footer?
                                 // LOGIN BUTTON
                                 SimposiTextButton(
                                   buttonLabel: "Log In",
@@ -252,10 +252,11 @@ class _SignUpForm1State extends State<SignUpForm1> {
       );
 
 
-  Widget _emailField() =>
+  // PHONE FIELD
+  Widget _phoneField() =>
       TextFormField(
-        controller: _emailController,
-        keyboardType: TextInputType.emailAddress,
+        controller: _phoneController,
+        keyboardType: TextInputType.phone,
         textInputAction: TextInputAction.next,
         enableSuggestions: true,
         autocorrect: true,
@@ -269,7 +270,7 @@ class _SignUpForm1State extends State<SignUpForm1> {
         ),
 
         decoration: InputDecoration(
-          labelText: ' Email Address',
+          labelText: ' Phone Number',
           contentPadding: EdgeInsets.all(20),
           labelStyle: TextStyle(
             color: SimposiAppColors.simposiLightText,
@@ -312,28 +313,24 @@ class _SignUpForm1State extends State<SignUpForm1> {
               )
           ),
 
-          suffixIcon: _emailController.text.isEmpty
+          suffixIcon: _phoneController.text.isEmpty
               ? Container(width: 0)
               : IconButton(
-            icon: Icon(Icons.close,
-                size: 20, color: SimposiAppColors.simposiLightGrey),
-            onPressed: () => _emailController.clear(),
-          ),
-
+                icon: Icon(Icons.close,
+                    size: 20, color: SimposiAppColors.simposiLightGrey),
+                onPressed: () => _phoneController.clear(),
+              ),
         ),
 
-        // EMAIL VALIDATION LOGIC
+        // PHONE VALIDATION LOGIC
         validator: (value) {
-          final pattern = r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
-          final regExp = RegExp(pattern);
 
           // IF Empty
           if (value!.isEmpty) {
-            return 'Email Required';
+            return 'Phone Required';
           }
-          // IF does not match RegEx pattern
-          if (!regExp.hasMatch(value)) {
-            return 'Enter a Valid Email';
+          if (value.length < 10) {
+            return 'Must be at least 10 characters';
           }
           else {
             return null;
@@ -341,7 +338,7 @@ class _SignUpForm1State extends State<SignUpForm1> {
         },
 
         // OUTPUT ACTIONS
-        onSaved: (value) => setState(() => email = value!),
+        onSaved: (value) => setState(() => phone = value!),
       );
 
 
