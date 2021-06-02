@@ -228,10 +228,10 @@ class _LoginScreenState extends State<LoginScreen> {
           suffixIcon: _phoneController.text.isEmpty
               ? Container(width: 0)
               : IconButton(
-            icon: Icon(Icons.close,
-                size: 20, color: SimposiAppColors.simposiLightGrey),
-            onPressed: () => _phoneController.clear(),
-          ),
+                icon: Icon(Icons.close,
+                    size: 20, color: SimposiAppColors.simposiLightGrey),
+                onPressed: () => _phoneController.clear(),
+              ),
         ),
 
         // PHONE VALIDATION LOGIC

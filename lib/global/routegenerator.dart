@@ -16,7 +16,6 @@ import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/authentication/login/getstartedscreen.dart';
 import 'package:simposi_app_v4/authentication/login/loginscreen.dart';
 import 'package:simposi_app_v4/authentication/login/resetpasswordscreen.dart';
-import 'package:simposi_app_v4/authentication/login/createnewpassword.dart';
 // Create Profile
 import 'package:simposi_app_v4/authentication/createprofile/signup1createaccount.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup2gender.dart';
@@ -78,8 +77,6 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => LoginScreen());
       case '/resetpassword' :
         return MaterialPageRoute(builder: (_) => ResetPassword());
-      case '/createpassword' :
-        return MaterialPageRoute(builder: (_) => CreateNewPassword());
       // Create Profile
       case '/signup1' :
         return MaterialPageRoute(builder: (_) => SignUpForm1());
