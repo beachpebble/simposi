@@ -62,13 +62,14 @@ class SimposiTextButton extends StatelessWidget {
   final String nextPage;
   final double fontSize;
   final FontWeight fontWeight;
+  final VoidCallback onClick;
 
   const SimposiTextButton({
     Key? key,
     required this.buttonLabel,
     required this.nextPage,
     required this.fontSize,
-    required this.fontWeight,
+    required this.fontWeight, required this.onClick,
   })
       : super(key: key);
 
@@ -90,9 +91,7 @@ class SimposiTextButton extends StatelessWidget {
       child: Text(buttonLabel,
         textAlign: TextAlign.center,
       ),
-      onPressed: () => {
-        Navigator.of(context).pushNamed(nextPage),
-      },
+      onPressed: onClick
     );
   }
 }
@@ -100,6 +99,9 @@ class SimposiTextButton extends StatelessWidget {
 
 // Login Button with Forward Chevron for Get Started Page
 class LoginForwardTextButton extends StatelessWidget {
+  final VoidCallback? onClick;
+
+  const LoginForwardTextButton({Key? key, this.onClick}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -127,9 +129,7 @@ class LoginForwardTextButton extends StatelessWidget {
             Icon(Icons.chevron_right),
           ],
         ),
-        onPressed: () => {
-          Navigator.of(context).pushReplacementNamed('/login'),
-        },
+        onPressed: onClick
       ),
     );
   }
@@ -138,6 +138,11 @@ class LoginForwardTextButton extends StatelessWidget {
 
 // GET STARTED BUTTON
 class GetStartedButton extends StatelessWidget {
+
+  final VoidCallback? onClick;
+
+  const GetStartedButton({Key? key, this.onClick}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -158,9 +163,7 @@ class GetStartedButton extends StatelessWidget {
         "Get Started",
         textAlign: TextAlign.center,
       ),
-      onPressed: () => {
-        Navigator.of(context).pushNamed('/signup1'),
-      },
+      onPressed: onClick
     );
   }
 }

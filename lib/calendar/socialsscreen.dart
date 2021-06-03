@@ -6,13 +6,13 @@
 */
 
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
-import '../global/routegenerator.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'calendarbackground.dart';
+import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+
 import '../global/theme/elements/simposiappbar.dart';
-import 'package:simposi_app_v4/global/theme/theme.dart';
+import 'calendarbackground.dart';
 // import '../theme/elements/calendarbackground.dart';
 
 class SocialsScreen extends StatelessWidget {
@@ -20,10 +20,11 @@ class SocialsScreen extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         appBar: SimposiAppBar(
           simposiTitle: 'Socials',
-          simposiSubTitle: Text('Month',
-          style: TextStyle(
-            color: SimposiAppColors.simposiLightText,
-            fontSize: 13,
+          simposiSubTitle: Text(
+            'Month',
+            style: TextStyle(
+              color: SimposiAppColors.simposiLightText,
+              fontSize: 13,
             ),
           ),
           simposiAction: SimposiTextButton(
@@ -31,6 +32,7 @@ class SocialsScreen extends StatelessWidget {
             nextPage: '/eventlist',
             fontSize: 19,
             fontWeight: FontWeight.w500,
+            onClick: () {},
           ),
         ),
         body: Column(

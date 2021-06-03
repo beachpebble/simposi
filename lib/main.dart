@@ -6,19 +6,14 @@
 */
 
 import 'package:flutter/material.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposiappbar.dart';
-import 'package:simposi_app_v4/global/theme/theme.dart';
-import 'global/theme/elements/simposihome.dart';
-import 'package:simposi_app_v4/global/routegenerator.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simposi_app_v4/utils/bloc_observer.dart';
 
-// Simposi App Config
-void main() => runApp(MaterialApp(
-  themeMode: ThemeMode.light,
-  theme: SimposiThemes.lightTheme,
-  darkTheme: SimposiThemes.darkTheme,
-  initialRoute: '/',
-  onGenerateRoute: RouteGenerator.generateRoute,
-  ),
-);
+import 'simposi_app.dart';
 
-
+void main() {
+  Bloc.observer = SimpleBlocObserver();
+  runApp(
+    SimposiApp(),
+  );
+}

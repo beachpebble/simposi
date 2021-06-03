@@ -27,9 +27,13 @@ dependencies:
 
 # Simposi Core Dependencies
   after_layout: ^1.1.0
+  cookie_jar: ^3.0.1
   cupertino_icons: ^1.0.3
-  flutter_plugin_android_lifecycle: ^2.0.1
+  dio: ^4.0.0
+  equatable: ^2.0.2
+  flutter_bloc: ^7.0.1
   flutter_compass: ^0.6.0
+  flutter_plugin_android_lifecycle: ^2.0.1
   focused_menu: ^1.0.5
   geolocator: ^7.0.3
   google_maps_flutter: ^2.0.5
@@ -38,10 +42,12 @@ dependencies:
   keyboard_dismisser: ^2.0.0
   location: ^4.1.1
   material_floating_search_bar: ^0.3.4
+  page_transition: ^2.0.2
   permission_handler: ^8.0.0+1
   pin_code_fields: ^7.1.0
   rxdart: ^0.26.0
   share: ^2.0.1
+  shared_preferences: ^2.0.6
   table_calendar: ^3.0.0
 
 # Simposi Dev Dependencies

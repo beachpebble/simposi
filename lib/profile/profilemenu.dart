@@ -8,9 +8,11 @@
 import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileMenu extends StatelessWidget {
 
@@ -294,7 +296,7 @@ class ProfileMenu extends StatelessWidget {
                         size: 30
                     ),
                     onTap: () {
-                      Navigator.of(context).pushReplacementNamed('/');
+                      context.read<AuthenticationBloc>().add(LogOut());
                     },
                   ),
                 ),

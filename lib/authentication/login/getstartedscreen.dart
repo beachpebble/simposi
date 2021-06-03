@@ -6,11 +6,12 @@
 */
 
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+
 import '../authenticationwidgets/privacytoufooter.dart';
-import 'package:simposi_app_v4/global/theme/theme.dart';
 
 class GetStartedScreen extends StatelessWidget {
   @override
@@ -19,20 +20,20 @@ class GetStartedScreen extends StatelessWidget {
         body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/images/background.png"),
-              fit: BoxFit.contain,
-              alignment: Alignment.topLeft
-            ),
+                image: AssetImage("assets/images/background.png"),
+                fit: BoxFit.contain,
+                alignment: Alignment.topLeft),
           ),
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-
                 // LOGIN FORWARD BUTTON
                 Container(
                     height: 100,
                     padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
-                    child: LoginForwardTextButton()),
+                    child: LoginForwardTextButton(
+                      onClick: () => Navigator.of(context).pushNamed('/login'),
+                    )),
 
                 // BODY
                 Container(
@@ -73,7 +74,10 @@ class GetStartedScreen extends StatelessWidget {
                       SizedBox(height: 20),
                       Row(
                         children: [
-                          GetStartedButton(),
+                          GetStartedButton(
+                            onClick: () =>
+                                Navigator.of(context).pushNamed('/signup1'),
+                          ),
                         ],
                       ),
                     ],

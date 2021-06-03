@@ -6,14 +6,15 @@
 */
 
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
-import '../authenticationwidgets/forgotpasswordbottomsheet.dart';
+import 'package:simposi_app_v4/authentication/login/cubit/login_cubit.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/global/theme/theme.dart';
+import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 
-
+import '../authenticationwidgets/forgotpasswordbottomsheet.dart';
 
 class LoginScreen extends StatefulWidget {
   // Set Variables
@@ -33,8 +34,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    _phoneController.addListener(() => setState(() {}));
-    _passwordController.addListener(() => setState(() {}));
+    // _phoneController.addListener(() => setState(() {}));
+    // _passwordController.addListener(() => setState(() {}));
   }
 
   @override
@@ -44,13 +45,16 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) => KeyboardDismisser(
-    child: Scaffold(
-          backgroundColor: Colors.white,
-          body: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints viewportConstraints) {
+        child: BlocProvider(
+          create: (context) => LoginCubit(
+              authenticationBloc: context.read(),
+              authRepository: context.read()),
+          child: Scaffold(
+            backgroundColor: Colors.white,
+            body: LayoutBuilder(builder:
+                (BuildContext context, BoxConstraints viewportConstraints) {
               return SingleChildScrollView(
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
@@ -62,7 +66,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-
                         // LOGO HEADER
                         Container(
                           height: 250,
@@ -89,7 +92,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             key: _formKey,
                             child: Column(
                               children: [
-
                                 // EMAIL FIELD
                                 _phoneField(),
                                 SizedBox(height: 10),
@@ -97,25 +99,41 @@ class _LoginScreenState extends State<LoginScreen> {
                                 // PASSWORD FIELD
                                 _passwordField(),
                                 SizedBox(height: 10),
-                                BigGBSelectButton(
-                                    buttonLabel: 'Log In',
-                                    buttonAction: () {
-                                      final isValid = _formKey.currentState!
-                                          .validate();
-
-                                      if (isValid) {
-                                        _formKey.currentState!.save();
-                                        print('Phone: ${phone}');
-                                        print('Password: ${password}');
-                                        Navigator.of(context).pushReplacementNamed('/home');
-                                      }
+                                BlocConsumer<LoginCubit, LoginState>(
+                                  listener: (context, state) {
+                                    if (state is LoginError) {
+                                      //TODO show dialog - define system error dialog
                                     }
+                                  },
+                                  builder: (context, state) {
+                                    return state is LoginProgress
+                                        ? SizedBox(
+                                            child: CircularProgressIndicator(),
+                                            width: 48,
+                                            height: 48,
+                                          )
+                                        : BigGBSelectButton(
+                                            buttonLabel: 'Log In',
+                                            buttonAction: () {
+                                              final isValid = _formKey
+                                                  .currentState!
+                                                  .validate();
+
+                                              if (isValid) {
+                                                _formKey.currentState!.save();
+                                                print('Phone: ${phone}');
+                                                print('Password: ${password}');
+                                                context
+                                                    .read<LoginCubit>()
+                                                    .login(phone, password);
+                                              }
+                                            });
+                                  },
                                 ),
                                 SizedBox(height: 10),
 
                                 // FORGOT PASSWORD BUTTON CONTAINED IN BOTTOM SHEET (NOT IN BUTTONS)
                                 ForgotPasswordTextButton(),
-
                               ],
                             ),
                           ),
@@ -128,7 +146,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               TextButton(
-                                child: Text('Register',
+                                child: Text(
+                                  'Register',
                                   style: TextStyle(
                                     color: SimposiAppColors.simposiDarkBlue,
                                     fontWeight: FontWeight.w900,
@@ -136,7 +155,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                                 onPressed: () => {
-                                  Navigator.of(context).pushReplacementNamed('/signup1'),
+                                  Navigator.of(context)
+                                      .pushReplacementNamed('/signup1')
                                 },
                               ),
                               SizedBox(height: 10),
@@ -151,22 +171,18 @@ class _LoginScreenState extends State<LoginScreen> {
                             ],
                           ),
                         ),
-
                       ],
                     ),
                   ),
                 ),
               );
-            }
-
+            }),
+          ),
         ),
-      ),
-    );
-
+      );
 
   // PHONE FIELD
-  Widget _phoneField() =>
-      TextFormField(
+  Widget _phoneField() => TextFormField(
         controller: _phoneController,
         keyboardType: TextInputType.phone,
         textInputAction: TextInputAction.next,
@@ -211,8 +227,7 @@ class _LoginScreenState extends State<LoginScreen> {
               borderRadius: BorderRadius.all(Radius.circular(40.0)),
               borderSide: BorderSide(
                 color: SimposiAppColors.simposiPink,
-              )
-          ),
+              )),
 
           // ERROR STATE
           errorStyle: TextStyle(
@@ -222,29 +237,26 @@ class _LoginScreenState extends State<LoginScreen> {
               borderRadius: BorderRadius.all(Radius.circular(40.0)),
               borderSide: BorderSide(
                 color: SimposiAppColors.simposiPink,
-              )
-          ),
+              )),
 
           suffixIcon: _phoneController.text.isEmpty
               ? Container(width: 0)
               : IconButton(
-            icon: Icon(Icons.close,
-                size: 20, color: SimposiAppColors.simposiLightGrey),
-            onPressed: () => _phoneController.clear(),
-          ),
+                  icon: Icon(Icons.close,
+                      size: 20, color: SimposiAppColors.simposiLightGrey),
+                  onPressed: () => _phoneController.clear(),
+                ),
         ),
 
         // PHONE VALIDATION LOGIC
         validator: (value) {
-
           // IF Empty
           if (value!.isEmpty) {
             return 'Phone Required';
           }
           if (value.length < 10) {
             return 'Must be at least 10 characters';
-          }
-          else {
+          } else {
             return null;
           }
         },
@@ -253,96 +265,95 @@ class _LoginScreenState extends State<LoginScreen> {
         onSaved: (value) => setState(() => phone = value!),
       );
 
-
   // PASSWORD FIELD
   Widget _passwordField() => TextFormField(
-    controller: _passwordController,
-    keyboardType: TextInputType.visiblePassword,
-    textInputAction: TextInputAction.next,
-    enableSuggestions: true,
-    autocorrect: true,
-    obscureText: _passwordVisible,
-    showCursor: true,
+        controller: _passwordController,
+        keyboardType: TextInputType.visiblePassword,
+        textInputAction: TextInputAction.next,
+        enableSuggestions: true,
+        autocorrect: true,
+        obscureText: _passwordVisible,
+        showCursor: true,
 
-    style: TextStyle(
-      color: SimposiAppColors.simposiLightText,
-      fontWeight: FontWeight.w500,
-      fontSize: 15,
-    ),
-
-    decoration: InputDecoration(
-      labelText: ' Password',
-      contentPadding: EdgeInsets.all(20),
-      labelStyle: TextStyle(
-        color: SimposiAppColors.simposiLightText,
-        fontSize: 14,
-        fontWeight: FontWeight.w500,
-        letterSpacing: 1.5,
-      ),
-
-      suffixIcon: _passwordController.text.isEmpty
-          ? Container(width: 0)
-          : IconButton(
-          icon: Icon(_passwordVisible ? Icons.visibility : Icons.visibility_off,
-              size: 20, color: SimposiAppColors.simposiLightGrey),
-          onPressed: () {
-            setState(() {
-              _passwordVisible = !_passwordVisible;
-            });
-          }),
-
-      // INITIAL STATE
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(40.0)),
-        borderSide: BorderSide(
-          color: SimposiAppColors.simposiLightGrey,
+        style: TextStyle(
+          color: SimposiAppColors.simposiLightText,
+          fontWeight: FontWeight.w500,
+          fontSize: 15,
         ),
-      ),
 
-      // FOCUS STATE
-      focusColor: SimposiAppColors.simposiDarkBlue,
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(40.0)),
-        borderSide: BorderSide(
-          color: SimposiAppColors.simposiDarkBlue,
+        decoration: InputDecoration(
+          labelText: ' Password',
+          contentPadding: EdgeInsets.all(20),
+          labelStyle: TextStyle(
+            color: SimposiAppColors.simposiLightText,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            letterSpacing: 1.5,
+          ),
+
+          suffixIcon: _passwordController.text.isEmpty
+              ? Container(width: 0)
+              : IconButton(
+                  icon: Icon(
+                      _passwordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      size: 20,
+                      color: SimposiAppColors.simposiLightGrey),
+                  onPressed: () {
+                    setState(() {
+                      _passwordVisible = !_passwordVisible;
+                    });
+                  }),
+
+          // INITIAL STATE
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(40.0)),
+            borderSide: BorderSide(
+              color: SimposiAppColors.simposiLightGrey,
+            ),
+          ),
+
+          // FOCUS STATE
+          focusColor: SimposiAppColors.simposiDarkBlue,
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(40.0)),
+            borderSide: BorderSide(
+              color: SimposiAppColors.simposiDarkBlue,
+            ),
+          ),
+
+          // FOCUS ERROR STATE
+          focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(40.0)),
+              borderSide: BorderSide(
+                color: SimposiAppColors.simposiPink,
+              )),
+
+          // ERROR STATE
+          errorStyle: TextStyle(
+            color: SimposiAppColors.simposiPink,
+          ),
+          errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(40.0)),
+              borderSide: BorderSide(
+                color: SimposiAppColors.simposiPink,
+              )),
         ),
-      ),
 
-      // FOCUS ERROR STATE
-      focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          borderSide: BorderSide(
-            color: SimposiAppColors.simposiPink,
-          )
-      ),
+        // VALIDATION LOGIC
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'Password Required';
+          }
+          if (value.length < 8) {
+            return 'Must be at least 8 characters';
+          } else {
+            return null;
+          }
+        },
 
-      // ERROR STATE
-      errorStyle: TextStyle(
-        color: SimposiAppColors.simposiPink,
-      ),
-      errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          borderSide: BorderSide(
-            color: SimposiAppColors.simposiPink,
-          )
-      ),
-
-    ),
-
-    // VALIDATION LOGIC
-    validator: (value) {
-      if (value!.isEmpty) {
-        return 'Password Required';
-      }
-      if (value.length < 8) {
-        return 'Must be at least 8 characters';
-      }
-      else {
-        return null;
-      }
-    },
-
-    // OUTPUT ACTIONS
-    onSaved: (value) => setState(() => password = value!),
-  );
+        // OUTPUT ACTIONS
+        onSaved: (value) => setState(() => password = value!),
+      );
 }
