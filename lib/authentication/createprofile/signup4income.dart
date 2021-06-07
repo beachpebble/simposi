@@ -1,5 +1,5 @@
 /*
-*  signup4generation.dart
+*  signup5whoearn.dart
 *  Simposi App Designs V4.0
 *  Created by Simposi Inc.
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
@@ -7,14 +7,14 @@
 
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
-import '../../global/routegenerator.dart';
-import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
+import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/theme/appcolors.dart';
+import '../../global/theme/elements/simposiappbar.dart';
 import 'package:simposi_app_v4/global/theme/theme.dart';
 
-class SignUpForm4 extends StatelessWidget {
-  double progress = 0.44;
+class SignUpForm5 extends StatelessWidget {
+  double progress = 0.55;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -43,7 +43,7 @@ class SignUpForm4 extends StatelessWidget {
               children: [
 
                 // Header
-                Text('Who are...',
+                Text('Income Bracket...',
                   style: TextStyle(
                     fontSize: 19,
                     fontWeight: FontWeight.w500,
@@ -54,28 +54,38 @@ class SignUpForm4 extends StatelessWidget {
                 // TODO: Convert to Toggle Buttons
                 // iGen Button
                 BigGBSelectButton(
-                  buttonLabel: 'iGen (1996 - Present)',
-                  buttonAction: null),
+                    buttonLabel: 'Less than \$35k',
+                    buttonAction: null),
                 SizedBox(height: 10),
                 // Millennial Button
                 BigGBSelectButton(
-                  buttonLabel: 'Millennial (1981 - 1995)',
-                  buttonAction: null),
+                    buttonLabel: '\$35k to \$50k',
+                    buttonAction: null),
                 SizedBox(height: 10),
                 // Gen X Button
                 BigGBSelectButton(
-                  buttonLabel: 'Gen X (1965 - 1980)',
-                  buttonAction: null),
+                    buttonLabel: '\$50k to \$75k',
+                    buttonAction: null),
                 SizedBox(height: 10),
                 // Boomer Button
                 BigGBSelectButton(
-                  buttonLabel: 'Boomer (1946 - 1964)',
-                  buttonAction: null),
+                    buttonLabel: '\$75k to \$100k',
+                    buttonAction: null),
                 SizedBox(height: 10),
                 // Silent Button
                 BigGBSelectButton(
-                  buttonLabel: 'Silent (1928 - 1945)',
-                  buttonAction: null),
+                    buttonLabel: '\$100 to \$150k',
+                    buttonAction: null),
+                SizedBox(height: 10),
+                // Silent Button
+                BigGBSelectButton(
+                    buttonLabel: '\$150k +',
+                    buttonAction: null),
+                SizedBox(height: 10),
+                // Silent Button
+                BigGBSelectButton(
+                    buttonLabel: 'Select All',
+                    buttonAction: null),
 
               ],
             ),
@@ -89,12 +99,12 @@ class SignUpForm4 extends StatelessWidget {
           Column(
             children: [
 
-              // TODO: Disable Button until user has selected a generation
+              // TODO: Disable button until user has selected at least one income
               BigGBSelectButton(
                 buttonLabel: 'Continue',
                 buttonAction: () =>
                 {
-                  Navigator.of(context).pushNamed('/signup5'),
+                  Navigator.of(context).pushNamed('/signup6'),
                 },
               ),
               SizedBox(height: 20),
@@ -105,3 +115,4 @@ class SignUpForm4 extends StatelessWidget {
     ),
   );
 }
+
