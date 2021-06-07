@@ -34,8 +34,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    // _phoneController.addListener(() => setState(() {}));
-    // _passwordController.addListener(() => setState(() {}));
+    _phoneController.addListener(() => setState(() {}));
+    _passwordController.addListener(() => setState(() {}));
   }
 
   @override

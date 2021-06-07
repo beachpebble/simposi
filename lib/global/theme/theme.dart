@@ -74,6 +74,51 @@ class SimposiThemes {
     ),
 
 
+    inputDecorationTheme: InputDecorationTheme(
+      contentPadding: EdgeInsets.all(20),
+      labelStyle: TextStyle(
+        color: SimposiAppColors.simposiLightText,
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+        letterSpacing: 1.5,
+      ),
+
+      // INITIAL STATE
+      border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(40.0)),
+          borderSide: BorderSide(
+            color: SimposiAppColors.simposiLightGrey,
+          )),
+
+      // FOCUS STATE
+      focusColor: SimposiAppColors.simposiDarkBlue,
+      focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(40.0)),
+          borderSide: BorderSide(
+            color: SimposiAppColors.simposiDarkBlue,
+          )),
+
+      // FOCUS ERROR STATE
+      focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(40.0)),
+          borderSide: BorderSide(
+            color: SimposiAppColors.simposiPink,
+          )
+      ),
+
+      // ERROR STATE
+      errorStyle: TextStyle(
+        color: SimposiAppColors.simposiPink,
+      ),
+      errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(40.0)),
+          borderSide: BorderSide(
+            color: SimposiAppColors.simposiPink,
+          )
+      ),
+    ),
+
+
 
 
   );

@@ -45,7 +45,7 @@ class SignUpForm7 extends StatelessWidget {
                   children: [
 
                     // Header Title
-                    Text('Who are nearby...',
+                    Text('I want to meet nearby...',
                       style: TextStyle(
                         fontSize: 19,
                         fontWeight: FontWeight.w500,

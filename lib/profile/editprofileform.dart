@@ -11,9 +11,8 @@ import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
-import '../global/theme/elements/simposiappbar.dart';
-import 'package:simposi_app_v4/global/theme/theme.dart';
-import '../global/routegenerator.dart';
+import 'package:simposi_app_v4/global/theme/elements/formfields.dart';
+
 
 class EditProfile extends StatefulWidget {
   @override
@@ -78,7 +77,7 @@ class _EditProfileState extends State<EditProfile> {
                   // HEADER
                   Container(
                     height: 200,
-                    color: SimposiAppColors.greyBackground,
+
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -101,29 +100,113 @@ class _EditProfileState extends State<EditProfile> {
 
                   // EDIT ACCOUNT FORM
                   Container(
-                    padding: EdgeInsets.all(20),
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                     child: Form(
                       key: _formKey,
                       child: Column(
                         children: [
 
                           // NAME FIELD
-                          _nameField(),
+                          SimposiFormFieldwClear(
+                              inputType: 'name',
+                              fieldLabel: ' Name',
+                              validationLogic: (value) {
+                                if (value!.length < 4) {
+                                  return 'Please enter your first name';
+                                } else {
+                                  return null;
+                                }
+                              },
+                          ),
+                          SizedBox(height: 10),
 
                           // PHONE FIELD
-                          _phoneField(),
+                          SimposiFormFieldwClear(
+                            inputType: 'phone',
+                            fieldLabel: ' Phone',
+                            validationLogic: (value) {
+
+                              // IF Empty
+                              if (value!.isEmpty) {
+                                return 'Phone Required';
+                              }
+                              if (value.length < 10) {
+                                return 'Must be at least 10 characters';
+                              }
+                              else {
+                                return null;
+                              }
+                            },
+                          ),
+                          SizedBox(height: 10),
 
                           // EMAIL FIELD
-                          _emailField(),
+                          SimposiFormFieldwClear(
+                            inputType: 'email',
+                            fieldLabel: ' Email',
+                            validationLogic: (value) {
+                              final pattern = r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
+                              final regExp = RegExp(pattern);
+
+                              // IF Empty
+                              if (value!.isEmpty) {
+                                return 'Email Required';
+                              }
+                              // IF does not match RegEx pattern
+                              if (!regExp.hasMatch(value)) {
+                                return 'Enter a Valid Email';
+                              }
+                              else {
+                                return null;
+                              }
+                            },
+                          ),
+                          SizedBox(height: 10),
 
                           // FACEBOOK FIELD
-                          _facebookField(),
+                          SimposiFormFieldwClear(
+                            inputType: 'url',
+                            fieldLabel: ' Facebook',
+                            validationLogic: (value) {
+                            // TODO: Add Validation Logic for FB URL
+                            },
+                          ),
+                          SizedBox(height: 10),
 
                           // INSTAGRAM FIELD
-                          _instagramField(),
+                          SimposiFormFieldwClear(
+                            inputType: 'url',
+                            fieldLabel: ' Instagram',
+                            validationLogic: (value) {
+                              // TODO: Add Validation Logic for Instagram URL
+                            },
+                          ),
+                          SizedBox(height: 10),
 
                           // LINKEDIN FIELD
-                          _linkedinField(),
+                          SimposiFormFieldwClear(
+                            inputType: 'url',
+                            fieldLabel: ' Linkedin',
+                            validationLogic: (value) {
+                              // TODO: Add Validation Logic for Linkedin URL
+                            },
+                          ),
+                          SizedBox(height: 10),
+
+                          BigGBSelectButton(
+                            buttonLabel: 'Save',
+                            buttonAction: () {
+                              final isValid = _formKey.currentState!
+                                  .validate();
+
+                              if (isValid) {
+                                _formKey.currentState!.save();
+                                print('Name: ${name}');
+                                print('Phone: ${phone}');
+                                print('Email: ${email}');
+                              }
+                            }
+                          ),
 
 
                         ],
@@ -164,52 +247,46 @@ class _EditProfileState extends State<EditProfile> {
         ),
 
         decoration: InputDecoration(
-          floatingLabelBehavior: FloatingLabelBehavior.always,
-          labelText: 'Name',
+          labelText: ' Name',
+          contentPadding: EdgeInsets.all(20),
           labelStyle: TextStyle(
-            color: SimposiAppColors.simposiDarkGrey,
-            fontSize: 17,
-            fontWeight: FontWeight.w700,
+            color: SimposiAppColors.simposiLightText,
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
             letterSpacing: 1.5,
           ),
-          hintText: '',
-          hintStyle: TextStyle(
-            fontSize: 25,
-          ),
 
-          // INITIAL STATE
-          border: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiLightText,
-              ),
-          ),
-
-          enabledBorder: UnderlineInputBorder(
+          // Initial State
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(40.0)),
             borderSide: BorderSide(
-              color: SimposiAppColors.simposiLightText,
-            )
+              color: SimposiAppColors.simposiLightGrey,
+            ),
           ),
 
-          // FOCUS STATE
+          // Focus State
           focusColor: SimposiAppColors.simposiDarkBlue,
-          focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiDarkBlue,
-              ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(40.0)),
+            borderSide: BorderSide(
+              color: SimposiAppColors.simposiDarkBlue,
+            ),
           ),
 
-          // FOCUS ERROR STATE
-          focusedErrorBorder: UnderlineInputBorder(
+          // Focus Error State
+          focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(40.0)),
               borderSide: BorderSide(
                 color: SimposiAppColors.simposiPink,
               )
           ),
 
-          // ERROR STATE
+          // Error State
           errorStyle: TextStyle(
             color: SimposiAppColors.simposiPink,
           ),
-          errorBorder: UnderlineInputBorder(
+          errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(40.0)),
               borderSide: BorderSide(
                 color: SimposiAppColors.simposiPink,
               )
@@ -255,36 +332,33 @@ class _EditProfileState extends State<EditProfile> {
         ),
 
         decoration: InputDecoration(
-          floatingLabelBehavior: FloatingLabelBehavior.always,
-          labelText: 'Phone Number',
+          labelText: ' Phone Number',
+          contentPadding: EdgeInsets.all(20),
           labelStyle: TextStyle(
-            color: SimposiAppColors.simposiDarkGrey,
-            fontSize: 17,
-            fontWeight: FontWeight.w700,
+            color: SimposiAppColors.simposiLightText,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
             letterSpacing: 1.5,
-          ),
-          hintText: '',
-          hintStyle: TextStyle(
-            fontSize: 25,
           ),
 
           // INITIAL STATE
-          border: UnderlineInputBorder(
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(40.0)),
               borderSide: BorderSide(
-                color: SimposiAppColors.simposiLightText,
-              )
-          ),
+                color: SimposiAppColors.simposiLightGrey,
+              )),
 
           // FOCUS STATE
           focusColor: SimposiAppColors.simposiDarkBlue,
-          focusedBorder: UnderlineInputBorder(
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(40.0)),
               borderSide: BorderSide(
                 color: SimposiAppColors.simposiDarkBlue,
-              )
-          ),
+              )),
 
           // FOCUS ERROR STATE
-          focusedErrorBorder: UnderlineInputBorder(
+          focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(40.0)),
               borderSide: BorderSide(
                 color: SimposiAppColors.simposiPink,
               )
@@ -294,7 +368,8 @@ class _EditProfileState extends State<EditProfile> {
           errorStyle: TextStyle(
             color: SimposiAppColors.simposiPink,
           ),
-          errorBorder: UnderlineInputBorder(
+          errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(40.0)),
               borderSide: BorderSide(
                 color: SimposiAppColors.simposiPink,
               )
@@ -347,42 +422,35 @@ class _EditProfileState extends State<EditProfile> {
         ),
 
         decoration: InputDecoration(
-          floatingLabelBehavior: FloatingLabelBehavior.always,
           labelText: 'Email',
+          contentPadding: EdgeInsets.all(20),
           labelStyle: TextStyle(
-            color: SimposiAppColors.simposiDarkGrey,
-            fontSize: 17,
-            fontWeight: FontWeight.w700,
+            color: SimposiAppColors.simposiLightText,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
             letterSpacing: 1.5,
-          ),
-          hintText: '',
-          hintStyle: TextStyle(
-            fontSize: 25,
           ),
 
           // INITIAL STATE
-          border: UnderlineInputBorder(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(40.0)),
             borderSide: BorderSide(
-              color: SimposiAppColors.simposiLightText,
+              color: SimposiAppColors.simposiLightGrey,
             ),
-          ),
-
-          enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiLightText,
-              )
           ),
 
           // FOCUS STATE
           focusColor: SimposiAppColors.simposiDarkBlue,
-          focusedBorder: UnderlineInputBorder(
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(40.0)),
             borderSide: BorderSide(
               color: SimposiAppColors.simposiDarkBlue,
             ),
           ),
 
           // FOCUS ERROR STATE
-          focusedErrorBorder: UnderlineInputBorder(
+          focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(40.0)),
               borderSide: BorderSide(
                 color: SimposiAppColors.simposiPink,
               )
@@ -392,7 +460,8 @@ class _EditProfileState extends State<EditProfile> {
           errorStyle: TextStyle(
             color: SimposiAppColors.simposiPink,
           ),
-          errorBorder: UnderlineInputBorder(
+          errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(40.0)),
               borderSide: BorderSide(
                 color: SimposiAppColors.simposiPink,
               )
@@ -401,10 +470,10 @@ class _EditProfileState extends State<EditProfile> {
           suffixIcon: _emailController.text.isEmpty
               ? Container(width: 0)
               : IconButton(
-            icon: Icon(Icons.close,
-                size: 20, color: SimposiAppColors.simposiLightGrey),
-            onPressed: () => _emailController.clear(),
-          ),
+                icon: Icon(Icons.close,
+                    size: 20, color: SimposiAppColors.simposiLightGrey),
+                onPressed: () => _emailController.clear(),
+              ),
 
         ),
 
@@ -433,42 +502,35 @@ class _EditProfileState extends State<EditProfile> {
         ),
 
         decoration: InputDecoration(
-          floatingLabelBehavior: FloatingLabelBehavior.always,
           labelText: 'Facebook',
+          contentPadding: EdgeInsets.all(20),
           labelStyle: TextStyle(
-            color: SimposiAppColors.simposiDarkGrey,
-            fontSize: 17,
-            fontWeight: FontWeight.w700,
+            color: SimposiAppColors.simposiLightText,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
             letterSpacing: 1.5,
-          ),
-          hintText: '',
-          hintStyle: TextStyle(
-            fontSize: 25,
           ),
 
           // INITIAL STATE
-          border: UnderlineInputBorder(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(40.0)),
             borderSide: BorderSide(
-              color: SimposiAppColors.simposiLightText,
+              color: SimposiAppColors.simposiLightGrey,
             ),
-          ),
-
-          enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiLightText,
-              )
           ),
 
           // FOCUS STATE
           focusColor: SimposiAppColors.simposiDarkBlue,
-          focusedBorder: UnderlineInputBorder(
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(40.0)),
             borderSide: BorderSide(
               color: SimposiAppColors.simposiDarkBlue,
             ),
           ),
 
           // FOCUS ERROR STATE
-          focusedErrorBorder: UnderlineInputBorder(
+          focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(40.0)),
               borderSide: BorderSide(
                 color: SimposiAppColors.simposiPink,
               )
@@ -478,7 +540,8 @@ class _EditProfileState extends State<EditProfile> {
           errorStyle: TextStyle(
             color: SimposiAppColors.simposiPink,
           ),
-          errorBorder: UnderlineInputBorder(
+          errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(40.0)),
               borderSide: BorderSide(
                 color: SimposiAppColors.simposiPink,
               )
@@ -487,10 +550,10 @@ class _EditProfileState extends State<EditProfile> {
           suffixIcon: _facebookController.text.isEmpty
               ? Container(width: 0)
               : IconButton(
-            icon: Icon(Icons.close,
-                size: 20, color: SimposiAppColors.simposiLightGrey),
-            onPressed: () => _facebookController.clear(),
-          ),
+                icon: Icon(Icons.close,
+                    size: 20, color: SimposiAppColors.simposiLightGrey),
+                onPressed: () => _facebookController.clear(),
+              ),
 
         ),
 
@@ -520,42 +583,35 @@ class _EditProfileState extends State<EditProfile> {
         ),
 
         decoration: InputDecoration(
-          floatingLabelBehavior: FloatingLabelBehavior.always,
           labelText: 'Instagram',
+          contentPadding: EdgeInsets.all(20),
           labelStyle: TextStyle(
-            color: SimposiAppColors.simposiDarkGrey,
-            fontSize: 17,
-            fontWeight: FontWeight.w700,
+            color: SimposiAppColors.simposiLightText,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
             letterSpacing: 1.5,
-          ),
-          hintText: '',
-          hintStyle: TextStyle(
-            fontSize: 25,
           ),
 
           // INITIAL STATE
-          border: UnderlineInputBorder(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(40.0)),
             borderSide: BorderSide(
-              color: SimposiAppColors.simposiLightText,
+              color: SimposiAppColors.simposiLightGrey,
             ),
-          ),
-
-          enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiLightText,
-              )
           ),
 
           // FOCUS STATE
           focusColor: SimposiAppColors.simposiDarkBlue,
-          focusedBorder: UnderlineInputBorder(
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(40.0)),
             borderSide: BorderSide(
               color: SimposiAppColors.simposiDarkBlue,
             ),
           ),
 
           // FOCUS ERROR STATE
-          focusedErrorBorder: UnderlineInputBorder(
+          focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(40.0)),
               borderSide: BorderSide(
                 color: SimposiAppColors.simposiPink,
               )
@@ -565,7 +621,8 @@ class _EditProfileState extends State<EditProfile> {
           errorStyle: TextStyle(
             color: SimposiAppColors.simposiPink,
           ),
-          errorBorder: UnderlineInputBorder(
+          errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(40.0)),
               borderSide: BorderSide(
                 color: SimposiAppColors.simposiPink,
               )
@@ -607,42 +664,35 @@ class _EditProfileState extends State<EditProfile> {
         ),
 
         decoration: InputDecoration(
-          floatingLabelBehavior: FloatingLabelBehavior.always,
           labelText: 'Linkedin',
+          contentPadding: EdgeInsets.all(20),
           labelStyle: TextStyle(
-            color: SimposiAppColors.simposiDarkGrey,
-            fontSize: 17,
-            fontWeight: FontWeight.w700,
+            color: SimposiAppColors.simposiLightText,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
             letterSpacing: 1.5,
-          ),
-          hintText: '',
-          hintStyle: TextStyle(
-            fontSize: 25,
           ),
 
           // INITIAL STATE
-          border: UnderlineInputBorder(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(40.0)),
             borderSide: BorderSide(
-              color: SimposiAppColors.simposiLightText,
+              color: SimposiAppColors.simposiLightGrey,
             ),
-          ),
-
-          enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiLightText,
-              )
           ),
 
           // FOCUS STATE
           focusColor: SimposiAppColors.simposiDarkBlue,
-          focusedBorder: UnderlineInputBorder(
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(40.0)),
             borderSide: BorderSide(
               color: SimposiAppColors.simposiDarkBlue,
             ),
           ),
 
           // FOCUS ERROR STATE
-          focusedErrorBorder: UnderlineInputBorder(
+          focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(40.0)),
               borderSide: BorderSide(
                 color: SimposiAppColors.simposiPink,
               )
@@ -652,7 +702,8 @@ class _EditProfileState extends State<EditProfile> {
           errorStyle: TextStyle(
             color: SimposiAppColors.simposiPink,
           ),
-          errorBorder: UnderlineInputBorder(
+          errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(40.0)),
               borderSide: BorderSide(
                 color: SimposiAppColors.simposiPink,
               )
