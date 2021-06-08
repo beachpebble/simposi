@@ -7,10 +7,6 @@ import 'package:simposi_app_v4/model/errors.dart';
 class AuthRepository {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   String? jwt;
-  DateTime? expireAt;
-
-  bool get tokenExpired => expireAt?.isBefore(new DateTime.now()) ?? true;
-
   String? get usedId {
     if (jwt == null) return null;
     try {
@@ -21,6 +17,7 @@ class AuthRepository {
       return null;
     }
   }
+  bool get authorized => jwt!= null && jwt?.isNotEmpty == true;
 
   loadAuth() async {
     developer.log('loadAuth', name: 'AuthRepository loadAuth');
@@ -35,13 +32,11 @@ class AuthRepository {
     Map payload;
     try {
       payload = _decodeJwt(jwt!);
-      developer.log('payload parsed', name: 'AuthRepository loadAuth');
+      developer.log('payload parsed $payload', name: 'AuthRepository loadAuth');
     } catch (e) {
       await logout();
       return;
     }
-    expireAt = _getJwtExpiration(payload);
-    developer.log('expireAt $expireAt', name: 'AuthRepository loadAuth');
     developer.log('loadAuth complete', name: 'AuthRepository loadAuth');
   }
 
@@ -51,32 +46,13 @@ class AuthRepository {
     prefs.setString('access_token', token);
   }
 
-  saveBioToken(String token) async {
-    developer.log('saveBioToken', name: 'AuthRepository saveBioToken');
-    final SharedPreferences prefs = await _prefs;
-    prefs.setString('bio_token', token);
-  }
-
   Future logout() async {
     developer.log('---------------------  logout',
         name: 'AuthRepository logout');
     final SharedPreferences prefs = await _prefs;
     await prefs.remove('access_token');
-    await prefs.remove('email');
     await prefs.remove('userId');
-    await prefs.remove('bio_token');
     jwt = null;
-  }
-
-  DateTime _getJwtExpiration(Map payload) {
-    int expires;
-    if (payload is Map) {
-      expires = payload['exp'] as int;
-    } else {
-      throw ParseException(LocalizedErrorType.PARSE_JWT_ERROR,
-          message: 'Unable to parse jwt/ Payload is not Map');
-    }
-    return DateTime.fromMillisecondsSinceEpoch(expires * 1000);
   }
 
   Map _decodeJwt(String jwt) {
@@ -89,7 +65,7 @@ class AuthRepository {
       payload = jsonDecode(
           utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))));
     } catch (e) {
-      throw ParseException(LocalizedErrorType.PARSE_JWT_ERROR,
+      throw ParseException(errorType: LocalizedErrorType.PARSE_JWT_ERROR,
           message: 'Unable to parse jwt');
     }
     return payload;

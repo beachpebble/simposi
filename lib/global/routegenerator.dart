@@ -12,20 +12,20 @@ import 'package:simposi_app_v4/affinityindex/reportuser.dart';
 // Create Profile
 import 'package:simposi_app_v4/authentication/createprofile/signup1createaccount.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup2gender.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup3iwanttomeet.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup4generation.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup5whoearn.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup6activities.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup7location.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup8covid.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup9validate.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup3generation.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup4income.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup5activities.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup6location.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup7covid.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup8validate.dart';
+import 'package:simposi_app_v4/authentication/createprofile/zzz_signup3iwanttomeet.dart';
 import 'package:simposi_app_v4/authentication/login/createnewpassword.dart';
 
 // Login
 import 'package:simposi_app_v4/authentication/login/getstartedscreen.dart';
 import 'package:simposi_app_v4/authentication/login/loginscreen.dart';
+import 'package:simposi_app_v4/authentication/login/resetpasswordscreen.dart';
 import 'package:simposi_app_v4/authentication/login/splash_screen.dart';
-import 'package:simposi_app_v4/authentication/resetpassword/resetpasswordscreen.dart';
 import 'package:simposi_app_v4/calendar/simposicalendar.dart';
 
 // Check In

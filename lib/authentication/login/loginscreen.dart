@@ -9,12 +9,14 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:simposi_app_v4/authentication/login/cubit/login_cubit.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/model/errors.dart';
 
-import '../authenticationwidgets/forgotpasswordbottomsheet.dart';
+import 'reset_password_request/forgotpasswordbottomsheet.dart';
 
 class LoginScreen extends StatefulWidget {
   // Set Variables
@@ -50,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: BlocProvider(
           create: (context) => LoginCubit(
               authenticationBloc: context.read(),
-              authRepository: context.read()),
+              profileReposotory: context.read()),
           child: Scaffold(
             backgroundColor: Colors.white,
             body: LayoutBuilder(builder:
@@ -84,7 +86,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             ],
                           ),
                         ),
-
                         // TODO: Validate Account Exists and Start a New Page Stack with Home (Tracy you need to learn how to reset the Page Stack instead of pushnamed)
                         // LOGIN FORM
                         Container(
@@ -102,7 +103,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                 BlocConsumer<LoginCubit, LoginState>(
                                   listener: (context, state) {
                                     if (state is LoginError) {
-                                      //TODO show dialog - define system error dialog
+                                      Fluttertoast.showToast(
+                                          msg:
+                                          handleError(state.error, context),
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.red,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0);
                                     }
                                   },
                                   builder: (context, state) {
@@ -251,10 +259,9 @@ class _LoginScreenState extends State<LoginScreen> {
         // PHONE VALIDATION LOGIC
         validator: (value) {
           // IF Empty
-          if (value!.isEmpty) {
+          if (value == null || value.isEmpty == true) {
             return 'Phone Required';
-          }
-          if (value.length < 10) {
+          } else if (value.length < 10) {
             return 'Must be at least 10 characters';
           } else {
             return null;

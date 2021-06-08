@@ -10,3 +10,5 @@ abstract class AuthenticationEvent extends Equatable {
 class ReloadAuthEvent extends AuthenticationEvent {}
 
 class LogOut extends AuthenticationEvent {}
+
+class LoggedOut extends AuthenticationEvent {}

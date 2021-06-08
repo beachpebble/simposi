@@ -9,10 +9,12 @@ abstract class LoginState extends Equatable {
 
 class LoginInitial extends LoginState {}
 
+class LoginSuccess extends LoginState {}
+
 class LoginProgress extends LoginState {}
 
 class LoginError extends LoginState {
-  final String error;
+  final dynamic error;
 
   LoginError(this.error);
 }

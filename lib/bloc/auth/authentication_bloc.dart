@@ -23,13 +23,15 @@ class AuthenticationBloc
     if (event is ReloadAuthEvent) {
       yield AuthenticationLoading();
       await _authManager.loadAuth();
-      if (!_authManager.tokenExpired) {
+      if (_authManager.authorized) {
         yield Authenticated();
       } else {
         yield NotAuthenticated();
       }
     } else if (event is LogOut) {
       _authManager.logout();
+      yield NotAuthenticated();
+    } else if (event is LoggedOut) {
       yield NotAuthenticated();
     }
   }

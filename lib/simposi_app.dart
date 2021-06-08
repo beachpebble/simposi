@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
+import 'package:simposi_app_v4/repository/api_service.dart';
+import 'package:simposi_app_v4/repository/profile_repository.dart';
 
 import 'global/routegenerator.dart';
 import 'global/theme/theme.dart';
@@ -17,14 +19,24 @@ class _SimposiAppState extends State<SimposiApp> {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-        create: (context) => AuthRepository(),
+    return MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider(
+            create: (context) => AuthRepository(),
+          ),
+          RepositoryProvider(
+            create: (context) => ApiService(authRepository: context.read()),
+          ),
+          RepositoryProvider(
+            create: (context) => ProfileRepository(context.read()),
+          ),
+        ],
         child: MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (context) =>
-                    AuthenticationBloc(authManager: context.read<AuthRepository>())
-                      ..add(ReloadAuthEvent()),
+                create: (context) => AuthenticationBloc(
+                    authManager: context.read<AuthRepository>())
+                  ..add(ReloadAuthEvent()),
               ),
             ],
             child: MaterialApp(
