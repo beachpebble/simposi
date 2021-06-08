@@ -17,4 +17,7 @@ class LoginError extends LoginState {
   final dynamic error;
 
   LoginError(this.error);
+
+  @override
+  List<Object> get props => [error];
 }

@@ -12,11 +12,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:simposi_app_v4/authentication/login/cubit/login_cubit.dart';
+import 'package:simposi_app_v4/authentication/login/reset_password_start/forgot_password_start_cubit.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/model/errors.dart';
+import 'package:simposi_app_v4/widgets/forgot_password_button.dart';
+import 'package:simposi_app_v4/widgets/progress.dart';
 
-import 'reset_password_request/forgotpasswordbottomsheet.dart';
+import 'reset_password_start/forgotpasswordbottomsheet.dart';
+
 
 class LoginScreen extends StatefulWidget {
   // Set Variables
@@ -52,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: BlocProvider(
           create: (context) => LoginCubit(
               authenticationBloc: context.read(),
-              profileReposotory: context.read()),
+              profileRepository: context.read()),
           child: Scaffold(
             backgroundColor: Colors.white,
             body: LayoutBuilder(builder:
@@ -115,11 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   },
                                   builder: (context, state) {
                                     return state is LoginProgress
-                                        ? SizedBox(
-                                            child: CircularProgressIndicator(),
-                                            width: 48,
-                                            height: 48,
-                                          )
+                                        ? AppProgressIndicator()
                                         : BigGBSelectButton(
                                             buttonLabel: 'Log In',
                                             buttonAction: () {
@@ -139,9 +139,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                   },
                                 ),
                                 SizedBox(height: 10),
-
-                                // FORGOT PASSWORD BUTTON CONTAINED IN BOTTOM SHEET (NOT IN BUTTONS)
-                                ForgotPasswordTextButton(),
+                                ForgotPasswordTextButton(onClick: (){
+                                  showModalBottomSheet<void>(
+                                    isScrollControlled: true,
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return BlocProvider<ForgotPasswordStartCubit>(
+                                        create: (context) => ForgotPasswordStartCubit(profileRepository: context.read()),
+                                        child: ForgotPasswordForm(),
+                                      );
+                                    },
+                                  );
+                                },),
                               ],
                             ),
                           ),
@@ -258,7 +267,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
         // PHONE VALIDATION LOGIC
         validator: (value) {
-          // IF Empty
           if (value == null || value.isEmpty == true) {
             return 'Phone Required';
           } else if (value.length < 10) {

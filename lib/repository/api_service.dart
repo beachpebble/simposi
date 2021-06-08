@@ -19,6 +19,7 @@ class ApiService {
   static const String TEST = "https://simposi.uastar.space";
 
   static const String API_LOGIN = "/api/v1/user/login";
+  static const String API_FORGOT_PASSWORD_START = "/api/v1/user/forgotPassword";
 
   ApiService({required this.authRepository, this.baseUrl = TEST}) {
     _dio = Dio();
@@ -28,17 +29,6 @@ class ApiService {
     _dio.options.contentType = Headers.jsonContentType;
     _cookieJar = CookieJar();
     _dio.interceptors.add(CookieManager(_cookieJar));
-  }
-
-  Future<NetworkResponse> login(String phone, String password) async {
-    Map params = {
-      'phone': phone,
-      'password': password,
-    };
-    //TODO take this value from FCM
-    params["device_token"] = "1234567";
-    params["device_type"] = Platform.isAndroid ? 1 : 2;
-    return (await post(API_LOGIN, data: params, auth: false));
   }
 
   Future<NetworkResponse> post(String path, {
@@ -67,12 +57,10 @@ class ApiService {
         throw AuthException(
             message: 'Unable to send request jwt is not defined');
       }
-      headers['Content-Type'] = "application/json";
       headers['Authorization'] = "Bearer ${authRepository.jwt}";
     }
     return Options(
         headers: headers,
-        contentType: 'application/json',
         responseType: ResponseType.json);
   }
 

@@ -7,15 +7,17 @@ abstract class NetworkResponse extends Equatable {}
 
 class NetworkResponseSuccess extends NetworkResponse {
   final dynamic data;
+  final String? message;
 
-  NetworkResponseSuccess(this.data);
+  NetworkResponseSuccess({this.data, this.message});
 
   @override
   List<Object> get props => [data];
 
   static NetworkResponseSuccess fromJson(Map json) {
     var data = json.containsKey('data') ? json['data'] : null;
-    return NetworkResponseSuccess(data);
+    var message = json.containsKey('message') ? json['message'] : null;
+    return NetworkResponseSuccess(data: data, message: message);
   }
 }
 

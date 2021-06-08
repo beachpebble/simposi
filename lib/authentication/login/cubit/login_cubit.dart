@@ -9,16 +9,16 @@ import 'package:simposi_app_v4/repository/profile_repository.dart';
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit({required this.authenticationBloc, required this.profileReposotory})
+  LoginCubit({required this.authenticationBloc, required this.profileRepository})
       : super(LoginInitial());
 
   final AuthenticationBloc authenticationBloc;
-  final ProfileRepository profileReposotory;
+  final ProfileRepository profileRepository;
 
   Future<void> login(String login, String password) async {
     emit(LoginProgress());
     try {
-      await profileReposotory.login(login, password);
+      await profileRepository.login(login, password);
       emit(LoginSuccess());
       authenticationBloc.add(ReloadAuthEvent());
     }  catch (e) {

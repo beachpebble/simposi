@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -100,7 +101,7 @@ String handleError(dynamic exception, BuildContext context) {
 String getDioException(DioError dioError, BuildContext context) {
   switch (dioError.type) {
     case DioErrorType.response:
-      return _getDioResponseError(dioError);
+      return "Server error: ${_getDioResponseError(dioError)}";
       case DioErrorType.cancel:
       return "Request cancelled";
     case DioErrorType.connectTimeout:
@@ -123,9 +124,13 @@ String getDioException(DioError dioError, BuildContext context) {
 String _getDioResponseError(DioError dioError) {
   if (dioError.type == DioErrorType.response && dioError.response != null) {
     Response response = dioError.response!;
-    var body = response.data;
-    if (body is Map && body.containsKey('message')) {
-      return body['message'];
+    try {
+      var body = jsonDecode(response.data);
+      if (body is Map && body.containsKey('message')) {
+        return body['message'];
+      }
+    } catch (e) {
+
     }
   }
   return "Dio response error: ${dioError.message}";
