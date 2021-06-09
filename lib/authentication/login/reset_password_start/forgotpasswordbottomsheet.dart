@@ -147,7 +147,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
   // EMAIL FIELD
   Widget _phoneField() => TextFormField(
         controller: _emailController,
-        keyboardType: TextInputType.number,
+        keyboardType: TextInputType.phone,
         textInputAction: TextInputAction.next,
         enableSuggestions: true,
         autocorrect: true,

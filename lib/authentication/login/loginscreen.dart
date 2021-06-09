@@ -20,6 +20,7 @@ import 'package:simposi_app_v4/widgets/forgot_password_button.dart';
 import 'package:simposi_app_v4/widgets/progress.dart';
 
 import 'reset_password_start/forgotpasswordbottomsheet.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -80,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             children: [
                               Image.asset("assets/images/logo.png"),
                               Text(
-                                'simposi',
+                                AppLocalizations.of(context)!.loginTitle,
                                 style: TextStyle(
                                   color: SimposiAppColors.simposiDarkBlue,
                                   fontWeight: FontWeight.w900,
@@ -121,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     return state is LoginProgress
                                         ? AppProgressIndicator()
                                         : BigGBSelectButton(
-                                            buttonLabel: 'Log In',
+                                            buttonLabel: AppLocalizations.of(context)!.loginLogInButton,
                                             buttonAction: () {
                                               final isValid = _formKey
                                                   .currentState!
@@ -164,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             children: [
                               TextButton(
                                 child: Text(
-                                  'Register',
+                                  AppLocalizations.of(context)!.loginRegisterButton,
                                   style: TextStyle(
                                     color: SimposiAppColors.simposiDarkBlue,
                                     fontWeight: FontWeight.w900,
