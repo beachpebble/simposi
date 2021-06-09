@@ -16,9 +16,9 @@ class ResetPasswordCompleteCubit extends Cubit<ResetPasswordCompleteState> {
     emit(ResetPasswordCompleteProgress());
 
     if (hash == null) {
-      if (authenticationBloc.state is Authenticated) {
+      if (authenticationBloc.state is Authenticated && authenticationBloc.token != null) {
         try {
-          await profileRepository.changePassword(password);
+          await profileRepository.forgotPasswordComplete(password, authenticationBloc.token!);
           emit(ResetPasswordCompleteSuccess(false));
         } catch (e) {
           emit(ResetPasswordCompleteError(e));

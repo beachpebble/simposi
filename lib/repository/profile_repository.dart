@@ -68,20 +68,4 @@ class ProfileRepository {
       return message;
     }
   }
-
-  Future<String?> changePassword(String password) async {
-    NetworkResponse response =
-    await _apiService.post(ApiService.API_CHANGE_PASSWORD,
-        data: {
-          'password': password,
-        },
-        auth: true);
-    if (response is NetworkResponseError) {
-      throw ApiException(
-          errorType: LocalizedErrorType.AUTH, message: response.message);
-    } else if (response is NetworkResponseSuccess) {
-      String? message = response.message;
-      return message;
-    }
-  }
 }

@@ -16,6 +16,8 @@ class AuthenticationBloc
 
   final AuthRepository _authManager;
 
+  String? get token => _authManager.jwt;
+
   @override
   Stream<AuthenticationState> mapEventToState(
     AuthenticationEvent event,
