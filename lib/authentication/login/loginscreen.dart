@@ -16,10 +16,12 @@ import 'package:simposi_app_v4/authentication/login/reset_password_start/forgot_
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/model/errors.dart';
+import 'package:simposi_app_v4/utils/validators.dart';
 import 'package:simposi_app_v4/widgets/forgot_password_button.dart';
 import 'package:simposi_app_v4/widgets/progress.dart';
 
 import 'reset_password_start/forgotpasswordbottomsheet.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
@@ -265,18 +267,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: () => _phoneController.clear(),
                 ),
         ),
-
-        // PHONE VALIDATION LOGIC
-        validator: (value) {
-          if (value == null || value.isEmpty == true) {
-            return 'Phone Required';
-          } else if (value.length < 10) {
-            return 'Must be at least 10 characters';
-          } else {
-            return null;
-          }
-        },
-
+        validator: getValidator(context, Validators.PHONE),
         // OUTPUT ACTIONS
         onSaved: (value) => setState(() => phone = value!),
       );
@@ -356,19 +347,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: SimposiAppColors.simposiPink,
               )),
         ),
-
-        // VALIDATION LOGIC
-        validator: (value) {
-          if (value!.isEmpty) {
-            return 'Password Required';
-          }
-          if (value.length < 8) {
-            return 'Must be at least 8 characters';
-          } else {
-            return null;
-          }
-        },
-
+        validator: getValidator(context, Validators.PHONE),
         // OUTPUT ACTIONS
         onSaved: (value) => setState(() => password = value!),
       );

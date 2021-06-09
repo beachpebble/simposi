@@ -38,11 +38,44 @@ class ProfileRepository {
 
   Future<String?> forgotPasswordRequest(String phone) async {
     NetworkResponse response =
-        await _apiService.post(ApiService.API_FORGOT_PASSWORD_START,
-            data: {
-              'phone': phone,
-            },
-            auth: false);
+    await _apiService.post(ApiService.API_FORGOT_PASSWORD_START,
+        data: {
+          'phone': phone,
+        },
+        auth: false);
+    if (response is NetworkResponseError) {
+      throw ApiException(
+          errorType: LocalizedErrorType.AUTH, message: response.message);
+    } else if (response is NetworkResponseSuccess) {
+      String? message = response.message;
+      return message;
+    }
+  }
+
+  Future<String?> forgotPasswordComplete(String password, String hash) async {
+    NetworkResponse response =
+    await _apiService.post(ApiService.API_FORGOT_PASSWORD_COMPLETE,
+        data: {
+          'password': password,
+          'token': hash,
+        },
+        auth: false);
+    if (response is NetworkResponseError) {
+      throw ApiException(
+          errorType: LocalizedErrorType.AUTH, message: response.message);
+    } else if (response is NetworkResponseSuccess) {
+      String? message = response.message;
+      return message;
+    }
+  }
+
+  Future<String?> changePassword(String password) async {
+    NetworkResponse response =
+    await _apiService.post(ApiService.API_CHANGE_PASSWORD,
+        data: {
+          'password': password,
+        },
+        auth: true);
     if (response is NetworkResponseError) {
       throw ApiException(
           errorType: LocalizedErrorType.AUTH, message: response.message);

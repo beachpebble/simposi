@@ -6,6 +6,7 @@
 */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/affinityindex/affinityratingcards.dart';
 import 'package:simposi_app_v4/affinityindex/reportuser.dart';
 
@@ -19,13 +20,15 @@ import 'package:simposi_app_v4/authentication/createprofile/signup6location.dart
 import 'package:simposi_app_v4/authentication/createprofile/signup7covid.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup8validate.dart';
 import 'package:simposi_app_v4/authentication/createprofile/zzz_signup3iwanttomeet.dart';
-import 'package:simposi_app_v4/authentication/login/createnewpassword.dart';
 
 // Login
 import 'package:simposi_app_v4/authentication/login/getstartedscreen.dart';
 import 'package:simposi_app_v4/authentication/login/loginscreen.dart';
+import 'package:simposi_app_v4/authentication/login/reset_password_complete/createnewpassword.dart';
+import 'package:simposi_app_v4/authentication/login/reset_password_complete/reset_password_complete_cubit.dart';
 import 'package:simposi_app_v4/authentication/login/resetpasswordscreen.dart';
 import 'package:simposi_app_v4/authentication/login/splash_screen.dart';
+import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/calendar/simposicalendar.dart';
 
 // Check In
@@ -64,19 +67,26 @@ import 'package:simposi_app_v4/profile/profilemenu.dart';
 import 'package:simposi_app_v4/profile/profilescreen.dart';
 import 'package:simposi_app_v4/profile/subscribe.dart';
 import 'package:simposi_app_v4/profile/termsofuse.dart';
+import 'package:simposi_app_v4/repository/profile_repository.dart';
 
 // Calendar (Home)
 import 'theme/elements/simposihome.dart';
 
 class RouteGenerator {
   static const String FORGOT_PASSWORD_DL = "/ResetPassword?token=";
-  static Route<dynamic> generateRoute(RouteSettings settings) {
 
+  static Route<dynamic> generateRoute(RouteSettings settings) {
     //handle deeplink forgot password
     if (settings.name?.startsWith(FORGOT_PASSWORD_DL) == true) {
       String s = settings.name!;
-      var token =  s.replaceFirst(FORGOT_PASSWORD_DL, "");
-      return MaterialPageRoute(builder: (_) => ResetPassword(token: token));
+      var token = s.replaceFirst(FORGOT_PASSWORD_DL, "");
+      return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+                create: (context) => ResetPasswordCompleteCubit(
+                    profileRepository: context.read<ProfileRepository>(),
+                    authenticationBloc: context.read<AuthenticationBloc>()),
+                child: CreateNewPassword(token: token),
+              ));
     }
 
     switch (settings.name) {
@@ -91,7 +101,13 @@ class RouteGenerator {
       case '/resetpassword':
         return MaterialPageRoute(builder: (_) => ResetPassword());
       case '/createpassword':
-        return MaterialPageRoute(builder: (_) => CreateNewPassword());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) => ResetPasswordCompleteCubit(
+                      profileRepository: context.read<ProfileRepository>(),
+                      authenticationBloc: context.read<AuthenticationBloc>()),
+                  child: CreateNewPassword(),
+                ));
       // Create Profile
       case '/signup1':
         return MaterialPageRoute(builder: (_) => SignUpForm1());

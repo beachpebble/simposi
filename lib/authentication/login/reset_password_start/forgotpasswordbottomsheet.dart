@@ -113,7 +113,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                                         print('Email: ${phone}');
                                         context
                                             .read<ForgotPasswordStartCubit>()
-                                            .sendForgotPasswordrequest(
+                                            .sendForgotPasswordRequest(
                                                 phone: phone);
                                       }
                                     }),

@@ -87,7 +87,7 @@ class ProfileMenu extends StatelessWidget {
                         size: 30
                     ),
                     onTap: () {
-                      Navigator.of(context).pushNamed('/resetpassword');
+                      Navigator.of(context).pushNamed('/createpassword');
                     },
                   ),
                 ),

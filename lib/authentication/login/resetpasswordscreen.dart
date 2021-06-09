@@ -14,11 +14,7 @@ import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 
 
 class ResetPassword extends StatefulWidget {
-
-  final String token;
-
-  const ResetPassword({Key? key, required this.token}) : super(key: key);
-
+  // Set Variables
   @override
   _ResetPasswordState createState() => _ResetPasswordState();
 }

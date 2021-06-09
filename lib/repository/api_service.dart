@@ -20,6 +20,8 @@ class ApiService {
 
   static const String API_LOGIN = "/api/v1/user/login";
   static const String API_FORGOT_PASSWORD_START = "/api/v1/user/forgotPassword";
+  static const String API_FORGOT_PASSWORD_COMPLETE = "/api/v1/user/changeForgotPassword";
+  static const String API_CHANGE_PASSWORD = "/api/v1/user/changeForgotPassword2";
 
   ApiService({required this.authRepository, this.baseUrl = TEST}) {
     _dio = Dio();

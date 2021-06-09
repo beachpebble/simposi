@@ -282,7 +282,7 @@ class _ContinueButtonState extends State<ContinueButton> {
 class BigGBSelectButton extends StatefulWidget {
   // Set Variables
   final String buttonLabel;
-  final buttonAction;
+  final VoidCallback? buttonAction;
   final bool isSelected = false;
 
   const BigGBSelectButton({
