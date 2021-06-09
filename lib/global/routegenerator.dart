@@ -69,8 +69,16 @@ import 'package:simposi_app_v4/profile/termsofuse.dart';
 import 'theme/elements/simposihome.dart';
 
 class RouteGenerator {
+  static const String FORGOT_PASSWORD_DL = "/ResetPassword?token=";
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    // TODO: Do we put the variables in here? I couldn't figure out how to do it
+
+    //handle deeplink forgot password
+    if (settings.name?.startsWith(FORGOT_PASSWORD_DL) == true) {
+      String s = settings.name!;
+      var token =  s.replaceFirst(FORGOT_PASSWORD_DL, "");
+      return MaterialPageRoute(builder: (_) => ResetPassword(token: token));
+    }
+
     switch (settings.name) {
       // Login
       // TODO: Build validation on GetStarted Screen to check if user has device token and ask for device permissions
