@@ -63,5 +63,6 @@ class RegistrationStage6 extends RegistrationState {
   RegistrationStage6(this.interests);
 }
 
-class RegistrationStage7 extends RegistrationState {
-}
+class RegistrationStage7 extends RegistrationState {}
+
+class RegistrationStage8 extends RegistrationState {}

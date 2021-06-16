@@ -28,6 +28,9 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   Set<Earning>? earnings;
   Set<Interest>? interests;
   bool lgbt = false;
+  double? latitude;
+  double? longitude;
+  double? range;
   late MasterData mData;
 
   Future<void> preload() async {
@@ -102,5 +105,16 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     this.interests = interests;
 
     emit(RegistrationStage7());
+  }
+
+  Future<void> stage7({
+    required double latitude,
+    required double longitude,
+    required double range,
+  }) async {
+    this.latitude = latitude;
+    this.longitude = longitude;
+    this.range = range;
+    emit(RegistrationStage8());
   }
 }

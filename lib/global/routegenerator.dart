@@ -13,13 +13,14 @@ import 'package:simposi_app_v4/affinityindex/reportuser.dart';
 // Create Profile
 import 'package:simposi_app_v4/authentication/createprofile/signup1createaccount.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup2gender.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup3iwanttomeet.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup4generation.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup5income.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup6activities.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup7location.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup7/signup7_location_cubit.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup7/signup7location.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup8covid.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup9validate.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup3iwanttomeet.dart';
 
 // Login
 import 'package:simposi_app_v4/authentication/login/getstartedscreen.dart';
@@ -122,9 +123,14 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => SignUpForm5());
       case '/signup6':
         List<Interest> interests = settings.arguments as List<Interest>;
-        return MaterialPageRoute(builder: (_) => SignUpForm6(interests: interests));
+        return MaterialPageRoute(
+            builder: (_) => SignUpForm6(interests: interests));
       case '/signup7':
-        return MaterialPageRoute(builder: (_) => SignUpForm7());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) => Signup7LocationCubit(registrationCubit: context.read()),
+                  child: SignUpForm7(),
+                ));
       case '/signup8':
         return MaterialPageRoute(builder: (_) => SignUpForm8());
       case '/signup9':
