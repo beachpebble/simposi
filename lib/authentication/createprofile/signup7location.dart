@@ -65,7 +65,6 @@ class SignUpForm7 extends StatelessWidget {
               Column(
                 children: [
 
-                  // TODO: Disable Button until user has selected gender for who they want to meet
                   BigGBSelectButton(
                     buttonLabel: 'Continue',
                     buttonAction: () =>

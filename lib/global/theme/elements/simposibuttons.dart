@@ -6,10 +6,10 @@
 */
 
 import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:simposi_app_v4/global/theme/theme.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 
 // TINY TEXT BUTTON (FOOTER)
@@ -26,8 +26,7 @@ class TinyTextButton extends StatelessWidget {
     required this.footerButtonAlign,
     required this.buttonLabel,
     required this.nextPage,
-  })
-      : super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +43,8 @@ class TinyTextButton extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(20))),
         padding: EdgeInsets.all(0),
       ),
-      child: Text(buttonLabel,
+      child: Text(
+        buttonLabel,
         textAlign: footerButtonAlign,
       ),
       onPressed: () => {
@@ -53,7 +53,6 @@ class TinyTextButton extends StatelessWidget {
     );
   }
 }
-
 
 // SIMPOSI TEXT BUTTON
 class SimposiTextButton extends StatelessWidget {
@@ -69,76 +68,73 @@ class SimposiTextButton extends StatelessWidget {
     required this.buttonLabel,
     required this.nextPage,
     required this.fontSize,
-    required this.fontWeight, required this.onClick,
-  })
-      : super(key: key);
+    required this.fontWeight,
+    required this.onClick,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      style: TextButton.styleFrom(
-        backgroundColor: Colors.transparent,
-        primary: SimposiAppColors.simposiDarkBlue,
-        textStyle: TextStyle(
-          fontFamily: 'Muli',
-          fontSize: fontSize,
-          fontWeight: fontWeight,
+        style: TextButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          primary: SimposiAppColors.simposiDarkBlue,
+          textStyle: TextStyle(
+            fontFamily: 'Muli',
+            fontSize: fontSize,
+            fontWeight: fontWeight,
+          ),
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20))),
+          padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
         ),
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20))),
-        padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
-      ),
-      child: Text(buttonLabel,
-        textAlign: TextAlign.center,
-      ),
-      onPressed: onClick
-    );
+        child: Text(
+          buttonLabel,
+          textAlign: TextAlign.center,
+        ),
+        onPressed: onClick);
   }
 }
-
 
 // Login Button with Forward Chevron for Get Started Page
 class LoginForwardTextButton extends StatelessWidget {
   final VoidCallback? onClick;
 
   const LoginForwardTextButton({Key? key, this.onClick}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: TextButton(
-        style: TextButton.styleFrom(
-          primary: Colors.white,
-          textStyle: TextStyle(
-            fontFamily: 'Muli',
-            fontSize: 15,
-            fontWeight: FontWeight.w800,
-          ),
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
-          backgroundColor: Colors.transparent,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Text(
-              "Log In",
-              textAlign: TextAlign.center,
-              style: TextStyle(),
+          style: TextButton.styleFrom(
+            primary: Colors.white,
+            textStyle: TextStyle(
+              fontFamily: 'Muli',
+              fontSize: 15,
+              fontWeight: FontWeight.w800,
             ),
-            Icon(Icons.chevron_right),
-          ],
-        ),
-        onPressed: onClick
-      ),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+            backgroundColor: Colors.transparent,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                "Log In",
+                textAlign: TextAlign.center,
+                style: TextStyle(),
+              ),
+              Icon(Icons.chevron_right),
+            ],
+          ),
+          onPressed: onClick),
     );
   }
 }
 
-
 // GET STARTED BUTTON
 class GetStartedButton extends StatelessWidget {
-
   final VoidCallback? onClick;
 
   const GetStartedButton({Key? key, this.onClick}) : super(key: key);
@@ -146,48 +142,24 @@ class GetStartedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        elevation: 0,
-        primary: Colors.white,
-        onPrimary: SimposiAppColors.simposiDarkGrey,
-        textStyle: TextStyle(
-          fontFamily: 'Muli',
-          fontSize: 17,
-          fontWeight: FontWeight.w800,
+        style: ElevatedButton.styleFrom(
+          elevation: 0,
+          primary: Colors.white,
+          onPrimary: SimposiAppColors.simposiDarkGrey,
+          textStyle: TextStyle(
+            fontFamily: 'Muli',
+            fontSize: 17,
+            fontWeight: FontWeight.w800,
+          ),
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(25))),
+          padding: EdgeInsets.fromLTRB(40, 15, 40, 15),
         ),
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(25))),
-        padding: EdgeInsets.fromLTRB(40, 15, 40, 15),
-      ),
-      child: Text(
-        "Get Started",
-        textAlign: TextAlign.center,
-      ),
-      onPressed: onClick
-    );
-  }
-}
-
-
-// ADD PHOTO BUTTON (SIGNUP)
-class AddPhotoButton extends StatelessWidget {
-  // Set Variables
-  final onPressed;
-
-  const AddPhotoButton({
-    this.onPressed,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: null,
-      child: Image.asset('assets/images/addphoto.png'),
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(Colors.transparent),
-      ),
-    );
+        child: Text(
+          "Get Started",
+          textAlign: TextAlign.center,
+        ),
+        onPressed: onClick);
   }
 }
 
@@ -211,9 +183,13 @@ class AddEventImageButton extends StatelessWidget {
         onPressed: null,
         child: Stack(
           children: [
-            Center(child: Image.asset('assets/images/imagepickerbackground.png')),
-            Center(child: Icon(Icons.camera_alt_rounded,
-            color: SimposiAppColors.simposiLightGrey,)),
+            Center(
+                child: Image.asset('assets/images/imagepickerbackground.png')),
+            Center(
+                child: Icon(
+              Icons.camera_alt_rounded,
+              color: SimposiAppColors.simposiLightGrey,
+            )),
           ],
         ),
         style: ButtonStyle(
@@ -224,13 +200,11 @@ class AddEventImageButton extends StatelessWidget {
   }
 }
 
-
 // CONTINUE BUTTON
 class ContinueButton extends StatefulWidget {
   final String nextPage;
 
-  const ContinueButton({Key? key, required this.nextPage})
-      : super(key: key);
+  const ContinueButton({Key? key, required this.nextPage}) : super(key: key);
 
   @override
   _ContinueButtonState createState() => _ContinueButtonState();
@@ -245,24 +219,23 @@ class _ContinueButtonState extends State<ContinueButton> {
         style: ButtonStyle(
           shape: MaterialStateProperty.all(
             const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(30))
-            ),
+                borderRadius: BorderRadius.all(Radius.circular(30))),
           ),
           padding: MaterialStateProperty.all(
             EdgeInsets.all(20),
           ),
           backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) {
-                if (states.contains(MaterialState.disabled))
-                  return SimposiAppColors.simposiLightGrey;
-                return SimposiAppColors.simposiDarkBlue;
-              }),
+              (Set<MaterialState> states) {
+            if (states.contains(MaterialState.disabled))
+              return SimposiAppColors.simposiLightGrey;
+            return SimposiAppColors.simposiDarkBlue;
+          }),
           foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) {
-                if (states.contains(MaterialState.disabled))
-                  return SimposiAppColors.simposiDarkGrey;
-                return Colors.white;
-              }),
+              (Set<MaterialState> states) {
+            if (states.contains(MaterialState.disabled))
+              return SimposiAppColors.simposiDarkGrey;
+            return Colors.white;
+          }),
         ),
 
         // Label
@@ -277,25 +250,20 @@ class _ContinueButtonState extends State<ContinueButton> {
   }
 }
 
-
 // BIG GREY/BLUE SELECT BUTTON
-class BigGBSelectButton extends StatefulWidget {
+class BigGBSelectButton extends StatelessWidget {
   // Set Variables
   final String buttonLabel;
   final VoidCallback? buttonAction;
-  final bool isSelected = false;
+  final bool isSelected;
 
   const BigGBSelectButton({
     required this.buttonLabel,
     required this.buttonAction,
     Key? key,
+    this.isSelected = false,
   }) : super(key: key);
 
-  @override
-  _BigGBSelectButtonState createState() => _BigGBSelectButtonState();
-}
-
-class _BigGBSelectButtonState extends State<BigGBSelectButton> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -304,14 +272,13 @@ class _BigGBSelectButtonState extends State<BigGBSelectButton> {
         style: ButtonStyle(
           shape: MaterialStateProperty.all(
             const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(30))
-            ),
+                borderRadius: BorderRadius.all(Radius.circular(30))),
           ),
           padding: MaterialStateProperty.all(
             EdgeInsets.all(20),
           ),
           elevation: MaterialStateProperty.resolveWith<double>(
-                (Set<MaterialState> states) {
+            (Set<MaterialState> states) {
               if (states.contains(MaterialState.disabled)) {
                 return 0;
               }
@@ -319,29 +286,32 @@ class _BigGBSelectButtonState extends State<BigGBSelectButton> {
             },
           ),
           backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) {
-                if (states.contains(MaterialState.disabled))
-                  return SimposiAppColors.simposiLightGrey;
-                return SimposiAppColors.simposiDarkBlue;
-              }),
+              (Set<MaterialState> states) {
+            return isSelected
+                ? SimposiAppColors.simposiDarkBlue
+                : SimposiAppColors.simposiLightGrey;
+
+            //   if (states.contains(MaterialState.disabled))
+            //     return SimposiAppColors.simposiLightGrey;
+            // return SimposiAppColors.simposiDarkBlue;
+          }),
           foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) {
-                if (states.contains(MaterialState.disabled))
-                  return SimposiAppColors.simposiDarkGrey;
-                return Colors.white;
-              }),
+              (Set<MaterialState> states) {
+            return isSelected ? Colors.white : SimposiAppColors.simposiDarkBlue;
+            // if (states.contains(MaterialState.disabled))
+            //   return SimposiAppColors.simposiDarkGrey;
+            // return Colors.white;
+          }),
         ),
 
         // Label
-        child: Text(widget.buttonLabel),
+        child: Text(buttonLabel),
 
-        onPressed: widget.buttonAction,
+        onPressed: buttonAction,
       ),
     );
   }
 }
-
-
 
 // BIG BUTTON
 class BigButton extends StatefulWidget {
@@ -372,24 +342,23 @@ class _BigButtonState extends State<BigButton> {
         style: ButtonStyle(
           shape: MaterialStateProperty.all(
             const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(30))
-            ),
+                borderRadius: BorderRadius.all(Radius.circular(30))),
           ),
           padding: MaterialStateProperty.all(
             EdgeInsets.all(20),
           ),
           backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) {
-                if (states.contains(MaterialState.disabled))
-                  return widget.buttonColor;
-                return SimposiAppColors.simposiDarkBlue;
-              }),
+              (Set<MaterialState> states) {
+            if (states.contains(MaterialState.disabled))
+              return widget.buttonColor;
+            return SimposiAppColors.simposiDarkBlue;
+          }),
           foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) {
-                if (states.contains(MaterialState.disabled))
-                  return widget.textColor;
-                return Colors.white;
-              }),
+              (Set<MaterialState> states) {
+            if (states.contains(MaterialState.disabled))
+              return widget.textColor;
+            return Colors.white;
+          }),
         ),
 
         // Label
@@ -401,7 +370,6 @@ class _BigButtonState extends State<BigButton> {
   }
 }
 
-
 // SUBSCRIBE BUTTON ON PROFILE PAGE
 class SubscribeButton extends StatelessWidget {
   // Set Variables
@@ -410,8 +378,7 @@ class SubscribeButton extends StatelessWidget {
   const SubscribeButton({
     Key? key,
     required this.nextPage,
-  })
-      : super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -430,11 +397,9 @@ class SubscribeButton extends StatelessWidget {
       onPressed: () => {
         Navigator.of(context).pushNamed(nextPage),
       },
-
     );
   }
 }
-
 
 // MEET NOW PINK BUTTON
 class SmallPinkButton extends StatelessWidget {
@@ -446,13 +411,11 @@ class SmallPinkButton extends StatelessWidget {
     Key? key,
     required this.buttonLabel,
     required this.nextPage,
-  })
-      : super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-
       style: ElevatedButton.styleFrom(
         primary: SimposiAppColors.simposiPink,
         textStyle: TextStyle(
@@ -477,11 +440,8 @@ class SmallPinkButton extends StatelessWidget {
   }
 }
 
-
-
 // COVID AGREE BUTTON
 class AgreeButton extends StatefulWidget {
-
   @override
   _AgreeButtonState createState() => _AgreeButtonState();
 }
@@ -493,11 +453,10 @@ class _AgreeButtonState extends State<AgreeButton> {
       style: ButtonStyle(
         shape: MaterialStateProperty.all(
           const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(30))
-          ),
+              borderRadius: BorderRadius.all(Radius.circular(30))),
         ),
         elevation: MaterialStateProperty.resolveWith<double>(
-              (Set<MaterialState> states) {
+          (Set<MaterialState> states) {
             if (states.contains(MaterialState.disabled)) {
               return 0;
             }
@@ -505,17 +464,17 @@ class _AgreeButtonState extends State<AgreeButton> {
           },
         ),
         backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                (Set<MaterialState> states) {
-              if (states.contains(MaterialState.disabled))
-                return SimposiAppColors.simposiLightGrey;
-              return SimposiAppColors.simposiDarkBlue;
-            }),
+            (Set<MaterialState> states) {
+          if (states.contains(MaterialState.disabled))
+            return SimposiAppColors.simposiLightGrey;
+          return SimposiAppColors.simposiDarkBlue;
+        }),
         foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                (Set<MaterialState> states) {
-              if (states.contains(MaterialState.disabled))
-                return SimposiAppColors.simposiDarkGrey;
-              return Colors.white;
-            }),
+            (Set<MaterialState> states) {
+          if (states.contains(MaterialState.disabled))
+            return SimposiAppColors.simposiDarkGrey;
+          return Colors.white;
+        }),
       ),
 
       // Label
@@ -525,7 +484,6 @@ class _AgreeButtonState extends State<AgreeButton> {
     );
   }
 }
-
 
 // PRESS & HOLD CHECK IN BUTTON
 class BigCheckInButton extends StatelessWidget {
@@ -537,24 +495,24 @@ class BigCheckInButton extends StatelessWidget {
         style: ButtonStyle(
           shape: MaterialStateProperty.all(
             const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(30)),
+              borderRadius: BorderRadius.all(Radius.circular(30)),
             ),
           ),
           padding: MaterialStateProperty.all(
             EdgeInsets.all(20),
           ),
           backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) {
-                if (states.contains(MaterialState.disabled))
-                  return SimposiAppColors.simposiLightGrey;
-                return SimposiAppColors.simposiFadedBlue;
-              }),
+              (Set<MaterialState> states) {
+            if (states.contains(MaterialState.disabled))
+              return SimposiAppColors.simposiLightGrey;
+            return SimposiAppColors.simposiFadedBlue;
+          }),
           foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) {
-                if (states.contains(MaterialState.disabled))
-                  return SimposiAppColors.simposiDarkGrey;
-                return SimposiAppColors.simposiDarkBlue;
-              }),
+              (Set<MaterialState> states) {
+            if (states.contains(MaterialState.disabled))
+              return SimposiAppColors.simposiDarkGrey;
+            return SimposiAppColors.simposiDarkBlue;
+          }),
         ),
 
         // Label
@@ -568,8 +526,6 @@ class BigCheckInButton extends StatelessWidget {
     );
   }
 }
-
-
 
 // SIMPOSI BIG BUTTON
 class SimposiBigButton extends StatelessWidget {
@@ -585,8 +541,7 @@ class SimposiBigButton extends StatelessWidget {
     required this.buttonColor,
     required this.textColor,
     required this.nextPage,
-  })
-      : super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -617,17 +572,3 @@ class SimposiBigButton extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

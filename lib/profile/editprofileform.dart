@@ -12,6 +12,7 @@ import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/global/theme/elements/formfields.dart';
+import 'package:simposi_app_v4/widgets/add_photo_button.dart';
 
 
 class EditProfile extends StatefulWidget {

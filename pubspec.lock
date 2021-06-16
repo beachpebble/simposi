@@ -232,7 +232,7 @@ packages:
     source: hosted
     version: "0.13.3"
   http_parser:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http_parser
       url: "https://pub.dartlang.org"
@@ -244,7 +244,7 @@ packages:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.5+3"
+    version: "0.8.0+3"
   image_picker_for_web:
     dependency: transitive
     description:

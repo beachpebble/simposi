@@ -12,7 +12,8 @@ enum LocalizedErrorType {
   DIO_TIMEOUT,
   DIO_DEFAULT,
   NETWORK,
-  OTHER
+  OTHER,
+  UNEXPECTED
 }
 
 /**

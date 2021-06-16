@@ -22,7 +22,6 @@ import 'package:simposi_app_v4/widgets/progress.dart';
 
 import 'reset_password_start/forgotpasswordbottomsheet.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class LoginScreen extends StatefulWidget {

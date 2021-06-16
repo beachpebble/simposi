@@ -6,121 +6,150 @@
 */
 
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposiappbar.dart';
-import 'package:simposi_app_v4/global/theme/theme.dart';
-import 'package:simposi_app_v4/global/routegenerator.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/model/gender.dart';
 
-class SignUpForm2 extends StatelessWidget {
+class SignUpForm2 extends StatefulWidget {
+  @override
+  _SignUpForm2State createState() => _SignUpForm2State();
+}
+
+class _SignUpForm2State extends State<SignUpForm2> {
   double progress = 0.22;
-  // NOTE: Progress Bar is top widget in content and is extended behind a Transparent AppBar.
-  // This is not a great solution but simplest I could conceive of, it will cause display to be weird on non-notched phones
+
+  Gender? _selected;
+  bool _isLgbt = false;
+
+  void _selectGender(Gender gender) {
+    setState(() {
+      _selected = gender;
+    });
+  }
+
+  void _selectLgbt() {
+    setState(() {
+      _isLgbt = !_isLgbt;
+    });
+  }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    backgroundColor: Colors.white,
-    extendBodyBehindAppBar: true,
-
-    appBar: BasicFormAppBar(),
-
-    body: Column(
-      children: [
-        SizedBox(height: 45),
-        Container(
-          child: LinearProgressIndicator(
-            value: progress,
-            valueColor: AlwaysStoppedAnimation(SimposiAppColors.simposiDarkBlue),
-            backgroundColor: SimposiAppColors.simposiFadedBlue,
-          ),
-        ),
-
-        SizedBox(height: 70),
-
-        Expanded(
-          child: Container(
-            padding: EdgeInsets.fromLTRB(40, 10, 40, 20),
-            child: Column(
-              children: [
-
-                // Header Title
-                Text('I indentify as...',
-                style: TextStyle(
-                  fontSize: 19,
-                  fontWeight: FontWeight.w500,
-                  color: SimposiAppColors.simposiDarkGrey,
-                ),),
-                SizedBox(height: 20),
-
-                // TODO: Convert to Toggle Buttons
-                // Single Select Gender Buttons
-                BigGBSelectButton(
-                  buttonLabel: 'Man',
-                  buttonAction: null),
-                SizedBox(height: 10),
-                BigGBSelectButton(
-                  buttonLabel: 'Woman',
-                  buttonAction: null),
-
-
-                SizedBox(height: 30),
-                // Also Member Divider
-                Row(
+  Widget build(BuildContext context) =>
+      Scaffold(
+        backgroundColor: Colors.white,
+        extendBodyBehindAppBar: true,
+        appBar: BasicFormAppBar(),
+        body: Column(
+          children: [
+            SizedBox(height: 45),
+            Container(
+              child: LinearProgressIndicator(
+                value: progress,
+                valueColor:
+                AlwaysStoppedAnimation(SimposiAppColors.simposiDarkBlue),
+                backgroundColor: SimposiAppColors.simposiFadedBlue,
+              ),
+            ),
+            SizedBox(height: 70),
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.fromLTRB(40, 10, 40, 20),
+                child: Column(
                   children: [
-                    Expanded(
-                        child: Divider(
-                          endIndent: 10,
-                          color: SimposiAppColors.simposiLightText,
-                        ),
+                    // Header Title
+                    Text(
+                      'I indentify as...',
+                      style: TextStyle(
+                        fontSize: 19,
+                        fontWeight: FontWeight.w500,
+                        color: SimposiAppColors.simposiDarkGrey,
+                      ),
                     ),
-                    Text('Also member of',
-                    style: TextStyle(
-                      color: SimposiAppColors.simposiLightText,
-                      fontSize: 13,
-                    ),),
-                    Expanded(
-                        child: Divider(
-                          indent: 10,
-                          color: SimposiAppColors.simposiLightText,
+                    SizedBox(height: 20),
+
+                    // TODO: Convert to Toggle Buttons
+                    // Single Select Gender Buttons
+                    BigGBSelectButton(
+                        buttonLabel: 'Man', //TODO Localize
+                        isSelected: _selected == Gender.Male,
+                        buttonAction: () {
+                          _selectGender(Gender.Male);
+                        }),
+                    SizedBox(height: 10),
+                    BigGBSelectButton(
+                        buttonLabel: 'Woman', //TODO Localize
+                        isSelected: _selected == Gender.Female,
+                        buttonAction: () {
+                          _selectGender(Gender.Female);
+                        }),
+
+                    SizedBox(height: 30),
+                    // Also Member Divider
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Divider(
+                            endIndent: 10,
+                            color: SimposiAppColors.simposiLightText,
+                          ),
                         ),
+                        Text(
+                          'Also member of',
+                          style: TextStyle(
+                            color: SimposiAppColors.simposiLightText,
+                            fontSize: 13,
+                          ),
+                        ),
+                        Expanded(
+                          child: Divider(
+                            indent: 10,
+                            color: SimposiAppColors.simposiLightText,
+                          ),
+                        ),
+                      ],
                     ),
+                    SizedBox(height: 20),
+
+                    // TODO: Convert to MultiSelect List (right now only one option)
+                    // Multi-Select Community Buttons
+                    BigGBSelectButton(
+                        buttonLabel: 'LGBTQ', //TODO Localize
+                        isSelected: _isLgbt,
+                        buttonAction: () {
+                          _selectLgbt();
+                        }),
                   ],
                 ),
-                SizedBox(height: 20),
-
-                // TODO: Convert to MultiSelect List (right now only one option)
-                // Multi-Select Community Buttons
-                BigGBSelectButton(
-                  buttonLabel: 'LGBTQ',
-                  buttonAction: null),
-
-              ],
-            ),
-          ),
-        ),
-
-        Container(
-          padding: EdgeInsets.all(40),
-          child:
-          Column(
-            children: [
-
-              // TODO: Disable button until user has selected a gender (LGBTQ optional)
-              // TODO: Make screen reusable by changing the Continue button to a save button when back is to profile menu?
-              BigGBSelectButton(
-                buttonLabel: 'Continue',
-                buttonAction: () =>
-                {
-                  Navigator.of(context).pushNamed('/signup3'),
-                },
               ),
-              SizedBox(height: 10),
-            ],
-          ),
+            ),
+            Container(
+              padding: EdgeInsets.all(40),
+              child: Column(
+                children: [
+                  BlocListener<RegistrationCubit, RegistrationState>(
+                    listener: (context, state) {
+                      if (state is RegistrationStage3)
+                        Navigator.of(context).pushNamed('/signup3');
+                    },
+                   child: BigGBSelectButton(
+                     buttonLabel: 'Continue',
+                     buttonAction: _selected != null ? () =>
+                     {
+                       context.read<RegistrationCubit>().stage2(gender: _selected!, lgbt: _isLgbt)
+
+                     } : null,
+                   )
+                  ),
+                  SizedBox(height: 10),
+                ],
+              ),
+            ),
+          ],
         ),
-      ],
-    ),
-  );
+      );
 }

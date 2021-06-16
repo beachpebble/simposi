@@ -22,6 +22,8 @@ class ApiService {
   static const String API_FORGOT_PASSWORD_START = "/api/v1/user/forgotPassword";
   static const String API_FORGOT_PASSWORD_COMPLETE = "/api/v1/user/changeForgotPassword";
   static const String API_CHANGE_PASSWORD = "/api/v1/user/changeForgotPassword2";
+  static const String API_UPLOAD_AVATAR = "/api/v1/user/userpic";
+  static const String API_MASTER_DATA = "/api/v1/user/GetMasterTableData";
 
   ApiService({required this.authRepository, this.baseUrl = TEST}) {
     _dio = Dio();
@@ -34,8 +36,9 @@ class ApiService {
   }
 
   Future<NetworkResponse> post(String path, {
-    required Map data,
+    required dynamic data,
     auth: true,
+    lang = true
   }) async {
     var options = await _prepareRequest(path, auth);
     developer.log(
@@ -43,10 +46,24 @@ class ApiService {
             Uri.parse(_dio.options.baseUrl + path))}');
     developer.log('_post $path options: ${options.headers}   data: $data');
     //TODO later change to locale set on device
-    data["language_id"] = 1;
+    if (data is Map && lang)
+      data["language_id"] = 1;
     final response = await _dio.post(path, data: data, options: options);
 
     return _handleResponse(response, 'POST', path);
+  }
+
+  Future<NetworkResponse> get(
+      String path, {
+        auth: true,
+      }) async {
+    var options = await _prepareRequest(path, auth);
+
+    final response = await _dio.get(path, options: options);
+    developer.log(
+        'cookies ${_cookieJar.loadForRequest(Uri.parse(_dio.options.baseUrl + path))}');
+    developer.log('_get $path  options: ${options.headers}');
+    return _handleResponse(response, 'GET', path);
   }
 
   Future<Options> _prepareRequest(String path, bool withAuth) async {
@@ -73,9 +90,12 @@ class ApiService {
           message: 'Fail $method $host Error: ${response.statusCode}');
     }
     var body;
-    developer.log('_handle response ');
+    developer.log('_handle response ${response.data}');
     try {
-      body = jsonDecode(response.data);
+      if (response.data is String)
+        body = jsonDecode(response.data);
+      else
+        body = response.data;
       developer.log('_handle response $body');
       if (body is Map && body.containsKey("status")) {
         developer.log('response is map (ok or redirect)');

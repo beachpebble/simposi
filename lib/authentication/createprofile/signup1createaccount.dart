@@ -8,8 +8,17 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
+import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
+import 'package:simposi_app_v4/model/errors.dart';
+import 'package:simposi_app_v4/utils/validators.dart';
+import 'package:simposi_app_v4/widgets/add_photo_button.dart';
+import 'package:simposi_app_v4/widgets/password_field.dart';
+import 'package:simposi_app_v4/widgets/progress.dart';
 
 import '../../global/theme/elements/simposibuttons.dart';
 import '../authenticationwidgets/privacytoufooter.dart';
@@ -20,15 +29,12 @@ class SignUpForm1 extends StatefulWidget {
 }
 
 class _SignUpForm1State extends State<SignUpForm1> {
-  // Set Variables
-  String name = ' ';
-  String phone = ' ';
-  String password = ' ';
-  bool _passwordVisible = true;
   final _formKey = GlobalKey<FormState>();
+  String? _filePath;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
 
   @override
   void initState() {
@@ -36,6 +42,7 @@ class _SignUpForm1State extends State<SignUpForm1> {
     _nameController.addListener(() => setState(() {}));
     _phoneController.addListener(() => setState(() {}));
     _passwordController.addListener(() => setState(() {}));
+    _emailController.addListener(() => setState(() {}));
   }
 
   @override
@@ -43,6 +50,7 @@ class _SignUpForm1State extends State<SignUpForm1> {
     _nameController.dispose();
     _phoneController.dispose();
     _passwordController.dispose();
+    _emailController.dispose();
     super.dispose();
   }
 
@@ -57,105 +65,184 @@ class _SignUpForm1State extends State<SignUpForm1> {
                 constraints: BoxConstraints(
                   minHeight: viewportConstraints.maxHeight,
                 ),
-                child: Container(
-                  padding: EdgeInsets.all(40),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // HEADER
-                      Container(
-                        height: 250,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              'Signup and start \n meeting new people.',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: SimposiAppColors.simposiDarkGrey,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 19,
-                              ),
-                            ),
-                            SizedBox(height: 20),
-                            // TODO: ENABLE IMAGE PICKER & ERROR MESSAGE IF NO IMAGE ON SUBMIT
-                            //  PHOTO UPLOAD FIELD
-                            AddPhotoButton(),
-                          ],
-                        ),
-                      ),
-
-                      // CREATE ACCOUNT FORM
-                      Container(
-                        child: Form(
-                          key: _formKey,
+                child: BlocConsumer<RegistrationCubit, RegistrationState>(
+                  listener: (context, state) {
+                    if (state is RegistrationStage2) {
+                      Navigator.of(context).pushNamed('/signup2');
+                    } else if (state is RegistrationStage1Error) {
+                      Fluttertoast.showToast(
+                          msg: handleError(state.error, context),
+                          toastLength: Toast.LENGTH_SHORT,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is RegistrationStageLoadingData)
+                      return Center(child: AppProgressIndicator());
+                    else if (state is RegistrationStageLoadingDataError)
+                      return Center(
+                        child: Container(
+                          height: 200,
                           child: Column(
                             children: [
-                              SizedBox(height: 40),
-
-                              // NAME FIELD
-                              _nameField(),
-                              SizedBox(height: 15),
-
-                              // phone FIELD
-                              _phoneField(),
-                              SizedBox(height: 15),
-
-                              // PASSWORD FIELD
-                              _passwordField(),
-                              SizedBox(height: 15),
-
-                              // TODO: CREATE INACTIVE ACCOUNT ON SUBMIT WITH USERID, CONTINUE STORING VALUES AGAINST ACCOUNT WITH EACH SIGNUP SCREEN
-                              // SUBMIT BUTTON
-                              BigGBSelectButton(
-                                  buttonLabel: 'Submit',
-                                  buttonAction: () {
-                                    final isValid =
-                                        _formKey.currentState!.validate();
-
-                                    if (isValid) {
-                                      _formKey.currentState!.save();
-                                      print('Name: ${name}');
-                                      print('phone: ${phone}');
-                                      print('Password: ${password}');
-                                      Navigator.of(context)
-                                          .pushNamed('/signup2');
-                                    }
-                                  }),
-                              SizedBox(height: 10),
-
-                              // TODO: Are we able to reuse this screen for edit profile? Change Button to just a save and hide footer?
-                              // LOGIN BUTTON
-                              SimposiTextButton(
-                                buttonLabel: "Log In",
-                                nextPage: '/login',
-                                fontSize: 15,
-                                fontWeight: FontWeight.w900,
-                                onClick: () {
-                                  Navigator.of(context)
-                                      .pushReplacementNamed('/login');
-                                },
-                              ),
+                              Text(
+                                  "error loading master data ${handleError(state.error, context)}"),
+                              SizedBox(height: 20),
+                              SizedBox(
+                                width: 150,
+                                child: BigGBSelectButton(
+                                    buttonLabel: 'Retry',
+                                    buttonAction: () {
+                                      context.read<RegistrationCubit>().preload();
+                                    }),
+                              )
                             ],
                           ),
                         ),
-                      ),
-
-                      // FOOTER
-                      Container(
-                        height: 150,
+                      );
+                    else
+                      return Container(
+                        padding: EdgeInsets.all(40),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            PrivacyTOUFooter(
-                              footerColor: SimposiAppColors.simposiLightText,
+                            // HEADER
+                            Container(
+                              height: 250,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    'Signup and start \n meeting new people.',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: SimposiAppColors.simposiDarkGrey,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 19,
+                                    ),
+                                  ),
+                                  SizedBox(height: 20),
+                                  // TODO: ENABLE IMAGE PICKER & ERROR MESSAGE IF NO IMAGE ON SUBMIT
+                                  //  PHOTO UPLOAD FIELD
+                                  AddPhotoButton(
+                                    imageSelectCallback: (val) {
+                                      print("selected image $val");
+                                      _filePath = val;
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            // CREATE ACCOUNT FORM
+                            Container(
+                              child: Form(
+                                key: _formKey,
+                                child: Column(
+                                  children: [
+                                    SizedBox(height: 40),
+
+                                    // NAME FIELD
+                                    _nameField(),
+                                    SizedBox(height: 15),
+
+                                    // phone FIELD
+                                    _phoneField(),
+                                    SizedBox(height: 15),
+
+                                    // phone FIELD
+                                    _emailField(),
+                                    SizedBox(height: 15),
+
+                                    // PASSWORD FIELD
+                                    PasswordField(
+                                        label: AppLocalizations.of(context)!
+                                            .signUpPassword,
+                                        controller: _passwordController,
+                                        validator: getValidator(
+                                            context, Validators.PASSWORD)),
+                                    SizedBox(height: 15),
+
+                                    // SUBMIT BUTTON
+                                    state is RegistrationStage1Loading
+                                        ? AppProgressIndicator()
+                                        : BigGBSelectButton(
+                                            buttonLabel: 'Submit',
+                                            buttonAction: () {
+                                              if (_formKey.currentState!
+                                                  .validate()) {
+                                                // Navigator.of(context)
+                                                //     .pushNamed('/signup2');
+                                                if (_filePath?.isNotEmpty ==
+                                                    true) {
+                                                  context
+                                                      .read<RegistrationCubit>()
+                                                      .firstStage(
+                                                          name: _nameController
+                                                              .text,
+                                                          email:
+                                                              _emailController
+                                                                  .text,
+                                                          password:
+                                                              _passwordController
+                                                                  .text,
+                                                          file: _filePath!,
+                                                          phone:
+                                                              _phoneController
+                                                                  .text);
+                                                } else {
+                                                  Fluttertoast.showToast(
+                                                      msg: "Add photo",
+                                                      toastLength:
+                                                          Toast.LENGTH_SHORT,
+                                                      timeInSecForIosWeb: 1,
+                                                      backgroundColor:
+                                                          Colors.red,
+                                                      textColor: Colors.white,
+                                                      fontSize: 16.0);
+                                                }
+                                              }
+                                            }),
+                                    SizedBox(height: 10),
+
+                                    // TODO: Are we able to reuse this screen for edit profile? Change Button to just a save and hide footer?
+                                    // LOGIN BUTTON
+                                    SimposiTextButton(
+                                      buttonLabel: "Log In",
+                                      nextPage: '/login',
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w900,
+                                      onClick: () {
+                                        Navigator.of(context)
+                                            .pushReplacementNamed('/login');
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                            // FOOTER
+                            Container(
+                              height: 150,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  PrivacyTOUFooter(
+                                    footerColor:
+                                        SimposiAppColors.simposiLightText,
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
+                      );
+                  },
                 ),
               ),
             );
@@ -240,7 +327,6 @@ class _SignUpForm1State extends State<SignUpForm1> {
             return null;
           }
         },
-        onSaved: (value) => setState(() => name = value!),
       );
 
   // PHONE FIELD
@@ -322,19 +408,15 @@ class _SignUpForm1State extends State<SignUpForm1> {
             return null;
           }
         },
-
-        // OUTPUT ACTIONS
-        onSaved: (value) => setState(() => phone = value!),
       );
 
-  // PASSWORD FIELD
-  Widget _passwordField() => TextFormField(
-        controller: _passwordController,
-        keyboardType: TextInputType.visiblePassword,
+  Widget _emailField() => TextFormField(
+        controller: _emailController,
+        keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.next,
         enableSuggestions: true,
         autocorrect: true,
-        obscureText: _passwordVisible,
+        obscureText: false,
         showCursor: true,
 
         style: TextStyle(
@@ -344,7 +426,7 @@ class _SignUpForm1State extends State<SignUpForm1> {
         ),
 
         decoration: InputDecoration(
-          labelText: ' Password',
+          labelText: ' Email',
           contentPadding: EdgeInsets.all(20),
           labelStyle: TextStyle(
             color: SimposiAppColors.simposiLightText,
@@ -355,20 +437,18 @@ class _SignUpForm1State extends State<SignUpForm1> {
 
           // INITIAL STATE
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(40.0)),
-            borderSide: BorderSide(
-              color: SimposiAppColors.simposiLightGrey,
-            ),
-          ),
+              borderRadius: BorderRadius.all(Radius.circular(40.0)),
+              borderSide: BorderSide(
+                color: SimposiAppColors.simposiLightGrey,
+              )),
 
           // FOCUS STATE
           focusColor: SimposiAppColors.simposiDarkBlue,
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(40.0)),
-            borderSide: BorderSide(
-              color: SimposiAppColors.simposiDarkBlue,
-            ),
-          ),
+              borderRadius: BorderRadius.all(Radius.circular(40.0)),
+              borderSide: BorderSide(
+                color: SimposiAppColors.simposiDarkBlue,
+              )),
 
           // FOCUS ERROR STATE
           focusedErrorBorder: OutlineInputBorder(
@@ -387,32 +467,16 @@ class _SignUpForm1State extends State<SignUpForm1> {
                 color: SimposiAppColors.simposiPink,
               )),
 
-          suffixIcon: IconButton(
-              color: SimposiAppColors.simposiLightGrey,
-              iconSize: 20,
-              icon: _passwordVisible
-                  ? Icon(Icons.visibility_off)
-                  : Icon(Icons.visibility),
-              onPressed: () {
-                setState(() {
-                  _passwordVisible = !_passwordVisible;
-                });
-              }),
+          suffixIcon: _emailController.text.isEmpty
+              ? Container(width: 0)
+              : IconButton(
+                  icon: Icon(Icons.close,
+                      size: 20, color: SimposiAppColors.simposiLightGrey),
+                  onPressed: () => _emailController.clear(),
+                ),
         ),
 
-        // VALIDATION LOGIC
-        validator: (value) {
-          if (value!.isEmpty) {
-            return 'Password Required';
-          }
-          if (value.length < 8) {
-            return 'Must be at least 8 characters';
-          } else {
-            return null;
-          }
-        },
-
-        // OUTPUT ACTIONS
-        onSaved: (value) => setState(() => password = value!),
+        // PHONE VALIDATION LOGIC
+        validator: getValidator(context, Validators.EMAIL),
       );
 }

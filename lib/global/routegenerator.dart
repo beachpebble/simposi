@@ -13,13 +13,13 @@ import 'package:simposi_app_v4/affinityindex/reportuser.dart';
 // Create Profile
 import 'package:simposi_app_v4/authentication/createprofile/signup1createaccount.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup2gender.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup3generation.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup4income.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup5activities.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup6location.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup7covid.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup8validate.dart';
-import 'package:simposi_app_v4/authentication/createprofile/zzz_signup3iwanttomeet.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup4generation.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup5income.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup6activities.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup7location.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup8covid.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup9validate.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup3iwanttomeet.dart';
 
 // Login
 import 'package:simposi_app_v4/authentication/login/getstartedscreen.dart';
@@ -48,6 +48,7 @@ import 'package:simposi_app_v4/eventdetails/eventwidgets/proposenewtime.dart';
 import 'package:simposi_app_v4/eventdetails/eventwidgets/reportevent.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
+import 'package:simposi_app_v4/model/interest.dart';
 import 'package:simposi_app_v4/notifications/adminalert.dart';
 
 // Alerts & Notifications
@@ -120,7 +121,8 @@ class RouteGenerator {
       case '/signup5':
         return MaterialPageRoute(builder: (_) => SignUpForm5());
       case '/signup6':
-        return MaterialPageRoute(builder: (_) => SignUpForm6());
+        List<Interest> interests = settings.arguments as List<Interest>;
+        return MaterialPageRoute(builder: (_) => SignUpForm6(interests: interests));
       case '/signup7':
         return MaterialPageRoute(builder: (_) => SignUpForm7());
       case '/signup8':

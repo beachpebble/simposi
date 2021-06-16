@@ -1,7 +1,8 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-enum Validators { PASSWORD, PHONE }
+enum Validators { PASSWORD, PHONE, NAME, EMAIL }
 
 FormFieldValidator<String>? getValidator(
     BuildContext context, Validators validatorType) {
@@ -22,6 +23,26 @@ FormFieldValidator<String>? getValidator(
           return AppLocalizations.of(context)!.validatePhoneNotEmpty;
         } else if (value.length < 8) {
           return AppLocalizations.of(context)!.validatePhoneLength;
+        } else {
+          return null;
+        }
+      };
+    case Validators.NAME:
+      return (value) {
+        if (value == null || value.isEmpty) {
+          return AppLocalizations.of(context)!.validatePhoneNotEmpty;
+        } else if (value.length < 4) {
+          return AppLocalizations.of(context)!.validatePhoneLength;
+        } else {
+          return null;
+        }
+      };
+    case Validators.EMAIL:
+      return (value) {
+        if (value == null || value.isEmpty) {
+          return AppLocalizations.of(context)!.validateEmailNotEmpty;
+        } else if (!EmailValidator.validate(value)) {
+          return AppLocalizations.of(context)!.validateEmailNotValid;
         } else {
           return null;
         }
