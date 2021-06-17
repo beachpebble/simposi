@@ -10,18 +10,18 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
-import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/model/errors.dart';
+import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
 import 'package:simposi_app_v4/widgets/add_photo_button.dart';
 import 'package:simposi_app_v4/widgets/password_field.dart';
 import 'package:simposi_app_v4/widgets/progress.dart';
 
-import '../../global/theme/elements/simposibuttons.dart';
-import '../authenticationwidgets/privacytoufooter.dart';
+import '../../../global/theme/elements/simposibuttons.dart';
+import '../../authenticationwidgets/privacytoufooter.dart';
+import 'signup1_create_account_cubit.dart';
 
 class SignUpForm1 extends StatefulWidget {
   @override
@@ -65,24 +65,19 @@ class _SignUpForm1State extends State<SignUpForm1> {
                 constraints: BoxConstraints(
                   minHeight: viewportConstraints.maxHeight,
                 ),
-                child: BlocConsumer<RegistrationCubit, RegistrationState>(
+                child: BlocConsumer<Signup1CreateAccountCubit,
+                    Signup1CreateAccountState>(
                   listener: (context, state) {
-                    if (state is RegistrationStage2) {
+                    if (state is Signup1CreateAccountReady) {
                       Navigator.of(context).pushNamed('/signup2');
-                    } else if (state is RegistrationStage1Error) {
-                      Fluttertoast.showToast(
-                          msg: handleError(state.error, context),
-                          toastLength: Toast.LENGTH_SHORT,
-                          timeInSecForIosWeb: 1,
-                          backgroundColor: Colors.red,
-                          textColor: Colors.white,
-                          fontSize: 16.0);
+                    } else if (state is Signup1CreateAccountError) {
+                      showErrorToast(handleError(state.error, context));
                     }
                   },
                   builder: (context, state) {
-                    if (state is RegistrationStageLoadingData)
+                    if (state is Signup1CreateAccountLoadingData)
                       return Center(child: AppProgressIndicator());
-                    else if (state is RegistrationStageLoadingDataError)
+                    else if (state is Signup1CreateAccountLoadingDataError)
                       return Center(
                         child: Container(
                           height: 200,
@@ -96,7 +91,9 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                 child: BigGBSelectButton(
                                     buttonLabel: 'Retry',
                                     buttonAction: () {
-                                      context.read<RegistrationCubit>().preload();
+                                      context
+                                          .read<Signup1CreateAccountCubit>()
+                                          .preload();
                                     }),
                               )
                             ],
@@ -168,7 +165,7 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                     SizedBox(height: 15),
 
                                     // SUBMIT BUTTON
-                                    state is RegistrationStage1Loading
+                                    state is Signup1CreateAccountLoading
                                         ? AppProgressIndicator()
                                         : BigGBSelectButton(
                                             buttonLabel: 'Submit',
@@ -180,7 +177,8 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                                 if (_filePath?.isNotEmpty ==
                                                     true) {
                                                   context
-                                                      .read<RegistrationCubit>()
+                                                      .read<
+                                                          Signup1CreateAccountCubit>()
                                                       .firstStage(
                                                           name: _nameController
                                                               .text,
@@ -195,20 +193,11 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                                               _phoneController
                                                                   .text);
                                                 } else {
-                                                  Fluttertoast.showToast(
-                                                      msg: "Add photo",
-                                                      toastLength:
-                                                          Toast.LENGTH_SHORT,
-                                                      timeInSecForIosWeb: 1,
-                                                      backgroundColor:
-                                                          Colors.red,
-                                                      textColor: Colors.white,
-                                                      fontSize: 16.0);
+                                                  showErrorToast("Add photo");
                                                 }
                                               }
                                             }),
                                     SizedBox(height: 10),
-
                                     // TODO: Are we able to reuse this screen for edit profile? Change Button to just a save and hide footer?
                                     // LOGIN BUTTON
                                     SimposiTextButton(

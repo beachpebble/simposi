@@ -17,6 +17,7 @@ import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/model/errors.dart';
+import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
 import 'package:simposi_app_v4/widgets/password_field.dart';
 import 'package:simposi_app_v4/widgets/progress.dart';
@@ -110,7 +111,9 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                       Container(
                         child: Form(
                           key: _formKey,
-                          autovalidateMode: _autoValidate ? AutovalidateMode.always : AutovalidateMode.disabled,
+                          autovalidateMode: _autoValidate
+                              ? AutovalidateMode.always
+                              : AutovalidateMode.disabled,
                           child: Column(
                             children: [
                               // EMAIL FIELD
@@ -144,12 +147,8 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                                   ResetPasswordCompleteState>(
                                 listener: (context, state) {
                                   if (state is ResetPasswordCompleteSuccess) {
-                                    Fluttertoast.showToast(
-                                        msg: AppLocalizations.of(context)!
-                                            .passwordChangeSuccess,
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        timeInSecForIosWeb: 1,
-                                        fontSize: 16.0);
+                                    showErrorToast( AppLocalizations.of(context)!
+                                            .passwordChangeSuccess);
                                     if (state.pwdRestore)
                                       Navigator.of(context)
                                           .pushReplacementNamed('/login');
@@ -157,21 +156,10 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                                       Navigator.of(context).pop();
                                   } else if (state
                                       is ResetPasswordCompleteError)
-                                    Fluttertoast.showToast(
-                                        msg: handleError(state.error, context),
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        timeInSecForIosWeb: 1,
-                                        backgroundColor: Colors.red,
-                                        textColor: Colors.white,
-                                        fontSize: 16.0);
+                                    showErrorToast(
+                                        handleError(state.error, context));
                                   else if (state is ResetPasswordStateError)
-                                    Fluttertoast.showToast(
-                                        msg: "Incorrect Application State",
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        timeInSecForIosWeb: 1,
-                                        backgroundColor: Colors.red,
-                                        textColor: Colors.white,
-                                        fontSize: 16.0);
+                                    showErrorToast("Incorrect Application State");
                                 },
                                 builder: (context, state) {
                                   if (state is ResetPasswordCompleteProgress) {

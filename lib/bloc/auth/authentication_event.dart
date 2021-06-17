@@ -9,6 +9,12 @@ abstract class AuthenticationEvent extends Equatable {
 
 class ReloadAuthEvent extends AuthenticationEvent {}
 
+class SaveAuthEvent extends AuthenticationEvent {
+  final String token;
+
+  SaveAuthEvent(this.token);
+}
+
 class LogOut extends AuthenticationEvent {}
 
 class LoggedOut extends AuthenticationEvent {}

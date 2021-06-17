@@ -13,6 +13,15 @@ class LoginSuccess extends LoginState {}
 
 class LoginProgress extends LoginState {}
 
+class LoginUnconfirmed extends LoginState {
+  final String token;
+
+  LoginUnconfirmed(this.token);
+
+  @override
+  List<Object> get props => [token];
+}
+
 class LoginError extends LoginState {
   final dynamic error;
 

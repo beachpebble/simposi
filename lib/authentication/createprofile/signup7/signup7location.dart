@@ -18,6 +18,7 @@ import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/utils/location.dart';
+import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/widgets/progress.dart';
 
 import 'signup7_location_cubit.dart';
@@ -40,13 +41,7 @@ class _SignUpForm7State extends State<SignUpForm7> {
             .read<Signup7LocationCubit>()
             .selectLocation(LatLng(value.latitude, value.longitude)))
         .catchError((e) {
-      Fluttertoast.showToast(
-          msg: "There is no location permission",
-          toastLength: Toast.LENGTH_SHORT,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
+      showErrorToast("There is no location permission");
       context.read<Signup7LocationCubit>().noPermission();
     });
   }
@@ -62,10 +57,7 @@ class _SignUpForm7State extends State<SignUpForm7> {
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
       appBar: BasicFormAppBar(),
-      body: BlocConsumer<Signup7LocationCubit, Signup7LocationState>(
-        listener: (context, state) {
-          if (state.ready) Navigator.of(context).pushNamed('/signup8');
-        },
+      body: BlocBuilder<Signup7LocationCubit, Signup7LocationState>(
         builder: (context, state) {
           return Column(
             children: [
@@ -125,8 +117,10 @@ class _SignUpForm7State extends State<SignUpForm7> {
                     BigGBSelectButton(
                         buttonLabel: 'Continue',
                         buttonAction: state.selectedLocation != null
-                            ? () =>
-                                {context.read<Signup7LocationCubit>().submit()}
+                            ? ()
+                                {context.read<Signup7LocationCubit>().submit();
+                                Navigator.of(context).pushNamed('/signup8');
+                                }
                             : null),
                     SizedBox(height: 20),
                   ],
@@ -216,14 +210,16 @@ class _SignUpForm7State extends State<SignUpForm7> {
               placesSearchResult.formattedAddress ?? "",
             ),
             onTap: () async {
-              final GoogleMapController controller = await _controller.future;
-              var newLoc = LatLng(placesSearchResult.geometry!.location!.lat,
-                  placesSearchResult.geometry!.location!.lng);
-              controller.animateCamera(CameraUpdate.newLatLng(newLoc));
-              setState(() {
-                context.read<Signup7LocationCubit>().selectLocation(newLoc);
-                _placeSearchController.clear();
-              });
+              if (placesSearchResult.geometry != null ) {
+                final GoogleMapController controller = await _controller.future;
+                var newLoc = LatLng(placesSearchResult.geometry!.location.lat,
+                    placesSearchResult.geometry!.location.lng);
+                controller.animateCamera(CameraUpdate.newLatLng(newLoc));
+                setState(() {
+                  context.read<Signup7LocationCubit>().selectLocation(newLoc);
+                  _placeSearchController.clear();
+                });
+              }
             },
           )),
     );
@@ -237,7 +233,7 @@ class _SignUpForm7State extends State<SignUpForm7> {
             strokeWidth: 1,
             fillColor: SimposiAppColors.simposiLightBlue.withOpacity(0.5),
             circleId: CircleId("myplace"),
-            center: location!,
+            center: location,
             radius: range * 1000,
           )
         ]);
@@ -247,7 +243,7 @@ class _SignUpForm7State extends State<SignUpForm7> {
       : Set.from([
           Marker(
               markerId: MarkerId("Selected"),
-              position: location!,
+              position: location,
               draggable: true,
               onDragEnd: ((newPosition) {
                 context

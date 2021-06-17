@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:simposi_app_v4/utils/toast_utils.dart';
 
 class AddPhotoButton extends StatefulWidget {
   // Set Variables
@@ -42,8 +42,8 @@ class _AddPhotoButtonState extends State<AddPhotoButton> {
                     if (image != null)
                       fileSelectCallback(image);
                     else
-                      Fluttertoast.showToast(
-                          msg: AppLocalizations.of(context)!.imageSelectError);
+                      showErrorToast(
+                          AppLocalizations.of(context)!.imageSelectError);
                   },
                 ),
                 new ListTile(
@@ -57,8 +57,8 @@ class _AddPhotoButtonState extends State<AddPhotoButton> {
                     if (image != null)
                       fileSelectCallback(image);
                     else
-                      Fluttertoast.showToast(
-                          msg: AppLocalizations.of(context)!.imageSelectError);
+                      showErrorToast(
+                          AppLocalizations.of(context)!.imageSelectError);
                   },
                 ),
               ],

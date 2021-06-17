@@ -9,20 +9,12 @@ import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_c
 part 'signup7_location_state.dart';
 
 class Signup7LocationCubit extends Cubit<Signup7LocationState> {
-  Signup7LocationCubit({required this.registrationCubit}) : super(Signup7LocationState.initial()) {
-    regSubscription = registrationCubit.stream.listen((state) {
-      if (state is RegistrationStage8) {
-        emit(this.state.copyWith(ready: true));
-      }
-    });
-  }
+  Signup7LocationCubit({required this.registrationCubit}) : super(Signup7LocationState.initial()) ;
 
   final RegistrationCubit registrationCubit;
-  late StreamSubscription regSubscription;
 
   @override
   Future<void> close() {
-    regSubscription.cancel();
     return super.close();
   }
 
@@ -47,9 +39,9 @@ class Signup7LocationCubit extends Cubit<Signup7LocationState> {
     emit(state.copyWith(range: range));
   }
 
-  Future<void> submit() async {
+  void submit() async {
     if (state.selectedLocation != null)
-    registrationCubit.stage7(latitude: state.selectedLocation!.latitude, longitude: state.selectedLocation!.longitude, range: state.range);
+      registrationCubit.stage7(latitude: state.selectedLocation!.latitude, longitude: state.selectedLocation!.longitude, range: state.range);
   }
 
 }

@@ -7,6 +7,7 @@
 
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
@@ -69,44 +70,36 @@ class _SignUpForm4State extends State<SignUpForm4> {
                     ),
                     SizedBox(height: 20),
                     // iGen Button
-                    BigGBSelectButton(
-                        buttonLabel: 'iGen (1996 - Present)',
-                        isSelected: _selected.contains(Generation.IGen),
-                        buttonAction: () {
-                          _selectGeneration(Generation.IGen);
-                        }),
-                    SizedBox(height: 10),
-                    // Millennial Button
-                    BigGBSelectButton(
-                        buttonLabel: 'Millennial (1981 - 1995)',
-                        isSelected: _selected.contains(Generation.Millenial),
-                        buttonAction: () {
-                          _selectGeneration(Generation.Millenial);
-                        }),
-                    SizedBox(height: 10),
-                    // Gen X Button
-                    BigGBSelectButton(
-                        buttonLabel: 'Gen X (1965 - 1980)',
-                        isSelected: _selected.contains(Generation.GenX),
-                        buttonAction: () {
-                          _selectGeneration(Generation.GenX);
-                        }),
-                    SizedBox(height: 10),
-                    // Boomer Button
-                    BigGBSelectButton(
-                        buttonLabel: 'Boomer (1946 - 1964)',
-                        isSelected: _selected.contains(Generation.Boomer),
-                        buttonAction: () {
-                          _selectGeneration(Generation.Boomer);
-                        }),
-                    SizedBox(height: 10),
-                    // Silent Button
-                    BigGBSelectButton(
-                        buttonLabel: 'Silent (1928 - 1945)',
-                        isSelected: _selected.contains(Generation.Silent),
-                        buttonAction: () {
-                          _selectGeneration(Generation.Silent);
-                        }),
+                    ListView.separated(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: context
+                          .read<RegistrationCubit>()
+                          .masterData
+                          .generations
+                          .length,
+                      separatorBuilder: (context, index) {
+                        return SizedBox(height: 10);
+                      },
+                      itemBuilder: (context, index) {
+                        return BigGBSelectButton(
+                            buttonLabel: context
+                                .read<RegistrationCubit>()
+                                .masterData
+                                .generations[index]
+                                .title,
+                            isSelected: _selected.contains(context
+                                .read<RegistrationCubit>()
+                                .masterData
+                                .generations[index]),
+                            buttonAction: () {
+                              _selectGeneration(context
+                                  .read<RegistrationCubit>()
+                                  .masterData
+                                  .generations[index]);
+                            });
+                      },
+                    )
                   ],
                 ),
               ),
@@ -117,19 +110,17 @@ class _SignUpForm4State extends State<SignUpForm4> {
               padding: EdgeInsets.all(40),
               child: Column(
                 children: [
-                  BlocListener<RegistrationCubit, RegistrationState>(
-                    listener: (context, state) {
-                      if (state is RegistrationStage5)
-                        Navigator.of(context).pushNamed('/signup5');
-                    },
-                    child: BigGBSelectButton(
-                      buttonLabel: 'Continue',
-                      buttonAction: _selected.isNotEmpty ? () => {
-                        context.read<RegistrationCubit>().stage4(generations: _selected)
-                      } : null,
-                    )
+                  BigGBSelectButton(
+                    buttonLabel: 'Continue',
+                    buttonAction: _selected.isNotEmpty
+                        ? () {
+                            context
+                                .read<RegistrationCubit>()
+                                .stage4(generations: _selected);
+                            Navigator.of(context).pushNamed('/signup5');
+                          }
+                        : null,
                   ),
-
                   SizedBox(height: 20),
                 ],
               ),

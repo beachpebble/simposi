@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:simposi_app_v4/model/earning.dart';
+import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/model/gender.dart';
 import 'package:simposi_app_v4/model/generation.dart';
 import 'package:simposi_app_v4/model/interest.dart';
@@ -13,11 +14,12 @@ part 'registration_state.dart';
 
 class RegistrationCubit extends Cubit<RegistrationState> {
   RegistrationCubit({required this.profileRepository})
-      : super(RegistrationStageLoadingData());
+      : super(RegistrationInitial());
 
   final ProfileRepository profileRepository;
 
   File? imageFile;
+  String? path;
   String? name;
   String? phone;
   String? email;
@@ -31,90 +33,87 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   double? latitude;
   double? longitude;
   double? range;
-  late MasterData mData;
+  late MasterData masterData;
 
-  Future<void> preload() async {
-    emit(RegistrationStageLoadingData());
-    try {
-      MasterData mData = await profileRepository.getMasterData();
-      this.mData = mData;
-      emit(RegistrationStage1());
-    } catch (e) {
-      emit(RegistrationStageLoadingDataError(e));
-    }
-  }
+  String? apiToken;
 
-  Future<void> firstStage({
-    required String file,
-    required String name,
-    required String phone,
-    required String email,
-    required String password,
-  }) async {
-    emit(RegistrationStage1Loading());
-    try {
-      String? path = await profileRepository.uploadAvatar(file);
-      if (path != null) {
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.password = password;
-        emit(RegistrationStage2());
-      } else {
-        emit(RegistrationStage1Error("File is not loaded"));
-      }
-    } catch (e) {
-      emit(RegistrationStage1Error(e));
-    }
-  }
-
-  Future<void> stage2({
+  void stage2({
     required Gender gender,
     required bool lgbt,
-  }) async {
+  }) {
     this.gender = gender;
     this.lgbt = lgbt;
-    emit(RegistrationStage3(gender));
   }
 
-  Future<void> stage3({
+  void stage3({
     required Gender wantToMeet,
-  }) async {
+  }) {
     this.wantToMeet = wantToMeet;
-    emit(RegistrationStage4());
   }
 
-  Future<void> stage4({
+  void stage4({
     required Set<Generation> generations,
   }) async {
     this.generations = generations;
-    emit(RegistrationStage5());
   }
 
-  Future<void> stage5({
+  void stage5({
     required Set<Earning> earnings,
   }) async {
     this.earnings = earnings;
-
-    emit(RegistrationStage6(mData.interests));
   }
 
-  Future<void> stage6({
+  void stage6({
     required Set<Interest> interests,
   }) async {
     this.interests = interests;
-
-    emit(RegistrationStage7());
   }
 
-  Future<void> stage7({
+  void stage7({
     required double latitude,
     required double longitude,
     required double range,
-  }) async {
+  }) {
     this.latitude = latitude;
     this.longitude = longitude;
     this.range = range;
-    emit(RegistrationStage8());
+  }
+
+  Future<void> finish() async {
+    emit(RegistrationLoading());
+    try {
+      Map data = await profileRepository.sendRegistration(
+        name: name!,
+        image: path!,
+        phone: phone!,
+        password: password!,
+        latitude: latitude!.toString(),
+        longitude: longitude!.toString(),
+        distance: range!,
+        gender: gender!.id,
+        wantToMeet: gender!.id,
+        isLgbt: lgbt,
+        generation: generations!.map((e) => e.id).toList(),
+        earning: earnings!.map((e) => e.id).toList(),
+        likes: interests!.map((e) => e.id).toList(),
+      );
+
+      if (data.containsKey("apiAccessToken")) {
+        var apiToken = data["apiAccessToken"];
+        if (apiToken! != null)
+          emit(RegistrationWaitCode(apiToken));
+        else {
+          emit(RegistrationError(ServerException(
+              errorType: LocalizedErrorType.UNEXPECTED,
+              message: "There is no token in response")));
+        }
+      } else {
+        emit(RegistrationError(ServerException(
+            errorType: LocalizedErrorType.UNEXPECTED,
+            message: "There is no token in response")));
+      }
+    } catch (e) {
+      emit(RegistrationError(e));
+    }
   }
 }

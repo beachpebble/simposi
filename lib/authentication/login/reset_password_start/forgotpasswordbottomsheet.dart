@@ -9,11 +9,11 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/model/errors.dart';
+import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/widgets/progress.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -48,19 +48,9 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
         child: BlocConsumer<ForgotPasswordStartCubit, ForgotPasswordStartState>(
           listener: (context, state) {
             if (state is ForgotPasswordStartError)
-              Fluttertoast.showToast(
-                  msg: handleError(state.error, context),
-                  toastLength: Toast.LENGTH_SHORT,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: Colors.red,
-                  textColor: Colors.white,
-                  fontSize: 16.0);
+              showErrorToast(handleError(state.error, context));
             else if (state is ForgotPasswordStartSuccess) {
-              Fluttertoast.showToast(
-                  msg: "Restore link was sent to email",
-                  toastLength: Toast.LENGTH_SHORT,
-                  timeInSecForIosWeb: 1,
-                  fontSize: 16.0);
+              showInfoToast("Restore link was sent to email");
               Navigator.of(context).pop();
             }
           },

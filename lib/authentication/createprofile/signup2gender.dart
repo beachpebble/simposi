@@ -39,8 +39,7 @@ class _SignUpForm2State extends State<SignUpForm2> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      Scaffold(
+  Widget build(BuildContext context) => Scaffold(
         backgroundColor: Colors.white,
         extendBodyBehindAppBar: true,
         appBar: BasicFormAppBar(),
@@ -51,7 +50,7 @@ class _SignUpForm2State extends State<SignUpForm2> {
               child: LinearProgressIndicator(
                 value: progress,
                 valueColor:
-                AlwaysStoppedAnimation(SimposiAppColors.simposiDarkBlue),
+                    AlwaysStoppedAnimation(SimposiAppColors.simposiDarkBlue),
                 backgroundColor: SimposiAppColors.simposiFadedBlue,
               ),
             ),
@@ -114,8 +113,6 @@ class _SignUpForm2State extends State<SignUpForm2> {
                       ],
                     ),
                     SizedBox(height: 20),
-
-                    // TODO: Convert to MultiSelect List (right now only one option)
                     // Multi-Select Community Buttons
                     BigGBSelectButton(
                         buttonLabel: 'LGBTQ', //TODO Localize
@@ -131,19 +128,16 @@ class _SignUpForm2State extends State<SignUpForm2> {
               padding: EdgeInsets.all(40),
               child: Column(
                 children: [
-                  BlocListener<RegistrationCubit, RegistrationState>(
-                    listener: (context, state) {
-                      if (state is RegistrationStage3)
-                        Navigator.of(context).pushNamed('/signup3');
-                    },
-                   child: BigGBSelectButton(
-                     buttonLabel: 'Continue',
-                     buttonAction: _selected != null ? () =>
-                     {
-                       context.read<RegistrationCubit>().stage2(gender: _selected!, lgbt: _isLgbt)
-
-                     } : null,
-                   )
+                  BigGBSelectButton(
+                    buttonLabel: 'Continue',
+                    buttonAction: _selected != null
+                        ? () {
+                            context
+                                .read<RegistrationCubit>()
+                                .stage2(gender: _selected!, lgbt: _isLgbt);
+                            Navigator.of(context).pushNamed('/signup3');
+                          }
+                        : null,
                   ),
                   SizedBox(height: 10),
                 ],

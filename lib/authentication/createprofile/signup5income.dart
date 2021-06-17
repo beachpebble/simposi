@@ -36,10 +36,11 @@ class _SignUpForm5State extends State<SignUpForm5> {
 
   void _selectAll() {
     setState(() {
-      if (_selected.isEmpty)
-        _selected.addAll([Earning.less35, Earning.from75to100, Earning.from35to50, Earning.from100to150, Earning.from50to75, Earning.more150]);
-      else
+      if (_selected.length ==
+          context.read<RegistrationCubit>().masterData.earnings.length)
         _selected.clear();
+      else
+        _selected.addAll(context.read<RegistrationCubit>().masterData.earnings);
     });
   }
 
@@ -48,121 +49,113 @@ class _SignUpForm5State extends State<SignUpForm5> {
         backgroundColor: Colors.white,
         extendBodyBehindAppBar: true,
         appBar: BasicFormAppBar(),
-        body: Column(
-          children: [
-            SizedBox(height: 45),
-            Container(
-              child: LinearProgressIndicator(
-                value: progress,
-                valueColor:
-                    AlwaysStoppedAnimation(SimposiAppColors.simposiDarkBlue),
-                backgroundColor: SimposiAppColors.simposiFadedBlue,
-              ),
-            ),
-
-            SizedBox(height: 70),
-
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.fromLTRB(40, 10, 40, 20),
-                child: Column(
-                  children: [
-                    // Header
-                    Text(
-                      'Income Bracket...',
-                      style: TextStyle(
-                        fontSize: 19,
-                        fontWeight: FontWeight.w500,
-                        color: SimposiAppColors.simposiDarkGrey,
+        body:
+        LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints viewportConstraints) {
+              return SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: viewportConstraints.maxHeight,
+                  ),
+                  child:  Column(
+                    children: [
+                      SizedBox(height: 45),
+                      Container(
+                        child: LinearProgressIndicator(
+                          value: progress,
+                          valueColor:
+                          AlwaysStoppedAnimation(SimposiAppColors.simposiDarkBlue),
+                          backgroundColor: SimposiAppColors.simposiFadedBlue,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 20),
-                    // iGen Button
-                    BigGBSelectButton(
-                        buttonLabel: 'Less than \$35k',
-                        isSelected: _selected.contains(Earning.less35),
-                        buttonAction: () {
-                          _selectEarning(Earning.less35);
-                        }),
-                    SizedBox(height: 10),
-                    // Millennial Button
-                    BigGBSelectButton(
-                        buttonLabel: '\$35k to \$50k',
-                        isSelected: _selected.contains(Earning.from35to50),
-                        buttonAction: () {
-                          _selectEarning(Earning.from35to50);
-                        }),
-                    SizedBox(height: 10),
-                    // Gen X Button
-                    BigGBSelectButton(
-                        buttonLabel: '\$50k to \$75k',
-                        isSelected: _selected.contains(Earning.from50to75),
-                        buttonAction: () {
-                          _selectEarning(Earning.from50to75);
-                        }),
-                    SizedBox(height: 10),
-                    // Boomer Button
-                    BigGBSelectButton(
-                        buttonLabel: '\$75k to \$100k',
-                        isSelected: _selected.contains(Earning.from75to100),
-                        buttonAction: () {
-                          _selectEarning(Earning.from75to100);
-                        }),
-                    SizedBox(height: 10),
-                    // Silent Button
-                    BigGBSelectButton(
-                        buttonLabel: '\$100 to \$150k',
-                        isSelected: _selected.contains(Earning.from100to150),
-                        buttonAction: () {
-                          _selectEarning(Earning.from100to150);
-                        }),
-                    SizedBox(height: 10),
-                    // Silent Button
-                    BigGBSelectButton(
-                        buttonLabel: '\$150k +',
-                        isSelected: _selected.contains(Earning.more150),
-                        buttonAction: () {
-                          _selectEarning(Earning.more150);
-                        }),
-                    SizedBox(height: 10),
-                    // Silent Button
-                    BigGBSelectButton(
-                        buttonLabel: 'Select All',
-                        buttonAction: () {
-                          _selectAll();
-                        }),
-                  ],
-                ),
-              ),
-            ),
 
-            // Continue Button
-            Container(
-              padding: EdgeInsets.all(40),
-              child: Column(
-                children: [
-                  // TODO: Disable button until user has selected at least one income
-                  BlocListener<RegistrationCubit, RegistrationState>(
-                    listener: (context, state) {
-                      if (state is RegistrationStage6)
-                        Navigator.of(context).pushNamed('/signup6', arguments: state.interests);
-                    },
-                    child: BigGBSelectButton(
-                      buttonLabel: 'Continue',
-                      buttonAction: _selected.isEmpty
-                          ? null
-                          : () => {
+                      SizedBox(height: 70),
+
+                      Container(
+                        padding: EdgeInsets.fromLTRB(40, 10, 40, 20),
+                        child: Column(
+                          children: [
+                            // Header
+                            Text(
+                              'Income Bracket...',
+                              style: TextStyle(
+                                fontSize: 19,
+                                fontWeight: FontWeight.w500,
+                                color: SimposiAppColors.simposiDarkGrey,
+                              ),
+                            ),
+                            // SizedBox(height: 20),
+                            ListView.separated(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: context
+                                  .read<RegistrationCubit>()
+                                  .masterData
+                                  .earnings
+                                  .length,
+                              separatorBuilder: (context, index) {
+                                return SizedBox(height: 10);
+                              },
+                              itemBuilder: (context, index) {
+                                Earning earning = context
+                                    .read<RegistrationCubit>()
+                                    .masterData
+                                    .earnings[index];
+                                return BigGBSelectButton(
+                                    buttonLabel: earning.title,
+                                    isSelected: _selected.contains(earning),
+                                    buttonAction: () {
+                                      _selectEarning(earning);
+                                    });
+                              },
+                            ),
+                            SizedBox(height: 10),
+                            // Silent Button
+                            BigGBSelectButton(
+                                buttonLabel: 'Select All',
+                                isSelected: _selected.length ==
+                                    context
+                                        .read<RegistrationCubit>()
+                                        .masterData
+                                        .earnings
+                                        .length,
+                                buttonAction: () {
+                                  _selectAll();
+                                }),
+                          ],
+                        ),
+                      ),
+
+                      // Continue Button
+                      Container(
+                        padding: EdgeInsets.all(40),
+                        child: Column(
+                          children: [
+                            // TODO: Disable button until user has selected at least one income
+                            BigGBSelectButton(
+                              buttonLabel: 'Continue',
+                              buttonAction: _selected.isEmpty
+                                  ? null
+                                  : () {
                                 context
                                     .read<RegistrationCubit>()
-                                    .stage5(earnings: _selected)
+                                    .stage5(earnings: _selected);
+                                Navigator.of(context)
+                                    .pushNamed('/signup6');
                               },
-                    ),
+                            ),
+                            SizedBox(height: 20),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 20),
-                ],
-              ),
-            ),
-          ],
-        ),
+                ),
+              );
+            })
+
+
+
+
       );
 }

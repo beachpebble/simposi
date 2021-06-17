@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:simposi_app_v4/model/earning.dart';
 import 'package:simposi_app_v4/model/errors.dart';
+import 'package:simposi_app_v4/model/generation.dart';
 import 'package:simposi_app_v4/model/interest.dart';
 import 'package:simposi_app_v4/model/master_data.dart';
 import 'package:simposi_app_v4/model/network_response.dart';
@@ -14,7 +16,7 @@ class ProfileRepository {
 
   ProfileRepository(this._apiService);
 
-  Future login(String login, String password) async {
+  Future<Map> login(String login, String password) async {
     Map params = {
       'phone': login,
       'password': password,
@@ -28,15 +30,10 @@ class ProfileRepository {
       throw ApiException(
           errorType: LocalizedErrorType.AUTH, message: response.message);
     } else if (response is NetworkResponseSuccess) {
-      Map data = response.data;
-      if (data.containsKey('apiAccessToken') &&
-          data['apiAccessToken'] != null) {
-        await _apiService.authRepository.saveAuth(data['apiAccessToken']);
-        return;
-      } else {
-        throw AuthException(
-            message: "Login successful but does not contain token");
-      }
+      return response.data;
+    } else {
+      throw ApiException(
+          errorType: LocalizedErrorType.UNEXPECTED);
     }
   }
 
@@ -113,15 +110,96 @@ class ProfileRepository {
     } else if (response is NetworkResponseSuccess) {
       Map? data = response.data;
       List<Interest> interestList = [];
-      if (data != null && data.containsKey('interest') && data['interest'] is List) {
+      if (data != null &&
+          data.containsKey('interest') &&
+          data['interest'] is List) {
         List il = data['interest'];
-        interestList =
-        (il.map((e) => Interest.fromJson(e)).toList());
+        interestList = (il.map((e) => Interest.fromJson(e)).toList());
       }
-      return MasterData(interestList);
+      List<Generation> generationList = [];
+      if (data != null &&
+          data.containsKey('generationIdentify') &&
+          data['generationIdentify'] is List) {
+        List il = data['generationIdentify'];
+        generationList = (il.map((e) => Generation.fromJson(e)).toList());
+      }
+      List<Earning> earninigList = [];
+      if (data != null &&
+          data.containsKey('whoEarn') &&
+          data['whoEarn'] is List) {
+        List il = data['whoEarn'];
+        earninigList = (il.map((e) => Earning.fromJson(e)).toList());
+      }
+      return MasterData(interestList, generationList, earninigList);
     } else {
       throw ApiException(
-          errorType: LocalizedErrorType.SERVER_ERROR,);
+        errorType: LocalizedErrorType.SERVER_ERROR,
+      );
+    }
+  }
+
+  Future<Map> sendRegistration({
+    required String name,
+    required String image,
+    required String phone,
+    required String password,
+    required String latitude,
+    required String longitude,
+    required double distance,
+    required String gender,
+    required String wantToMeet,
+    required bool isLgbt,
+    required List<int> generation,
+    required List<int> earning,
+    required List<int> likes,
+  }) async {
+    var data = {
+      "Name": name,
+      "Image": image,
+      "Phone": phone,
+      "Password": password,
+      "Latitude": latitude,
+      "Longitude": longitude,
+      "Distance": distance,
+      "Gender": gender,
+      "Meet": wantToMeet,
+      "IsLGBTQ": isLgbt,
+      "Generation": generation,
+      "Earning": earning,
+      "likes": likes,
+      "City": "Dnipro",
+    };
+    data["device_token"] = "1234567";
+    data["device_type"] = Platform.isAndroid ? 1 : 2;
+    NetworkResponse response = await _apiService.post(ApiService.API_REGISTER,
+        auth: false, data: data);
+    if (response is NetworkResponseError) {
+      throw ApiException(
+          errorType: LocalizedErrorType.SERVER_ERROR,
+          message: response.message);
+    } else if (response is NetworkResponseSuccess) {
+      return response.data;
+    } else {
+      throw ApiException(
+        errorType: LocalizedErrorType.SERVER_ERROR,
+      );
+    }
+  }
+
+  Future<String> validateCode(String code, String token) async {
+    NetworkResponse response = await _apiService
+        .get(ApiService.API_VALIDATE + code, auth: false, customToken: token);
+    if (response is NetworkResponseError) {
+      throw ApiException(
+          errorType: LocalizedErrorType.SERVER_ERROR,
+          message: response.message);
+    } else if (response is NetworkResponseSuccess) {
+      String? message = response.message;
+      return message ?? "";
+    } else {
+      throw ApiException(
+        errorType: LocalizedErrorType.SERVER_ERROR,
+      );
     }
   }
 }

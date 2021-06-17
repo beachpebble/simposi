@@ -441,12 +441,12 @@ class SmallPinkButton extends StatelessWidget {
 }
 
 // COVID AGREE BUTTON
-class AgreeButton extends StatefulWidget {
-  @override
-  _AgreeButtonState createState() => _AgreeButtonState();
-}
+class AgreeButton extends StatelessWidget {
+  final bool agree;
+  final VoidCallback? onClick;
 
-class _AgreeButtonState extends State<AgreeButton> {
+  const AgreeButton({Key? key, this.agree = false, this.onClick}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -465,22 +465,26 @@ class _AgreeButtonState extends State<AgreeButton> {
         ),
         backgroundColor: MaterialStateProperty.resolveWith<Color>(
             (Set<MaterialState> states) {
-          if (states.contains(MaterialState.disabled))
-            return SimposiAppColors.simposiLightGrey;
-          return SimposiAppColors.simposiDarkBlue;
+          return agree
+              ? SimposiAppColors.simposiDarkBlue
+              : SimposiAppColors.simposiLightGrey;
+          // if (states.contains(MaterialState.disabled))
+          //   return SimposiAppColors.simposiLightGrey;
+          // return SimposiAppColors.simposiDarkBlue;
         }),
         foregroundColor: MaterialStateProperty.resolveWith<Color>(
             (Set<MaterialState> states) {
-          if (states.contains(MaterialState.disabled))
-            return SimposiAppColors.simposiDarkGrey;
-          return Colors.white;
+          return agree ? Colors.white : SimposiAppColors.simposiDarkBlue;
+          // if (states.contains(MaterialState.disabled))
+          //   return SimposiAppColors.simposiDarkGrey;
+          // return Colors.white;
         }),
       ),
 
       // Label
       child: Text('I Agree'),
 
-      onPressed: () {},
+      onPressed: onClick,
     );
   }
 }

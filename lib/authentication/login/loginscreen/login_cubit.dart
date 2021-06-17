@@ -18,9 +18,21 @@ class LoginCubit extends Cubit<LoginState> {
   Future<void> login(String login, String password) async {
     emit(LoginProgress());
     try {
-      await profileRepository.login(login, password);
-      emit(LoginSuccess());
-      authenticationBloc.add(ReloadAuthEvent());
+      Map data = await profileRepository.login(login, password);
+
+      if (data.containsKey('apiAccessToken') &&
+          data['apiAccessToken'] != null && data.containsKey('confirmed') &&
+          data['confirmed'] != null ) {
+        if (data['confirmed'] == 1 ) {
+          emit(LoginSuccess());
+          authenticationBloc.add(SaveAuthEvent(data['apiAccessToken']));
+        } else {
+          emit(LoginUnconfirmed(data['apiAccessToken']));
+        }
+      } else {
+        emit(LoginError(AuthException(
+            message: "Login successful but does not contain token or required fields")));
+      }
     }  catch (e) {
       emit(LoginError(e));
     }

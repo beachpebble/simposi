@@ -1,24 +1,28 @@
 import 'package:equatable/equatable.dart';
 
-enum GenerationType {
-  IGEN, MILLENIAL, GENX, BOOMER, SILENT
-}
+import 'errors.dart';
 
-class Generation implements Equatable{
-  final GenerationType generation;
+class Generation implements Equatable {
   final int id;
+  final String title;
 
-  Generation(this.generation, this.id);
+  Generation({required this.id, required this.title});
 
-  static Generation IGen = Generation(GenerationType.IGEN, 2);
-  static Generation Millenial = Generation(GenerationType.MILLENIAL, 3);
-  static Generation GenX =  Generation(GenerationType.GENX, 4);
-  static Generation Boomer =  Generation(GenerationType.BOOMER, 5);
-  static Generation Silent =  Generation(GenerationType.SILENT, 6);
+  static Generation fromJson(Map json) {
+    int? parsedId = json.containsKey('generations_identify_id')
+        ? json['generations_identify_id']
+        : null;
+    String? parsedTitle = json.containsKey('title') ? json['title'] : null;
+
+    if (parsedId == null || parsedTitle == null)
+      throw ParseException(message: "Incorrect data structure");
+
+    return Generation(id: parsedId, title: parsedTitle);
+  }
 
   @override
-  List<Object?> get props => [generation, id];
+  List<Object> get props => [id, title];
 
   @override
-  bool? get stringify => true;
+  bool get stringify => true;
 }

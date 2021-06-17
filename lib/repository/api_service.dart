@@ -24,6 +24,8 @@ class ApiService {
   static const String API_CHANGE_PASSWORD = "/api/v1/user/changeForgotPassword2";
   static const String API_UPLOAD_AVATAR = "/api/v1/user/userpic";
   static const String API_MASTER_DATA = "/api/v1/user/GetMasterTableData";
+  static const String API_REGISTER = "/api/v1/user/register";
+  static const String API_VALIDATE = "/api/c?c=";
 
   ApiService({required this.authRepository, this.baseUrl = TEST}) {
     _dio = Dio();
@@ -56,9 +58,11 @@ class ApiService {
   Future<NetworkResponse> get(
       String path, {
         auth: true,
+        String? customToken
       }) async {
     var options = await _prepareRequest(path, auth);
-
+    if (customToken != null && auth == false)
+      options.headers!['Authorization'] = "Bearer $customToken";
     final response = await _dio.get(path, options: options);
     developer.log(
         'cookies ${_cookieJar.loadForRequest(Uri.parse(_dio.options.baseUrl + path))}');

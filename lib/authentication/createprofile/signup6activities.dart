@@ -17,10 +17,6 @@ import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/model/interest.dart';
 
 class SignUpForm6 extends StatefulWidget {
-  final List<Interest> interests;
-
-  const SignUpForm6({Key? key, required this.interests}) : super(key: key);
-
   @override
   _SignUpForm6State createState() => _SignUpForm6State();
 }
@@ -35,7 +31,8 @@ class _SignUpForm6State extends State<SignUpForm6> {
 
   // FOR EACH ACTIVITY CREATE AN ACTIVITY BUTTON
   Iterable<Widget> get selectedActivityWidgets sync* {
-    for (final Interest item in widget.interests) {
+    for (final Interest item
+        in context.read<RegistrationCubit>().masterData.interests) {
       yield Padding(
         padding: const EdgeInsets.all(2.0),
         child: InputChip(
@@ -126,21 +123,16 @@ class _SignUpForm6State extends State<SignUpForm6> {
                   padding: EdgeInsets.all(40),
                   child: Column(
                     children: [
-                      BlocListener<RegistrationCubit, RegistrationState>(
-                        listener: (context, state) {
-                          if (state is RegistrationStage7)
-                            Navigator.of(context).pushNamed('/signup7');
-                        },
-                        child: BigGBSelectButton(
-                          buttonLabel: 'Continue',
-                          buttonAction: _filters.isEmpty
-                              ? null
-                              : () => {
-                                    context
-                                        .read<RegistrationCubit>()
-                                        .stage6(interests: _filters)
-                                  },
-                        ),
+                      BigGBSelectButton(
+                        buttonLabel: 'Continue',
+                        buttonAction: _filters.isEmpty
+                            ? null
+                            : () {
+                                context
+                                    .read<RegistrationCubit>()
+                                    .stage6(interests: _filters);
+                                Navigator.of(context).pushNamed('/signup7');
+                              },
                       ),
                       SizedBox(height: 20),
                     ],

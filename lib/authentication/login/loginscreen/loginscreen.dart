@@ -9,20 +9,19 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
-import 'package:simposi_app_v4/authentication/login/cubit/login_cubit.dart';
 import 'package:simposi_app_v4/authentication/login/reset_password_start/forgot_password_start_cubit.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/model/errors.dart';
+import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
 import 'package:simposi_app_v4/widgets/forgot_password_button.dart';
 import 'package:simposi_app_v4/widgets/progress.dart';
 
-import 'reset_password_start/forgotpasswordbottomsheet.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import '../reset_password_start/forgotpasswordbottomsheet.dart';
+import 'login_cubit.dart';
 
 class LoginScreen extends StatefulWidget {
   // Set Variables
@@ -109,21 +108,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                 BlocConsumer<LoginCubit, LoginState>(
                                   listener: (context, state) {
                                     if (state is LoginError) {
-                                      Fluttertoast.showToast(
-                                          msg:
-                                          handleError(state.error, context),
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          timeInSecForIosWeb: 1,
-                                          backgroundColor: Colors.red,
-                                          textColor: Colors.white,
-                                          fontSize: 16.0);
+                                      showErrorToast(
+                                          handleError(state.error, context));
+                                    } else if (state is LoginUnconfirmed) {
+                                      Navigator.of(context).pushNamed('/signup9', arguments: state.token);
                                     }
                                   },
                                   builder: (context, state) {
                                     return state is LoginProgress
                                         ? AppProgressIndicator()
                                         : BigGBSelectButton(
-                                            buttonLabel: AppLocalizations.of(context)!.loginLogInButton,
+                                            buttonLabel:
+                                                AppLocalizations.of(context)!
+                                                    .loginLogInButton,
                                             buttonAction: () {
                                               final isValid = _formKey
                                                   .currentState!
@@ -141,18 +138,24 @@ class _LoginScreenState extends State<LoginScreen> {
                                   },
                                 ),
                                 SizedBox(height: 10),
-                                ForgotPasswordTextButton(onClick: (){
-                                  showModalBottomSheet<void>(
-                                    isScrollControlled: true,
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return BlocProvider<ForgotPasswordStartCubit>(
-                                        create: (context) => ForgotPasswordStartCubit(profileRepository: context.read()),
-                                        child: ForgotPasswordForm(),
-                                      );
-                                    },
-                                  );
-                                },),
+                                ForgotPasswordTextButton(
+                                  onClick: () {
+                                    showModalBottomSheet<void>(
+                                      isScrollControlled: true,
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return BlocProvider<
+                                            ForgotPasswordStartCubit>(
+                                          create: (context) =>
+                                              ForgotPasswordStartCubit(
+                                                  profileRepository:
+                                                      context.read()),
+                                          child: ForgotPasswordForm(),
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
                               ],
                             ),
                           ),
@@ -166,7 +169,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             children: [
                               TextButton(
                                 child: Text(
-                                  AppLocalizations.of(context)!.loginRegisterButton,
+                                  AppLocalizations.of(context)!
+                                      .loginRegisterButton,
                                   style: TextStyle(
                                     color: SimposiAppColors.simposiDarkBlue,
                                     fontWeight: FontWeight.w900,

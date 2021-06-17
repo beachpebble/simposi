@@ -13,7 +13,8 @@ enum LocalizedErrorType {
   DIO_DEFAULT,
   NETWORK,
   OTHER,
-  UNEXPECTED
+  UNEXPECTED,
+  APP_STATE
 }
 
 /**
@@ -75,6 +76,24 @@ class ServerException implements Exception {
       return message;
     else
       return "Unknown ServerException";
+  }
+}
+
+/**
+    Errors from network layer in cases when http code is not 200*
+ */
+class AppStateException implements Exception {
+  final String message;
+  final LocalizedErrorType errorType;
+
+  AppStateException({this.errorType = LocalizedErrorType.APP_STATE, this.message = ""});
+
+  @override
+  String toString() {
+    if (message.isNotEmpty)
+      return message;
+    else
+      return "Unknown AppStateException";
   }
 }
 

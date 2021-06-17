@@ -35,6 +35,9 @@ class AuthenticationBloc
       yield NotAuthenticated();
     } else if (event is LoggedOut) {
       yield NotAuthenticated();
+    } else if (event is SaveAuthEvent) {
+      _authManager.saveAuth(event.token);
+      yield Authenticated();
     }
   }
 }

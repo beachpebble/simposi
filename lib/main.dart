@@ -39,7 +39,6 @@ void main() {
         ),
         BlocProvider(
           create: (context) =>
-          RegistrationCubit(profileRepository: context.read())..preload(),
-        ),
+          RegistrationCubit(profileRepository: context.read())),
       ], child: SimposiApp())));
 }
