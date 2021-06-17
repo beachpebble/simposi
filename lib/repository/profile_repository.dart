@@ -17,7 +17,7 @@ class ProfileRepository {
   ProfileRepository(this._apiService);
 
   Future<Map> login(String login, String password) async {
-    Map params = {
+    Map<String, Object> params = {
       'phone': login,
       'password': password,
     };
@@ -38,11 +38,12 @@ class ProfileRepository {
   }
 
   Future<String?> forgotPasswordRequest(String phone) async {
+    Map<String, Object> params = {
+      'phone': phone,
+    };
     NetworkResponse response =
         await _apiService.post(ApiService.API_FORGOT_PASSWORD_START,
-            data: {
-              'phone': phone,
-            },
+            data: params,
             auth: false);
     if (response is NetworkResponseError) {
       throw ApiException(
@@ -79,7 +80,7 @@ class ProfileRepository {
         contentType: MediaType("image", "jpeg"),
       ),
     });
-    NetworkResponse response = await _apiService.post(
+    NetworkResponse response = await _apiService.postMulti(
         ApiService.API_UPLOAD_AVATAR,
         data: formData,
         lang: false,

@@ -38,9 +38,9 @@ class ApiService {
   }
 
   Future<NetworkResponse> post(String path, {
-    required dynamic data,
+    required Map<String, Object> data,
     auth: true,
-    lang = true
+    bool lang = true
   }) async {
     var options = await _prepareRequest(path, auth);
     developer.log(
@@ -48,10 +48,24 @@ class ApiService {
             Uri.parse(_dio.options.baseUrl + path))}');
     developer.log('_post $path options: ${options.headers}   data: $data');
     //TODO later change to locale set on device
-    if (data is Map && lang)
+    if (data is Map<String, dynamic> && lang)
       data["language_id"] = 1;
     final response = await _dio.post(path, data: data, options: options);
 
+    return _handleResponse(response, 'POST', path);
+  }
+
+  Future<NetworkResponse> postMulti(String path, {
+    required dynamic data,
+    auth: true,
+    bool lang = true
+  }) async {
+    var options = await _prepareRequest(path, auth);
+    developer.log(
+        'cookies ${_cookieJar.loadForRequest(
+            Uri.parse(_dio.options.baseUrl + path))}');
+    developer.log('_post $path options: ${options.headers}   data: $data');
+    final response = await _dio.post(path, data: data, options: options);
     return _handleResponse(response, 'POST', path);
   }
 
