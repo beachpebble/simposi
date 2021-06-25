@@ -202,7 +202,6 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                     // LOGIN BUTTON
                                     SimposiTextButton(
                                       buttonLabel: "Log In",
-                                      nextPage: '/login',
                                       fontSize: 15,
                                       fontWeight: FontWeight.w900,
                                       onClick: () {

@@ -37,6 +37,7 @@ class Signup1CreateAccountCubit extends Cubit<Signup1CreateAccountState> {
     if (state is Signup1CreateAccountInitial || state is Signup1CreateAccountError) {
       emit(Signup1CreateAccountLoading());
       try {
+        await profileRepository.userNotExist(phone: phone);
         String? path = await profileRepository.uploadAvatar(file);
         if (path != null) {
           registrationCubit.path = path;

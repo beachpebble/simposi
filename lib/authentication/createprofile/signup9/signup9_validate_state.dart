@@ -28,3 +28,14 @@ class Signup9ValidateSuccess extends Signup9ValidateState {
   @override
   List<Object> get props => [message];
 }
+
+class Signup9ResendError extends Signup9ValidateState {
+  final dynamic error;
+
+  Signup9ResendError(this.error);
+
+  @override
+  List<Object> get props => [error];
+}
+
+class Signup9ResendSuccess extends Signup9ValidateState {}

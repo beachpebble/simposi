@@ -11,6 +11,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup9/signup9_validate_cubit.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
@@ -143,7 +144,7 @@ class _SignUpForm8State extends State<SignUpForm8> {
                           if (state is RegistrationWaitCode)
                             Navigator.of(context).pushNamedAndRemoveUntil(
                                 '/signup9', ModalRoute.withName('start'),
-                                arguments: state.token);
+                                arguments: ValidateParameters(state.phone, state.token));
                           else if (state is RegistrationError) {
                             showErrorToast(handleError(state.error, context));
                           }

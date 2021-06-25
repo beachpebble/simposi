@@ -13,7 +13,7 @@ class ForgotPasswordStartCubit extends Cubit<ForgotPasswordStartState> {
   Future<void> sendForgotPasswordRequest({required String phone}) async {
     emit(ForgotPasswordStartLoading());
     try {
-      await profileRepository.forgotPasswordRequest(phone);
+      await profileRepository.sendConfirmationCode(phone);
       emit(ForgotPasswordStartSuccess());
     }  catch (e) {
       emit(ForgotPasswordStartError(e));

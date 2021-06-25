@@ -17,7 +17,8 @@ import 'package:simposi_app_v4/authentication/createprofile/signup2gender.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup3iwanttomeet.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup4generation.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup5income.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup6activities.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup6/signup6_activities_cubit.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup6/signup6activities.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup7/signup7_location_cubit.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup7/signup7location.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup8covid.dart';
@@ -31,7 +32,6 @@ import 'package:simposi_app_v4/authentication/login/reset_password_complete/crea
 import 'package:simposi_app_v4/authentication/login/reset_password_complete/reset_password_complete_cubit.dart';
 import 'package:simposi_app_v4/authentication/login/resetpasswordscreen.dart';
 import 'package:simposi_app_v4/authentication/login/splash_screen.dart';
-import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/calendar/simposicalendar.dart';
 
 // Check In
@@ -51,6 +51,7 @@ import 'package:simposi_app_v4/eventdetails/eventwidgets/proposenewtime.dart';
 import 'package:simposi_app_v4/eventdetails/eventwidgets/reportevent.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
+import 'package:simposi_app_v4/model/interest.dart';
 import 'package:simposi_app_v4/notifications/adminalert.dart';
 
 // Alerts & Notifications
@@ -80,17 +81,17 @@ class RouteGenerator {
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     //handle deeplink forgot password
-    if (settings.name?.startsWith(FORGOT_PASSWORD_DL) == true) {
-      String s = settings.name!;
-      var token = s.replaceFirst(FORGOT_PASSWORD_DL, "");
-      return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-                create: (context) => ResetPasswordCompleteCubit(
-                    profileRepository: context.read<ProfileRepository>(),
-                    authenticationBloc: context.read<AuthenticationBloc>()),
-                child: CreateNewPassword(token: token),
-              ));
-    }
+    // if (settings.name?.startsWith(FORGOT_PASSWORD_DL) == true) {
+    //   String s = settings.name!;
+    //   var token = s.replaceFirst(FORGOT_PASSWORD_DL, "");
+    //   return MaterialPageRoute(
+    //       builder: (_) => BlocProvider(
+    //             create: (context) => ResetPasswordCompleteCubit(
+    //                 profileRepository: context.read<ProfileRepository>(),
+    //                 authenticationBloc: context.read<AuthenticationBloc>()),
+    //             child: CreateNewPassword(token: token),
+    //           ));
+    // }
 
     switch (settings.name) {
       // Login
@@ -110,7 +111,7 @@ class RouteGenerator {
             builder: (_) => BlocProvider(
                   create: (context) => ResetPasswordCompleteCubit(
                       profileRepository: context.read<ProfileRepository>(),
-                      authenticationBloc: context.read<AuthenticationBloc>()),
+                      phone: settings.arguments as String),
                   child: CreateNewPassword(),
                 ));
       // Create Profile
@@ -133,7 +134,12 @@ class RouteGenerator {
       case '/signup5':
         return MaterialPageRoute(builder: (_) => SignUpForm5());
       case '/signup6':
-        return MaterialPageRoute(builder: (_) => SignUpForm6());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+              create: (context) =>
+                  Signup6ActivitiesCubit(settings.arguments as Set<Interest>),
+              child: SignUpForm6()),
+        );
       case '/signup7':
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
@@ -144,11 +150,11 @@ class RouteGenerator {
       case '/signup8':
         return MaterialPageRoute(builder: (_) => SignUpForm8());
       case '/signup9':
-        String token = settings.arguments as String;
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
                   create: (context) => Signup9ValidateCubit(
-                      token: token,
+                      validateParameters:
+                          settings.arguments as ValidateParameters,
                       authenticationBloc: context.read(),
                       profileRepository: context.read()),
                   child: SignUpForm9(),

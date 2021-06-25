@@ -12,12 +12,18 @@ class ResetPasswordCompleteInitial extends ResetPasswordCompleteState {}
 class ResetPasswordCompleteProgress extends ResetPasswordCompleteState {}
 
 class ResetPasswordCompleteSuccess extends ResetPasswordCompleteState {
-  final bool pwdRestore;
+}
 
-  ResetPasswordCompleteSuccess(this.pwdRestore);
+class ResetPasswordResendSuccess extends ResetPasswordCompleteState {
+}
+
+class ResetPasswordResendError extends ResetPasswordCompleteState {
+  final dynamic error;
+
+  ResetPasswordResendError(this.error);
 
   @override
-  List<Object> get props => [pwdRestore];
+  List<Object> get props => [error];
 }
 
 class ResetPasswordCompleteError extends ResetPasswordCompleteState {

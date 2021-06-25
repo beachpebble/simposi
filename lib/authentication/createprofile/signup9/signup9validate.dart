@@ -5,6 +5,7 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/widgets/progress.dart';
+import 'package:simposi_app_v4/widgets/resend_countdown.dart';
 
 import 'signup9_validate_cubit.dart';
 
@@ -25,20 +27,40 @@ class SignUpForm9 extends StatefulWidget {
   _SignUpForm9State createState() => _SignUpForm9State();
 }
 
-class _SignUpForm9State extends State<SignUpForm9> {
+class _SignUpForm9State extends State<SignUpForm9> with TickerProviderStateMixin {
   String code = "";
 
-  // @override
-  // void initState() {
-  //   _pinController = TextEditingController();
-  //   super.initState();
-  // }
-  //
-  // @override
-  // void dispose() {
-  //   _pinController?.dispose();
-  //   super.dispose();
-  // }
+  Timer? _timer;
+  late AnimationController _controller;
+  bool resendOnDelay = false;
+
+
+  @override
+  void initState() {
+    super.initState();
+    _controller =
+        AnimationController(vsync: this, duration: Duration(seconds: 60));
+    _startCountDownTimer();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  _startCountDownTimer() async {
+    resendOnDelay = true;
+    _controller.reset();
+    _controller.forward();
+    _timer?.cancel();
+    _timer = new Timer(new Duration(seconds: 60), () {
+      setState(() {
+        resendOnDelay = false;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) => KeyboardDismisser(
@@ -146,41 +168,51 @@ class _SignUpForm9State extends State<SignUpForm9> {
                                 } else if (state is Signup9ValidateError) {
                                   showErrorToast(
                                       handleError(state.error, context));
+                                } else if (state is Signup9ResendSuccess) {
+                                  _startCountDownTimer();
+                                  showInfoToast(
+                                      "Code was resent");
                                 }
                               },
                               builder: (context, state) {
                                 return state is Signup9ValidateLoading
                                     ? AppProgressIndicator()
-                                    : BigGBSelectButton(
-                                        buttonLabel: 'Verify',
-                                        buttonAction: code.length == 6
-                                            ? () => {
-                                                  context
-                                                      .read<
-                                                          Signup9ValidateCubit>()
-                                                      .validate(code)
-                                                }
-                                            : null,
+                                    : Column(
+                                        children: [
+                                          BigGBSelectButton(
+                                            buttonLabel: 'Verify',
+                                            buttonAction: code.length == 6
+                                                ? () {
+                                                    context
+                                                        .read<
+                                                            Signup9ValidateCubit>()
+                                                        .validate(code);
+                                                  }
+                                                : null,
+                                          ),
+                                          SizedBox(height: 15),
+                                          resendOnDelay
+                                              ? ResendCountDown(
+                                            animation: StepTween(
+                                              begin: 60,
+                                              // THIS IS A USER ENTERED NUMBER
+                                              end: 0,
+                                            ).animate(_controller),
+                                          )
+                                              :SimposiTextButton(
+                                            buttonLabel:
+                                                'I never received a code',
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w900,
+                                            onClick: () {
+                                              context
+                                                  .read<Signup9ValidateCubit>()
+                                                  .resend();
+                                            },
+                                          ),
+                                        ],
                                       );
                               },
-                            ),
-                            SizedBox(height: 15),
-                            SimposiTextButton(
-                              buttonLabel: 'I never received a code',
-                              nextPage: '/home',
-                              fontSize: 15,
-                              fontWeight: FontWeight.w900,
-                              onClick: () {},
-                            ),
-
-                            SizedBox(height: 10),
-
-                            // TODO: Enable Resend Code Timer
-                            Text(
-                              'Resend in 3s',
-                              style: TextStyle(
-                                fontSize: 13,
-                              ),
                             ),
                           ],
                         ),

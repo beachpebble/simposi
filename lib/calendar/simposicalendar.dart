@@ -117,7 +117,7 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
         ),
         simposiAction: SimposiTextButton(
           buttonLabel: 'Meet Now',
-          nextPage: '/createevent',
+          // nextPage: '/createevent',
           fontSize: 17,
           fontWeight: FontWeight.w500,
           onClick: () {},

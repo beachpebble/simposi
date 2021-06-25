@@ -1,11 +1,10 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/model/network_response.dart';
-import 'dart:developer' as developer;
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 
 import 'auth_repository.dart';
@@ -19,13 +18,13 @@ class ApiService {
   static const String TEST = "https://simposi.uastar.space";
 
   static const String API_LOGIN = "/api/v1/user/login";
-  static const String API_FORGOT_PASSWORD_START = "/api/v1/user/forgotPassword";
-  static const String API_FORGOT_PASSWORD_COMPLETE = "/api/v1/user/changeForgotPassword";
-  static const String API_CHANGE_PASSWORD = "/api/v1/user/changeForgotPassword2";
+  static const String API_CHANGE_PASSWORD = "/api/v1/user/changeForgotPassword";
+  static const String API_ACCEPT_CODE = "/api/v1/code";
   static const String API_UPLOAD_AVATAR = "/api/v1/user/userpic";
   static const String API_MASTER_DATA = "/api/v1/user/GetMasterTableData";
   static const String API_REGISTER = "/api/v1/user/register";
-  static const String API_VALIDATE = "/api/c?c=";
+  static const String API_SEND_CODE = "/api/v1/code";
+  static const String API_USER_EXISTS = "/api/v1/user/check";
 
   ApiService({required this.authRepository, this.baseUrl = TEST}) {
     _dio = Dio();
@@ -35,23 +34,29 @@ class ApiService {
     _dio.options.contentType = Headers.jsonContentType;
     _cookieJar = CookieJar();
     _dio.interceptors.add(CookieManager(_cookieJar));
+    _dio.interceptors.add(PrettyDioLogger(
+        requestHeader: true,
+        requestBody: true,
+        responseBody: true,
+        responseHeader: false,
+        error: true,
+        compact: true,
+        maxWidth: 200));
   }
 
   Future<NetworkResponse> post(String path, {
     required Map<String, Object> data,
     auth: true,
+    String? customToken,
     bool lang = true
   }) async {
     var options = await _prepareRequest(path, auth);
-    developer.log(
-        'cookies ${_cookieJar.loadForRequest(
-            Uri.parse(_dio.options.baseUrl + path))}');
-    developer.log('_post $path options: ${options.headers}   data: $data');
+    if (customToken != null && auth == false)
+      options.headers!['Authorization'] = "Bearer $customToken";
     //TODO later change to locale set on device
     if (data is Map<String, dynamic> && lang)
       data["language_id"] = 1;
     final response = await _dio.post(path, data: data, options: options);
-
     return _handleResponse(response, 'POST', path);
   }
 
@@ -61,10 +66,6 @@ class ApiService {
     bool lang = true
   }) async {
     var options = await _prepareRequest(path, auth);
-    developer.log(
-        'cookies ${_cookieJar.loadForRequest(
-            Uri.parse(_dio.options.baseUrl + path))}');
-    developer.log('_post $path options: ${options.headers}   data: $data');
     final response = await _dio.post(path, data: data, options: options);
     return _handleResponse(response, 'POST', path);
   }
@@ -72,15 +73,13 @@ class ApiService {
   Future<NetworkResponse> get(
       String path, {
         auth: true,
-        String? customToken
+        String? customToken,
+        Map<String, dynamic>? queryParameters,
       }) async {
     var options = await _prepareRequest(path, auth);
     if (customToken != null && auth == false)
       options.headers!['Authorization'] = "Bearer $customToken";
-    final response = await _dio.get(path, options: options);
-    developer.log(
-        'cookies ${_cookieJar.loadForRequest(Uri.parse(_dio.options.baseUrl + path))}');
-    developer.log('_get $path  options: ${options.headers}');
+    final response = await _dio.get(path, options: options, queryParameters: queryParameters);
     return _handleResponse(response, 'GET', path);
   }
 
@@ -108,15 +107,12 @@ class ApiService {
           message: 'Fail $method $host Error: ${response.statusCode}');
     }
     var body;
-    developer.log('_handle response ${response.data}');
     try {
       if (response.data is String)
         body = jsonDecode(response.data);
       else
         body = response.data;
-      developer.log('_handle response $body');
       if (body is Map && body.containsKey("status")) {
-        developer.log('response is map (ok or redirect)');
         if (body['status'] == 200 || body['status'] == 201) {
           NetworkResponseSuccess networkResponseSuccess =
           NetworkResponseSuccess.fromJson(body);

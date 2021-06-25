@@ -58,7 +58,6 @@ class TinyTextButton extends StatelessWidget {
 class SimposiTextButton extends StatelessWidget {
   // Set Variables
   final String buttonLabel;
-  final String nextPage;
   final double fontSize;
   final FontWeight fontWeight;
   final VoidCallback onClick;
@@ -66,7 +65,6 @@ class SimposiTextButton extends StatelessWidget {
   const SimposiTextButton({
     Key? key,
     required this.buttonLabel,
-    required this.nextPage,
     required this.fontSize,
     required this.fontWeight,
     required this.onClick,

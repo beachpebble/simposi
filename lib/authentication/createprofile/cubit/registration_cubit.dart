@@ -101,7 +101,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       if (data.containsKey("apiAccessToken")) {
         var apiToken = data["apiAccessToken"];
         if (apiToken! != null)
-          emit(RegistrationWaitCode(apiToken));
+          emit(RegistrationWaitCode(apiToken, phone!));
         else {
           emit(RegistrationError(ServerException(
               errorType: LocalizedErrorType.UNEXPECTED,

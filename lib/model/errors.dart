@@ -145,7 +145,7 @@ String _getDioResponseError(DioError dioError) {
   if (dioError.type == DioErrorType.response && dioError.response != null) {
     Response response = dioError.response!;
     try {
-      var body = jsonDecode(response.data);
+      var body = response.data is String ? jsonDecode(response.data) : response.data;
       if (body is Map && body.containsKey('message')) {
         return body['message'];
       }

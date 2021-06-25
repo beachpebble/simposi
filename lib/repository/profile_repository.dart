@@ -32,19 +32,18 @@ class ProfileRepository {
     } else if (response is NetworkResponseSuccess) {
       return response.data;
     } else {
-      throw ApiException(
-          errorType: LocalizedErrorType.UNEXPECTED);
+      throw ApiException(errorType: LocalizedErrorType.UNEXPECTED);
     }
   }
 
-  Future<String?> forgotPasswordRequest(String phone) async {
-    Map<String, Object> params = {
-      'phone': phone,
-    };
+  Future<String?> changePassword(String password, String token) async {
     NetworkResponse response =
-        await _apiService.post(ApiService.API_FORGOT_PASSWORD_START,
-            data: params,
-            auth: false);
+        await _apiService.post(ApiService.API_CHANGE_PASSWORD,
+            data: {
+              'password': password,
+            },
+            auth: false,
+            customToken: token);
     if (response is NetworkResponseError) {
       throw ApiException(
           errorType: LocalizedErrorType.AUTH, message: response.message);
@@ -54,20 +53,21 @@ class ProfileRepository {
     }
   }
 
-  Future<String?> forgotPasswordComplete(String password, String hash) async {
+  Future<String?> acceptCode(String phone, String code) async {
     NetworkResponse response =
-        await _apiService.post(ApiService.API_FORGOT_PASSWORD_COMPLETE,
+        await _apiService.post(ApiService.API_ACCEPT_CODE,
             data: {
-              'password': password,
-              'token': hash,
+              'code': code,
+              'phone': phone,
             },
             auth: false);
     if (response is NetworkResponseError) {
       throw ApiException(
-          errorType: LocalizedErrorType.AUTH, message: response.message);
+          errorType: LocalizedErrorType.SERVER_ERROR,
+          message: response.message);
     } else if (response is NetworkResponseSuccess) {
-      String? message = response.message;
-      return message;
+      String? token = response.data["apiAccessToken"];
+      return token;
     }
   }
 
@@ -131,7 +131,29 @@ class ProfileRepository {
         List il = data['whoEarn'];
         earninigList = (il.map((e) => Earning.fromJson(e)).toList());
       }
-      return MasterData(interestList, generationList, earninigList);
+      return MasterData({}..addAll(interestList), generationList, earninigList);
+    } else {
+      throw ApiException(
+        errorType: LocalizedErrorType.SERVER_ERROR,
+      );
+    }
+  }
+
+  // Returns 200 if user doesnt exist
+  Future userNotExist({
+    required String phone,
+  }) async {
+    Map<String, Object> data = {
+      "phone": phone,
+    };
+    NetworkResponse response = await _apiService
+        .post(ApiService.API_USER_EXISTS, auth: false, data: data);
+    if (response is NetworkResponseError) {
+      throw ApiException(
+          errorType: LocalizedErrorType.SERVER_ERROR,
+          message: response.message);
+    } else if (response is NetworkResponseSuccess) {
+      return;
     } else {
       throw ApiException(
         errorType: LocalizedErrorType.SERVER_ERROR,
@@ -187,9 +209,9 @@ class ProfileRepository {
     }
   }
 
-  Future<String> validateCode(String code, String token) async {
-    NetworkResponse response = await _apiService
-        .get(ApiService.API_VALIDATE + code, auth: false, customToken: token);
+  Future<String> sendConfirmationCode(String phone) async {
+    NetworkResponse response = await _apiService.get(ApiService.API_SEND_CODE,
+        queryParameters: {"phone": phone}, auth: false);
     if (response is NetworkResponseError) {
       throw ApiException(
           errorType: LocalizedErrorType.SERVER_ERROR,

@@ -141,7 +141,8 @@ class _SignUpForm5State extends State<SignUpForm5> {
                                     .read<RegistrationCubit>()
                                     .stage5(earnings: _selected);
                                 Navigator.of(context)
-                                    .pushNamed('/signup6');
+                                    .pushNamed('/signup6', arguments: context
+                                    .read<RegistrationCubit>().masterData.interests);
                               },
                             ),
                             SizedBox(height: 20),

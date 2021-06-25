@@ -5,7 +5,7 @@ import 'generation.dart';
 import 'interest.dart';
 
 class MasterData implements Equatable {
-  final List<Interest> interests;
+  final Set<Interest> interests;
   final List<Generation> generations;
   final List<Earning> earnings;
 

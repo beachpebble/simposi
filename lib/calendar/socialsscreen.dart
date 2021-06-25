@@ -29,7 +29,7 @@ class SocialsScreen extends StatelessWidget {
           ),
           simposiAction: SimposiTextButton(
             buttonLabel: 'Meet Now',
-            nextPage: '/eventlist',
+            // nextPage: '/eventlist',
             fontSize: 19,
             fontWeight: FontWeight.w500,
             onClick: () {},
