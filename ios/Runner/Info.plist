@@ -52,7 +52,7 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSCameraUsageDescription</key>
-    string>App requires access to your camera for taking photo of profile</string>
+    <string>App requires access to your camera for taking photo of profile</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>App requires access to your camera for taking photo of profile</string>
     <key>NSPhotoLibraryUsageDescription</key>
