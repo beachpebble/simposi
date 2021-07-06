@@ -179,7 +179,7 @@ class _SignUpForm9State extends State<SignUpForm9> with TickerProviderStateMixin
                                     ? AppProgressIndicator()
                                     : Column(
                                         children: [
-                                          BigGBSelectButton(
+                                          ContinueButton(
                                             buttonLabel: 'Verify',
                                             buttonAction: code.length == 6
                                                 ? () {

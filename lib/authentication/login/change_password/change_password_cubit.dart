@@ -18,7 +18,7 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
     try {
       String? token = authRepository.jwt;
       if (token != null) {
-        await profileRepository.changePassword(password, token!);
+        await profileRepository.changePassword(password, token);
         emit(ChangePasswordSuccess());
       } else {
         emit(ChangePasswordError(AuthException()));

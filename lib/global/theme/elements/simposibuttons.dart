@@ -199,16 +199,12 @@ class AddEventImageButton extends StatelessWidget {
 }
 
 // CONTINUE BUTTON
-class ContinueButton extends StatefulWidget {
-  final String nextPage;
+class ContinueButton extends StatelessWidget {
+  final VoidCallback? buttonAction;
+  final String buttonLabel;
 
-  const ContinueButton({Key? key, required this.nextPage}) : super(key: key);
+  const ContinueButton({Key? key, this.buttonAction, this.buttonLabel = 'Continue'}) : super(key: key);
 
-  @override
-  _ContinueButtonState createState() => _ContinueButtonState();
-}
-
-class _ContinueButtonState extends State<ContinueButton> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -237,12 +233,9 @@ class _ContinueButtonState extends State<ContinueButton> {
         ),
 
         // Label
-        child: Text('Continue'),
-
+        child: Text(buttonLabel),
         // Button Actions
-        onPressed: () => {
-          Navigator.of(context).pushNamed(widget.nextPage),
-        },
+        onPressed: buttonAction,
       ),
     );
   }
@@ -443,7 +436,8 @@ class AgreeButton extends StatelessWidget {
   final bool agree;
   final VoidCallback? onClick;
 
-  const AgreeButton({Key? key, this.agree = false, this.onClick}) : super(key: key);
+  const AgreeButton({Key? key, this.agree = false, this.onClick})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

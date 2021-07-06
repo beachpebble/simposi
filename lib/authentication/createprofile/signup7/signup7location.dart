@@ -114,8 +114,7 @@ class _SignUpForm7State extends State<SignUpForm7> {
                 padding: EdgeInsets.all(40),
                 child: Column(
                   children: [
-                    BigGBSelectButton(
-                        buttonLabel: 'Continue',
+                    ContinueButton(
                         buttonAction: state.selectedLocation != null
                             ? ()
                                 {context.read<Signup7LocationCubit>().submit();

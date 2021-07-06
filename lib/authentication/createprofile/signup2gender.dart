@@ -20,7 +20,7 @@ import 'package:simposi_app_v4/widgets/progress.dart';
 class SignUpForm2 extends StatefulWidget {
   final bool editMode;
 
-  const SignUpForm2({Key? key, this.editMode = true}) : super(key: key);
+  const SignUpForm2({Key? key, this.editMode = false}) : super(key: key);
 
   @override
   _SignUpForm2State createState() => _SignUpForm2State();
@@ -158,8 +158,7 @@ class _SignUpForm2State extends State<SignUpForm2> {
   }
 
   Widget registrationNextButton() {
-    return BigGBSelectButton(
-      buttonLabel: 'Continue',
+    return ContinueButton(
       buttonAction: _selected != null
           ? () {
               context

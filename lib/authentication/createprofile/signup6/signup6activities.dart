@@ -120,8 +120,7 @@ class _SignUpForm6State extends State<SignUpForm6> {
                           padding: EdgeInsets.all(40),
                           child: Column(
                             children: [
-                              BigGBSelectButton(
-                                buttonLabel: 'Continue',
+                              ContinueButton(
                                 buttonAction: state.nextEnabled
                                     ? () {
                                         context

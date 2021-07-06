@@ -133,8 +133,7 @@ class _SignUpForm5State extends State<SignUpForm5> {
                         child: Column(
                           children: [
                             // TODO: Disable button until user has selected at least one income
-                            BigGBSelectButton(
-                              buttonLabel: 'Continue',
+                            ContinueButton(
                               buttonAction: _selected.isEmpty
                                   ? null
                                   : () {

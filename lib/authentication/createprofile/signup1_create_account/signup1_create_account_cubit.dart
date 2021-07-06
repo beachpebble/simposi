@@ -21,7 +21,7 @@ class Signup1CreateAccountCubit extends Cubit<Signup1CreateAccountState> {
     required String email,
     required String password,
   }) async {
-    if (state is Signup1CreateAccountInitial || state is Signup1CreateAccountError) {
+    if (state is Signup1CreateAccountInitial || state is Signup1CreateAccountError || state is Signup1CreateAccountReady) {
       emit(Signup1CreateAccountLoading());
       try {
         await profileRepository.userNotExist(phone: phone);

@@ -149,7 +149,7 @@ class _SignUpForm8State extends State<SignUpForm8> {
                             showErrorToast(handleError(state.error, context));
                           }
                         },
-                        child: BigGBSelectButton(
+                        child: ContinueButton(
                           buttonLabel: 'Finish',
                           buttonAction: _isFinishEnabled()
                               ? () =>

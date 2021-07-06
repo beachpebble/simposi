@@ -116,8 +116,7 @@ class _SignUpForm3State extends State<SignUpForm3> {
               child: Column(
                 children: [
                   // TODO: Make screen resuable by changing the Continue button to a save button when user comes from profile menu?
-                  BigGBSelectButton(
-                    buttonLabel: 'Continue',
+                  ContinueButton(
                     buttonAction: _selected == null
                         ? null
                         : () {

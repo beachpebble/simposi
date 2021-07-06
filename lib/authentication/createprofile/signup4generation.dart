@@ -111,8 +111,7 @@ class _SignUpForm4State extends State<SignUpForm4> {
               padding: EdgeInsets.all(40),
               child: Column(
                 children: [
-                  BigGBSelectButton(
-                    buttonLabel: 'Continue',
+                  ContinueButton(
                     buttonAction: _selected.isNotEmpty
                         ? () {
                             context
