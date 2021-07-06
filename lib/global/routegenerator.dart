@@ -32,6 +32,7 @@ import 'package:simposi_app_v4/authentication/login/reset_password_complete/crea
 import 'package:simposi_app_v4/authentication/login/reset_password_complete/reset_password_complete_cubit.dart';
 import 'package:simposi_app_v4/authentication/login/resetpasswordscreen.dart';
 import 'package:simposi_app_v4/authentication/login/splash_screen.dart';
+import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/calendar/simposicalendar.dart';
 
 // Check In
@@ -51,7 +52,6 @@ import 'package:simposi_app_v4/eventdetails/eventwidgets/proposenewtime.dart';
 import 'package:simposi_app_v4/eventdetails/eventwidgets/reportevent.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
-import 'package:simposi_app_v4/model/interest.dart';
 import 'package:simposi_app_v4/notifications/adminalert.dart';
 
 // Alerts & Notifications
@@ -120,13 +120,14 @@ class RouteGenerator {
             builder: (_) => BlocProvider(
                   create: (context) => Signup1CreateAccountCubit(
                       registrationCubit: context.read(),
-                      profileRepository: context.read())
-                    ..preload(),
+                      profileRepository: context.read()),
                   child: SignUpForm1(),
                 ),
             settings: RouteSettings(name: "signup1"));
       case '/signup2':
         return MaterialPageRoute(builder: (_) => SignUpForm2());
+        case '/signup2edit':
+        return MaterialPageRoute(builder: (_) => SignUpForm2(editMode: true));
       case '/signup3':
         return MaterialPageRoute(builder: (_) => SignUpForm3());
       case '/signup4':
@@ -134,11 +135,9 @@ class RouteGenerator {
       case '/signup5':
         return MaterialPageRoute(builder: (_) => SignUpForm5());
       case '/signup6':
-        return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-              create: (context) =>
-                  Signup6ActivitiesCubit(settings.arguments as Set<Interest>),
-              child: SignUpForm6()),
+        return
+          MaterialPageRoute(
+          builder: (_) => SignUpForm6(),
         );
       case '/signup7':
         return MaterialPageRoute(

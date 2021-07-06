@@ -11,6 +11,7 @@ import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_c
 import 'package:simposi_app_v4/utils/bloc_observer.dart';
 
 import 'bloc/auth/authentication_bloc.dart';
+import 'profile/bloc/profile_edit_cubit.dart';
 import 'repository/api_service.dart';
 import 'repository/auth_repository.dart';
 import 'repository/profile_repository.dart';
@@ -34,11 +35,13 @@ void main() {
       child: MultiBlocProvider(providers: [
         BlocProvider(
           create: (context) =>
-              AuthenticationBloc(authManager: context.read())
+              AuthenticationBloc(authManager: context.read(), profileRepository: context.read())
                 ..add(ReloadAuthEvent()),
         ),
         BlocProvider(
           create: (context) =>
-          RegistrationCubit(profileRepository: context.read())),
+          RegistrationCubit(profileRepository: context.read())),BlocProvider(
+          create: (context) =>
+              ProfileEditCubit(profileRepository: context.read())),
       ], child: SimposiApp())));
 }

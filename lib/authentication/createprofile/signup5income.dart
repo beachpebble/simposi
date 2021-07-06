@@ -10,6 +10,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
+import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
@@ -37,10 +38,10 @@ class _SignUpForm5State extends State<SignUpForm5> {
   void _selectAll() {
     setState(() {
       if (_selected.length ==
-          context.read<RegistrationCubit>().masterData.earnings.length)
+          context.read<AuthenticationBloc>().masterData.earnings.length)
         _selected.clear();
       else
-        _selected.addAll(context.read<RegistrationCubit>().masterData.earnings);
+        _selected.addAll(context.read<AuthenticationBloc>().masterData.earnings);
     });
   }
 
@@ -89,7 +90,7 @@ class _SignUpForm5State extends State<SignUpForm5> {
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
                               itemCount: context
-                                  .read<RegistrationCubit>()
+                                  .read<AuthenticationBloc>()
                                   .masterData
                                   .earnings
                                   .length,
@@ -98,7 +99,7 @@ class _SignUpForm5State extends State<SignUpForm5> {
                               },
                               itemBuilder: (context, index) {
                                 Earning earning = context
-                                    .read<RegistrationCubit>()
+                                    .read<AuthenticationBloc>()
                                     .masterData
                                     .earnings[index];
                                 return BigGBSelectButton(
@@ -115,7 +116,7 @@ class _SignUpForm5State extends State<SignUpForm5> {
                                 buttonLabel: 'Select All',
                                 isSelected: _selected.length ==
                                     context
-                                        .read<RegistrationCubit>()
+                                        .read<AuthenticationBloc>()
                                         .masterData
                                         .earnings
                                         .length,
@@ -141,8 +142,7 @@ class _SignUpForm5State extends State<SignUpForm5> {
                                     .read<RegistrationCubit>()
                                     .stage5(earnings: _selected);
                                 Navigator.of(context)
-                                    .pushNamed('/signup6', arguments: context
-                                    .read<RegistrationCubit>().masterData.interests);
+                                    .pushNamed('/signup6');
                               },
                             ),
                             SizedBox(height: 20),

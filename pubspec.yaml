@@ -45,13 +45,14 @@ dependencies:
     git:
       url: https://github.com/humazed/google_map_location_picker
       ref: 25deede4823145403718ab16795bfc3be604f46e
-  google_maps_webservice: ^0.0.19
+  google_maps_webservice: ^0.0.20-nullsafety.5
   html: ^0.15.0
   http_parser: ^4.0.0
   intl: ^0.17.0
   image_picker: ^0.8.0+3
   keyboard_dismisser: ^2.0.0
   location: ^4.1.1
+  localstorage: ^4.0.0+1
   material_floating_search_bar: ^0.3.4
   page_transition: ^2.0.2
   permission_handler: ^8.0.0+1

@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:simposi_app_v4/model/earning.dart';
 import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/model/generation.dart';
 import 'package:simposi_app_v4/model/interest.dart';
 import 'package:simposi_app_v4/model/master_data.dart';
 import 'package:simposi_app_v4/model/network_response.dart';
+import 'package:simposi_app_v4/model/profile.dart';
 
 import 'api_service.dart';
 
@@ -15,6 +17,21 @@ class ProfileRepository {
   final ApiService _apiService;
 
   ProfileRepository(this._apiService);
+
+  Profile? profile;
+  final LocalStorage storage = new LocalStorage('profile_storage');
+
+  Future<void> setProfile(Map data) async {
+    await storage.setItem("profile", data);
+    profile = Profile.fromJson(data);
+  }
+
+  Future<void> refreshProfile() async {
+    if (profile == null) {
+      var data  = await storage.getItem("profile");
+      profile = Profile.fromJson(data);
+    }
+  }
 
   Future<Map> login(String login, String password) async {
     Map<String, Object> params = {

@@ -7,17 +7,6 @@ abstract class Signup1CreateAccountState extends Equatable {
   List<Object> get props => [];
 }
 
-class Signup1CreateAccountLoadingData extends Signup1CreateAccountState {}
-
-class Signup1CreateAccountLoadingDataError extends Signup1CreateAccountState {
-  final dynamic error;
-
-  Signup1CreateAccountLoadingDataError(this.error);
-
-  @override
-  List<Object> get props => [error];
-}
-
 class Signup1CreateAccountInitial extends Signup1CreateAccountState {}
 
 class Signup1CreateAccountLoading extends Signup1CreateAccountState {}

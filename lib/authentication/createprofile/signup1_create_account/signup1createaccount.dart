@@ -75,161 +75,136 @@ class _SignUpForm1State extends State<SignUpForm1> {
                     }
                   },
                   builder: (context, state) {
-                    if (state is Signup1CreateAccountLoadingData)
-                      return Center(child: AppProgressIndicator());
-                    else if (state is Signup1CreateAccountLoadingDataError)
-                      return Center(
-                        child: Container(
-                          height: 200,
-                          child: Column(
-                            children: [
-                              Text(
-                                  "error loading master data ${handleError(state.error, context)}"),
-                              SizedBox(height: 20),
-                              SizedBox(
-                                width: 150,
-                                child: BigGBSelectButton(
-                                    buttonLabel: 'Retry',
-                                    buttonAction: () {
-                                      context
-                                          .read<Signup1CreateAccountCubit>()
-                                          .preload();
-                                    }),
-                              )
-                            ],
-                          ),
-                        ),
-                      );
-                    else
-                      return Container(
-                        padding: EdgeInsets.all(40),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            // HEADER
-                            Container(
-                              height: 250,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    'Signup and start \n meeting new people.',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: SimposiAppColors.simposiDarkGrey,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 19,
-                                    ),
+
+                    return Container(
+                      padding: EdgeInsets.all(40),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // HEADER
+                          Container(
+                            height: 250,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  'Signup and start \n meeting new people.',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: SimposiAppColors.simposiDarkGrey,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 19,
                                   ),
-                                  SizedBox(height: 20),
-                                  // TODO: ENABLE IMAGE PICKER & ERROR MESSAGE IF NO IMAGE ON SUBMIT
-                                  //  PHOTO UPLOAD FIELD
-                                  AddPhotoButton(
-                                    imageSelectCallback: (val) {
-                                      print("selected image $val");
-                                      _filePath = val;
+                                ),
+                                SizedBox(height: 20),
+                                // TODO: ENABLE IMAGE PICKER & ERROR MESSAGE IF NO IMAGE ON SUBMIT
+                                //  PHOTO UPLOAD FIELD
+                                AddPhotoButton(
+                                  imageSelectCallback: (val) {
+                                    print("selected image $val");
+                                    _filePath = val;
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          // CREATE ACCOUNT FORM
+                          Container(
+                            child: Form(
+                              key: _formKey,
+                              child: Column(
+                                children: [
+                                  SizedBox(height: 40),
+
+                                  // NAME FIELD
+                                  _nameField(),
+                                  SizedBox(height: 15),
+
+                                  // phone FIELD
+                                  _phoneField(),
+                                  SizedBox(height: 15),
+
+                                  // phone FIELD
+                                  _emailField(),
+                                  SizedBox(height: 15),
+
+                                  // PASSWORD FIELD
+                                  PasswordField(
+                                      label: AppLocalizations.of(context)!
+                                          .signUpPassword,
+                                      controller: _passwordController,
+                                      validator: getValidator(
+                                          context, Validators.PASSWORD)),
+                                  SizedBox(height: 15),
+
+                                  // SUBMIT BUTTON
+                                  state is Signup1CreateAccountLoading
+                                      ? AppProgressIndicator()
+                                      : BigGBSelectButton(
+                                      buttonLabel: 'Submit',
+                                      buttonAction: () {
+                                        if (_formKey.currentState!
+                                            .validate()) {
+                                          // Navigator.of(context)
+                                          //     .pushNamed('/signup2');
+                                          if (_filePath?.isNotEmpty ==
+                                              true) {
+                                            context
+                                                .read<
+                                                Signup1CreateAccountCubit>()
+                                                .firstStage(
+                                                name: _nameController
+                                                    .text,
+                                                email:
+                                                _emailController
+                                                    .text,
+                                                password:
+                                                _passwordController
+                                                    .text,
+                                                file: _filePath!,
+                                                phone:
+                                                _phoneController
+                                                    .text);
+                                          } else {
+                                            showErrorToast("Add photo");
+                                          }
+                                        }
+                                      }),
+                                  SizedBox(height: 10),
+                                  // TODO: Are we able to reuse this screen for edit profile? Change Button to just a save and hide footer?
+                                  // LOGIN BUTTON
+                                  SimposiTextButton(
+                                    buttonLabel: "Log In",
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w900,
+                                    onClick: () {
+                                      Navigator.of(context)
+                                          .pushReplacementNamed('/login');
                                     },
                                   ),
                                 ],
                               ),
                             ),
+                          ),
 
-                            // CREATE ACCOUNT FORM
-                            Container(
-                              child: Form(
-                                key: _formKey,
-                                child: Column(
-                                  children: [
-                                    SizedBox(height: 40),
-
-                                    // NAME FIELD
-                                    _nameField(),
-                                    SizedBox(height: 15),
-
-                                    // phone FIELD
-                                    _phoneField(),
-                                    SizedBox(height: 15),
-
-                                    // phone FIELD
-                                    _emailField(),
-                                    SizedBox(height: 15),
-
-                                    // PASSWORD FIELD
-                                    PasswordField(
-                                        label: AppLocalizations.of(context)!
-                                            .signUpPassword,
-                                        controller: _passwordController,
-                                        validator: getValidator(
-                                            context, Validators.PASSWORD)),
-                                    SizedBox(height: 15),
-
-                                    // SUBMIT BUTTON
-                                    state is Signup1CreateAccountLoading
-                                        ? AppProgressIndicator()
-                                        : BigGBSelectButton(
-                                            buttonLabel: 'Submit',
-                                            buttonAction: () {
-                                              if (_formKey.currentState!
-                                                  .validate()) {
-                                                // Navigator.of(context)
-                                                //     .pushNamed('/signup2');
-                                                if (_filePath?.isNotEmpty ==
-                                                    true) {
-                                                  context
-                                                      .read<
-                                                          Signup1CreateAccountCubit>()
-                                                      .firstStage(
-                                                          name: _nameController
-                                                              .text,
-                                                          email:
-                                                              _emailController
-                                                                  .text,
-                                                          password:
-                                                              _passwordController
-                                                                  .text,
-                                                          file: _filePath!,
-                                                          phone:
-                                                              _phoneController
-                                                                  .text);
-                                                } else {
-                                                  showErrorToast("Add photo");
-                                                }
-                                              }
-                                            }),
-                                    SizedBox(height: 10),
-                                    // TODO: Are we able to reuse this screen for edit profile? Change Button to just a save and hide footer?
-                                    // LOGIN BUTTON
-                                    SimposiTextButton(
-                                      buttonLabel: "Log In",
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w900,
-                                      onClick: () {
-                                        Navigator.of(context)
-                                            .pushReplacementNamed('/login');
-                                      },
-                                    ),
-                                  ],
+                          // FOOTER
+                          Container(
+                            height: 150,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                PrivacyTOUFooter(
+                                  footerColor:
+                                  SimposiAppColors.simposiLightText,
                                 ),
-                              ),
+                              ],
                             ),
-
-                            // FOOTER
-                            Container(
-                              height: 150,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  PrivacyTOUFooter(
-                                    footerColor:
-                                        SimposiAppColors.simposiLightText,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
+                          ),
+                        ],
+                      ),
+                    );
                   },
                 ),
               ),

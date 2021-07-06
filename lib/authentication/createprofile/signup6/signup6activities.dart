@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
+import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
@@ -28,22 +29,28 @@ class _SignUpForm6State extends State<SignUpForm6> {
   double progress = 0.66;
 
   // FOR EACH ACTIVITY CREATE AN ACTIVITY BUTTON
-  List<Widget> selectedActivityWidgets(Set<Interest> interests, Set<Interest> selectedItems, BuildContext context)  {
-    return interests.map((item) => SelectableChip(
-      selected: selectedItems.contains(item),
-        title: item.title,
-        onClick: (value) {
-          value?
-          context.read<Signup6ActivitiesCubit>().selectInterest(item):
-          context.read<Signup6ActivitiesCubit>().deselectInterest(item);
-        })).toList();
-
+  List<Widget> selectedActivityWidgets(Set<Interest> interests,
+      Set<Interest> selectedItems, BuildContext context) {
+    return interests
+        .map((item) => SelectableChip(
+            selected: selectedItems.contains(item),
+            title: item.title,
+            onClick: (value) {
+              value
+                  ? context.read<Signup6ActivitiesCubit>().selectInterest(item)
+                  : context
+                      .read<Signup6ActivitiesCubit>()
+                      .deselectInterest(item);
+            }))
+        .toList();
   }
 
   // SIGNUP FORM PAGE 6 LAYOUT
   @override
-  Widget build(BuildContext context) =>
-      Scaffold(
+  Widget build(BuildContext context) => BlocProvider(
+      create: (context) => Signup6ActivitiesCubit(
+          context.read<AuthenticationBloc>().masterData.interests),
+      child: Scaffold(
           backgroundColor: Colors.white,
           extendBodyBehindAppBar: true,
           appBar: BasicFormAppBar(),
@@ -54,10 +61,11 @@ class _SignUpForm6State extends State<SignUpForm6> {
                 constraints: BoxConstraints(
                   minHeight: viewportConstraints.maxHeight,
                 ),
-                child: BlocBuilder<Signup6ActivitiesCubit,
-                    Signup6ActivitiesState>(
+                child:
+                    BlocBuilder<Signup6ActivitiesCubit, Signup6ActivitiesState>(
                   buildWhen: (prev, current) {
-                    return prev.filtered != current.filtered || prev.nextEnabled != current.nextEnabled;
+                    return prev.filtered != current.filtered ||
+                        prev.nextEnabled != current.nextEnabled;
                   },
                   builder: (context, state) {
                     return Column(
@@ -68,8 +76,7 @@ class _SignUpForm6State extends State<SignUpForm6> {
                             value: progress,
                             valueColor: AlwaysStoppedAnimation(
                                 SimposiAppColors.simposiDarkBlue),
-                            backgroundColor:
-                            SimposiAppColors.simposiFadedBlue,
+                            backgroundColor: SimposiAppColors.simposiFadedBlue,
                           ),
                         ),
 
@@ -100,7 +107,8 @@ class _SignUpForm6State extends State<SignUpForm6> {
                               Container(
                                 child: Wrap(
                                   runSpacing: -8.0,
-                                  children: selectedActivityWidgets(state.filtered,  state.selected, context),
+                                  children: selectedActivityWidgets(
+                                      state.filtered, state.selected, context),
                                 ),
                               ),
                             ],
@@ -116,12 +124,13 @@ class _SignUpForm6State extends State<SignUpForm6> {
                                 buttonLabel: 'Continue',
                                 buttonAction: state.nextEnabled
                                     ? () {
-                                  context
-                                      .read<RegistrationCubit>()
-                                      .stage6(interests: state.selected);
-                                  Navigator.of(context)
-                                      .pushNamed('/signup7');
-                                } : null,
+                                        context
+                                            .read<RegistrationCubit>()
+                                            .stage6(interests: state.selected);
+                                        Navigator.of(context)
+                                            .pushNamed('/signup7');
+                                      }
+                                    : null,
                               ),
                               SizedBox(height: 20),
                             ],
@@ -133,9 +142,7 @@ class _SignUpForm6State extends State<SignUpForm6> {
                 ),
               ),
             );
-          }));
-
-
+          })));
 
   Widget _searchBar(BuildContext context) {
     return Padding(
@@ -162,7 +169,11 @@ class SelectableChip extends StatefulWidget {
   final Function(bool) onClick;
   final bool selected;
 
-  const SelectableChip({Key? key, required this.title, required this.onClick, this.selected = false})
+  const SelectableChip(
+      {Key? key,
+      required this.title,
+      required this.onClick,
+      this.selected = false})
       : super(key: key);
 
   @override
@@ -179,7 +190,10 @@ class _SelectableChipState extends State<SelectableChip> {
     return Padding(
       padding: const EdgeInsets.all(2.0),
       child: InputChip(
-        label: Text(widget.title, style: TextStyle(color: realSelected ? Colors.white : Colors.black),),
+        label: Text(
+          widget.title,
+          style: TextStyle(color: realSelected ? Colors.white : Colors.black),
+        ),
         elevation: 0,
         showCheckmark: false,
         selectedColor: SimposiAppColors.simposiDarkBlue,

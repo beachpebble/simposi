@@ -33,7 +33,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   double? latitude;
   double? longitude;
   double? range;
-  late MasterData masterData;
 
   String? apiToken;
 

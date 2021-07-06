@@ -10,6 +10,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
@@ -74,7 +75,7 @@ class _SignUpForm4State extends State<SignUpForm4> {
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: context
-                          .read<RegistrationCubit>()
+                          .read<AuthenticationBloc>()
                           .masterData
                           .generations
                           .length,
@@ -84,17 +85,17 @@ class _SignUpForm4State extends State<SignUpForm4> {
                       itemBuilder: (context, index) {
                         return BigGBSelectButton(
                             buttonLabel: context
-                                .read<RegistrationCubit>()
+                                .read<AuthenticationBloc>()
                                 .masterData
                                 .generations[index]
                                 .title,
                             isSelected: _selected.contains(context
-                                .read<RegistrationCubit>()
+                                .read<AuthenticationBloc>()
                                 .masterData
                                 .generations[index]),
                             buttonAction: () {
                               _selectGeneration(context
-                                  .read<RegistrationCubit>()
+                                  .read<AuthenticationBloc>()
                                   .masterData
                                   .generations[index]);
                             });

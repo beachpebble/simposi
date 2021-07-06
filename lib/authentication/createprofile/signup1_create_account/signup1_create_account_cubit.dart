@@ -9,23 +9,10 @@ part 'signup1_create_account_state.dart';
 class Signup1CreateAccountCubit extends Cubit<Signup1CreateAccountState> {
 
 
-  Signup1CreateAccountCubit({required this.registrationCubit, required this.profileRepository}) : super(Signup1CreateAccountLoadingData());
+  Signup1CreateAccountCubit({required this.registrationCubit, required this.profileRepository}) : super(Signup1CreateAccountInitial());
 
   final RegistrationCubit registrationCubit;
   final ProfileRepository profileRepository;
-
-  Future<void> preload() async {
-    if (state is Signup1CreateAccountLoadingData || state is Signup1CreateAccountLoadingDataError) {
-      emit(Signup1CreateAccountLoadingData());
-      try {
-        MasterData mData = await profileRepository.getMasterData();
-        registrationCubit.masterData = mData;
-        emit(Signup1CreateAccountInitial());
-      } catch (e) {
-        emit(Signup1CreateAccountLoadingDataError(e));
-      }
-    }
-  }
 
   Future<void> firstStage({
     required String file,
