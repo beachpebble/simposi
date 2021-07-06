@@ -1,5 +1,5 @@
 /*
-*  createnewpassowrd.dart
+*  resetpassword.dart
 *  Simposi App Designs V4.0
 *  Created by Simposi Inc.
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
@@ -28,13 +28,13 @@ import 'reset_password_complete_cubit.dart';
 /**
 Use only for pwd change before login
  */
-class CreateNewPassword extends StatefulWidget {
+class ResetPasswordScreen extends StatefulWidget {
   // Set Variables
   @override
-  _CreateNewPasswordState createState() => _CreateNewPasswordState();
+  _ResetPasswordScreenState createState() => _ResetPasswordScreenState();
 }
 
-class _CreateNewPasswordState extends State<CreateNewPassword>
+class _ResetPasswordScreenState extends State<ResetPasswordScreen>
     with TickerProviderStateMixin {
   bool _autoValidate = false;
 

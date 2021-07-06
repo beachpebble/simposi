@@ -44,6 +44,7 @@ class AuthRepository {
     developer.log('saveAuth', name: 'AuthRepository saveAuth');
     final SharedPreferences prefs = await _prefs;
     prefs.setString('access_token', token);
+    jwt = token;
   }
 
   Future logout() async {

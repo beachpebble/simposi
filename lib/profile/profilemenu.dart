@@ -72,7 +72,7 @@ class ProfileMenu extends StatelessWidget {
                   child: ListTile(
                     title: Align(
                       alignment: Alignment(-1.2, 0),
-                      child: Text('Reset Password',
+                      child: Text('Change Password',
                         style: TextStyle(
                           color: SimposiAppColors.simposiLightText,
                           fontSize: 17,
@@ -87,7 +87,7 @@ class ProfileMenu extends StatelessWidget {
                         size: 30
                     ),
                     onTap: () {
-                      // Navigator.of(context).pushNamed('/createpassword');
+                      Navigator.of(context).pushNamed('/changePassword');
                     },
                   ),
                 ),

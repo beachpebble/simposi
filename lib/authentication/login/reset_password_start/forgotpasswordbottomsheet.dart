@@ -53,7 +53,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
             else if (state is ForgotPasswordStartSuccess) {
               showInfoToast("Code was sent via SMS");
               Navigator.of(context).pop();
-              Navigator.of(context).pushNamed('/createpassword', arguments: phone);
+              Navigator.of(context).pushNamed('/resetPassword', arguments: phone);
             }
           },
           builder: (context, state) {
