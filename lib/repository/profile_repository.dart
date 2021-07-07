@@ -18,7 +18,7 @@ class ProfileRepository {
 
   ProfileRepository(this._apiService);
 
-  Profile? profile;
+  late Profile profile;
   final LocalStorage storage = new LocalStorage('profile_storage');
 
   Future<void> setProfile(Map data) async {
@@ -27,10 +27,8 @@ class ProfileRepository {
   }
 
   Future<void> refreshProfile() async {
-    if (profile == null) {
-      var data  = await storage.getItem("profile");
-      profile = Profile.fromJson(data);
-    }
+    var data  = await storage.getItem("profile");
+    profile = Profile.fromJson(data);
   }
 
   Future<Map> login(String login, String password) async {
@@ -240,6 +238,38 @@ class ProfileRepository {
       throw ApiException(
         errorType: LocalizedErrorType.SERVER_ERROR,
       );
+    }
+  }
+
+  Future<String?> updateProfile(
+      {String? name,
+      String? filepath,
+      String? facebook,
+      String? instagram,
+      String? linkedin}) async {
+    Map<String, Object> data = {};
+    if (name != null)
+      data["user_name"] = name;
+    if (filepath != null)
+      data["profile_photo"] = filepath;
+    if (facebook != null && facebook.isNotEmpty)
+      data["facebook"] = facebook;
+    if (instagram != null && instagram.isNotEmpty)
+      data["instagram"] = instagram;
+    if (linkedin != null && linkedin.isNotEmpty)
+      data["linkedin"] = linkedin;
+    NetworkResponse response =
+    await _apiService.put(ApiService.API_USER_EDIT,
+        data: data,
+        auth: true,
+        );
+    if (response is NetworkResponseError) {
+      throw ApiException(
+          errorType: LocalizedErrorType.AUTH, message: response.message);
+    } else if (response is NetworkResponseSuccess) {
+      String? message = response.message;
+      await setProfile(response.data);
+      return message;
     }
   }
 }

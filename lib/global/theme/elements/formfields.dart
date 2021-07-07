@@ -6,61 +6,42 @@
 */
 
 import 'dart:ui';
-import 'package:flutter/material.dart';
-import 'package:keyboard_dismisser/keyboard_dismisser.dart';
-import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
-import 'package:simposi_app_v4/global/theme/theme.dart';
 
+import 'package:flutter/material.dart';
+import 'package:simposi_app_v4/global/theme/appcolors.dart';
 
 // TEXT FIELD WITH CLEAR FUNCTION
-class SimposiFormFieldwClear extends StatefulWidget {
+class SimposiFormFieldwClear extends StatelessWidget {
   final String inputType;
   final String fieldLabel;
   final validationLogic;
+  final TextEditingController fieldController;
 
   const SimposiFormFieldwClear({
     Key? key,
     required this.inputType,
     required this.fieldLabel,
     required this.validationLogic,
+    required this.fieldController,
   }) : super(key: key);
-
-  @override
-  _SimposiFormFieldwClearState createState() => _SimposiFormFieldwClearState();
-}
-
-class _SimposiFormFieldwClearState extends State<SimposiFormFieldwClear> {
-  String _input = ' ';
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController _fieldController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    _fieldController.addListener(() => setState(() {}));
-  }
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: _fieldController,
+      controller: fieldController,
       keyboardType: TextInputType.name,
       textInputAction: TextInputAction.next,
       enableSuggestions: true,
       autocorrect: true,
       obscureText: false,
       showCursor: true,
-
       style: TextStyle(
         color: SimposiAppColors.simposiLightText,
         fontWeight: FontWeight.w500,
         fontSize: 15,
       ),
-
       decoration: InputDecoration(
-        labelText: widget.fieldLabel,
+        labelText: fieldLabel,
         contentPadding: EdgeInsets.all(20),
         labelStyle: TextStyle(
           color: SimposiAppColors.simposiLightText,
@@ -91,8 +72,7 @@ class _SimposiFormFieldwClearState extends State<SimposiFormFieldwClear> {
             borderRadius: BorderRadius.all(Radius.circular(40.0)),
             borderSide: BorderSide(
               color: SimposiAppColors.simposiPink,
-            )
-        ),
+            )),
 
         // Error State
         errorStyle: TextStyle(
@@ -102,32 +82,23 @@ class _SimposiFormFieldwClearState extends State<SimposiFormFieldwClear> {
             borderRadius: BorderRadius.all(Radius.circular(40.0)),
             borderSide: BorderSide(
               color: SimposiAppColors.simposiPink,
-            )
-        ),
+            )),
 
-        suffixIcon: _fieldController.text.isEmpty
+        suffixIcon: fieldController.text.isEmpty
             ? Container(width: 0)
             : IconButton(
-              icon: Icon(Icons.close,
-                  size: 20, color: SimposiAppColors.simposiLightGrey),
-              onPressed: () => _fieldController.clear(),
-            ),
-
+                icon: Icon(Icons.close,
+                    size: 20, color: SimposiAppColors.simposiLightGrey),
+                onPressed: () => fieldController.clear(),
+              ),
       ),
-
-      // VALIDATION LOGIC
-      validator: widget.validationLogic,
-
-      // ACTION ON SAVE
-      onSaved: (value) => setState(() => _input = value!),
+      validator: validationLogic,
     );
   }
 }
 
-
 // PASSWORD FIELD
 class SimposiPasswordField extends StatefulWidget {
-
   const SimposiPasswordField({
     Key? key,
   }) : super(key: key);
@@ -147,7 +118,6 @@ class _SimposiPasswordFieldState extends State<SimposiPasswordField> {
     super.initState();
     _passwordController.addListener(() => setState(() {}));
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -179,13 +149,15 @@ class _SimposiPasswordFieldState extends State<SimposiPasswordField> {
         suffixIcon: _passwordController.text.isEmpty
             ? Container(width: 0)
             : IconButton(
-              icon: Icon(_passwordVisible ? Icons.visibility : Icons.visibility_off,
-                  size: 20, color: SimposiAppColors.simposiLightGrey),
-              onPressed: () {
-                setState(() {
-                  _passwordVisible = !_passwordVisible;
-                });
-            }),
+                icon: Icon(
+                    _passwordVisible ? Icons.visibility : Icons.visibility_off,
+                    size: 20,
+                    color: SimposiAppColors.simposiLightGrey),
+                onPressed: () {
+                  setState(() {
+                    _passwordVisible = !_passwordVisible;
+                  });
+                }),
 
         // INITIAL STATE
         border: OutlineInputBorder(
@@ -209,8 +181,7 @@ class _SimposiPasswordFieldState extends State<SimposiPasswordField> {
             borderRadius: BorderRadius.all(Radius.circular(40.0)),
             borderSide: BorderSide(
               color: SimposiAppColors.simposiPink,
-            )
-        ),
+            )),
 
         // ERROR STATE
         errorStyle: TextStyle(
@@ -220,9 +191,7 @@ class _SimposiPasswordFieldState extends State<SimposiPasswordField> {
             borderRadius: BorderRadius.all(Radius.circular(40.0)),
             borderSide: BorderSide(
               color: SimposiAppColors.simposiPink,
-            )
-        ),
-
+            )),
       ),
 
       // VALIDATION LOGIC
@@ -232,8 +201,7 @@ class _SimposiPasswordFieldState extends State<SimposiPasswordField> {
         }
         if (value.length < 8) {
           return 'Must be at least 8 characters';
-        }
-        else {
+        } else {
           return null;
         }
       },
@@ -243,4 +211,3 @@ class _SimposiPasswordFieldState extends State<SimposiPasswordField> {
     );
   }
 }
-

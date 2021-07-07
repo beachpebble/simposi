@@ -25,6 +25,7 @@ class ApiService {
   static const String API_REGISTER = "/api/v1/user/register";
   static const String API_SEND_CODE = "/api/v1/code";
   static const String API_USER_EXISTS = "/api/v1/user/check";
+  static const String API_USER_EDIT = "/api/v1/user";
 
   ApiService({required this.authRepository, this.baseUrl = TEST}) {
     _dio = Dio();
@@ -57,6 +58,22 @@ class ApiService {
     if (data is Map<String, dynamic> && lang)
       data["language_id"] = 1;
     final response = await _dio.post(path, data: data, options: options);
+    return _handleResponse(response, 'POST', path);
+  }
+
+  Future<NetworkResponse> put(String path, {
+    required Map<String, Object> data,
+    auth: true,
+    String? customToken,
+    bool lang = true
+  }) async {
+    var options = await _prepareRequest(path, auth);
+    if (customToken != null && auth == false)
+      options.headers!['Authorization'] = "Bearer $customToken";
+    //TODO later change to locale set on device
+    if (data is Map<String, dynamic> && lang)
+      data["language_id"] = 1;
+    final response = await _dio.put(path, data: data, options: options);
     return _handleResponse(response, 'POST', path);
   }
 

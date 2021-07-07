@@ -1,3 +1,5 @@
+import 'dart:developer' as developer;
+
 import 'package:equatable/equatable.dart';
 import 'package:simposi_app_v4/model/gender.dart';
 
@@ -7,25 +9,33 @@ class Profile extends Equatable {
   final int userId;
   final int userRoleId;
   final String userName;
+  final String? facebook;
+  final String? instagram;
+  final String? linkedin;
   final String profilePhoto;
   final String wantToMeet;
   final bool isLgbt;
   final Gender gender;
 
-  Profile(
-      {required this.userId,
-      required this.userRoleId,
-      required this.userName,
-      required this.profilePhoto,
-      required this.isLgbt,
-      required this.gender,
-      required this.wantToMeet});
+  Profile({
+    required this.userId,
+    required this.userRoleId,
+    required this.userName,
+    required this.profilePhoto,
+    required this.isLgbt,
+    required this.gender,
+    required this.wantToMeet,
+    this.facebook,
+    this.instagram,
+    this.linkedin,
+  });
 
   @override
   List<Object?> get props =>
       [userId, userRoleId, userName, profilePhoto, wantToMeet];
 
   static Profile fromJson(Map json) {
+    developer.log("Profile loading from json $json");
     int? parsedUserId = json.containsKey('user_id') ? json['user_id'] : null;
     int? parsedUserRoleId =
         json.containsKey('user_role_id') ? json['user_role_id'] : null;
@@ -33,13 +43,17 @@ class Profile extends Equatable {
         json.containsKey('user_name') ? json['user_name'] : null;
     String? parsedProfilePhoto =
         json.containsKey('profile_photo') ? json['profile_photo'] : null;
-    String? parsedWantToMeet =
-        json.containsKey('meet') ? json['meet'] : null;
-    String? parsedGenderId =
-        json.containsKey('gender') ? json['gender'] : null;
-
+    String? parsedWantToMeet = json.containsKey('meet') ? json['meet'] : null;
+    String? parsedGenderId = json.containsKey('gender') ? json['gender'] : null;
     bool parsedIsLgbt =
         json.containsKey('islgbtq') ? json['islgbtq'] > 0 : false;
+
+    String? parsedFacebook =
+        json.containsKey('facebook') ? json['facebook'] : null;
+    String? parsedInstagram =
+        json.containsKey('instagram') ? json['instagram'] : null;
+    String? parsedLinkedin =
+        json.containsKey('linkedin') ? json['linkedin'] : null;
 
     if (parsedUserId == null ||
         parsedUserRoleId == null ||
@@ -61,6 +75,9 @@ class Profile extends Equatable {
         wantToMeet: parsedWantToMeet,
         isLgbt: parsedIsLgbt,
         gender: gender,
+        facebook: parsedFacebook,
+        instagram: parsedInstagram,
+        linkedin: parsedLinkedin,
         userRoleId: parsedUserRoleId);
   }
 }

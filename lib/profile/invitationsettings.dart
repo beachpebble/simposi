@@ -60,7 +60,7 @@ class _InvitationSettingsState extends State<InvitationSettings> {
                           ),
                           trailing: Icon(Icons.chevron_right),
                           onTap: () => {
-                            Navigator.of(context).pushNamed('/signup2'),
+                            Navigator.of(context).pushNamed('/signup2edit'),
                           },
                         ),
                       ),
