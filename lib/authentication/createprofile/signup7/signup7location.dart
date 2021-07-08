@@ -6,12 +6,12 @@
 */
 
 import 'dart:async';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
@@ -131,21 +131,22 @@ class _SignUpForm7State extends State<SignUpForm7> {
       ));
 
   Widget _rangeSlider(Signup7LocationState state) {
+    String units = localeIsImperial ? "miles" : "km";
     return Column(
       children: [
         SizedBox(
           height: 10,
         ),
-        Text("${state.range.round()} km from home"),
+        Text("${state.range.round()} $units from home"),
         SizedBox(
           height: 10,
         ),
         Slider(
           value: state.range,
-          min: 0,
-          max: 10,
+          min: 1,
+          max: 150,
           divisions: 100,
-          label: "${state.range.round()} km",
+          label: "${state.range.round()} $units",
           onChanged: (double value) {
             context.read<Signup7LocationCubit>().selectRange(value);
           },
@@ -169,6 +170,7 @@ class _SignUpForm7State extends State<SignUpForm7> {
   }
 
   Widget _googleMap(Signup7LocationState state) {
+    double range = localeIsImperial ? state.range * 1.6 : state.range;
     return GoogleMap(
         zoomControlsEnabled: true,
         zoomGesturesEnabled: true,
@@ -183,7 +185,7 @@ class _SignUpForm7State extends State<SignUpForm7> {
         onTap: (loc) {
           context.read<Signup7LocationCubit>().selectLocation(loc);
         },
-        circles: _getCircle(state.selectedLocation, state.range));
+        circles: _getCircle(state.selectedLocation, range));
   }
 
   Widget _searchResult(Signup7LocationState state) {
@@ -250,4 +252,9 @@ class _SignUpForm7State extends State<SignUpForm7> {
                     .selectLocation(newPosition);
               }))
         ]);
+
+  static bool get localeIsImperial {
+    final String defaultLocale = Platform.localeName;
+    return defaultLocale.endsWith("US");
+  }
 }

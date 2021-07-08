@@ -145,6 +145,7 @@ class ProfileRepository {
           data['whoEarn'] is List) {
         List il = data['whoEarn'];
         earninigList = (il.map((e) => Earning.fromJson(e)).toList());
+        earninigList.sort((first, second){ return first.sortId.compareTo(second.sortId);});
       }
       return MasterData({}..addAll(interestList), generationList, earninigList);
     } else {
