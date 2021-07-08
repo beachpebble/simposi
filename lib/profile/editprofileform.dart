@@ -13,7 +13,9 @@ import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/formfields.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
+import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
 import 'package:simposi_app_v4/widgets/add_photo_button.dart';
 import 'package:simposi_app_v4/widgets/progress.dart';
@@ -142,6 +144,14 @@ class _EditProfileState extends State<EditProfile> {
                           BlocConsumer<ProfileEditCubit, ProfileEditState>(
                             listener: (context, state) {
                               print("!!!!!!!!!!!!!!! $state");
+                              if (state is ProfileEditError) {
+                                showErrorToast(
+                                    handleError(state.error, context));
+                              } else if (state is ProfileEditSuccess) {
+                                showInfoToast(
+                                    "Profile is updated");
+                                Navigator.of(context).pop();
+                              }
                             },
                             builder: (context, state) {
                               return state is ProfileEditLoading ? AppProgressIndicator() : BigGBSelectButton(

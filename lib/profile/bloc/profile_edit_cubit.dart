@@ -26,10 +26,9 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
         newPath = await profileRepository.uploadAvatar(filePath);
       }
       await profileRepository.updateProfile(name: name, filepath: newPath, facebook: facebook, instagram: instagram, linkedin: linkedin);
-      // await Future.delayed(Duration(seconds: 3));
-      emit(ProfileEditInitial());
+      emit(ProfileEditSuccess());
     } catch (e) {
-      emit(ProfileEditError());
+      emit(ProfileEditError(e));
     }
   }
 
@@ -40,7 +39,7 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
       await Future.delayed(Duration(seconds: 3));
       emit(ProfileEditInitial());
     } catch (e) {
-      emit(ProfileEditError());
+      emit(ProfileEditError(e));
     }
   }
 
@@ -51,7 +50,7 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
       await Future.delayed(Duration(seconds: 3));
       emit(ProfileEditInitial());
     } catch (e) {
-      emit(ProfileEditError());
+      emit(ProfileEditError(e));
     }
   }
 }

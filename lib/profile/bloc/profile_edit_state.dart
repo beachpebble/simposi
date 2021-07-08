@@ -14,6 +14,12 @@ class ProfileEditLoading extends ProfileEditState {
 }
 
 class ProfileEditError extends ProfileEditState {
+  final dynamic error;
+
+  ProfileEditError(this.error);
+
+  @override
+  List<Object> get props => [error];
 }
 
 class ProfileEditSuccess extends ProfileEditState {
