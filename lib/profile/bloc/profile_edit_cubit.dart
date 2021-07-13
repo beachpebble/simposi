@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:simposi_app_v4/model/gender.dart';
 import 'package:simposi_app_v4/model/profile.dart';
 import 'package:simposi_app_v4/repository/profile_repository.dart';
 
@@ -32,11 +33,10 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
     }
   }
 
-  Future<void> indentifyAs() async {
+  Future<void> indentifyAs(Gender gender, bool isLgbt) async {
     emit(ProfileEditLoading());
     try {
-      //just a stub
-      await Future.delayed(Duration(seconds: 3));
+      await profileRepository.updateProfileGender(gender: gender, lgbt: isLgbt);
       emit(ProfileEditInitial());
     } catch (e) {
       emit(ProfileEditError(e));

@@ -5,6 +5,7 @@ import 'package:http_parser/http_parser.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:simposi_app_v4/model/earning.dart';
 import 'package:simposi_app_v4/model/errors.dart';
+import 'package:simposi_app_v4/model/gender.dart';
 import 'package:simposi_app_v4/model/generation.dart';
 import 'package:simposi_app_v4/model/interest.dart';
 import 'package:simposi_app_v4/model/master_data.dart';
@@ -259,18 +260,35 @@ class ProfileRepository {
       data["instagram__url"] = instagram;
     if (linkedin != null && linkedin.isNotEmpty)
       data["linkedin__url"] = linkedin;
+    return updateProfileFields(data);
+  }
+
+  Future<String?> updateProfileGender(
+      {required Gender gender,
+        required bool lgbt}) async {
+    Map<String, Object> data = {
+      "Gender": gender.id,
+      "IsLGBTQ": lgbt,
+    };
+    return updateProfileFields(data);
+  }
+
+  Future<String?> updateProfileFields(
+      Map<String, Object> data) async {
     NetworkResponse response =
     await _apiService.put(ApiService.API_USER_EDIT,
-        data: data,
-        auth: true,
-        );
+      data: data,
+      auth: true,
+    );
     if (response is NetworkResponseError) {
       throw ApiException(
-          errorType: LocalizedErrorType.AUTH, message: response.message);
+          errorType: LocalizedErrorType.SERVER_ERROR, message: response.message);
     } else if (response is NetworkResponseSuccess) {
       String? message = response.message;
       await setProfile(response.data);
       return message;
     }
   }
+
+
 }

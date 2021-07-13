@@ -182,7 +182,7 @@ class _SignUpForm2State extends State<SignUpForm2> {
                 buttonLabel: 'Save',
                 buttonAction: _selected != null
                     ? () {
-                        context.read<ProfileEditCubit>().indentifyAs();
+                        context.read<ProfileEditCubit>().indentifyAs(_selected!, _isLgbt);
                       }
                     : null,
               );
