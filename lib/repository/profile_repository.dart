@@ -254,11 +254,11 @@ class ProfileRepository {
     if (filepath != null)
       data["profile_photo"] = filepath;
     if (facebook != null && facebook.isNotEmpty)
-      data["facebook"] = facebook;
+      data["facebook_url"] = facebook;
     if (instagram != null && instagram.isNotEmpty)
-      data["instagram"] = instagram;
+      data["instagram__url"] = instagram;
     if (linkedin != null && linkedin.isNotEmpty)
-      data["linkedin"] = linkedin;
+      data["linkedin__url"] = linkedin;
     NetworkResponse response =
     await _apiService.put(ApiService.API_USER_EDIT,
         data: data,

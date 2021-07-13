@@ -49,11 +49,11 @@ class Profile extends Equatable {
         json.containsKey('islgbtq') ? json['islgbtq'] > 0 : false;
 
     String? parsedFacebook =
-        json.containsKey('facebook') ? json['facebook'] : null;
+        json.containsKey('facebook_url') ? json['facebook_url'] : null;
     String? parsedInstagram =
-        json.containsKey('instagram') ? json['instagram'] : null;
+        json.containsKey('instagram__url') ? json['instagram__url'] : null;
     String? parsedLinkedin =
-        json.containsKey('linkedin') ? json['linkedin'] : null;
+        json.containsKey('linkedln__url') ? json['linkedln__url'] : null;
 
     if (parsedUserId == null ||
         parsedUserRoleId == null ||

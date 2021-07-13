@@ -22,5 +22,6 @@
   "validatePhoneLength": "Must be at least 10 characters",
   "validatePhoneNotEmpty": "Phone Required",
   "validateEmailNotEmpty": "Email Required",
-  "validateEmailNotValid": "Email Not Valid"
+  "validateEmailNotValid": "Email Not Valid",
+  "validateUrlNotValid": "URL Not Valid"
 }

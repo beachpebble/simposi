@@ -118,32 +118,25 @@ class _EditProfileState extends State<EditProfile> {
                             inputType: 'url',
                             fieldLabel: ' Facebook',
                             fieldController: _facebookController,
-                            validationLogic: (value) {
-                              // TODO: Add Validation Logic for FB URL
-                            },
+                            validationLogic: getValidator(context, Validators.URL_LINK),
                           ),
                           SizedBox(height: 10),
                           SimposiFormFieldwClear(
                             inputType: 'url',
                             fieldLabel: ' Instagram',
                             fieldController: _instagramController,
-                            validationLogic: (value) {
-                              // TODO: Add Validation Logic for Instagram URL
-                            },
+                            validationLogic: getValidator(context, Validators.URL_LINK),
                           ),
                           SizedBox(height: 10),
                           SimposiFormFieldwClear(
                             inputType: 'url',
                             fieldLabel: ' Linkedin',
                             fieldController: _linkedinController,
-                            validationLogic: (value) {
-                              // TODO: Add Validation Logic for Linkedin URL
-                            },
+                            validationLogic: getValidator(context, Validators.URL_LINK),
                           ),
                           SizedBox(height: 10),
                           BlocConsumer<ProfileEditCubit, ProfileEditState>(
                             listener: (context, state) {
-                              print("!!!!!!!!!!!!!!! $state");
                               if (state is ProfileEditError) {
                                 showErrorToast(
                                     handleError(state.error, context));

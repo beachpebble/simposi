@@ -2,7 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-enum Validators { PASSWORD, PHONE, NAME, EMAIL }
+enum Validators { PASSWORD, PHONE, NAME, EMAIL, URL_LINK }
 
 FormFieldValidator<String>? getValidator(
     BuildContext context, Validators validatorType) {
@@ -43,6 +43,16 @@ FormFieldValidator<String>? getValidator(
           return AppLocalizations.of(context)!.validateEmailNotEmpty;
         } else if (!EmailValidator.validate(value)) {
           return AppLocalizations.of(context)!.validateEmailNotValid;
+        } else {
+          return null;
+        }
+      }; 
+      case Validators.URL_LINK:
+      return (value) {
+        if (value == null || value.isEmpty) {
+          return null;
+        } else if (!value.startsWith("https://")) {
+          return AppLocalizations.of(context)!.validateUrlNotValid;
         } else {
           return null;
         }
