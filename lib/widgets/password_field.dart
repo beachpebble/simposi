@@ -43,7 +43,7 @@ class _PasswordFieldState extends State<PasswordField> {
           letterSpacing: 1.5,
         ),
 
-        suffixIcon: widget.controller?.text?.isEmpty == true
+        suffixIcon: widget.controller?.text.isEmpty == true
             ? Container(width: 0)
             : IconButton(
                 icon: Icon(
