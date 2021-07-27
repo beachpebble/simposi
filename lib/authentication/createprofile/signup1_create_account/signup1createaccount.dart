@@ -103,7 +103,10 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                 AddPhotoButton(
                                   imageSelectCallback: (val) {
                                     print("selected image $val");
-                                    _filePath = val;
+                                    setState(() {
+                                      _filePath = val;
+                                    });
+
                                   },
                                 ),
                               ],
@@ -142,9 +145,9 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                   // SUBMIT BUTTON
                                   state is Signup1CreateAccountLoading
                                       ? AppProgressIndicator()
-                                      : BigGBSelectButton(
+                                      : ContinueButton(
                                       buttonLabel: 'Submit',
-                                      buttonAction: () {
+                                      buttonAction: _nextEnabled() ? () {
                                         if (_formKey.currentState!
                                             .validate()) {
                                           // Navigator.of(context)
@@ -171,7 +174,7 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                             showErrorToast("Add photo");
                                           }
                                         }
-                                      }),
+                                      } : null),
                                   SizedBox(height: 10),
                                   // TODO: Are we able to reuse this screen for edit profile? Change Button to just a save and hide footer?
                                   // LOGIN BUTTON
@@ -372,6 +375,10 @@ class _SignUpForm1State extends State<SignUpForm1> {
           }
         },
       );
+
+  bool _nextEnabled() {
+    return _nameController.text.isNotEmpty && _phoneController.text.isNotEmpty && _passwordController.text.isNotEmpty && _emailController.text.isNotEmpty && _filePath != null && _filePath!.isNotEmpty;
+  }
 
   Widget _emailField() => TextFormField(
         controller: _emailController,

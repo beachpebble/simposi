@@ -20,6 +20,7 @@
   "validatePasswordNotEmpty": "Password Required",
   "validatePasswordsDontMatch": "Passwords dont match",
   "validatePhoneLength": "Must be at least 10 characters",
+  "validatePhoneLengthMax": "Must be not more then 14 characters",
   "validatePhoneNotEmpty": "Phone Required",
   "validateEmailNotEmpty": "Email Required",
   "validateEmailNotValid": "Email Not Valid",

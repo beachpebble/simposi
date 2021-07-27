@@ -32,10 +32,12 @@ class _SignUpForm7State extends State<SignUpForm7> {
   double progress = 0.77;
   final _placeSearchController = TextEditingController();
   Completer<GoogleMapController> _controller = Completer();
+  Completer<void> _initCompleter = Completer();
 
   @override
   void initState() {
     super.initState();
+
     determinePosition()
         .then((value) => context
             .read<Signup7LocationCubit>()
@@ -43,6 +45,10 @@ class _SignUpForm7State extends State<SignUpForm7> {
         .catchError((e) {
       showErrorToast("There is no location permission");
       context.read<Signup7LocationCubit>().noPermission();
+    });
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      await Future.delayed(Duration(milliseconds: 200));
+      _initCompleter.complete();
     });
   }
 
@@ -116,10 +122,10 @@ class _SignUpForm7State extends State<SignUpForm7> {
                   children: [
                     ContinueButton(
                         buttonAction: state.selectedLocation != null
-                            ? ()
-                                {context.read<Signup7LocationCubit>().submit();
+                            ? () {
+                                context.read<Signup7LocationCubit>().submit();
                                 Navigator.of(context).pushNamed('/signup8');
-                                }
+                              }
                             : null),
                     SizedBox(height: 20),
                   ],
@@ -171,21 +177,27 @@ class _SignUpForm7State extends State<SignUpForm7> {
 
   Widget _googleMap(Signup7LocationState state) {
     double range = localeIsImperial ? state.range * 1.6 : state.range;
-    return GoogleMap(
-        zoomControlsEnabled: true,
-        zoomGesturesEnabled: true,
-        myLocationEnabled: true,
-        mapType: MapType.normal,
-        initialCameraPosition:
-            CameraPosition(target: state.selectedLocation!, zoom: 11),
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
-        markers: _getMarkers(state.selectedLocation),
-        onTap: (loc) {
-          context.read<Signup7LocationCubit>().selectLocation(loc);
-        },
-        circles: _getCircle(state.selectedLocation, range));
+    return FutureBuilder(
+        future: _initCompleter.future,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          return snapshot.connectionState == ConnectionState.waiting
+              ? Center(child: AppProgressIndicator())
+              : GoogleMap(
+                  zoomControlsEnabled: true,
+                  zoomGesturesEnabled: true,
+                  myLocationEnabled: true,
+                  mapType: MapType.normal,
+                  initialCameraPosition:
+                      CameraPosition(target: state.selectedLocation!, zoom: 11),
+                  onMapCreated: (GoogleMapController controller) {
+                    _controller.complete(controller);
+                  },
+                  markers: _getMarkers(state.selectedLocation),
+                  onTap: (loc) {
+                    context.read<Signup7LocationCubit>().selectLocation(loc);
+                  },
+                  circles: _getCircle(state.selectedLocation, range));
+        });
   }
 
   Widget _searchResult(Signup7LocationState state) {
@@ -211,7 +223,7 @@ class _SignUpForm7State extends State<SignUpForm7> {
               placesSearchResult.formattedAddress ?? "",
             ),
             onTap: () async {
-              if (placesSearchResult.geometry != null ) {
+              if (placesSearchResult.geometry != null) {
                 final GoogleMapController controller = await _controller.future;
                 var newLoc = LatLng(placesSearchResult.geometry!.location.lat,
                     placesSearchResult.geometry!.location.lng);

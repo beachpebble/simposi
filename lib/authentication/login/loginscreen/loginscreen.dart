@@ -53,6 +53,10 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  bool _nextEnabled() {
+    return _phoneController.text.isNotEmpty && _passwordController.text.isNotEmpty;
+  }
+
   @override
   Widget build(BuildContext context) => KeyboardDismisser(
         child: BlocProvider(
@@ -118,11 +122,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                   builder: (context, state) {
                                     return state is LoginProgress
                                         ? AppProgressIndicator()
-                                        : BigGBSelectButton(
+                                        : ContinueButton(
                                             buttonLabel:
                                                 AppLocalizations.of(context)!
                                                     .loginLogInButton,
-                                            buttonAction: () {
+                                            buttonAction: _nextEnabled() ? () {
                                               final isValid = _formKey
                                                   .currentState!
                                                   .validate();
@@ -135,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                     .read<LoginCubit>()
                                                     .login(phone, password);
                                               }
-                                            });
+                                            } : null);
                                   },
                                 ),
                                 SizedBox(height: 10),
@@ -275,6 +279,8 @@ class _LoginScreenState extends State<LoginScreen> {
         // OUTPUT ACTIONS
         onSaved: (value) => setState(() => phone = value!),
       );
+
+
 
   // PASSWORD FIELD
   Widget _passwordField() => TextFormField(

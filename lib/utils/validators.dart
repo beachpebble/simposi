@@ -23,6 +23,8 @@ FormFieldValidator<String>? getValidator(
           return AppLocalizations.of(context)!.validatePhoneNotEmpty;
         } else if (value.length < 8) {
           return AppLocalizations.of(context)!.validatePhoneLength;
+        } else if (value.length > 14) {
+          return AppLocalizations.of(context)!.validatePhoneLengthMax;
         } else {
           return null;
         }
