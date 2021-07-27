@@ -76,11 +76,7 @@ class _SignUpForm1State extends State<SignUpForm1> {
                               Text(
                                 'Signup and start \n meeting new people.',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: SimposiAppColors.simposiDarkGrey,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 19,
-                                ),
+                                style: Theme.of(context).textTheme.headline3,
                               ),
                               SizedBox(height: 20),
                               // TODO: ENABLE IMAGE PICKER & ERROR MESSAGE IF NO IMAGE ON SUBMIT
@@ -178,57 +174,8 @@ class _SignUpForm1State extends State<SignUpForm1> {
         obscureText: false,
         showCursor: true,
 
-        style: TextStyle(
-          color: SimposiAppColors.simposiLightText,
-          fontWeight: FontWeight.w500,
-          fontSize: 15,
-        ),
-
         decoration: InputDecoration(
           labelText: ' Name',
-          contentPadding: EdgeInsets.all(20),
-          labelStyle: TextStyle(
-            color: SimposiAppColors.simposiLightText,
-            fontSize: 15,
-            fontWeight: FontWeight.w500,
-            letterSpacing: 1.5,
-          ),
-
-          // Initial State
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(40.0)),
-            borderSide: BorderSide(
-              color: SimposiAppColors.simposiLightGrey,
-            ),
-          ),
-
-          // Focus State
-          focusColor: SimposiAppColors.simposiDarkBlue,
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(40.0)),
-            borderSide: BorderSide(
-              color: SimposiAppColors.simposiDarkBlue,
-            ),
-          ),
-
-          // Focus Error State
-          focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiPink,
-              )
-          ),
-
-          // Error State
-          errorStyle: TextStyle(
-            color: SimposiAppColors.simposiPink,
-          ),
-          errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiPink,
-              )
-          ),
 
           suffixIcon: _nameController.text.isEmpty
               ? Container(width: 0)
@@ -271,47 +218,6 @@ class _SignUpForm1State extends State<SignUpForm1> {
 
         decoration: InputDecoration(
           labelText: ' Phone Number',
-          contentPadding: EdgeInsets.all(20),
-          labelStyle: TextStyle(
-            color: SimposiAppColors.simposiLightText,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            letterSpacing: 1.5,
-          ),
-
-          // INITIAL STATE
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiLightGrey,
-              )),
-
-          // FOCUS STATE
-          focusColor: SimposiAppColors.simposiDarkBlue,
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiDarkBlue,
-              )),
-
-          // FOCUS ERROR STATE
-          focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiPink,
-              )
-          ),
-
-          // ERROR STATE
-          errorStyle: TextStyle(
-            color: SimposiAppColors.simposiPink,
-          ),
-          errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiPink,
-              )
-          ),
 
           suffixIcon: _phoneController.text.isEmpty
               ? Container(width: 0)
@@ -353,57 +259,8 @@ class _SignUpForm1State extends State<SignUpForm1> {
         obscureText: _passwordVisible,
         showCursor: true,
 
-        style: TextStyle(
-          color: SimposiAppColors.simposiLightText,
-          fontWeight: FontWeight.w500,
-          fontSize: 15,
-        ),
-
         decoration: InputDecoration(
           labelText: ' Password',
-          contentPadding: EdgeInsets.all(20),
-          labelStyle: TextStyle(
-            color: SimposiAppColors.simposiLightText,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            letterSpacing: 1.5,
-          ),
-
-          // INITIAL STATE
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(40.0)),
-            borderSide: BorderSide(
-              color: SimposiAppColors.simposiLightGrey,
-            ),
-          ),
-
-          // FOCUS STATE
-          focusColor: SimposiAppColors.simposiDarkBlue,
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(40.0)),
-            borderSide: BorderSide(
-              color: SimposiAppColors.simposiDarkBlue,
-            ),
-          ),
-
-          // FOCUS ERROR STATE
-          focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiPink,
-              )
-          ),
-
-          // ERROR STATE
-          errorStyle: TextStyle(
-            color: SimposiAppColors.simposiPink,
-          ),
-          errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiPink,
-              )
-          ),
 
           suffixIcon: IconButton(
               color: SimposiAppColors.simposiLightGrey,

@@ -24,25 +24,46 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
 # Simposi Core Dependencies
   after_layout: ^1.1.0
+  cached_network_image: ^3.1.0
   cupertino_icons: ^1.0.3
-  flutter_plugin_android_lifecycle: ^2.0.1
-  flutter_compass: ^0.6.0
+  dio: ^4.0.0
+  dio_cookie_manager: ^2.0.0
+  email_validator: ^2.0.1
+  equatable: ^2.0.3
+  flutter_bloc: ^7.0.1
+  flutter_compass: ^0.6.1
+  flutter_plugin_android_lifecycle: ^2.0.2
+  fluttertoast: ^8.0.7
   focused_menu: ^1.0.5
-  geolocator: ^7.0.3
-  google_maps_flutter: ^2.0.5
+  geolocator: ^7.3.1
+  google_maps_flutter: ^2.0.6
+  google_map_location_picker:
+    git:
+      url: https://github.com/humazed/google_map_location_picker
+      ref: 25deede4823145403718ab16795bfc3be604f46e
+  google_maps_webservice: ^0.0.19
   html: ^0.15.0
-  image_picker: ^0.7.5+2
+  http_parser: ^4.0.0
+  intl: ^0.17.0
+  image_picker: ^0.8.2
   keyboard_dismisser: ^2.0.0
-  location: ^4.1.1
+  location: ^4.3.0
+  localstorage: ^4.0.0+1
   material_floating_search_bar: ^0.3.4
-  permission_handler: ^8.0.0+1
-  pin_code_fields: ^7.1.0
-  rxdart: ^0.26.0
-  share: ^2.0.1
-  table_calendar: ^3.0.0
+  page_transition: ^2.0.2
+  permission_handler: ^8.1.4+1
+  pretty_dio_logger: ^1.1.1
+  pin_code_fields: ^7.3.0
+  rxdart: ^0.27.1
+  share: ^2.0.4
+  shared_preferences: ^2.0.6
+  table_calendar: ^3.0.1
+  url_launcher: ^6.0.6
 
 # Simposi Dev Dependencies
 dev_dependencies:
@@ -54,6 +75,9 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+
+# Locations
+  generate: true
 
 # Use Material Design
   uses-material-design: true
@@ -78,6 +102,7 @@ flutter:
     - assets/images/ratingneutral.png
     - assets/images/ratingmeh.png
     - assets/images/ratinghate.png
+    - assets/images/invitationcard.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

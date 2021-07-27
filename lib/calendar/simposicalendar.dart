@@ -7,14 +7,14 @@
 
 import 'dart:collection';
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:simposi_app_v4/calendar/calendarwidgets/calendarcards.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposiappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:simposi_app_v4/calendar/calendarwidgets/calendarcards.dart';
 
 class SimposiCalendar extends StatefulWidget {
   @override
@@ -115,16 +115,15 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
             );
           },
         ),
-
         simposiAction: SimposiTextButton(
           buttonLabel: 'Meet Now',
-          nextPage: '/createevent',
+          // nextPage: '/createevent',
           fontSize: 17,
           fontWeight: FontWeight.w500,
-          ),
+          onClick: () {},
         ),
-
-    body: Column(
+      ),
+      body: Column(
         children: [
           // Calendar Style & Settings
           Container(
@@ -202,7 +201,6 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
   }
 }
 
-
 // MONTH AND YEAR IN APP BAR
 class _CalendarHeader extends StatelessWidget {
   final DateTime focusedDay;
@@ -225,7 +223,7 @@ class _CalendarHeader extends StatelessWidget {
             headerText,
             style: TextStyle(
               fontSize: 15,
-            color: SimposiAppColors.simposiLightText,
+              color: SimposiAppColors.simposiLightText,
             ),
           ),
         ),
@@ -233,7 +231,6 @@ class _CalendarHeader extends StatelessWidget {
     );
   }
 }
-
 
 // TODO: Configure Calendar Operations to pull events from DB and display all for the week
 /// Example event class.
@@ -274,12 +271,10 @@ List<DateTime> daysInRange(DateTime first, DateTime last) {
   final dayCount = last.difference(first).inDays + 1;
   return List.generate(
     dayCount,
-        (index) => DateTime.utc(first.year, first.month, first.day + index),
+    (index) => DateTime.utc(first.year, first.month, first.day + index),
   );
 }
 
 final kNow = DateTime.now();
 final kFirstDay = DateTime(kNow.year, kNow.month - 3, kNow.day);
 final kLastDay = DateTime(kNow.year, kNow.month + 3, kNow.day);
-
-

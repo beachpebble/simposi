@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     minHeight: viewportConstraints.maxHeight,
                   ),
                   child: Container(
-                    padding: EdgeInsets.all(40),
+                    padding: const EdgeInsets.all(40),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -70,9 +70,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Image.asset("assets/images/logo.png"),
-                              Text(
+                              const Text(
                                 'simposi',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: SimposiAppColors.simposiDarkBlue,
                                   fontWeight: FontWeight.w900,
                                   fontSize: 30,
@@ -82,7 +82,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
 
-                        // TODO: Validate Account Exists and Start a New Page Stack with Home (Tracy you need to learn how to reset the Page Stack instead of pushnamed)
                         // LOGIN FORM
                         Container(
                           child: Form(
@@ -92,11 +91,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                 // EMAIL FIELD
                                 _phoneField(),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
 
                                 // PASSWORD FIELD
                                 _passwordField(),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 BigGBSelectButton(
                                     buttonLabel: 'Log In',
                                     buttonAction: () {
@@ -175,62 +174,16 @@ class _LoginScreenState extends State<LoginScreen> {
         obscureText: false,
         showCursor: true,
 
-        style: TextStyle(
-          color: SimposiAppColors.simposiLightText,
-          fontWeight: FontWeight.w500,
-          fontSize: 15,
-        ),
-
         decoration: InputDecoration(
           labelText: ' Phone Number',
-          contentPadding: EdgeInsets.all(20),
-          labelStyle: TextStyle(
-            color: SimposiAppColors.simposiLightText,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            letterSpacing: 1.5,
-          ),
-
-          // INITIAL STATE
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiLightGrey,
-              )),
-
-          // FOCUS STATE
-          focusColor: SimposiAppColors.simposiDarkBlue,
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiDarkBlue,
-              )),
-
-          // FOCUS ERROR STATE
-          focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiPink,
-              )
-          ),
-
-          // ERROR STATE
-          errorStyle: TextStyle(
-            color: SimposiAppColors.simposiPink,
-          ),
-          errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiPink,
-              )
-          ),
 
           suffixIcon: _phoneController.text.isEmpty
               ? Container(width: 0)
               : IconButton(
                 icon: Icon(Icons.close,
-                    size: 20, color: SimposiAppColors.simposiLightGrey),
-                onPressed: () => _phoneController.clear(),
+                    size: 20,
+                    color: SimposiAppColors.simposiLightGrey),
+                    onPressed: () => _phoneController.clear(),
               ),
         ),
 
@@ -264,69 +217,8 @@ class _LoginScreenState extends State<LoginScreen> {
     obscureText: _passwordVisible,
     showCursor: true,
 
-    style: TextStyle(
-      color: SimposiAppColors.simposiLightText,
-      fontWeight: FontWeight.w500,
-      fontSize: 15,
-    ),
-
     decoration: InputDecoration(
       labelText: ' Password',
-      contentPadding: EdgeInsets.all(20),
-      labelStyle: TextStyle(
-        color: SimposiAppColors.simposiLightText,
-        fontSize: 14,
-        fontWeight: FontWeight.w500,
-        letterSpacing: 1.5,
-      ),
-
-      suffixIcon: _passwordController.text.isEmpty
-          ? Container(width: 0)
-          : IconButton(
-          icon: Icon(_passwordVisible ? Icons.visibility : Icons.visibility_off,
-              size: 20, color: SimposiAppColors.simposiLightGrey),
-          onPressed: () {
-            setState(() {
-              _passwordVisible = !_passwordVisible;
-            });
-          }),
-
-      // INITIAL STATE
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(40.0)),
-        borderSide: BorderSide(
-          color: SimposiAppColors.simposiLightGrey,
-        ),
-      ),
-
-      // FOCUS STATE
-      focusColor: SimposiAppColors.simposiDarkBlue,
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(40.0)),
-        borderSide: BorderSide(
-          color: SimposiAppColors.simposiDarkBlue,
-        ),
-      ),
-
-      // FOCUS ERROR STATE
-      focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          borderSide: BorderSide(
-            color: SimposiAppColors.simposiPink,
-          )
-      ),
-
-      // ERROR STATE
-      errorStyle: TextStyle(
-        color: SimposiAppColors.simposiPink,
-      ),
-      errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          borderSide: BorderSide(
-            color: SimposiAppColors.simposiPink,
-          )
-      ),
-
     ),
 
     // VALIDATION LOGIC

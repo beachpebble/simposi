@@ -1,5 +1,5 @@
 /*
-*  signup4income.dart
+*  createevent6income.dart
 *  Simposi App Designs V4.0
 *  Created by Simposi Inc.
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
@@ -10,10 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import '../../global/theme/elements/simposiappbar.dart';
+import 'package:simposi_app_v4/global/theme/elements/simposiappbar.dart';
 import 'package:simposi_app_v4/global/theme/theme.dart';
 
-class SignUpForm4 extends StatelessWidget {
+class CreateEvent6 extends StatelessWidget {
   double progress = 0.55;
 
   @override
@@ -43,9 +43,12 @@ class SignUpForm4 extends StatelessWidget {
               children: [
 
                 // Header
-                Text('Income Bracket...',
-                  style: Theme.of(context).textTheme.headline3,
-                ),
+                Text('Do they earn the same as you?',
+                  style: TextStyle(
+                    fontSize: 19,
+                    fontWeight: FontWeight.w500,
+                    color: SimposiAppColors.simposiDarkGrey,
+                  ),),
                 SizedBox(height: 20),
 
                 // TODO: Convert to Toggle Buttons
@@ -81,7 +84,7 @@ class SignUpForm4 extends StatelessWidget {
                 SizedBox(height: 10),
                 // Silent Button
                 BigGBSelectButton(
-                    buttonLabel: 'Prefer Not to Say',
+                    buttonLabel: 'Select All',
                     buttonAction: null),
 
               ],
@@ -101,7 +104,7 @@ class SignUpForm4 extends StatelessWidget {
                 buttonLabel: 'Continue',
                 buttonAction: () =>
                 {
-                  Navigator.of(context).pushNamed('/signup5'),
+                  Navigator.of(context).pushNamed('/createevent7'),
                 },
               ),
               SizedBox(height: 20),

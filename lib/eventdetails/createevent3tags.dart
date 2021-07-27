@@ -1,5 +1,5 @@
 /*
-*  signup5activities.dart
+*  createevent3tags.dart
 *  Simposi App Designs V4.0
 *  Created by Simposi Inc.
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
@@ -11,17 +11,17 @@ import 'package:flutter/rendering.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import '../../global/theme/elements/simposiappbar.dart';
+import 'package:simposi_app_v4/global/theme/elements/simposiappbar.dart';
 import 'package:simposi_app_v4/global/theme/theme.dart';
 import 'package:simposi_app_v4/global/theme/elements/searchbar.dart';
 
-class SignUpForm5 extends StatefulWidget {
+class CreateEvent3 extends StatefulWidget {
 
   @override
-  _SignUpForm5State createState() => _SignUpForm5State();
+  _CreateEvent3State createState() => _CreateEvent3State();
 }
 
-class _SignUpForm5State extends State<SignUpForm5> {
+class _CreateEvent3State extends State<CreateEvent3> {
   // Set Variables
   double progress = 0.66;
 
@@ -96,9 +96,12 @@ class _SignUpForm5State extends State<SignUpForm5> {
                   children: [
 
                     // Header
-                    Text('I like to ...',
-                      style: Theme.of(context).textTheme.headline3,
-                    ),
+                    Text('What kind of activity is this?',
+                      style: TextStyle(
+                        fontSize: 19,
+                        fontWeight: FontWeight.w500,
+                        color: SimposiAppColors.simposiDarkGrey,
+                      ),),
                     SizedBox(height: 20),
                     Text('Choose as many interests as you like.',
                       style: TextStyle(
@@ -135,12 +138,13 @@ class _SignUpForm5State extends State<SignUpForm5> {
               Column(
                 children: [
 
-                  //TODO: Disable button until user has selected at least one activity
+                  // TODO: Disable button until user has selected at least one activity
+                  // TODO: IF user has settings saved for I want to meet, skip to Who are, IF user has settings from Who Are, skip to Who earn, If user has settings for who earn, skip to pick invitation...
                   BigGBSelectButton(
                     buttonLabel: 'Continue',
                     buttonAction: () =>
                     {
-                      Navigator.of(context).pushNamed('/signup6'),
+                      Navigator.of(context).pushNamed('/createevent4'),
                     },
                   ),
                   SizedBox(height: 20),

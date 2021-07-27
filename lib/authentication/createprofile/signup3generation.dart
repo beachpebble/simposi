@@ -1,5 +1,5 @@
 /*
-*  signup4generation.dart
+*  signup3generation.dart
 *  Simposi App Designs V4.0
 *  Created by Simposi Inc.
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
@@ -13,7 +13,7 @@ import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/theme.dart';
 
-class SignUpForm4 extends StatelessWidget {
+class SignUpForm3 extends StatelessWidget {
   double progress = 0.44;
 
   @override
@@ -44,11 +44,8 @@ class SignUpForm4 extends StatelessWidget {
 
                 // Header
                 Text('Generation...',
-                  style: TextStyle(
-                    fontSize: 19,
-                    fontWeight: FontWeight.w500,
-                    color: SimposiAppColors.simposiDarkGrey,
-                  ),),
+                  style: Theme.of(context).textTheme.headline3,
+                ),
                 SizedBox(height: 20),
 
                 // TODO: Convert to Toggle Buttons
@@ -94,7 +91,7 @@ class SignUpForm4 extends StatelessWidget {
                 buttonLabel: 'Continue',
                 buttonAction: () =>
                 {
-                  Navigator.of(context).pushNamed('/signup5'),
+                  Navigator.of(context).pushNamed('/signup4'),
                 },
               ),
               SizedBox(height: 20),

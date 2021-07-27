@@ -6,39 +6,37 @@
 */
 
 import 'dart:ui';
-import 'package:flutter/material.dart';
-import 'discoverbackground.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposiappbar.dart';
-import 'discovercarddeck.dart';
 
+import 'package:flutter/material.dart';
+import 'package:simposi_app_v4/global/theme/elements/simposiappbar.dart';
+import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+
+import 'discovercarddeck.dart';
 
 class DiscoverScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
-
-    appBar: SimposiAppBar(
-      simposiTitle: 'Discover',
-      simposiAction: SimposiTextButton(
-        buttonLabel: 'Meet Now',
-        nextPage: '/createevent',
-        fontSize: 17,
-        fontWeight: FontWeight.w500,
-      ),
-    ),
-
-    body: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          child:
-              // TODO: Enable IF Statement, IF Have Events show Discover Card Deck ELSE show Background
-//          SimposiDiscoverBackground(),
-          DiscoverCardDeck(),
+        appBar: SimposiAppBar(
+          simposiTitle: 'Discover',
+          simposiAction: SimposiTextButton(
+            buttonLabel: 'Meet Now',
+            // nextPage: '/createevent',
+            fontSize: 17,
+            fontWeight: FontWeight.w500,
+            onClick: () {},
+          ),
         ),
-      ],
-    ),
-
-  );
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              child:
+                  // TODO: Enable IF Statement, IF Have Events show Discover Card Deck ELSE show Background
+//          SimposiDiscoverBackground(),
+                  DiscoverCardDeck(),
+            ),
+          ],
+        ),
+      );
 }

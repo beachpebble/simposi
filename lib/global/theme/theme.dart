@@ -34,34 +34,39 @@ class SimposiThemes {
         onError: SimposiAppColors.simposiPink,
       ),
 
+
     // Simposi Text Theme
     textTheme: TextTheme(
-        // Get Started
-        headline1: TextStyle(fontSize: 40, fontWeight: FontWeight.w800, color: SimposiAppColors.simposiDarkGrey),
-        headline2: TextStyle(fontSize: 21, fontWeight: FontWeight.w700, color: SimposiAppColors.simposiDarkGrey),
-        // Signup Headers Form Field Headers & Placeholder Headers
-        headline3: TextStyle(fontSize: 19, fontWeight: FontWeight.w800, color: SimposiAppColors.simposiDarkGrey),
-        // Dialog Header Text
-        headline4: TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: SimposiAppColors.simposiDarkGrey),
-        // Event Details Header
-        headline5: TextStyle(fontSize: 17, fontWeight: FontWeight.w700, color: SimposiAppColors.simposiDarkGrey),
-        // AppBar Header Text
-        headline6: TextStyle(fontSize: 30, fontWeight: FontWeight.w800, color: SimposiAppColors.simposiDarkGrey),
-        // Primary Text in Lists (Event Widgets)
-        subtitle1: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: SimposiAppColors.simposiDarkGrey),
-        // Smaller than Subtitle 1 (Event Widget Subtitles)
-        subtitle2: TextStyle(fontSize: 15, color: SimposiAppColors.simposiDarkGrey),
-        // Body Text Regular
-        bodyText1: TextStyle(fontSize: 15, color: SimposiAppColors.simposiLightText),
-        // Body Text Light
-        bodyText2: TextStyle(fontSize: 15, fontWeight: FontWeight.w300, color: SimposiAppColors.simposiLightText),
-        // Image Text (not used)
-        caption: TextStyle(fontSize: 13, color: SimposiAppColors.simposiDarkGrey),
-        // Button Text
-        button: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: SimposiAppColors.simposiDarkGrey),
-        // AppBar Subheading
-        overline: TextStyle(fontSize: 15, color: SimposiAppColors.simposiLightText),
+      // Get Started
+      headline1: TextStyle(fontSize: 40, fontWeight: FontWeight.w800, color: SimposiAppColors.simposiDarkGrey),
+      // App Bar Headers
+      headline2: TextStyle(fontSize: 30, fontWeight: FontWeight.w700, color: SimposiAppColors.simposiDarkGrey),
+      // Signup Headers Form Field Headers & Placeholder Headers
+      headline3: TextStyle(fontSize: 19, fontWeight: FontWeight.w700, color: SimposiAppColors.simposiDarkGrey),
+      // Dialog Header Text
+      headline4: TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: SimposiAppColors.simposiDarkGrey),
+      // Event Details Header
+      headline5: TextStyle(fontSize: 17, fontWeight: FontWeight.w700, color: SimposiAppColors.simposiDarkGrey),
+      // Menu Text
+      headline6: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SimposiAppColors.simposiLightText),
+      // Input Text in Fields
+      subtitle1: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SimposiAppColors.simposiLightText),
+      // Smaller than Subtitle 1 (Event Widget Subtitles)
+      subtitle2: TextStyle(fontSize: 15, color: SimposiAppColors.simposiDarkGrey),
+      // Body Text Regular
+      bodyText1: TextStyle(fontSize: 15, color: SimposiAppColors.simposiLightText),
+      // Body Text Light
+      bodyText2: TextStyle(fontSize: 15, fontWeight: FontWeight.w300, color: SimposiAppColors.simposiLightText),
+      // Image Text (not used)
+      caption: TextStyle(fontSize: 13, color: SimposiAppColors.simposiDarkGrey),
+      // Button Text
+      button: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: SimposiAppColors.simposiDarkGrey),
+      // AppBar Subheading
+      overline: TextStyle(fontSize: 15, color: SimposiAppColors.simposiLightText),
     ),
+
+    // Divider
+    dividerColor: SimposiAppColors.simposiLightText,
 
     // Text Button Theme
     textButtonTheme: TextButtonThemeData (
@@ -117,9 +122,6 @@ class SimposiThemes {
           )
       ),
     ),
-
-
-
 
   );
 

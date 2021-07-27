@@ -6,63 +6,66 @@
 */
 
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+
 import '../authenticationwidgets/privacytoufooter.dart';
-import 'package:simposi_app_v4/global/theme/theme.dart';
 
 class GetStartedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: SimposiAppColors.simposiDarkBlue,
+
         body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/images/background.png"),
-              fit: BoxFit.contain,
-              alignment: Alignment.topLeft
-            ),
+          decoration: const BoxDecoration(
+            image: const DecorationImage(
+                image: const AssetImage("assets/images/background.png"),
+                fit: BoxFit.contain,
+                alignment: Alignment.topLeft),
           ),
+
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-
                 // LOGIN FORWARD BUTTON
                 Container(
                     height: 100,
-                    padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
-                    child: LoginForwardTextButton()),
+                    padding: const EdgeInsets.only(top: 40),
+                    child: LoginForwardTextButton(
+                      onClick: () => Navigator.of(context).pushNamed('/login'),
+                    )),
 
                 // BODY
                 Container(
                   height: 350,
-                  padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
+                  padding: const EdgeInsets.only(left: 20),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(
+                          const Text(
                             'simposi',
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                               fontFamily: 'Muli',
                               fontWeight: FontWeight.w900,
                               fontSize: 40,
                             ),
                           ),
-                          SizedBox(width: 10),
+                          const SizedBox(width: 10),
                           Image.asset("assets/images/logo.png")
                         ],
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Row(
                         children: [
-                          Text(
-                            'A new way to match and meet people \n with the same interests.',
-                            style: TextStyle(
+                          const Text(
+                            'A new way to match and meet \npeople with the same interests.',
+                            style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w700,
                               letterSpacing: 1.5,
@@ -70,10 +73,13 @@ class GetStartedScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Row(
                         children: [
-                          GetStartedButton(),
+                          GetStartedButton(
+                            onClick: () =>
+                                Navigator.of(context).pushNamed('/signup1'),
+                          ),
                         ],
                       ),
                     ],
@@ -84,8 +90,8 @@ class GetStartedScreen extends StatelessWidget {
                 Container(
                   height: 100,
                   alignment: Alignment.bottomCenter,
-                  padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
-                  child: PrivacyTOUFooter(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+                  child: const PrivacyTOUFooter(
                     footerColor: Colors.white,
                   ),
                 ),

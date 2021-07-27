@@ -1,5 +1,5 @@
 /*
-*  signup6location.dart
+*  createevent2location.dart
 *  Simposi App Designs V4.0
 *  Created by Simposi Inc.
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
@@ -9,13 +9,13 @@ import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
-import '../../global/routegenerator.dart';
+import 'package:simposi_app_v4/global/routegenerator.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/theme.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 
-class SignUpForm6 extends StatelessWidget {
+class CreateEvent2 extends StatelessWidget {
   double progress = 0.77;
 
   @override
@@ -45,9 +45,12 @@ class SignUpForm6 extends StatelessWidget {
                   children: [
 
                     // Header Title
-                    Text('I want to meet nearby...',
-                      style: Theme.of(context).textTheme.headline3,
-                    ),
+                    Text('Where do you want to meet?',
+                      style: TextStyle(
+                        fontSize: 19,
+                        fontWeight: FontWeight.w500,
+                        color: SimposiAppColors.simposiDarkGrey,
+                      ),),
                     SizedBox(height: 20),
 
 
@@ -67,7 +70,7 @@ class SignUpForm6 extends StatelessWidget {
                     buttonLabel: 'Continue',
                     buttonAction: () =>
                     {
-                      Navigator.of(context).pushNamed('/signup7'),
+                      Navigator.of(context).pushNamed('/createevent3'),
                     },
                   ),
                   SizedBox(height: 20),

@@ -6,19 +6,42 @@
 */
 
 import 'package:flutter/material.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposiappbar.dart';
-import 'package:simposi_app_v4/global/theme/theme.dart';
-import 'global/theme/elements/simposihome.dart';
-import 'package:simposi_app_v4/global/routegenerator.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
+import 'package:simposi_app_v4/utils/bloc_observer.dart';
 
-// Simposi App Config
-void main() => runApp(MaterialApp(
-  themeMode: ThemeMode.light,
-  theme: SimposiThemes.lightTheme,
-  darkTheme: SimposiThemes.darkTheme,
-  initialRoute: '/',
-  onGenerateRoute: RouteGenerator.generateRoute,
-  ),
-);
+import 'bloc/auth/authentication_bloc.dart';
+import 'profile/bloc/profile_edit_cubit.dart';
+import 'repository/api_service.dart';
+import 'repository/auth_repository.dart';
+import 'repository/profile_repository.dart';
+import 'simposi_app.dart';
 
+void main() {
+  Bloc.observer = SimpleBlocObserver();
 
+  runApp(MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(
+          create: (context) => AuthRepository(),
+        ),
+        RepositoryProvider(
+          create: (context) => ApiService(authRepository: context.read()),
+        ),
+        RepositoryProvider(
+          create: (context) => ProfileRepository(context.read()),
+        ),
+      ],
+      child: MultiBlocProvider(providers: [
+        BlocProvider(
+          create: (context) =>
+              AuthenticationBloc(authManager: context.read(), profileRepository: context.read())
+                ..add(ReloadAuthEvent()),
+        ),
+        BlocProvider(
+          create: (context) =>
+          RegistrationCubit(profileRepository: context.read())),BlocProvider(
+          create: (context) =>
+              ProfileEditCubit(profileRepository: context.read())),
+      ], child: SimposiApp())));
+}

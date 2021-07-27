@@ -1,5 +1,5 @@
 /*
-*  signup8covid.dart
+*  signup7covid.dart
 *  Simposi App Designs V4.0
 *  Created by Simposi Inc.
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
@@ -10,18 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
-import 'package:simposi_app_v4/authentication/authenticationwidgets/agreement.dart';
 
-class SignUpForm8 extends StatelessWidget {
+class SignUpForm7 extends StatelessWidget {
   double progress = 0.88;
-
-  List<Agreement> agreements = [
-    Agreement(agreementtext: 'I have read & understand my local regulations and the CDC Guidelines.'),
-    Agreement(agreementtext: 'I will stay home if I think I have Covid-19, have a cough or fever or am just not feeling well.'),
-    Agreement(agreementtext: 'I will carry a face mask at all times and wear it is as required or recommended by the activity hosts, the CDC and/or local guidelines.'),
-    Agreement(agreementtext: 'I will maintain a safe social distance while attending Simposi activities.'),
-    Agreement(agreementtext: 'I will wash and/or sanitize my hands as frequently as possible while attending a Simposi activity.'),
-  ];
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -51,11 +42,8 @@ class SignUpForm8 extends StatelessWidget {
 
                 // Header Title
                 Text('Health and Safety Agreement',
-                  style: TextStyle(
-                    fontSize: 19,
-                    fontWeight: FontWeight.w500,
-                    color: SimposiAppColors.simposiDarkGrey,
-                  ),),
+                  style: Theme.of(context).textTheme.headline3,
+                ),
                 SizedBox(height: 20),
 
                 Text('You must agree to follow the CDC guidelines \n and your local regulations to use Simposi.',
@@ -66,9 +54,7 @@ class SignUpForm8 extends StatelessWidget {
                 Container(
                   child: Column(
                     children: [
-                      Divider(
-                        color: SimposiAppColors.simposiLightText,
-                      ),
+                      Divider(),
                       SizedBox(height: 10),
                       Row(
                           children: [
@@ -77,14 +63,11 @@ class SignUpForm8 extends StatelessWidget {
                                 textAlign: TextAlign.start,
                               ),
                             ),
-                            AgreeButton(),
 
                           ]
                       ),
                       SizedBox(height: 10),
-                      Divider(
-                        color: SimposiAppColors.simposiLightText,
-                      ),
+                      Divider(),
                     ],
                   ),
                 ),
@@ -100,13 +83,10 @@ class SignUpForm8 extends StatelessWidget {
                                 textAlign: TextAlign.start,
                               ),
                             ),
-                            AgreeButton(),
                           ]
                       ),
                       SizedBox(height: 10),
-                      Divider(
-                        color: SimposiAppColors.simposiLightText,
-                      ),
+                      Divider(),
                     ],
                   ),
                 ),
@@ -122,13 +102,10 @@ class SignUpForm8 extends StatelessWidget {
                                 textAlign: TextAlign.start,
                               ),
                             ),
-                            AgreeButton(),
                           ]
                       ),
                       SizedBox(height: 10),
-                      Divider(
-                        color: SimposiAppColors.simposiLightText,
-                      ),
+                      Divider(),
                     ],
                   ),
                 ),
@@ -144,13 +121,10 @@ class SignUpForm8 extends StatelessWidget {
                                 textAlign: TextAlign.start,
                               ),
                             ),
-                            AgreeButton(),
                           ]
                       ),
                       SizedBox(height: 10),
-                      Divider(
-                        color: SimposiAppColors.simposiLightText,
-                      ),
+                      Divider(),
                     ],
                   ),
                 ),
@@ -166,13 +140,10 @@ class SignUpForm8 extends StatelessWidget {
                                 textAlign: TextAlign.start,
                               ),
                             ),
-                            AgreeButton(),
                           ]
                       ),
                       SizedBox(height: 10),
-                      Divider(
-                        color: SimposiAppColors.simposiLightText,
-                      ),
+                      Divider(),
                     ],
                   ),
                 ),
@@ -188,13 +159,10 @@ class SignUpForm8 extends StatelessWidget {
                                 textAlign: TextAlign.start,
                               ),
                             ),
-                            AgreeButton(),
                           ]
                       ),
                       SizedBox(height: 10),
-                      Divider(
-                        color: SimposiAppColors.simposiLightText,
-                      ),
+                      Divider(),
                     ],
                   ),
                 ),
@@ -212,10 +180,10 @@ class SignUpForm8 extends StatelessWidget {
 
               // TODO: Disable Button until user has selected gender for who they want to meet
               BigGBSelectButton(
-                buttonLabel: 'Finish',
+                buttonLabel: 'Accept Agreement',
                 buttonAction: () =>
                 {
-                  Navigator.of(context).pushNamed('/signup9'),
+                  Navigator.of(context).pushNamed('/signup8'),
                 },
               ),
             ],

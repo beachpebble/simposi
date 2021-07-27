@@ -48,7 +48,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
         child: BlocConsumer<ForgotPasswordStartCubit, ForgotPasswordStartState>(
           listener: (context, state) {
             if (state is ForgotPasswordStartError)
-              //TODO make localization
+              // TODO: make localization
               showErrorToast("Code was not sent");
             else if (state is ForgotPasswordStartSuccess) {
               showInfoToast("Code was sent via SMS");

@@ -164,21 +164,8 @@ class _ResetPasswordState extends State<ResetPassword> {
     obscureText: false,
     showCursor: true,
 
-    style: TextStyle(
-      color: SimposiAppColors.simposiLightText,
-      fontWeight: FontWeight.w500,
-      fontSize: 15,
-    ),
-
     decoration: InputDecoration(
       labelText: ' Email Address',
-      contentPadding: EdgeInsets.all(20),
-      labelStyle: TextStyle(
-        color: SimposiAppColors.simposiLightText,
-        fontSize: 14,
-        fontWeight: FontWeight.w500,
-        letterSpacing: 1.5,
-      ),
 
       suffixIcon: _emailController.text.isEmpty
           ? Container(width: 0)
@@ -186,40 +173,6 @@ class _ResetPasswordState extends State<ResetPassword> {
         icon: Icon(Icons.close,
             size: 20, color: SimposiAppColors.simposiLightGrey),
         onPressed: () => _emailController.clear(),
-      ),
-
-      // INITIAL STATE
-      border: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          borderSide: BorderSide(
-            color: SimposiAppColors.simposiLightGrey,
-          )),
-
-      // FOCUS STATE
-      focusColor: SimposiAppColors.simposiDarkBlue,
-      focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          borderSide: BorderSide(
-            color: SimposiAppColors.simposiDarkBlue,
-          )),
-
-      // FOCUS ERROR STATE
-      focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          borderSide: BorderSide(
-            color: SimposiAppColors.simposiPink,
-          )
-      ),
-
-      // ERROR STATE
-      errorStyle: TextStyle(
-        color: SimposiAppColors.simposiPink,
-      ),
-      errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          borderSide: BorderSide(
-            color: SimposiAppColors.simposiPink,
-          )
       ),
 
     ),
@@ -258,21 +211,8 @@ class _ResetPasswordState extends State<ResetPassword> {
     obscureText: _passwordVisible,
     showCursor: true,
 
-    style: TextStyle(
-      color: SimposiAppColors.simposiLightText,
-      fontWeight: FontWeight.w500,
-      fontSize: 15,
-    ),
-
     decoration: InputDecoration(
       labelText: ' Password',
-      contentPadding: EdgeInsets.all(20),
-      labelStyle: TextStyle(
-        color: SimposiAppColors.simposiLightText,
-        fontSize: 14,
-        fontWeight: FontWeight.w500,
-        letterSpacing: 1.5,
-      ),
 
       suffixIcon: _passwordController.text.isEmpty
           ? Container(width: 0)
@@ -284,42 +224,6 @@ class _ResetPasswordState extends State<ResetPassword> {
               _passwordVisible = !_passwordVisible;
             });
           }),
-
-      // INITIAL STATE
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(40.0)),
-        borderSide: BorderSide(
-          color: SimposiAppColors.simposiLightGrey,
-        ),
-      ),
-
-      // FOCUS STATE
-      focusColor: SimposiAppColors.simposiDarkBlue,
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(40.0)),
-        borderSide: BorderSide(
-          color: SimposiAppColors.simposiDarkBlue,
-        ),
-      ),
-
-      // FOCUS ERROR STATE
-      focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          borderSide: BorderSide(
-            color: SimposiAppColors.simposiPink,
-          )
-      ),
-
-      // ERROR STATE
-      errorStyle: TextStyle(
-        color: SimposiAppColors.simposiPink,
-      ),
-      errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          borderSide: BorderSide(
-            color: SimposiAppColors.simposiPink,
-          )
-      ),
 
     ),
 
