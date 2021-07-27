@@ -1,0 +1,27 @@
+{
+  "loginTitle": "simposi",
+  "loginLogInButton": "Log In",
+  "loginRegisterButton": "Register",
+  "passwordChangePassword": " Password",
+  "passwordChangePasswordConfirm": " Confirm Password",
+  "passwordChangeSetNewPassword": "Set New Password",
+  "passwordChangeSuccess": "Password was successfully changed",
+
+  "signUpName": "Name",
+  "signUpPhone": "Phone Number",
+  "signUpPassword": "Password",
+  "signUpEmail": "Email",
+
+  "imageDialogCamera": "Camera",
+  "imageDialogGallery": "Gallery",
+  "imageSelectError": "No image selected",
+
+  "validatePasswordLength": "Must be at least 8 characters",
+  "validatePasswordNotEmpty": "Password Required",
+  "validatePasswordsDontMatch": "Passwords dont match",
+  "validatePhoneLength": "Must be at least 10 characters",
+  "validatePhoneNotEmpty": "Phone Required",
+  "validateEmailNotEmpty": "Email Required",
+  "validateEmailNotValid": "Email Not Valid",
+  "validateUrlNotValid": "URL Not Valid"
+}
