@@ -7,10 +7,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
 
-part 'signup7_location_state.dart';
+part 'signup6_location_state.dart';
 
-class Signup7LocationCubit extends Cubit<Signup7LocationState> {
-  Signup7LocationCubit({required this.registrationCubit}) : super(Signup7LocationState.initial()) ;
+class Signup6LocationCubit extends Cubit<Signup6LocationState> {
+  Signup6LocationCubit({required this.registrationCubit}) : super(Signup6LocationState.initial()) ;
 
   final RegistrationCubit registrationCubit;
 
@@ -42,7 +42,7 @@ class Signup7LocationCubit extends Cubit<Signup7LocationState> {
 
   void submit() async {
     if (state.selectedLocation != null)
-      registrationCubit.stage7(latitude: state.selectedLocation!.latitude, longitude: state.selectedLocation!.longitude, range: state.range);
+      registrationCubit.stage6(latitude: state.selectedLocation!.latitude, longitude: state.selectedLocation!.longitude, range: state.range);
   }
 
 }

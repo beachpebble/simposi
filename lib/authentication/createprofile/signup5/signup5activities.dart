@@ -1,5 +1,5 @@
 /*
-*  signup6activities.dart
+*  signup5activities.dart
 *  Simposi App Designs V4.0
 *  Created by Simposi Inc.
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
@@ -17,16 +17,16 @@ import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/model/interest.dart';
 
-import 'signup6_activities_cubit.dart';
+import 'signup5_activities_cubit.dart';
 
-class SignUpForm6 extends StatefulWidget {
+class SignUpForm5 extends StatefulWidget {
   @override
-  _SignUpForm6State createState() => _SignUpForm6State();
+  _SignUpForm5State createState() => _SignUpForm5State();
 }
 
-class _SignUpForm6State extends State<SignUpForm6> {
+class _SignUpForm5State extends State<SignUpForm5> {
   // Set Variables
-  double progress = 0.66;
+  double progress = 0.70;
 
   // FOR EACH ACTIVITY CREATE AN ACTIVITY BUTTON
   List<Widget> selectedActivityWidgets(Set<Interest> interests,
@@ -125,7 +125,7 @@ class _SignUpForm6State extends State<SignUpForm6> {
                                     ? () {
                                         context
                                             .read<RegistrationCubit>()
-                                            .stage6(interests: state.selected);
+                                            .stage5(interests: state.selected);
                                         Navigator.of(context)
                                             .pushNamed('/signup7');
                                       }

@@ -1,5 +1,5 @@
 /*
-*  signup9validate.dart
+*  signup8validate.dart
 *  Simposi App Designs V4.0
 *  Created by Simposi Inc.
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
@@ -20,14 +20,14 @@ import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/widgets/progress.dart';
 import 'package:simposi_app_v4/widgets/resend_countdown.dart';
 
-import 'signup9_validate_cubit.dart';
+import 'signup8_validate_cubit.dart';
 
-class SignUpForm9 extends StatefulWidget {
+class SignUpForm8 extends StatefulWidget {
   @override
-  _SignUpForm9State createState() => _SignUpForm9State();
+  _SignUpForm8State createState() => _SignUpForm8State();
 }
 
-class _SignUpForm9State extends State<SignUpForm9> with TickerProviderStateMixin {
+class _SignUpForm8State extends State<SignUpForm8> with TickerProviderStateMixin {
   String code = "";
 
   Timer? _timer;
@@ -158,24 +158,24 @@ class _SignUpForm9State extends State<SignUpForm9> with TickerProviderStateMixin
                             ),
 
                             SizedBox(height: 25),
-                            BlocConsumer<Signup9ValidateCubit,
-                                Signup9ValidateState>(
+                            BlocConsumer<Signup8ValidateCubit,
+                                Signup8ValidateState>(
                               listener: (context, state) {
-                                if (state is Signup9ValidateSuccess) {
-                                  print("Success Signup9ValidateSuccess");
+                                if (state is Signup8ValidateSuccess) {
+                                  print("Success Signup8ValidateSuccess");
                                   if (state.message.isNotEmpty)
                                     showInfoToast(state.message);
-                                } else if (state is Signup9ValidateError) {
+                                } else if (state is Signup8ValidateError) {
                                   showErrorToast(
                                       handleError(state.error, context));
-                                } else if (state is Signup9ResendSuccess) {
+                                } else if (state is Signup8ResendSuccess) {
                                   _startCountDownTimer();
                                   showInfoToast(
                                       "Code was resent");
                                 }
                               },
                               builder: (context, state) {
-                                return state is Signup9ValidateLoading
+                                return state is Signup8ValidateLoading
                                     ? AppProgressIndicator()
                                     : Column(
                                         children: [
@@ -185,7 +185,7 @@ class _SignUpForm9State extends State<SignUpForm9> with TickerProviderStateMixin
                                                 ? () {
                                                     context
                                                         .read<
-                                                            Signup9ValidateCubit>()
+                                                            Signup8ValidateCubit>()
                                                         .validate(code);
                                                   }
                                                 : null,
@@ -206,7 +206,7 @@ class _SignUpForm9State extends State<SignUpForm9> with TickerProviderStateMixin
                                             fontWeight: FontWeight.w900,
                                             onClick: () {
                                               context
-                                                  .read<Signup9ValidateCubit>()
+                                                  .read<Signup8ValidateCubit>()
                                                   .resend();
                                             },
                                           ),

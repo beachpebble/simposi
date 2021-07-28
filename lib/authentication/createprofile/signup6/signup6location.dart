@@ -1,5 +1,5 @@
 /*
-*  signup7location.dart
+*  signup6location.dart
 *  Simposi App Designs V4.0
 *  Created by Simposi Inc.
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
@@ -21,15 +21,15 @@ import 'package:simposi_app_v4/utils/location.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/widgets/progress.dart';
 
-import 'signup7_location_cubit.dart';
+import 'signup6_location_cubit.dart';
 
-class SignUpForm7 extends StatefulWidget {
+class SignUpForm6 extends StatefulWidget {
   @override
-  _SignUpForm7State createState() => _SignUpForm7State();
+  _SignUpForm6State createState() => _SignUpForm6State();
 }
 
-class _SignUpForm7State extends State<SignUpForm7> {
-  double progress = 0.77;
+class _SignUpForm6State extends State<SignUpForm6> {
+  double progress = 0.85;
   final _placeSearchController = TextEditingController();
   Completer<GoogleMapController> _controller = Completer();
 
@@ -38,11 +38,11 @@ class _SignUpForm7State extends State<SignUpForm7> {
     super.initState();
     determinePosition()
         .then((value) => context
-            .read<Signup7LocationCubit>()
+            .read<Signup6LocationCubit>()
             .selectLocation(LatLng(value.latitude, value.longitude)))
         .catchError((e) {
       showErrorToast("There is no location permission");
-      context.read<Signup7LocationCubit>().noPermission();
+      context.read<Signup6LocationCubit>().noPermission();
     });
   }
 
@@ -57,7 +57,7 @@ class _SignUpForm7State extends State<SignUpForm7> {
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
       appBar: BasicFormAppBar(),
-      body: BlocBuilder<Signup7LocationCubit, Signup7LocationState>(
+      body: BlocBuilder<Signup6LocationCubit, Signup6LocationState>(
         builder: (context, state) {
           return Column(
             children: [
@@ -117,7 +117,7 @@ class _SignUpForm7State extends State<SignUpForm7> {
                     ContinueButton(
                         buttonAction: state.selectedLocation != null
                             ? ()
-                                {context.read<Signup7LocationCubit>().submit();
+                                {context.read<Signup6LocationCubit>().submit();
                                 Navigator.of(context).pushNamed('/signup8');
                                 }
                             : null),
@@ -130,7 +130,7 @@ class _SignUpForm7State extends State<SignUpForm7> {
         },
       ));
 
-  Widget _rangeSlider(Signup7LocationState state) {
+  Widget _rangeSlider(Signup6LocationState state) {
     String units = localeIsImperial ? "miles" : "km";
     return Column(
       children: [
@@ -148,7 +148,7 @@ class _SignUpForm7State extends State<SignUpForm7> {
           divisions: 100,
           label: "${state.range.round()} $units",
           onChanged: (double value) {
-            context.read<Signup7LocationCubit>().selectRange(value);
+            context.read<Signup6LocationCubit>().selectRange(value);
           },
         )
       ],
@@ -165,11 +165,11 @@ class _SignUpForm7State extends State<SignUpForm7> {
         suffixIcon: Icon(Icons.search),
       ),
       onChanged: (value) =>
-          context.read<Signup7LocationCubit>().searchPlace(value),
+          context.read<Signup6LocationCubit>().searchPlace(value),
     );
   }
 
-  Widget _googleMap(Signup7LocationState state) {
+  Widget _googleMap(Signup6LocationState state) {
     double range = localeIsImperial ? state.range * 1.6 : state.range;
     return GoogleMap(
         zoomControlsEnabled: true,
@@ -183,12 +183,12 @@ class _SignUpForm7State extends State<SignUpForm7> {
         },
         markers: _getMarkers(state.selectedLocation),
         onTap: (loc) {
-          context.read<Signup7LocationCubit>().selectLocation(loc);
+          context.read<Signup6LocationCubit>().selectLocation(loc);
         },
         circles: _getCircle(state.selectedLocation, range));
   }
 
-  Widget _searchResult(Signup7LocationState state) {
+  Widget _searchResult(Signup6LocationState state) {
     return Container(
       child: ListView.builder(
           itemCount: state.searchResults.length,
@@ -217,7 +217,7 @@ class _SignUpForm7State extends State<SignUpForm7> {
                     placesSearchResult.geometry!.location.lng);
                 controller.animateCamera(CameraUpdate.newLatLng(newLoc));
                 setState(() {
-                  context.read<Signup7LocationCubit>().selectLocation(newLoc);
+                  context.read<Signup6LocationCubit>().selectLocation(newLoc);
                   _placeSearchController.clear();
                 });
               }
@@ -248,7 +248,7 @@ class _SignUpForm7State extends State<SignUpForm7> {
               draggable: true,
               onDragEnd: ((newPosition) {
                 context
-                    .read<Signup7LocationCubit>()
+                    .read<Signup6LocationCubit>()
                     .selectLocation(newPosition);
               }))
         ]);

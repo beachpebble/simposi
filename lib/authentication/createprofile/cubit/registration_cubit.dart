@@ -45,30 +45,24 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   }
 
   void stage3({
-    required Gender wantToMeet,
-  }) {
-    this.wantToMeet = wantToMeet;
-  }
-
-  void stage4({
     required Set<Generation> generations,
   }) async {
     this.generations = generations;
   }
 
-  void stage5({
+  void stage4({
     required Set<Earning> earnings,
   }) async {
     this.earnings = earnings;
   }
 
-  void stage6({
+  void stage5({
     required Set<Interest> interests,
   }) async {
     this.interests = interests;
   }
 
-  void stage7({
+  void stage6({
     required double latitude,
     required double longitude,
     required double range,

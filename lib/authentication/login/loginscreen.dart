@@ -127,8 +127,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               TextButton(
-                                child: Text('Register',
-                                  style: TextStyle(
+                                child: const Text('Register',
+                                  style: const TextStyle(
                                     color: SimposiAppColors.simposiDarkBlue,
                                     fontWeight: FontWeight.w900,
                                     fontSize: 15,
@@ -139,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 },
                               ),
                               SizedBox(height: 10),
-                              Text(
+                              const Text(
                                 '© 2021 Simposi Inc.',
                                 style: TextStyle(
                                   fontSize: 11,
@@ -180,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
           suffixIcon: _phoneController.text.isEmpty
               ? Container(width: 0)
               : IconButton(
-                icon: Icon(Icons.close,
+                icon: const Icon(Icons.close,
                     size: 20,
                     color: SimposiAppColors.simposiLightGrey),
                     onPressed: () => _phoneController.clear(),

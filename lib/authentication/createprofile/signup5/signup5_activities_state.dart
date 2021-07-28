@@ -1,4 +1,4 @@
-part of 'signup6_activities_cubit.dart';
+part of 'signup5_activities_cubit.dart';
 
 class Signup6ActivitiesState extends Equatable {
   const Signup6ActivitiesState({this.selected = const {},

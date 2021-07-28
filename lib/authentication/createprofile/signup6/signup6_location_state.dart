@@ -1,7 +1,7 @@
-part of 'signup7_location_cubit.dart';
+part of 'signup6_location_cubit.dart';
 
-class Signup7LocationState extends Equatable {
-  const Signup7LocationState(
+class Signup6LocationState extends Equatable {
+  const Signup6LocationState(
       {required this.selectedLocation,
       required this.searchResults,
       required this.range});
@@ -13,15 +13,15 @@ class Signup7LocationState extends Equatable {
   @override
   List<Object?> get props => [selectedLocation, searchResults, range];
 
-  static Signup7LocationState initial() =>
-      Signup7LocationState(selectedLocation: null, searchResults: [], range: 1);
+  static Signup6LocationState initial() =>
+      Signup6LocationState(selectedLocation: null, searchResults: [], range: 1);
 
-  Signup7LocationState copyWith(
+  Signup6LocationState copyWith(
       {LatLng? selectedLocation,
       List<PlacesSearchResult>? searchResults,
       double? range,
       bool ready = false}) {
-    return Signup7LocationState(
+    return Signup6LocationState(
       selectedLocation: selectedLocation ?? this.selectedLocation,
       searchResults: searchResults ?? this.searchResults,
       range: range ?? this.range,

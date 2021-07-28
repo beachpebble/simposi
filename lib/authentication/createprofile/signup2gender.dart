@@ -27,7 +27,7 @@ class SignUpForm2 extends StatefulWidget {
 }
 
 class _SignUpForm2State extends State<SignUpForm2> {
-  double progress = 0.22;
+  double progress = 0.28;
 
   Gender? _selected;
   late bool _isLgbt;
@@ -67,7 +67,7 @@ class _SignUpForm2State extends State<SignUpForm2> {
             child: LinearProgressIndicator(
               value: progress,
               valueColor:
-                  AlwaysStoppedAnimation(SimposiAppColors.simposiDarkBlue),
+                  const AlwaysStoppedAnimation(SimposiAppColors.simposiDarkBlue),
               backgroundColor: SimposiAppColors.simposiFadedBlue,
             ),
           ),
@@ -78,17 +78,11 @@ class _SignUpForm2State extends State<SignUpForm2> {
               child: Column(
                 children: [
                   // Header Title
-                  Text(
-                    'I indentify as...',
-                    style: TextStyle(
-                      fontSize: 19,
-                      fontWeight: FontWeight.w500,
-                      color: SimposiAppColors.simposiDarkGrey,
-                    ),
+                  Text('I indentify as...',
+                    style: Theme.of(context).textTheme.headline3,
                   ),
                   SizedBox(height: 20),
 
-                  // TODO: Convert to Toggle Buttons
                   // Single Select Gender Buttons
                   BigGBSelectButton(
                       buttonLabel: 'Man', //TODO Localize
@@ -109,20 +103,20 @@ class _SignUpForm2State extends State<SignUpForm2> {
                   Row(
                     children: [
                       Expanded(
-                        child: Divider(
+                        child: const Divider(
                           endIndent: 10,
                           color: SimposiAppColors.simposiLightText,
                         ),
                       ),
                       Text(
                         'Also member of',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: SimposiAppColors.simposiLightText,
                           fontSize: 13,
                         ),
                       ),
                       Expanded(
-                        child: Divider(
+                        child: const Divider(
                           indent: 10,
                           color: SimposiAppColors.simposiLightText,
                         ),
@@ -142,7 +136,7 @@ class _SignUpForm2State extends State<SignUpForm2> {
             ),
           ),
           Container(
-            padding: EdgeInsets.all(40),
+            padding: const EdgeInsets.all(40),
             child: Column(
               children: [
                 widget.editMode

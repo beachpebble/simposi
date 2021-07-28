@@ -86,12 +86,12 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
     child: Container(
           color: Colors.black54,
           child: Container(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20.0),
-                    topRight: Radius.circular(20.0),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: const Radius.circular(20.0),
+                    topRight: const Radius.circular(20.0),
                   )),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -99,19 +99,18 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(height: 20),
-                  Text(
+                  const Text(
                     'Recover Password',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: SimposiAppColors.simposiDarkBlue,
                       fontSize: 17,
                       fontWeight: FontWeight.w900,
                     ),
                   ),
                   SizedBox(height: 10),
-                  Text('Please enter your email\nto restore your password.'),
+                  const Text('Please enter your email\nto restore your password.'),
                   SizedBox(height: 30),
 
-                  // TODO: CONVERT TO FORM (IF NEEDED)
                   // FORGOT PASSWORD FORM
                   Form(
                     key: _formKey,
@@ -142,9 +141,9 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                   TextButton(
                     // TODO: Enable Contact Support button to open the users native email app to support@simposi.com
                       onPressed: () {},
-                      child: Text(
+                      child: const Text(
                         'Contact Support',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: SimposiAppColors.simposiDarkBlue,
                           fontSize: 15,
                           fontWeight: FontWeight.w900,
@@ -173,7 +172,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
       suffixIcon: _emailController.text.isEmpty
           ? Container(width: 0)
           : IconButton(
-              icon: Icon(Icons.close,
+              icon: const Icon(Icons.close,
                   size: 20,
                   color: SimposiAppColors.simposiLightGrey),
                   onPressed: () => _emailController.clear(),

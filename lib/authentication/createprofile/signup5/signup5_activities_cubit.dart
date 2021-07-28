@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:simposi_app_v4/model/interest.dart';
 
-part 'signup6_activities_state.dart';
+part 'signup5_activities_state.dart';
 
 class Signup6ActivitiesCubit extends Cubit<Signup6ActivitiesState> {
   Signup6ActivitiesCubit(this.interests) : super(Signup6ActivitiesState(interests: interests, filtered: interests));
