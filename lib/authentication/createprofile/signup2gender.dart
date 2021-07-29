@@ -25,21 +25,9 @@ class SignUpForm2 extends StatefulWidget {
   @override
   _SignUpForm2State createState() => _SignUpForm2State();
 }
-import 'package:simposi_app_v4/model/gender.dart';
-import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
-import 'package:simposi_app_v4/widgets/progress.dart';
-
-class SignUpForm2 extends StatefulWidget {
-  final bool editMode;
-
-  const SignUpForm2({Key? key, this.editMode = false}) : super(key: key);
-
-  @override
-  _SignUpForm2State createState() => _SignUpForm2State();
-}
 
 class _SignUpForm2State extends State<SignUpForm2> {
-  double progress = 0.22;
+  double progress = 0.28;
 
   Gender? _selected;
   late bool _isLgbt;
@@ -129,16 +117,6 @@ class _SignUpForm2State extends State<SignUpForm2> {
                       ),
                       Text(
                         'Also member of',
-                        style: TextStyle(
-                          color: SimposiAppColors.simposiLightText,
-                          fontSize: 13,
-                        ),
-                      ),
-                      Expanded(
-                        child: Divider(
-                      ),
-                      Text(
-                        'Also member of',
                         style: const TextStyle(
                           color: SimposiAppColors.simposiLightText,
                           fontSize: 13,
@@ -202,42 +180,6 @@ class _SignUpForm2State extends State<SignUpForm2> {
                 buttonLabel: 'Save',
                 buttonAction: _selected != null
                     ? () {
-                        context
-                            .read<ProfileEditCubit>()
-                            .indentifyAs(_selected!, _isLgbt);
-                      }
-                    : null,
-              );
-      },
-    );
-  }
-}
-
-  Widget registrationNextButton() {
-    return ContinueButton(
-      buttonAction: _selected != null
-          ? () {
-              context
-                  .read<RegistrationCubit>()
-                  .stage2(gender: _selected!, lgbt: _isLgbt);
-              Navigator.of(context).pushNamed('/signup3');
-            }
-          : null,
-    );
-  }
-
-  Widget profileEditNextButton() {
-    return BlocConsumer<ProfileEditCubit, ProfileEditState>(
-      listener: (context, state) {
-        if (state is ProfileEditSuccess) Navigator.of(context).pop();
-      },
-      builder: (context, state) {
-        return state is ProfileEditLoading
-            ? AppProgressIndicator()
-            : BigGBSelectButton(
-                buttonLabel: 'Save',
-                buttonAction: _selected != null
-                    ? () {
                         context.read<ProfileEditCubit>().indentifyAs(_selected!, _isLgbt);
                       }
                     : null,
@@ -246,3 +188,4 @@ class _SignUpForm2State extends State<SignUpForm2> {
     );
   }
 }
+

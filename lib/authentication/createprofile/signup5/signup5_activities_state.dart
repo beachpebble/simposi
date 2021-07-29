@@ -1,7 +1,7 @@
 part of 'signup5_activities_cubit.dart';
 
-class Signup6ActivitiesState extends Equatable {
-  const Signup6ActivitiesState({this.selected = const {},
+class Signup5ActivitiesState extends Equatable {
+  const Signup5ActivitiesState({this.selected = const {},
     required this.interests,
     this.filtered = const {}});
 
@@ -11,10 +11,10 @@ class Signup6ActivitiesState extends Equatable {
 
   bool get nextEnabled => selected.isNotEmpty;
 
-  Signup6ActivitiesState copyWith({Set<Interest>? selected,
+  Signup5ActivitiesState copyWith({Set<Interest>? selected,
     Set<Interest>? interests,
     final Set<Interest>? filtered}) {
-    return Signup6ActivitiesState(
+    return Signup5ActivitiesState(
       interests: interests ?? this.interests,
       selected: selected ?? this.selected,
       filtered: filtered ?? this.filtered,
@@ -23,4 +23,6 @@ class Signup6ActivitiesState extends Equatable {
 
   @override
   List<Object> get props => [selected, interests, filtered];
+
+  bool? get stringify => true;
 }

@@ -10,14 +10,9 @@ import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_c
 part 'signup6_location_state.dart';
 
 class Signup6LocationCubit extends Cubit<Signup6LocationState> {
-  Signup6LocationCubit({required this.registrationCubit}) : super(Signup6LocationState.initial()) ;
+  Signup6LocationCubit({required this.registrationCubit}) : super(Signup6LocationState.initial(registrationCubit.range, registrationCubit.latitude, registrationCubit.longitude)) ;
 
   final RegistrationCubit registrationCubit;
-
-  @override
-  Future<void> close() {
-    return super.close();
-  }
 
   //TODO move keys to one place
   final places =
@@ -28,8 +23,16 @@ class Signup6LocationCubit extends Cubit<Signup6LocationState> {
     emit(state.copyWith(searchResults: response.results));
   }
 
+  Future<void> selectInitialLocation(LatLng location) async {
+    if (state.selectedLocation == null) {
+      emit(state.copyWith(selectedLocation: location, searchResults: []));
+      registrationCubit.setLocation(latitude: location.latitude, longitude: location.longitude);
+    }
+  }
+
   Future<void> selectLocation(LatLng location) async {
     emit(state.copyWith(selectedLocation: location, searchResults: []));
+    registrationCubit.setLocation(latitude: location.latitude, longitude: location.longitude);
   }
 
   Future<void> noPermission() async {
@@ -38,11 +41,8 @@ class Signup6LocationCubit extends Cubit<Signup6LocationState> {
 
   Future<void> selectRange(double range) async {
     emit(state.copyWith(range: range));
-  }
+    registrationCubit.setRange(range: range);
 
-  void submit() async {
-    if (state.selectedLocation != null)
-      registrationCubit.stage6(latitude: state.selectedLocation!.latitude, longitude: state.selectedLocation!.longitude, range: state.range);
   }
 
 }

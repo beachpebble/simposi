@@ -26,12 +26,23 @@ class SignUpForm7 extends StatefulWidget {
 class _SignUpForm7State extends State<SignUpForm7> {
   double progress = 1.0;
 
+  bool _agreement0 = false;
   bool _agreement1 = false;
   bool _agreement2 = false;
   bool _agreement3 = false;
   bool _agreement4 = false;
   bool _agreement5 = false;
-  bool _agreement6 = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _agreement0 = context.read<RegistrationCubit>().stage8Agree[0];
+    _agreement1 = context.read<RegistrationCubit>().stage8Agree[1];
+    _agreement2 = context.read<RegistrationCubit>().stage8Agree[2];
+    _agreement3 = context.read<RegistrationCubit>().stage8Agree[3];
+    _agreement4 = context.read<RegistrationCubit>().stage8Agree[4];
+    _agreement5 = context.read<RegistrationCubit>().stage8Agree[5];
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -81,56 +92,74 @@ class _SignUpForm7State extends State<SignUpForm7> {
                       _getAgreeItem(
                           title:
                               'I have read & understand my local regulations and the CDC Guidelines.',
+                          agree: _agreement0,
+                          onClick: () {
+                            setState(() {
+                              _agreement0 = !_agreement0;
+                            });
+                            context
+                                .read<RegistrationCubit>()
+                                .covidAgree(agreeNum: 0, agreeVal: _agreement0);
+                          }),
+                      _getAgreeItem(
+                          title:
+                              'I will stay home if I have a cough or fever or am just not feeling well.',
                           agree: _agreement1,
                           onClick: () {
                             setState(() {
                               _agreement1 = !_agreement1;
                             });
+                            context
+                                .read<RegistrationCubit>()
+                                .covidAgree(agreeNum: 1, agreeVal: _agreement1);
                           }),
                       _getAgreeItem(
                           title:
-                              'I will stay home if I have a cough or fever or am just not feeling well.',
+                              'I will carry a face mask at all times and wear it is as required by the activity hosts, the CDC and/or local guidelines.',
                           agree: _agreement2,
                           onClick: () {
                             setState(() {
                               _agreement2 = !_agreement2;
                             });
+                            context
+                                .read<RegistrationCubit>()
+                                .covidAgree(agreeNum: 2, agreeVal: _agreement2);
                           }),
                       _getAgreeItem(
                           title:
-                              'I will carry a face mask at all times and wear it is as required by the activity hosts, the CDC and/or local guidelines.',
+                              'I will maintain a safe social distance while attending Simposi activities.',
                           agree: _agreement3,
                           onClick: () {
                             setState(() {
                               _agreement3 = !_agreement3;
                             });
+                            context
+                                .read<RegistrationCubit>()
+                                .covidAgree(agreeNum: 3, agreeVal: _agreement3);
                           }),
                       _getAgreeItem(
                           title:
-                              'I will maintain a safe social distance while attending Simposi activities.',
+                              'I will wash and/or sanitize my hands as frequently as possible while attending a Simposi activity.',
                           agree: _agreement4,
                           onClick: () {
                             setState(() {
                               _agreement4 = !_agreement4;
                             });
+                            context
+                                .read<RegistrationCubit>()
+                                .covidAgree(agreeNum: 4, agreeVal: _agreement4);
                           }),
                       _getAgreeItem(
                           title:
-                              'I will wash and/or sanitize my hands as frequently as possible while attending a Simposi activity.',
+                              'I will notify Simposi immediately if I test positive for Covid-19 after attending an activity.',
                           agree: _agreement5,
                           onClick: () {
                             setState(() {
                               _agreement5 = !_agreement5;
                             });
-                          }),
-                      _getAgreeItem(
-                          title:
-                              'I will notify Simposi immediately if I test positive for Covid-19 after attending an activity.',
-                          agree: _agreement6,
-                          onClick: () {
-                            setState(() {
-                              _agreement6 = !_agreement6;
-                            });
+                            context
+                                .read<RegistrationCubit>()
+                                .covidAgree(agreeNum: 5, agreeVal: _agreement5);
                           }),
                     ],
                   ),
@@ -143,8 +172,9 @@ class _SignUpForm7State extends State<SignUpForm7> {
                         listener: (context, state) {
                           if (state is RegistrationWaitCode)
                             Navigator.of(context).pushNamedAndRemoveUntil(
-                                '/signup9', ModalRoute.withName('start'),
-                                arguments: ValidateParameters(state.phone, state.token));
+                                '/signup8', ModalRoute.withName('start'),
+                                arguments: ValidateParameters(
+                                    state.phone, state.token));
                           else if (state is RegistrationError) {
                             showErrorToast(handleError(state.error, context));
                           }
@@ -172,7 +202,7 @@ class _SignUpForm7State extends State<SignUpForm7> {
       _agreement3 &&
       _agreement4 &&
       _agreement5 &&
-      _agreement6;
+      _agreement0;
 
   Widget _getAgreeItem(
       {required String title,

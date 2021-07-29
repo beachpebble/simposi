@@ -24,7 +24,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   String? email;
   String? password;
   Gender? gender;
-  Gender? wantToMeet;
   Set<Generation>? generations;
   Set<Earning>? earnings;
   Set<Interest>? interests;
@@ -46,32 +45,26 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     this.lgbt = lgbt;
   }
 
-  void stage3({
-    required Gender wantToMeet,
-  }) {
-    this.wantToMeet = wantToMeet;
-  }
-
-  void stage4({
+  void setGenerations({
     required Set<Generation> generations,
   }) async {
     this.generations = generations;
   }
 
-  void stage5({
+  void setEarnings({
     required Set<Earning> earnings,
   }) async {
     this.earnings = earnings;
   }
 
-  void stage6({
+  void setInterests({
     required Set<Interest> interests,
   }) async {
     this.interests = interests;
     print("save activities ${interests.length}");
   }
 
-  void stage7location({
+  void setLocation({
     required double latitude,
     required double longitude,
   }) {
@@ -79,13 +72,13 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     this.longitude = longitude;
   }
 
-  void stage7range({
+  void setRange({
     required double range,
   }) {
     this.range = range;
   }
 
-  void stage8({
+  void covidAgree({
     required int agreeNum,
     required bool agreeVal,
   }) {
@@ -100,7 +93,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     email = null;
     password = null;
     gender = null;
-    wantToMeet = null;
     generations = null;
     earnings = null;
     interests = null;
@@ -123,7 +115,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         longitude: longitude!.toString(),
         distance: range ?? 1,
         gender: gender!.id,
-        wantToMeet: gender!.id,
         isLgbt: lgbt,
         generation: generations!.map((e) => e.id).toList(),
         earning: earnings!.map((e) => e.id).toList(),
@@ -131,8 +122,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       );
 
       if (data.containsKey("apiAccessToken")) {
-        //TODO uncomment after serverside fix
-        //await profileRepository.setProfile(data);
+        await profileRepository.setProfile(data);
         var apiToken = data["apiAccessToken"];
         if (apiToken! != null) {
           emit(RegistrationWaitCode(apiToken, phone!));

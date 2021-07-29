@@ -16,6 +16,7 @@ import 'package:simposi_app_v4/authentication/createprofile/signup1_create_accou
 import 'package:simposi_app_v4/authentication/createprofile/signup2gender.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup3generation.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup4income.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup5/signup5_activities_cubit.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup5/signup5activities.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup6/signup6_location_cubit.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup6/signup6location.dart';
@@ -30,16 +31,6 @@ import 'package:simposi_app_v4/authentication/login/loginscreen/loginscreen.dart
 import 'package:simposi_app_v4/authentication/login/reset_password_complete/reset_password_complete_cubit.dart';
 import 'package:simposi_app_v4/authentication/login/reset_password_complete/reset_password_screen.dart';
 import 'package:simposi_app_v4/authentication/login/splash_screen.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup3iwanttomeet.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup4generation.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup5income.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup6/signup6_activities_cubit.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup6/signup6activities.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup7/signup7_location_cubit.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup7/signup7location.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup8covid.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup9/signup9_validate_cubit.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup9/signup9validate.dart';
 import 'package:simposi_app_v4/authentication/login/change_password/change_password_screen.dart';
 
 // Login
@@ -139,8 +130,9 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
               create: (context) => Signup5ActivitiesCubit(
-                  context.read<AuthenticationBloc>().masterData.interests, context.read()),
-              child:SignUpForm5() ),
+                  context.read<AuthenticationBloc>().masterData.interests,
+                  context.read()),
+              child: SignUpForm5()),
         );
       case '/signup6':
         return MaterialPageRoute(

@@ -13,7 +13,7 @@ class Profile extends Equatable {
   final String? instagram;
   final String? linkedin;
   final String profilePhoto;
-  final String wantToMeet;
+  final String? wantToMeet;
   final bool isLgbt;
   final Gender gender;
 
@@ -46,7 +46,7 @@ class Profile extends Equatable {
     String? parsedWantToMeet = json.containsKey('meet') ? json['meet'] : null;
     String? parsedGenderId = json.containsKey('gender') ? json['gender'] : null;
     bool parsedIsLgbt =
-        json.containsKey('islgbtq') ? json['islgbtq'] > 0 : false;
+        json.containsKey('islgbtq') && json['islgbtq'] !=null ? json['islgbtq'] > 0 : false;
 
     String? parsedFacebook =
         json.containsKey('facebook_url') ? json['facebook_url'] : null;
@@ -58,9 +58,8 @@ class Profile extends Equatable {
     if (parsedUserId == null ||
         parsedUserRoleId == null ||
         parsedUserName == null ||
-        parsedWantToMeet == null ||
-        parsedGenderId == null ||
-        parsedProfilePhoto == null)
+        parsedGenderId == null
+        )
       throw ParseException(message: "Incorrect data structure");
 
     Gender? gender = Gender.fromId(parsedGenderId);
@@ -71,7 +70,7 @@ class Profile extends Equatable {
     return Profile(
         userId: parsedUserId,
         userName: parsedUserName,
-        profilePhoto: parsedProfilePhoto,
+        profilePhoto: parsedProfilePhoto??"", // TODO just issue workaround until serverfix
         wantToMeet: parsedWantToMeet,
         isLgbt: parsedIsLgbt,
         gender: gender,

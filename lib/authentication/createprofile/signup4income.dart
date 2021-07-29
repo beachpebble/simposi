@@ -33,6 +33,7 @@ class _SignUpForm4State extends State<SignUpForm4> {
       else
         _selected.add(earning);
     });
+    context.read<RegistrationCubit>().setEarnings(earnings: _selected);
   }
 
   void _selectAll() {
@@ -41,121 +42,118 @@ class _SignUpForm4State extends State<SignUpForm4> {
           context.read<AuthenticationBloc>().masterData.earnings.length)
         _selected.clear();
       else
-        _selected.addAll(context.read<AuthenticationBloc>().masterData.earnings);
+        _selected
+            .addAll(context.read<AuthenticationBloc>().masterData.earnings);
     });
   }
 
   @override
+  void initState() {
+    super.initState();
+    _selected = context.read<RegistrationCubit>().earnings ?? {};
+  }
+
+  @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: Colors.white,
-        extendBodyBehindAppBar: true,
-        appBar: BasicFormAppBar(),
-        body:
-        LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints viewportConstraints) {
-              return SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: viewportConstraints.maxHeight,
+      backgroundColor: Colors.white,
+      extendBodyBehindAppBar: true,
+      appBar: BasicFormAppBar(),
+      body: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints viewportConstraints) {
+        return SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: viewportConstraints.maxHeight,
+            ),
+            child: Column(
+              children: [
+                SizedBox(height: 45),
+                Container(
+                  child: LinearProgressIndicator(
+                    value: progress,
+                    valueColor: AlwaysStoppedAnimation(
+                        SimposiAppColors.simposiDarkBlue),
+                    backgroundColor: SimposiAppColors.simposiFadedBlue,
                   ),
-                  child:  Column(
+                ),
+
+                SizedBox(height: 70),
+
+                Container(
+                  padding: EdgeInsets.fromLTRB(40, 10, 40, 20),
+                  child: Column(
                     children: [
-                      SizedBox(height: 45),
-                      Container(
-                        child: LinearProgressIndicator(
-                          value: progress,
-                          valueColor:
-                          AlwaysStoppedAnimation(SimposiAppColors.simposiDarkBlue),
-                          backgroundColor: SimposiAppColors.simposiFadedBlue,
+                      // Header
+                      Text(
+                        'Income Bracket...',
+                        style: TextStyle(
+                          fontSize: 19,
+                          fontWeight: FontWeight.w500,
+                          color: SimposiAppColors.simposiDarkGrey,
                         ),
                       ),
-
-                      SizedBox(height: 70),
-
-                      Container(
-                        padding: EdgeInsets.fromLTRB(40, 10, 40, 20),
-                        child: Column(
-                          children: [
-                            // Header
-                            Text(
-                              'Income Bracket...',
-                              style: TextStyle(
-                                fontSize: 19,
-                                fontWeight: FontWeight.w500,
-                                color: SimposiAppColors.simposiDarkGrey,
-                              ),
-                            ),
-                            // SizedBox(height: 20),
-                            ListView.separated(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: context
+                      // SizedBox(height: 20),
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: context
+                            .read<AuthenticationBloc>()
+                            .masterData
+                            .earnings
+                            .length,
+                        separatorBuilder: (context, index) {
+                          return SizedBox(height: 10);
+                        },
+                        itemBuilder: (context, index) {
+                          Earning earning = context
+                              .read<AuthenticationBloc>()
+                              .masterData
+                              .earnings[index];
+                          return BigGBSelectButton(
+                              buttonLabel: earning.title,
+                              isSelected: _selected.contains(earning),
+                              buttonAction: () {
+                                _selectEarning(earning);
+                              });
+                        },
+                      ),
+                      SizedBox(height: 10),
+                      // Silent Button
+                      BigGBSelectButton(
+                          buttonLabel: 'Select All',
+                          isSelected: _selected.length ==
+                              context
                                   .read<AuthenticationBloc>()
                                   .masterData
                                   .earnings
                                   .length,
-                              separatorBuilder: (context, index) {
-                                return SizedBox(height: 10);
-                              },
-                              itemBuilder: (context, index) {
-                                Earning earning = context
-                                    .read<AuthenticationBloc>()
-                                    .masterData
-                                    .earnings[index];
-                                return BigGBSelectButton(
-                                    buttonLabel: earning.title,
-                                    isSelected: _selected.contains(earning),
-                                    buttonAction: () {
-                                      _selectEarning(earning);
-                                    });
-                              },
-                            ),
-                            SizedBox(height: 10),
-                            // Silent Button
-                            BigGBSelectButton(
-                                buttonLabel: 'Select All',
-                                isSelected: _selected.length ==
-                                    context
-                                        .read<AuthenticationBloc>()
-                                        .masterData
-                                        .earnings
-                                        .length,
-                                buttonAction: () {
-                                  _selectAll();
-                                }),
-                          ],
-                        ),
-                      ),
-
-                      // Continue Button
-                      Container(
-                        padding: EdgeInsets.all(40),
-                        child: Column(
-                          children: [
-                            // TODO: Disable button until user has selected at least one income
-                            ContinueButton(
-                              buttonAction: _selected.isEmpty
-                                  ? null
-                                  : () {
-                                context
-                                    .read<RegistrationCubit>()
-                                    .stage4(earnings: _selected);
-                                Navigator.of(context)
-                                    .pushNamed('/signup6');
-                              },
-                            ),
-                            SizedBox(height: 20),
-                          ],
-                        ),
-                      ),
+                          buttonAction: () {
+                            _selectAll();
+                          }),
                     ],
                   ),
                 ),
-              );
-            })
 
-
-
-
-      );
+                // Continue Button
+                Container(
+                  padding: EdgeInsets.all(40),
+                  child: Column(
+                    children: [
+                      // TODO: Disable button until user has selected at least one income
+                      ContinueButton(
+                        buttonAction: _selected.isEmpty
+                            ? null
+                            : () {
+                                Navigator.of(context).pushNamed('/signup5');
+                              },
+                      ),
+                      SizedBox(height: 20),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      }));
 }

@@ -108,7 +108,10 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                   AddPhotoButton(
                                     imageSelectCallback: (val) {
                                       print("selected image $val");
-                                      _filePath = val;
+                                      setState(() {
+                                        _filePath = val;
+                                      });
+
                                     },
                                   ),
                                 ],
@@ -144,55 +147,55 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                             context, Validators.PASSWORD)),
                                     SizedBox(height: 15),
 
-                                    // SUBMIT BUTTON
-                                    state is Signup1CreateAccountLoading
-                                        ? AppProgressIndicator()
-                                        : BigGBSelectButton(
-                                        buttonLabel: 'Submit',
-                                        buttonAction: () {
-                                          if (_formKey.currentState!
-                                              .validate()) {
-                                            // Navigator.of(context)
-                                            //     .pushNamed('/signup2');
-                                            if (_filePath?.isNotEmpty ==
-                                                true) {
-                                              context
-                                                  .read<
-                                                  Signup1CreateAccountCubit>()
-                                                  .firstStage(
-                                                  name: _nameController
-                                                      .text,
-                                                  email:
-                                                  _emailController
-                                                      .text,
-                                                  password:
-                                                  _passwordController
-                                                      .text,
-                                                  file: _filePath!,
-                                                  phone:
-                                                  _phoneController
-                                                      .text);
-                                            } else {
-                                              showErrorToast("Add photo");
-                                            }
+                                  // SUBMIT BUTTON
+                                  state is Signup1CreateAccountLoading
+                                      ? AppProgressIndicator()
+                                      : ContinueButton(
+                                      buttonLabel: 'Submit',
+                                      buttonAction: _nextEnabled() ? () {
+                                        if (_formKey.currentState!
+                                            .validate()) {
+                                          // Navigator.of(context)
+                                          //     .pushNamed('/signup2');
+                                          if (_filePath?.isNotEmpty ==
+                                              true) {
+                                            context
+                                                .read<
+                                                Signup1CreateAccountCubit>()
+                                                .firstStage(
+                                                name: _nameController
+                                                    .text,
+                                                email:
+                                                _emailController
+                                                    .text,
+                                                password:
+                                                _passwordController
+                                                    .text,
+                                                file: _filePath!,
+                                                phone:
+                                                _phoneController
+                                                    .text);
+                                          } else {
+                                            showErrorToast("Add photo");
                                           }
-                                        }),
-                                    SizedBox(height: 10),
-
-                                    // LOGIN BUTTON
-                                    SimposiTextButton(
-                                      buttonLabel: "Log In",
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w900,
-                                      onClick: () {
-                                        Navigator.of(context)
-                                            .pushReplacementNamed('/login');
-                                      },
-                                    ),
-                                  ],
-                                ),
+                                        }
+                                      } : null),
+                                  SizedBox(height: 10),
+                                  // TODO: Are we able to reuse this screen for edit profile? Change Button to just a save and hide footer?
+                                  // LOGIN BUTTON
+                                  SimposiTextButton(
+                                    buttonLabel: "Log In",
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w900,
+                                    onClick: () {
+                                      Navigator.of(context)
+                                          .pushReplacementNamed('/login');
+                                    },
+                                  ),
+                                ],
                               ),
                             ),
+                          ),
 
                             // FOOTER
                             Container(
@@ -286,6 +289,10 @@ class _SignUpForm1State extends State<SignUpForm1> {
           }
         },
       );
+
+  bool _nextEnabled() {
+    return _nameController.text.isNotEmpty && _phoneController.text.isNotEmpty && _passwordController.text.isNotEmpty && _emailController.text.isNotEmpty && _filePath != null && _filePath!.isNotEmpty;
+  }
 
   Widget _emailField() => TextFormField(
         controller: _emailController,

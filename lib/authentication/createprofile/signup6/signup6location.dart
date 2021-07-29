@@ -32,6 +32,7 @@ class _SignUpForm6State extends State<SignUpForm6> {
   double progress = 0.85;
   final _placeSearchController = TextEditingController();
   Completer<GoogleMapController> _controller = Completer();
+  Completer<void> _initCompleter = Completer();
 
   @override
   void initState() {
@@ -43,6 +44,10 @@ class _SignUpForm6State extends State<SignUpForm6> {
         .catchError((e) {
       showErrorToast("There is no location permission");
       context.read<Signup6LocationCubit>().noPermission();
+    });
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      await Future.delayed(Duration(milliseconds: 200));
+      _initCompleter.complete();
     });
   }
 
@@ -116,10 +121,9 @@ class _SignUpForm6State extends State<SignUpForm6> {
                   children: [
                     ContinueButton(
                         buttonAction: state.selectedLocation != null
-                            ? ()
-                                {context.read<Signup6LocationCubit>().submit();
-                                Navigator.of(context).pushNamed('/signup8');
-                                }
+                            ? () {
+                                Navigator.of(context).pushNamed('/signup7');
+                              }
                             : null),
                     SizedBox(height: 20),
                   ],
@@ -171,7 +175,12 @@ class _SignUpForm6State extends State<SignUpForm6> {
 
   Widget _googleMap(Signup6LocationState state) {
     double range = localeIsImperial ? state.range * 1.6 : state.range;
-    return GoogleMap(
+    return FutureBuilder(
+        future: _initCompleter.future,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          return snapshot.connectionState == ConnectionState.waiting
+              ? Center(child: AppProgressIndicator())
+    : GoogleMap(
         zoomControlsEnabled: true,
         zoomGesturesEnabled: true,
         myLocationEnabled: true,
@@ -186,6 +195,7 @@ class _SignUpForm6State extends State<SignUpForm6> {
           context.read<Signup6LocationCubit>().selectLocation(loc);
         },
         circles: _getCircle(state.selectedLocation, range));
+        });
   }
 
   Widget _searchResult(Signup6LocationState state) {
@@ -211,7 +221,7 @@ class _SignUpForm6State extends State<SignUpForm6> {
               placesSearchResult.formattedAddress ?? "",
             ),
             onTap: () async {
-              if (placesSearchResult.geometry != null ) {
+              if (placesSearchResult.geometry != null) {
                 final GoogleMapController controller = await _controller.future;
                 var newLoc = LatLng(placesSearchResult.geometry!.location.lat,
                     placesSearchResult.geometry!.location.lng);

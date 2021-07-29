@@ -34,6 +34,13 @@ class _SignUpForm3State extends State<SignUpForm3> {
       else
         _selected.add(gender);
     });
+    context.read<RegistrationCubit>().setGenerations(generations: _selected);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _selected = context.read<RegistrationCubit>().generations ?? {};
   }
 
   @override
@@ -47,8 +54,8 @@ class _SignUpForm3State extends State<SignUpForm3> {
             Container(
               child: LinearProgressIndicator(
                 value: progress,
-                valueColor:
-                    const AlwaysStoppedAnimation(SimposiAppColors.simposiDarkBlue),
+                valueColor: const AlwaysStoppedAnimation(
+                    SimposiAppColors.simposiDarkBlue),
                 backgroundColor: SimposiAppColors.simposiFadedBlue,
               ),
             ),
@@ -62,7 +69,8 @@ class _SignUpForm3State extends State<SignUpForm3> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     // Header
-                    Text('Generation...',
+                    Text(
+                      'Generation...',
                       style: Theme.of(context).textTheme.headline3,
                     ),
                     SizedBox(height: 20),
@@ -117,10 +125,7 @@ class _SignUpForm3State extends State<SignUpForm3> {
                   ContinueButton(
                     buttonAction: _selected.isNotEmpty
                         ? () {
-                            context
-                                .read<RegistrationCubit>()
-                                .stage3(generations: _selected);
-                            Navigator.of(context).pushNamed('/signup5');
+                            Navigator.of(context).pushNamed('/signup4');
                           }
                         : null,
                   ),
