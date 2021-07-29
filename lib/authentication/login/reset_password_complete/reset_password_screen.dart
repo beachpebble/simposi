@@ -79,6 +79,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
     super.dispose();
   }
 
+  bool _nextEnabled() {
+    return _passwordController.text.isNotEmpty && _confirmPasswordController.text.isNotEmpty && code.length == 6;
+  }
+
   @override
   Widget build(BuildContext context) => KeyboardDismisser(
         child: Scaffold(
@@ -233,11 +237,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
                                   } else {
                                     return Column(
                                       children: [
-                                        BigGBSelectButton(
+                                        ContinueButton(
                                             buttonLabel: AppLocalizations.of(
                                                     context)!
                                                 .passwordChangeSetNewPassword,
-                                            buttonAction: () {
+                                            buttonAction: _nextEnabled() ? () {
                                               if (code.length == 6 &&
                                                   _formKey.currentState!
                                                       .validate()) {
@@ -253,7 +257,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
                                                                 .text,
                                                         code: code);
                                               }
-                                            }),
+                                            }: null),
                                         SizedBox(height: 15),
                                         resendOnDelay
                                             ? ResendCountDown(

@@ -94,9 +94,9 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                             SizedBox(height: 10),
                             state is ForgotPasswordStartLoading
                                 ? AppProgressIndicator()
-                                : BigGBSelectButton(
+                                : ContinueButton(
                                     buttonLabel: 'Reset Password',
-                                    buttonAction: () {
+                                    buttonAction: _emailController.text.isNotEmpty ? () {
                                       final isValid =
                                           _formKey.currentState!.validate();
 
@@ -108,7 +108,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                                             .sendForgotPasswordRequest(
                                                 phone: phone);
                                       }
-                                    }),
+                                    } : null),
                           ],
                         ),
                       ),
