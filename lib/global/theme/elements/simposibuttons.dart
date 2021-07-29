@@ -288,7 +288,7 @@ class BigGBSelectButton extends StatelessWidget {
           }),
           foregroundColor: MaterialStateProperty.resolveWith<Color>(
               (Set<MaterialState> states) {
-            return isSelected ? Colors.white : SimposiAppColors.simposiDarkBlue;
+            return isSelected ? Colors.white : SimposiAppColors.simposiDarkGrey;
             // if (states.contains(MaterialState.disabled))
             //   return SimposiAppColors.simposiDarkGrey;
             // return Colors.white;

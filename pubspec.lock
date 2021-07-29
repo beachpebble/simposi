@@ -8,6 +8,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  android_intent:
+    dependency: transitive
+    description:
+      name: android_intent
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.2"
   async:
     dependency: transitive
     description:
@@ -251,7 +258,16 @@ packages:
       name: geolocator_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.6"
+    version: "2.0.3"
+  google_map_location_picker:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: "25deede4823145403718ab16795bfc3be604f46e"
+      resolved-ref: "25deede4823145403718ab16795bfc3be604f46e"
+      url: "https://github.com/humazed/google_map_location_picker"
+    source: git
+    version: "4.1.7"
   google_maps_flutter:
     dependency: "direct main"
     description:
@@ -265,7 +281,7 @@ packages:
       name: google_maps_flutter_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.0.4"
   google_maps_webservice:
     dependency: "direct main"
     description:
@@ -413,6 +429,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0+1"
+  package_info:
+    dependency: transitive
+    description:
+      name: package_info
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.2"
   page_transition:
     dependency: "direct main"
     description:
@@ -468,7 +491,7 @@ packages:
       name: pedantic
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.11.1"
+    version: "1.11.0"
   permission_handler:
     dependency: "direct main"
     description:
@@ -503,7 +526,7 @@ packages:
       name: plugin_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.0"
   pretty_dio_logger:
     dependency: "direct main"
     description:
@@ -517,7 +540,7 @@ packages:
       name: process
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.2.2"
+    version: "4.2.1"
   provider:
     dependency: transitive
     description:
@@ -531,7 +554,7 @@ packages:
       name: rxdart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.26.0"
+    version: "0.27.1"
   share:
     dependency: "direct main"
     description:

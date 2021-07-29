@@ -13,6 +13,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup9/signup9_validate_cubit.dart';
 import 'package:simposi_app_v4/authentication/login/reset_password_start/forgot_password_start_cubit.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup8/signup8_validate_cubit.dart';
+import 'package:simposi_app_v4/authentication/login/reset_password_start/forgot_password_start_cubit.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/model/errors.dart';
@@ -279,8 +281,6 @@ class _LoginScreenState extends State<LoginScreen> {
         // OUTPUT ACTIONS
         onSaved: (value) => setState(() => phone = value!),
       );
-
-
 
   // PASSWORD FIELD
   Widget _passwordField() => TextFormField(

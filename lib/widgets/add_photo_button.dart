@@ -29,43 +29,54 @@ class _AddPhotoButtonState extends State<AddPhotoButton> {
 
   void _settingModalBottomSheet(
       context, Function(PickedFile) fileSelectCallback) {
-    showModalBottomSheet(
+      showModalBottomSheet(
+        backgroundColor: Colors.transparent,
         context: context,
         builder: (BuildContext bc) {
           return Container(
-            child: new Wrap(
-              children: <Widget>[
-                new ListTile(
-                  leading: new Icon(Icons.camera),
-                  title:
-                      new Text(AppLocalizations.of(context)!.imageDialogCamera),
-                  onTap: () async {
-                    Navigator.pop(context);
-                    PickedFile? image =
-                        await _picker.getImage(source: ImageSource.camera);
-                    if (image != null)
-                      fileSelectCallback(image);
-                    else
-                      showErrorToast(
-                          AppLocalizations.of(context)!.imageSelectError);
-                  },
-                ),
-                new ListTile(
-                  leading: new Icon(Icons.photo_library),
-                  title: new Text(
-                      AppLocalizations.of(context)!.imageDialogGallery),
-                  onTap: () async {
-                    Navigator.pop(context);
-                    PickedFile? image =
-                        await _picker.getImage(source: ImageSource.gallery);
-                    if (image != null)
-                      fileSelectCallback(image);
-                    else
-                      showErrorToast(
-                          AppLocalizations.of(context)!.imageSelectError);
-                  },
-                ),
-              ],
+            height: 170,
+            child: Container(
+              padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20.0),
+                    topRight: Radius.circular(20.0),
+                  )),
+              child: new Wrap(
+                children: <Widget>[
+                  new ListTile(
+                    leading: new Icon(Icons.camera),
+                    title:
+                        new Text(AppLocalizations.of(context)!.imageDialogCamera),
+                    onTap: () async {
+                      Navigator.pop(context);
+                      PickedFile? image =
+                          await _picker.getImage(source: ImageSource.camera);
+                      if (image != null)
+                        fileSelectCallback(image);
+                      else
+                        showErrorToast(
+                            AppLocalizations.of(context)!.imageSelectError);
+                    },
+                  ),
+                  new ListTile(
+                    leading: new Icon(Icons.photo_library),
+                    title: new Text(
+                        AppLocalizations.of(context)!.imageDialogGallery),
+                    onTap: () async {
+                      Navigator.pop(context);
+                      PickedFile? image =
+                          await _picker.getImage(source: ImageSource.gallery);
+                      if (image != null)
+                        fileSelectCallback(image);
+                      else
+                        showErrorToast(
+                            AppLocalizations.of(context)!.imageSelectError);
+                    },
+                  ),
+                ],
+              ),
             ),
           );
         });
@@ -119,12 +130,12 @@ class _AddPhotoButtonState extends State<AddPhotoButton> {
                 ),
           Positioned.fill(
               child: Align(
-            alignment: Alignment.bottomRight,
-            child: Icon(
-              Icons.add_circle,
-              size: 24,
-              color: SimposiAppColors.simposiDarkBlue,
-            ),
+                alignment: Alignment.bottomRight,
+                  child: Icon(
+                  Icons.add_circle,
+                  size: 24,
+                  color: SimposiAppColors.simposiDarkBlue,
+                ),
           )),
         ],
       );

@@ -69,150 +69,149 @@ class _SignUpForm1State extends State<SignUpForm1> {
                 constraints: BoxConstraints(
                   minHeight: viewportConstraints.maxHeight,
                 ),
-                child: BlocConsumer<Signup1CreateAccountCubit,
-                    Signup1CreateAccountState>(
-                  listener: (context, state) {
-                    if (state is Signup1CreateAccountReady) {
-                      Navigator.of(context).pushNamed('/signup2');
-                    } else if (state is Signup1CreateAccountError) {
-                      showErrorToast(handleError(state.error, context));
-                    }
-                  },
-                  builder: (context, state) {
+                child: IntrinsicHeight(
+                  child: BlocConsumer<Signup1CreateAccountCubit,
+                      Signup1CreateAccountState>(
+                    listener: (context, state) {
+                      if (state is Signup1CreateAccountReady) {
+                        Navigator.of(context).pushNamed('/signup2');
+                      } else if (state is Signup1CreateAccountError) {
+                        showErrorToast(handleError(state.error, context));
+                      }
+                    },
+                    builder: (context, state) {
 
-                    return Container(
-                      padding: EdgeInsets.all(40),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          // HEADER
-                          Container(
-                            height: 250,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                  'Signup and start \n meeting new people.',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: SimposiAppColors.simposiDarkGrey,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 19,
-                                  ),
-                                ),
-                                SizedBox(height: 20),
-                                // TODO: ENABLE IMAGE PICKER & ERROR MESSAGE IF NO IMAGE ON SUBMIT
-                                //  PHOTO UPLOAD FIELD
-                                AddPhotoButton(
-                                  imageSelectCallback: (val) {
-                                    print("selected image $val");
-                                    setState(() {
-                                      _filePath = val;
-                                    });
-
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          // CREATE ACCOUNT FORM
-                          Container(
-                            child: Form(
-                              key: _formKey,
+                      return Container(
+                        padding: EdgeInsets.all(40),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // HEADER
+                            Container(
+                              height: 225,
                               child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  SizedBox(height: 40),
-
-                                  // NAME FIELD
-                                  _nameField(),
-                                  SizedBox(height: 15),
-
-                                  // phone FIELD
-                                  _phoneField(),
-                                  SizedBox(height: 15),
-
-                                  // phone FIELD
-                                  _emailField(),
-                                  SizedBox(height: 15),
-
-                                  // PASSWORD FIELD
-                                  PasswordField(
-                                      label: AppLocalizations.of(context)!
-                                          .signUpPassword,
-                                      controller: _passwordController,
-                                      validator: getValidator(
-                                          context, Validators.PASSWORD)),
-                                  SizedBox(height: 15),
-
-                                  // SUBMIT BUTTON
-                                  state is Signup1CreateAccountLoading
-                                      ? AppProgressIndicator()
-                                      : ContinueButton(
-                                      buttonLabel: 'Submit',
-                                      buttonAction: _nextEnabled() ? () {
-                                        if (_formKey.currentState!
-                                            .validate()) {
-                                          // Navigator.of(context)
-                                          //     .pushNamed('/signup2');
-                                          if (_filePath?.isNotEmpty ==
-                                              true) {
-                                            context
-                                                .read<
-                                                Signup1CreateAccountCubit>()
-                                                .firstStage(
-                                                name: _nameController
-                                                    .text,
-                                                email:
-                                                _emailController
-                                                    .text,
-                                                password:
-                                                _passwordController
-                                                    .text,
-                                                file: _filePath!,
-                                                phone:
-                                                _phoneController
-                                                    .text);
-                                          } else {
-                                            showErrorToast("Add photo");
-                                          }
-                                        }
-                                      } : null),
-                                  SizedBox(height: 10),
-                                  // TODO: Are we able to reuse this screen for edit profile? Change Button to just a save and hide footer?
-                                  // LOGIN BUTTON
-                                  SimposiTextButton(
-                                    buttonLabel: "Log In",
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w900,
-                                    onClick: () {
-                                      Navigator.of(context)
-                                          .pushReplacementNamed('/login');
+                                  Text(
+                                    'Signup and start \n meeting new people.',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: SimposiAppColors.simposiDarkGrey,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 19,
+                                    ),
+                                  ),
+                                  SizedBox(height: 20),
+                                  // TODO: ENABLE IMAGE PICKER & ERROR MESSAGE IF NO IMAGE ON SUBMIT
+                                  //  PHOTO UPLOAD FIELD
+                                  AddPhotoButton(
+                                    imageSelectCallback: (val) {
+                                      print("selected image $val");
+                                      _filePath = val;
                                     },
                                   ),
                                 ],
                               ),
                             ),
-                          ),
 
-                          // FOOTER
-                          Container(
-                            height: 150,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                PrivacyTOUFooter(
-                                  footerColor:
-                                  SimposiAppColors.simposiLightText,
+                            // CREATE ACCOUNT FORM
+                            Container(
+                              child: Form(
+                                key: _formKey,
+                                child: Column(
+                                  children: [
+                                    SizedBox(height: 40),
+
+                                    // NAME FIELD
+                                    _nameField(),
+                                    SizedBox(height: 10),
+
+                                    // phone FIELD
+                                    _phoneField(),
+                                    SizedBox(height: 10),
+
+                                    // phone FIELD
+                                    _emailField(),
+                                    SizedBox(height: 10),
+
+                                    // PASSWORD FIELD
+                                    PasswordField(
+                                        label: AppLocalizations.of(context)!
+                                            .signUpPassword,
+                                        controller: _passwordController,
+                                        validator: getValidator(
+                                            context, Validators.PASSWORD)),
+                                    SizedBox(height: 15),
+
+                                    // SUBMIT BUTTON
+                                    state is Signup1CreateAccountLoading
+                                        ? AppProgressIndicator()
+                                        : BigGBSelectButton(
+                                        buttonLabel: 'Submit',
+                                        buttonAction: () {
+                                          if (_formKey.currentState!
+                                              .validate()) {
+                                            // Navigator.of(context)
+                                            //     .pushNamed('/signup2');
+                                            if (_filePath?.isNotEmpty ==
+                                                true) {
+                                              context
+                                                  .read<
+                                                  Signup1CreateAccountCubit>()
+                                                  .firstStage(
+                                                  name: _nameController
+                                                      .text,
+                                                  email:
+                                                  _emailController
+                                                      .text,
+                                                  password:
+                                                  _passwordController
+                                                      .text,
+                                                  file: _filePath!,
+                                                  phone:
+                                                  _phoneController
+                                                      .text);
+                                            } else {
+                                              showErrorToast("Add photo");
+                                            }
+                                          }
+                                        }),
+                                    SizedBox(height: 10),
+
+                                    // LOGIN BUTTON
+                                    SimposiTextButton(
+                                      buttonLabel: "Log In",
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w900,
+                                      onClick: () {
+                                        Navigator.of(context)
+                                            .pushReplacementNamed('/login');
+                                      },
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
+
+                            // FOOTER
+                            Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  SizedBox(height: 30),
+                                  PrivacyTOUFooter(
+                                    footerColor:
+                                    SimposiAppColors.simposiLightText,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             );
@@ -230,60 +229,13 @@ class _SignUpForm1State extends State<SignUpForm1> {
         obscureText: false,
         showCursor: true,
 
-        style: TextStyle(
-          color: SimposiAppColors.simposiLightText,
-          fontWeight: FontWeight.w500,
-          fontSize: 15,
-        ),
-
         decoration: InputDecoration(
           labelText: ' Name',
-          contentPadding: EdgeInsets.all(20),
-          labelStyle: TextStyle(
-            color: SimposiAppColors.simposiLightText,
-            fontSize: 15,
-            fontWeight: FontWeight.w500,
-            letterSpacing: 1.5,
-          ),
-
-          // Initial State
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(40.0)),
-            borderSide: BorderSide(
-              color: SimposiAppColors.simposiLightGrey,
-            ),
-          ),
-
-          // Focus State
-          focusColor: SimposiAppColors.simposiDarkBlue,
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(40.0)),
-            borderSide: BorderSide(
-              color: SimposiAppColors.simposiDarkBlue,
-            ),
-          ),
-
-          // Focus Error State
-          focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiPink,
-              )),
-
-          // Error State
-          errorStyle: TextStyle(
-            color: SimposiAppColors.simposiPink,
-          ),
-          errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiPink,
-              )),
 
           suffixIcon: _nameController.text.isEmpty
               ? Container(width: 0)
               : IconButton(
-                  icon: Icon(Icons.close,
+                  icon: const Icon(Icons.close,
                       size: 20, color: SimposiAppColors.simposiLightGrey),
                   onPressed: () => _nameController.clear(),
                 ),
@@ -309,58 +261,13 @@ class _SignUpForm1State extends State<SignUpForm1> {
         obscureText: false,
         showCursor: true,
 
-        style: TextStyle(
-          color: SimposiAppColors.simposiLightText,
-          fontWeight: FontWeight.w500,
-          fontSize: 15,
-        ),
-
         decoration: InputDecoration(
           labelText: ' Phone Number',
-          contentPadding: EdgeInsets.all(20),
-          labelStyle: TextStyle(
-            color: SimposiAppColors.simposiLightText,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            letterSpacing: 1.5,
-          ),
-
-          // INITIAL STATE
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiLightGrey,
-              )),
-
-          // FOCUS STATE
-          focusColor: SimposiAppColors.simposiDarkBlue,
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiDarkBlue,
-              )),
-
-          // FOCUS ERROR STATE
-          focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiPink,
-              )),
-
-          // ERROR STATE
-          errorStyle: TextStyle(
-            color: SimposiAppColors.simposiPink,
-          ),
-          errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiPink,
-              )),
 
           suffixIcon: _phoneController.text.isEmpty
               ? Container(width: 0)
               : IconButton(
-                  icon: Icon(Icons.close,
+                  icon: const Icon(Icons.close,
                       size: 20, color: SimposiAppColors.simposiLightGrey),
                   onPressed: () => _phoneController.clear(),
                 ),
@@ -380,10 +287,6 @@ class _SignUpForm1State extends State<SignUpForm1> {
         },
       );
 
-  bool _nextEnabled() {
-    return _nameController.text.isNotEmpty && _phoneController.text.isNotEmpty && _passwordController.text.isNotEmpty && _emailController.text.isNotEmpty && _filePath != null && _filePath!.isNotEmpty;
-  }
-
   Widget _emailField() => TextFormField(
         controller: _emailController,
         keyboardType: TextInputType.emailAddress,
@@ -393,58 +296,13 @@ class _SignUpForm1State extends State<SignUpForm1> {
         obscureText: false,
         showCursor: true,
 
-        style: TextStyle(
-          color: SimposiAppColors.simposiLightText,
-          fontWeight: FontWeight.w500,
-          fontSize: 15,
-        ),
-
         decoration: InputDecoration(
           labelText: ' Email',
-          contentPadding: EdgeInsets.all(20),
-          labelStyle: TextStyle(
-            color: SimposiAppColors.simposiLightText,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            letterSpacing: 1.5,
-          ),
-
-          // INITIAL STATE
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiLightGrey,
-              )),
-
-          // FOCUS STATE
-          focusColor: SimposiAppColors.simposiDarkBlue,
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiDarkBlue,
-              )),
-
-          // FOCUS ERROR STATE
-          focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiPink,
-              )),
-
-          // ERROR STATE
-          errorStyle: TextStyle(
-            color: SimposiAppColors.simposiPink,
-          ),
-          errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiPink,
-              )),
 
           suffixIcon: _emailController.text.isEmpty
               ? Container(width: 0)
               : IconButton(
-                  icon: Icon(Icons.close,
+                  icon: const Icon(Icons.close,
                       size: 20, color: SimposiAppColors.simposiLightGrey),
                   onPressed: () => _emailController.clear(),
                 ),

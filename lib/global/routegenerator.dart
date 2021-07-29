@@ -14,6 +14,22 @@ import 'package:simposi_app_v4/authentication/createprofile/signup1_create_accou
 // Create Profile
 import 'package:simposi_app_v4/authentication/createprofile/signup1_create_account/signup1createaccount.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup2gender.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup3generation.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup4income.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup5/signup5activities.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup6/signup6_location_cubit.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup6/signup6location.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup7covid.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup8/signup8_validate_cubit.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup8/signup8validate.dart';
+import 'package:simposi_app_v4/authentication/login/change_password/change_password_screen.dart';
+
+// Login
+import 'package:simposi_app_v4/authentication/login/getstartedscreen.dart';
+import 'package:simposi_app_v4/authentication/login/loginscreen/loginscreen.dart';
+import 'package:simposi_app_v4/authentication/login/reset_password_complete/reset_password_complete_cubit.dart';
+import 'package:simposi_app_v4/authentication/login/reset_password_complete/reset_password_screen.dart';
+import 'package:simposi_app_v4/authentication/login/splash_screen.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup3iwanttomeet.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup4generation.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup5income.dart';
@@ -120,32 +136,30 @@ class RouteGenerator {
       case '/signup4':
         return MaterialPageRoute(builder: (_) => SignUpForm4());
       case '/signup5':
-        return MaterialPageRoute(builder: (_) => SignUpForm5());
-      case '/signup6':
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-              create: (context) => Signup6ActivitiesCubit(
+              create: (context) => Signup5ActivitiesCubit(
                   context.read<AuthenticationBloc>().masterData.interests, context.read()),
-              child:SignUpForm6() ),
+              child:SignUpForm5() ),
         );
-      case '/signup7':
+      case '/signup6':
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
                   create: (context) =>
-                      Signup7LocationCubit(registrationCubit: context.read()),
-                  child: SignUpForm7(),
+                      Signup6LocationCubit(registrationCubit: context.read()),
+                  child: SignUpForm6(),
                 ));
+      case '/signup7':
+        return MaterialPageRoute(builder: (_) => SignUpForm7());
       case '/signup8':
-        return MaterialPageRoute(builder: (_) => SignUpForm8());
-      case '/signup9':
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
-                  create: (context) => Signup9ValidateCubit(
+                  create: (context) => Signup8ValidateCubit(
                       validateParameters:
                           settings.arguments as ValidateParameters,
                       authenticationBloc: context.read(),
                       profileRepository: context.read()),
-                  child: SignUpForm9(),
+                  child: SignUpForm8(),
                 ));
       // Profile Screen
       case '/profilescreen':
