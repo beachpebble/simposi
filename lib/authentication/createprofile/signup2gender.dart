@@ -37,20 +37,27 @@ class _SignUpForm2State extends State<SignUpForm2> {
     super.initState();
     _isLgbt = widget.editMode
         ? context.read<ProfileEditCubit>().profile.isLgbt
-        : false;
-    if (widget.editMode)
-      _selected = context.read<ProfileEditCubit>().profile.gender;
+        : context.read<RegistrationCubit>().lgbt;
+    _selected = widget.editMode
+        ? context.read<ProfileEditCubit>().profile.gender
+        : context.read<RegistrationCubit>().gender;
   }
 
   void _selectGender(Gender gender) {
     setState(() {
       _selected = gender;
+      if (!widget.editMode) {
+        context.read<RegistrationCubit>().stage2Gender(gender: _selected!);
+      }
     });
   }
 
   void _selectLgbt() {
     setState(() {
       _isLgbt = !_isLgbt;
+      if (!widget.editMode) {
+        context.read<RegistrationCubit>().stage2Lgbt(lgbt: _isLgbt);
+      }
     });
   }
 
@@ -161,9 +168,6 @@ class _SignUpForm2State extends State<SignUpForm2> {
     return ContinueButton(
       buttonAction: _selected != null
           ? () {
-              context
-                  .read<RegistrationCubit>()
-                  .stage2(gender: _selected!, lgbt: _isLgbt);
               Navigator.of(context).pushNamed('/signup3');
             }
           : null,
@@ -182,7 +186,9 @@ class _SignUpForm2State extends State<SignUpForm2> {
                 buttonLabel: 'Save',
                 buttonAction: _selected != null
                     ? () {
-                        context.read<ProfileEditCubit>().indentifyAs(_selected!, _isLgbt);
+                        context
+                            .read<ProfileEditCubit>()
+                            .indentifyAs(_selected!, _isLgbt);
                       }
                     : null,
               );

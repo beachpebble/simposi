@@ -17,6 +17,7 @@ import 'package:simposi_app_v4/authentication/createprofile/signup2gender.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup3iwanttomeet.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup4generation.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup5income.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup6/signup6_activities_cubit.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup6/signup6activities.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup7/signup7_location_cubit.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup7/signup7location.dart';
@@ -31,6 +32,7 @@ import 'package:simposi_app_v4/authentication/login/loginscreen/loginscreen.dart
 import 'package:simposi_app_v4/authentication/login/reset_password_complete/reset_password_complete_cubit.dart';
 import 'package:simposi_app_v4/authentication/login/reset_password_complete/reset_password_screen.dart';
 import 'package:simposi_app_v4/authentication/login/splash_screen.dart';
+import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/calendar/simposicalendar.dart';
 
 // Check In
@@ -121,7 +123,10 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => SignUpForm5());
       case '/signup6':
         return MaterialPageRoute(
-          builder: (_) => SignUpForm6(),
+          builder: (_) => BlocProvider(
+              create: (context) => Signup6ActivitiesCubit(
+                  context.read<AuthenticationBloc>().masterData.interests, context.read()),
+              child:SignUpForm6() ),
         );
       case '/signup7':
         return MaterialPageRoute(

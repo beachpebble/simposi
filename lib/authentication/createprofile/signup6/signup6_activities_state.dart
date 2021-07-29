@@ -22,5 +22,7 @@ class Signup6ActivitiesState extends Equatable {
   }
 
   @override
-  List<Object> get props => [selected, interests, filtered];
+  List<Object> get props => [selected,  filtered];
+
+  bool? get stringify => true;
 }

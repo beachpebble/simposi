@@ -34,6 +34,13 @@ class _SignUpForm4State extends State<SignUpForm4> {
       else
         _selected.add(gender);
     });
+    context.read<RegistrationCubit>().stage4(generations: _selected);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _selected = context.read<RegistrationCubit>().generations ?? {};
   }
 
   @override
@@ -114,9 +121,6 @@ class _SignUpForm4State extends State<SignUpForm4> {
                   ContinueButton(
                     buttonAction: _selected.isNotEmpty
                         ? () {
-                            context
-                                .read<RegistrationCubit>()
-                                .stage4(generations: _selected);
                             Navigator.of(context).pushNamed('/signup5');
                           }
                         : null,

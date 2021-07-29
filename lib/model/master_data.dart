@@ -4,7 +4,7 @@ import 'package:simposi_app_v4/model/earning.dart';
 import 'generation.dart';
 import 'interest.dart';
 
-class MasterData implements Equatable {
+class MasterData extends Equatable {
   final Set<Interest> interests;
   final List<Generation> generations;
   final List<Earning> earnings;

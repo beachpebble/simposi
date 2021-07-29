@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
+import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
@@ -39,10 +40,13 @@ class _SignUpForm1State extends State<SignUpForm1> {
   @override
   void initState() {
     super.initState();
+
     _nameController.addListener(() => setState(() {}));
     _phoneController.addListener(() => setState(() {}));
     _passwordController.addListener(() => setState(() {}));
     _emailController.addListener(() => setState(() {}));
+
+    context.read<RegistrationCubit>().reset();
   }
 
   @override

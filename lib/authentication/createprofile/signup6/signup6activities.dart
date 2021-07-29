@@ -19,129 +19,100 @@ import 'package:simposi_app_v4/model/interest.dart';
 
 import 'signup6_activities_cubit.dart';
 
-class SignUpForm6 extends StatefulWidget {
+class SignUpForm6 extends StatelessWidget {
+
+  final double progress = 0.66;
+
   @override
-  _SignUpForm6State createState() => _SignUpForm6State();
-}
+  Widget build(BuildContext context) => Scaffold(
+      backgroundColor: Colors.white,
+      extendBodyBehindAppBar: true,
+      appBar: BasicFormAppBar(),
+      body: LayoutBuilder(builder:
+          (BuildContext context, BoxConstraints viewportConstraints) {
+        return SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: viewportConstraints.maxHeight,
+            ),
+            child:
+            BlocBuilder<Signup6ActivitiesCubit, Signup6ActivitiesState>(
+              buildWhen: (prev, current) {
+                return prev.filtered != current.filtered ||
+                    prev.nextEnabled != current.nextEnabled;
+              },
+              builder: (context, state) {
+                return Column(
+                  children: [
+                    SizedBox(height: 45),
+                    Container(
+                      child: LinearProgressIndicator(
+                        value: progress,
+                        valueColor: AlwaysStoppedAnimation(
+                            SimposiAppColors.simposiDarkBlue),
+                        backgroundColor: SimposiAppColors.simposiFadedBlue,
+                      ),
+                    ),
 
-class _SignUpForm6State extends State<SignUpForm6> {
-  // Set Variables
-  double progress = 0.66;
+                    SizedBox(height: 70),
 
-  // FOR EACH ACTIVITY CREATE AN ACTIVITY BUTTON
-  List<Widget> selectedActivityWidgets(Set<Interest> interests,
-      Set<Interest> selectedItems, BuildContext context) {
-    return interests
-        .map((item) => SelectableChip(
-            selected: selectedItems.contains(item),
-            title: item.title,
-            onClick: (value) {
-              value
-                  ? context.read<Signup6ActivitiesCubit>().selectInterest(item)
-                  : context
-                      .read<Signup6ActivitiesCubit>()
-                      .deselectInterest(item);
-            }))
-        .toList();
-  }
-
-  // SIGNUP FORM PAGE 6 LAYOUT
-  @override
-  Widget build(BuildContext context) => BlocProvider(
-      create: (context) => Signup6ActivitiesCubit(
-          context.read<AuthenticationBloc>().masterData.interests),
-      child: Scaffold(
-          backgroundColor: Colors.white,
-          extendBodyBehindAppBar: true,
-          appBar: BasicFormAppBar(),
-          body: LayoutBuilder(builder:
-              (BuildContext context, BoxConstraints viewportConstraints) {
-            return SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: viewportConstraints.maxHeight,
-                ),
-                child:
-                    BlocBuilder<Signup6ActivitiesCubit, Signup6ActivitiesState>(
-                  buildWhen: (prev, current) {
-                    return prev.filtered != current.filtered ||
-                        prev.nextEnabled != current.nextEnabled;
-                  },
-                  builder: (context, state) {
-                    return Column(
-                      children: [
-                        SizedBox(height: 45),
-                        Container(
-                          child: LinearProgressIndicator(
-                            value: progress,
-                            valueColor: AlwaysStoppedAnimation(
-                                SimposiAppColors.simposiDarkBlue),
-                            backgroundColor: SimposiAppColors.simposiFadedBlue,
+                    Container(
+                      child: Column(
+                        children: [
+                          // Header
+                          Text(
+                            'I like to ...',
+                            style: TextStyle(
+                              fontSize: 19,
+                              fontWeight: FontWeight.w500,
+                              color: SimposiAppColors.simposiDarkGrey,
+                            ),
                           ),
-                        ),
-
-                        SizedBox(height: 70),
-
-                        Container(
-                          child: Column(
-                            children: [
-                              // Header
-                              Text(
-                                'I like to ...',
-                                style: TextStyle(
-                                  fontSize: 19,
-                                  fontWeight: FontWeight.w500,
-                                  color: SimposiAppColors.simposiDarkGrey,
-                                ),
-                              ),
-                              SizedBox(height: 20),
-                              Text(
-                                'Choose as many interests as you like.',
-                                style: TextStyle(
-                                  color: SimposiAppColors.simposiLightText,
-                                  fontSize: 13,
-                                ),
-                              ),
-                              _searchBar(context),
-                              // TAG CLOUD
-                              Container(
-                                child: Wrap(
-                                  runSpacing: -8.0,
-                                  children: selectedActivityWidgets(
-                                      state.filtered, state.selected, context),
-                                ),
-                              ),
-                            ],
+                          SizedBox(height: 20),
+                          Text(
+                            'Choose as many interests as you like.',
+                            style: TextStyle(
+                              color: SimposiAppColors.simposiLightText,
+                              fontSize: 13,
+                            ),
                           ),
-                        ),
-
-                        // Continue Button
-                        Container(
-                          padding: EdgeInsets.all(40),
-                          child: Column(
-                            children: [
-                              ContinueButton(
-                                buttonAction: state.nextEnabled
-                                    ? () {
-                                        context
-                                            .read<RegistrationCubit>()
-                                            .stage6(interests: state.selected);
-                                        Navigator.of(context)
-                                            .pushNamed('/signup7');
-                                      }
-                                    : null,
-                              ),
-                              SizedBox(height: 20),
-                            ],
+                          _searchBar(context),
+                          // TAG CLOUD
+                          Container(
+                            child: Wrap(
+                              runSpacing: -8.0,
+                              children: selectedActivityWidgets(
+                                  state.filtered, state.selected, context),
+                            ),
                           ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ),
-            );
-          })));
+                        ],
+                      ),
+                    ),
+
+                    // Continue Button
+                    Container(
+                      padding: EdgeInsets.all(40),
+                      child: Column(
+                        children: [
+                          ContinueButton(
+                            buttonAction: state.nextEnabled
+                                ? () {
+                              Navigator.of(context)
+                                  .pushNamed('/signup7');
+                            }
+                                : null,
+                          ),
+                          SizedBox(height: 20),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+        );
+      }));
 
   Widget _searchBar(BuildContext context) {
     return Padding(
@@ -157,6 +128,24 @@ class _SignUpForm6State extends State<SignUpForm6> {
             context.read<Signup6ActivitiesCubit>().search(value),
       ),
     );
+  }
+
+  // FOR EACH ACTIVITY CREATE AN ACTIVITY BUTTON
+  List<Widget> selectedActivityWidgets(Set<Interest> interests,
+      Set<Interest> selectedItems, BuildContext context) {
+    return interests
+        .map((item) => SelectableChip(
+        key: ValueKey(item.id),
+        selected: selectedItems.contains(item),
+            title: item.title,
+            onClick: (value) {
+              value
+                  ? context.read<Signup6ActivitiesCubit>().selectInterest(item)
+                  : context
+                      .read<Signup6ActivitiesCubit>()
+                      .deselectInterest(item);
+            }))
+        .toList();
   }
 }
 

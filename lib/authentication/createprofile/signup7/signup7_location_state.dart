@@ -13,8 +13,11 @@ class Signup7LocationState extends Equatable {
   @override
   List<Object?> get props => [selectedLocation, searchResults, range];
 
-  static Signup7LocationState initial() =>
-      Signup7LocationState(selectedLocation: null, searchResults: [], range: 1);
+  static Signup7LocationState initial(double? range, double? latitude, double? longitude) {
+    LatLng? location = (latitude != null && longitude != null) ?  LatLng(latitude, longitude) : null;
+    return Signup7LocationState(selectedLocation: location, searchResults: [], range: range ?? 1);
+  }
+
 
   Signup7LocationState copyWith(
       {LatLng? selectedLocation,

@@ -30,6 +30,15 @@ class _SignUpForm3State extends State<SignUpForm3> {
     setState(() {
       _selected = gender;
     });
+    context.read<RegistrationCubit>().stage3(wantToMeet: gender);
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+    _selected = context
+        .read<RegistrationCubit>().wantToMeet;
   }
 
   @override
@@ -120,10 +129,6 @@ class _SignUpForm3State extends State<SignUpForm3> {
                     buttonAction: _selected == null
                         ? null
                         : () {
-                            context
-                                .read<RegistrationCubit>()
-                                .stage3(wantToMeet: _selected!);
-                            // Navigator.of(context).pushNamed('/signup4');
                             Navigator.of(context).pushNamed('/signup4');
                           },
                   ),

@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 import 'errors.dart';
 
-class Interest implements Equatable {
+class Interest extends Equatable {
   final int id;
   final String title;
 

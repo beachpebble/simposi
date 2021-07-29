@@ -5,7 +5,7 @@ enum GenderType {
   MALE, FEMALE, LGBTQ, EVERYONE
 }
 
-class Gender implements Equatable{
+class Gender extends Equatable{
   final GenderType gender;
   final String id;
 

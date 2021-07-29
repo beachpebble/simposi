@@ -41,7 +41,7 @@ class _SignUpForm7State extends State<SignUpForm7> {
     determinePosition()
         .then((value) => context
             .read<Signup7LocationCubit>()
-            .selectLocation(LatLng(value.latitude, value.longitude)))
+            .selectInitialLocation(LatLng(value.latitude, value.longitude)))
         .catchError((e) {
       showErrorToast("There is no location permission");
       context.read<Signup7LocationCubit>().noPermission();
@@ -123,7 +123,6 @@ class _SignUpForm7State extends State<SignUpForm7> {
                     ContinueButton(
                         buttonAction: state.selectedLocation != null
                             ? () {
-                                context.read<Signup7LocationCubit>().submit();
                                 Navigator.of(context).pushNamed('/signup8');
                               }
                             : null),

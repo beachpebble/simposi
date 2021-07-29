@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 import 'errors.dart';
 
-class Earning implements Equatable {
+class Earning extends Equatable {
   final int id;
   final String title;
    final int sortId;

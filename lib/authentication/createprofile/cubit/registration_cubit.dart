@@ -18,7 +18,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
 
   final ProfileRepository profileRepository;
 
-  File? imageFile;
   String? path;
   String? name;
   String? phone;
@@ -33,14 +32,17 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   double? latitude;
   double? longitude;
   double? range;
+  List<bool> stage8Agree = [false, false, false, false, false, false];
 
-  String? apiToken;
-
-  void stage2({
+  void stage2Gender({
     required Gender gender,
-    required bool lgbt,
   }) {
     this.gender = gender;
+  }
+
+  void stage2Lgbt({
+    required bool lgbt,
+  }) {
     this.lgbt = lgbt;
   }
 
@@ -66,16 +68,47 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     required Set<Interest> interests,
   }) async {
     this.interests = interests;
+    print("save activities ${interests.length}");
   }
 
-  void stage7({
+  void stage7location({
     required double latitude,
     required double longitude,
-    required double range,
   }) {
     this.latitude = latitude;
     this.longitude = longitude;
+  }
+
+  void stage7range({
+    required double range,
+  }) {
     this.range = range;
+  }
+
+  void stage8({
+    required int agreeNum,
+    required bool agreeVal,
+  }) {
+    this.stage8Agree[agreeNum] = agreeVal;
+  }
+
+  void reset() {
+    print("!!! reset");
+    path = null;
+    name = null;
+    phone = null;
+    email = null;
+    password = null;
+    gender = null;
+    wantToMeet = null;
+    generations = null;
+    earnings = null;
+    interests = null;
+    lgbt = false;
+    latitude = null;
+    longitude = null;
+    range = null;
+    stage8Agree = [false, false, false, false, false, false];
   }
 
   Future<void> finish() async {
@@ -88,7 +121,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         password: password!,
         latitude: latitude!.toString(),
         longitude: longitude!.toString(),
-        distance: range!,
+        distance: range ?? 1,
         gender: gender!.id,
         wantToMeet: gender!.id,
         isLgbt: lgbt,
@@ -98,10 +131,13 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       );
 
       if (data.containsKey("apiAccessToken")) {
+        //TODO uncomment after serverside fix
+        //await profileRepository.setProfile(data);
         var apiToken = data["apiAccessToken"];
-        if (apiToken! != null)
+        if (apiToken! != null) {
           emit(RegistrationWaitCode(apiToken, phone!));
-        else {
+          reset();
+        } else {
           emit(RegistrationError(ServerException(
               errorType: LocalizedErrorType.UNEXPECTED,
               message: "There is no token in response")));

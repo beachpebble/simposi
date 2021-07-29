@@ -33,6 +33,7 @@ class _SignUpForm5State extends State<SignUpForm5> {
       else
         _selected.add(earning);
     });
+    context.read<RegistrationCubit>().stage5(earnings: _selected);
   }
 
   void _selectAll() {
@@ -43,6 +44,12 @@ class _SignUpForm5State extends State<SignUpForm5> {
       else
         _selected.addAll(context.read<AuthenticationBloc>().masterData.earnings);
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _selected = context.read<RegistrationCubit>().earnings ?? {};
   }
 
   @override
@@ -137,9 +144,6 @@ class _SignUpForm5State extends State<SignUpForm5> {
                               buttonAction: _selected.isEmpty
                                   ? null
                                   : () {
-                                context
-                                    .read<RegistrationCubit>()
-                                    .stage5(earnings: _selected);
                                 Navigator.of(context)
                                     .pushNamed('/signup6');
                               },
