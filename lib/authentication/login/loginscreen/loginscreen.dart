@@ -356,7 +356,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: SimposiAppColors.simposiPink,
               )),
         ),
-        validator: getValidator(context, Validators.PHONE),
+        validator: getValidator(context, Validators.PASSWORD),
         // OUTPUT ACTIONS
         onSaved: (value) => setState(() => password = value!),
       );
