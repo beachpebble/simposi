@@ -36,12 +36,14 @@ class SimposiAppBar extends StatelessWidget with PreferredSizeWidget {
     return AppBar(
       centerTitle: false,
       elevation: 0.0,
+      toolbarHeight: 75,
       backgroundColor: Colors.white,
       foregroundColor: SimposiAppColors.simposiDarkGrey,
       title: Container(
-        height: 60,
+        height: 68,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
               simposiTitle,
@@ -56,6 +58,7 @@ class SimposiAppBar extends StatelessWidget with PreferredSizeWidget {
               children: [
                 if (simposiSubTitle != null)
                   simposiSubTitle,
+                SizedBox(height: 5),
               ],
             )
           ],

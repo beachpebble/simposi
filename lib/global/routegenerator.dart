@@ -5,14 +5,15 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
+// Global
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simposi_app_v4/affinityindex/affinityratingcards.dart';
-import 'package:simposi_app_v4/affinityindex/reportuser.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup1_create_account/signup1_create_account_cubit.dart';
+import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
+import 'package:simposi_app_v4/global/theme/appcolors.dart';
 
 // Create Profile
 import 'package:simposi_app_v4/authentication/createprofile/signup1_create_account/signup1createaccount.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup1_create_account/signup1_create_account_cubit.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup2gender.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup3generation.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup4income.dart';
@@ -31,57 +32,56 @@ import 'package:simposi_app_v4/authentication/login/loginscreen/loginscreen.dart
 import 'package:simposi_app_v4/authentication/login/reset_password_complete/reset_password_complete_cubit.dart';
 import 'package:simposi_app_v4/authentication/login/reset_password_complete/reset_password_screen.dart';
 import 'package:simposi_app_v4/authentication/login/splash_screen.dart';
-import 'package:simposi_app_v4/authentication/login/change_password/change_password_screen.dart';
-
-// Login
-import 'package:simposi_app_v4/authentication/login/getstartedscreen.dart';
-import 'package:simposi_app_v4/authentication/login/loginscreen/loginscreen.dart';
-import 'package:simposi_app_v4/authentication/login/reset_password_complete/reset_password_complete_cubit.dart';
-import 'package:simposi_app_v4/authentication/login/reset_password_complete/reset_password_screen.dart';
-import 'package:simposi_app_v4/authentication/login/splash_screen.dart';
 import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
-import 'package:simposi_app_v4/calendar/simposicalendar.dart';
+import 'package:simposi_app_v4/calendar/simposicalendar.dart'; // Home/Socials
 
-// Check In
-import 'package:simposi_app_v4/checkin/firsttoarrivemodal.dart';
-import 'package:simposi_app_v4/checkin/groupfinder.dart';
-import 'package:simposi_app_v4/checkin/groupfinderchat.dart';
-
-// Discover
-import 'package:simposi_app_v4/discover/discoverscreen.dart';
-
-// POS
-import 'package:simposi_app_v4/eventdetails/createeventform.dart';
-import 'package:simposi_app_v4/eventdetails/eventdetails.dart';
-import 'package:simposi_app_v4/eventdetails/eventwidgets/cancelrsvp.dart';
-import 'package:simposi_app_v4/eventdetails/eventwidgets/invitationcard.dart';
-import 'package:simposi_app_v4/eventdetails/eventwidgets/proposenewtime.dart';
-import 'package:simposi_app_v4/eventdetails/eventwidgets/reportevent.dart';
-import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
-import 'package:simposi_app_v4/notifications/adminalert.dart';
+// Manage Profile
+import 'package:simposi_app_v4/profile/profilescreen.dart';
+import 'package:simposi_app_v4/profile/profilemenu.dart';
+import 'package:simposi_app_v4/profile/editprofileform.dart';
+import 'package:simposi_app_v4/profile/emergencycontact.dart';
+import 'package:simposi_app_v4/profile/faqscreen.dart';
+import 'package:simposi_app_v4/profile/subscribe.dart';
+import 'package:simposi_app_v4/profile/invitationsettings.dart';
+import 'package:simposi_app_v4/profile/privacy.dart';
+import 'package:simposi_app_v4/profile/termsofuse.dart';
+import 'package:simposi_app_v4/repository/profile_repository.dart';
+import 'package:simposi_app_v4/profile/subscriptionpurchase.dart';
 
 // Alerts & Notifications
 import 'package:simposi_app_v4/notifications/alertsscreen.dart';
 import 'package:simposi_app_v4/notifications/newtimesuggestedalert.dart';
 import 'package:simposi_app_v4/notifications/youlikeeachother.dart';
-import 'package:simposi_app_v4/pos/pickinvitation.dart';
-import 'package:simposi_app_v4/pos/subscriptionpurchase.dart';
-import 'package:simposi_app_v4/profile/editprofileform.dart';
-import 'package:simposi_app_v4/profile/emergencycontact.dart';
-import 'package:simposi_app_v4/profile/faqscreen.dart';
-import 'package:simposi_app_v4/profile/invitationsettings.dart';
-import 'package:simposi_app_v4/profile/privacy.dart';
-import 'package:simposi_app_v4/profile/profilemenu.dart';
-
-// Manage Profile
-import 'package:simposi_app_v4/profile/profilescreen.dart';
-import 'package:simposi_app_v4/profile/subscribe.dart';
-import 'package:simposi_app_v4/profile/termsofuse.dart';
-import 'package:simposi_app_v4/repository/profile_repository.dart';
+import 'package:simposi_app_v4/notifications/adminalert.dart';
 
 // Calendar (Home)
 import 'theme/elements/simposihome.dart';
+import 'package:simposi_app_v4/eventdetails/eventdetails.dart';
+import 'package:simposi_app_v4/eventdetails/eventwidgets/cancelrsvp.dart';
+import 'package:simposi_app_v4/eventdetails/eventwidgets/invitationcard.dart';
+import 'package:simposi_app_v4/eventdetails/eventwidgets/proposenewtime.dart';
+import 'package:simposi_app_v4/eventdetails/eventwidgets/reportevent.dart';
+
+// Create Event
+import 'package:simposi_app_v4/eventdetails/createevent1.dart';
+import 'package:simposi_app_v4/eventdetails/createevent2location.dart';
+import 'package:simposi_app_v4/eventdetails/createevent3tags.dart';
+import 'package:simposi_app_v4/eventdetails/createevent4gender.dart';
+import 'package:simposi_app_v4/eventdetails/createevent5generations.dart';
+import 'package:simposi_app_v4/eventdetails/createevent6income.dart';
+import 'package:simposi_app_v4/eventdetails/createevent7pickinvitation.dart';
+
+// Check In
+import 'package:simposi_app_v4/checkin/firsttoarrivemodal.dart';
+import 'package:simposi_app_v4/checkin/groupfinder.dart';
+import 'package:simposi_app_v4/checkin/groupfinderchat.dart';
+import 'package:simposi_app_v4/affinityindex/affinityratingcards.dart';
+import 'package:simposi_app_v4/affinityindex/reportuser.dart';
+
+// Discover
+import 'package:simposi_app_v4/discover/discoverscreen.dart';
+
+
 
 class RouteGenerator {
   static const String FORGOT_PASSWORD_DL = "/ResetPassword?token=";
@@ -108,6 +108,7 @@ class RouteGenerator {
                       phone: settings.arguments as String),
                   child: ResetPasswordScreen(),
                 ));
+
       // Create Profile
       case '/signup1':
         return MaterialPageRoute(
@@ -153,7 +154,8 @@ class RouteGenerator {
                       profileRepository: context.read()),
                   child: SignUpForm8(),
                 ));
-      // Profile Screen
+
+      // Manage Profile
       case '/profilescreen':
         return MaterialPageRoute(builder: (_) => ProfileScreen());
       case '/subscribe':
@@ -168,8 +170,13 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => EmergencyContact());
       case '/faq':
         return MaterialPageRoute(builder: (_) => FAQScreen());
+      case '/privacy' :
+        return MaterialPageRoute(builder: (_) => PrivacyScreen());
       case '/tou':
         return MaterialPageRoute(builder: (_) => TermsOfUse());
+      case '/subscriptionpurchase' :
+        return MaterialPageRoute(builder: (_) => SubscriptionPurchase());
+
       // Calendar
       case '/home':
         return MaterialPageRoute(builder: (_) => SimposiHome());
@@ -185,6 +192,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => ProposeNewTime());
       case '/reportevent':
         return MaterialPageRoute(builder: (_) => ReportEvent());
+
       // Check In
       case '/firsttoarrive':
         return MaterialPageRoute(builder: (_) => FirstToArrive());
@@ -198,9 +206,27 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => ReportUser());
       case '/connect':
         return MaterialPageRoute(builder: (_) => YouLikeEachOther());
+
+    // Create Event
+      case '/createevent1' :
+        return MaterialPageRoute(builder: (_) => CreateEvent1());
+      case '/createevent2' :
+        return MaterialPageRoute(builder: (_) => CreateEvent2());
+      case '/createevent3' :
+        return MaterialPageRoute(builder: (_) => CreateEvent3());
+      case '/createevent4' :
+        return MaterialPageRoute(builder: (_) => CreateEvent4());
+      case '/createevent5' :
+        return MaterialPageRoute(builder: (_) => CreateEvent5());
+      case '/createevent6' :
+        return MaterialPageRoute(builder: (_) => CreateEvent6());
+      case '/createevent7' :
+        return MaterialPageRoute(builder: (_) => CreateEvent7());
+
       // Discover
       case '/discoverscreen':
         return MaterialPageRoute(builder: (_) => DiscoverScreen());
+
       // Alerts & Notifications
       case '/adminalert':
         return MaterialPageRoute(builder: (_) => AdminAlert());
@@ -210,18 +236,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => NewTimeSuggestedAlert());
       case '/youlikeeachother':
         return MaterialPageRoute(builder: (_) => YouLikeEachOther());
-      // POS
-      case '/createevent':
-        return MaterialPageRoute(builder: (_) => CreateEventForm());
-      case '/pickinvitation':
-        return MaterialPageRoute(builder: (_) => PickInvitation());
-      case '/subscriptionpurchase':
-        return MaterialPageRoute(builder: (_) => SubscriptionPurchase());
-      // About
-      case '/privacy':
-        return MaterialPageRoute(builder: (_) => PrivacyScreen());
-      case '/termsofuse':
-        return MaterialPageRoute(builder: (_) => TermsOfUse());
+
 
       // Default Error Message
       default:

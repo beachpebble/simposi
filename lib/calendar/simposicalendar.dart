@@ -37,7 +37,6 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
   @override
   void initState() {
     super.initState();
-
     _selectedDays.add(_focusedDay.value);
     _selectedEvents = ValueNotifier(_getEventsForDay(_focusedDay.value));
   }
@@ -115,23 +114,34 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
             );
           },
         ),
-        simposiAction: SimposiTextButton(
-          buttonLabel: 'Meet Now',
-          // nextPage: '/createevent',
-          fontSize: 17,
-          fontWeight: FontWeight.w500,
-          onClick: () {},
+
+        simposiAction: Row(
+          children: [
+            TextButton(
+              child: Text('Meet Now',
+              style: TextStyle(
+                fontSize: 17
+                ),
+              ),
+              onPressed: () => {
+                Navigator.of(context).pushNamed('/createevent1'),
+              },
+            ),
+            SizedBox(width: 10),
+          ],
         ),
       ),
+
       body: Column(
         children: [
           // Calendar Style & Settings
           Container(
-            padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+            padding: const EdgeInsets.symmetric(vertical: 20),
             color: SimposiAppColors.simposiDarkBlue,
             child: TableCalendar<Event>(
               firstDay: kFirstDay,
               lastDay: kLastDay,
+              // TODO: Add a Custom Focused Day via Focused Day Builder
               focusedDay: _focusedDay.value,
               headerVisible: false,
               selectedDayPredicate: (day) => _selectedDays.contains(day),
@@ -141,6 +151,8 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
               rangeSelectionMode: _rangeSelectionMode,
               eventLoader: _getEventsForDay,
               onPageChanged: (focusedDay) => _focusedDay.value = focusedDay,
+              rowHeight: 40,
+              daysOfWeekHeight: 18,
               daysOfWeekStyle: DaysOfWeekStyle(
                 weekdayStyle: TextStyle(
                   color: Colors.white,
@@ -170,11 +182,60 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
                   color: SimposiAppColors.simposiFadedBlue,
                   shape: BoxShape.circle,
                 ),
+                // Today Marker (Oval Bubble) //TODO: I think this is the one which needs to be overwritten for focused day
+                selectedDecoration: const BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  color: Colors.white70,
+                  borderRadius: const BorderRadius.all(
+                    const Radius.circular(20),
+                  ),
+                ),
                 markerDecoration: BoxDecoration(
                   color: Colors.white,
                   shape: BoxShape.circle,
                 ),
               ),
+            ),
+          ),
+
+          // Upcoming Counter Bar
+          Container(
+            color: Colors.white,
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Row(
+              children: [
+                Text('Upcoming',
+                  style: TextStyle(
+                    color: Color(0xFFBBBBBB),
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+
+                SizedBox(width: 10),
+
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: new BoxDecoration(
+                    color: SimposiAppColors.simposiPink,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  constraints: BoxConstraints(
+                    minWidth: 20,
+                    minHeight: 20,
+                  ),
+                  child: Text(
+                    // TODO: Set Variable for Counter which displays RSVPs where status = Accepted or Created by ELSE display 0
+                    '0',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w900,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+
+              ],
             ),
           ),
 

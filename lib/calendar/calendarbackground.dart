@@ -39,7 +39,8 @@ class SimposiCalendarBackground extends StatelessWidget {
         SizedBox(height: 20.0),
         SmallPinkButton(
             buttonLabel: 'Meet Now',
-            nextPage: '/createevent'),
+            nextPage: '/createevent'
+        ),
       ],
     );
   }

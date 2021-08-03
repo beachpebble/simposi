@@ -20,19 +20,16 @@ class SocialsScreen extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         appBar: SimposiAppBar(
           simposiTitle: 'Socials',
-          simposiSubTitle: Text(
-            'Month',
-            style: TextStyle(
-              color: SimposiAppColors.simposiLightText,
-              fontSize: 13,
+          simposiSubTitle: Text('Month'),
+          simposiAction: TextButton(
+            child: Text('Meet Now',
+              style: TextStyle(
+                  fontSize: 17
+              ),
             ),
-          ),
-          simposiAction: SimposiTextButton(
-            buttonLabel: 'Meet Now',
-            // nextPage: '/eventlist',
-            fontSize: 19,
-            fontWeight: FontWeight.w500,
-            onClick: () {},
+            onPressed: () => {
+              Navigator.of(context).pushNamed('/createevent1'),
+            },
           ),
         ),
         body: Column(
