@@ -35,54 +35,9 @@ class SimposiFormFieldwClear extends StatelessWidget {
       autocorrect: true,
       obscureText: false,
       showCursor: true,
-      style: TextStyle(
-        color: SimposiAppColors.simposiLightText,
-        fontWeight: FontWeight.w500,
-        fontSize: 15,
-      ),
+
       decoration: InputDecoration(
         labelText: fieldLabel,
-        contentPadding: EdgeInsets.all(20),
-        labelStyle: TextStyle(
-          color: SimposiAppColors.simposiLightText,
-          fontSize: 15,
-          fontWeight: FontWeight.w500,
-          letterSpacing: 1.5,
-        ),
-
-        // Initial State
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          borderSide: BorderSide(
-            color: SimposiAppColors.simposiLightGrey,
-          ),
-        ),
-
-        // Focus State
-        focusColor: SimposiAppColors.simposiDarkBlue,
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          borderSide: BorderSide(
-            color: SimposiAppColors.simposiDarkBlue,
-          ),
-        ),
-
-        // Focus Error State
-        focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(40.0)),
-            borderSide: BorderSide(
-              color: SimposiAppColors.simposiPink,
-            )),
-
-        // Error State
-        errorStyle: TextStyle(
-          color: SimposiAppColors.simposiPink,
-        ),
-        errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(40.0)),
-            borderSide: BorderSide(
-              color: SimposiAppColors.simposiPink,
-            )),
 
         suffixIcon: fieldController.text.isEmpty
             ? Container(width: 0)
@@ -130,21 +85,8 @@ class _SimposiPasswordFieldState extends State<SimposiPasswordField> {
       obscureText: _passwordVisible,
       showCursor: true,
 
-      style: TextStyle(
-        color: SimposiAppColors.simposiLightText,
-        fontWeight: FontWeight.w500,
-        fontSize: 15,
-      ),
-
       decoration: InputDecoration(
         labelText: ' Password',
-        contentPadding: EdgeInsets.all(20),
-        labelStyle: TextStyle(
-          color: SimposiAppColors.simposiLightText,
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-          letterSpacing: 1.5,
-        ),
 
         suffixIcon: _passwordController.text.isEmpty
             ? Container(width: 0)
@@ -158,40 +100,6 @@ class _SimposiPasswordFieldState extends State<SimposiPasswordField> {
                     _passwordVisible = !_passwordVisible;
                   });
                 }),
-
-        // INITIAL STATE
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          borderSide: BorderSide(
-            color: SimposiAppColors.simposiLightGrey,
-          ),
-        ),
-
-        // FOCUS STATE
-        focusColor: SimposiAppColors.simposiDarkBlue,
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          borderSide: BorderSide(
-            color: SimposiAppColors.simposiDarkBlue,
-          ),
-        ),
-
-        // FOCUS ERROR STATE
-        focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(40.0)),
-            borderSide: BorderSide(
-              color: SimposiAppColors.simposiPink,
-            )),
-
-        // ERROR STATE
-        errorStyle: TextStyle(
-          color: SimposiAppColors.simposiPink,
-        ),
-        errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(40.0)),
-            borderSide: BorderSide(
-              color: SimposiAppColors.simposiPink,
-            )),
       ),
 
       // VALIDATION LOGIC
@@ -211,3 +119,184 @@ class _SimposiPasswordFieldState extends State<SimposiPasswordField> {
     );
   }
 }
+
+
+// TEXT FIELD WITH COUNTER
+class SimposiCounterField extends StatefulWidget {
+  final TextInputType inputType;
+  final String fieldLabel;
+  final int counterLength;
+  var textLength = 0;
+  final validationLogic;
+
+  SimposiCounterField({
+    Key? key,
+    required this.inputType,
+    required this.fieldLabel,
+    required this.counterLength,
+    required this.validationLogic,
+  }) : super(key: key);
+
+  @override
+  _SimposiCounterFieldState createState() => _SimposiCounterFieldState();
+}
+
+class _SimposiCounterFieldState extends State<SimposiCounterField> {
+  String _input = ' ';
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _fieldController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _fieldController.addListener(() => setState(() {}));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: _fieldController,
+      keyboardType: TextInputType.name,
+      textInputAction: TextInputAction.next,
+      enableSuggestions: true,
+      autocorrect: true,
+      obscureText: false,
+      showCursor: true,
+      maxLength: widget.counterLength,
+
+      style: TextStyle(
+        color: SimposiAppColors.simposiLightText,
+        fontWeight: FontWeight.w500,
+      ),
+
+      decoration: InputDecoration(
+        labelText: widget.fieldLabel,
+        // Counter
+        suffixText: '${widget.textLength.toString()}/${widget.counterLength.toString()}',
+        counterText: "",
+      ),
+
+      // VALIDATION LOGIC
+      validator: widget.validationLogic,
+
+      // ACTION ON SAVE
+      onSaved: (value) => setState(() => _input = value!),
+      onChanged: (value) {
+        setState(() {
+          widget.textLength = value.length;
+        });
+      },
+    );
+  }
+}
+
+
+
+// LARGE TEXT AREA FIELD
+class SimposiLargeTextField extends StatefulWidget {
+  final String fieldLabel;
+  final int textAreaLines;
+  final validationLogic;
+
+  const SimposiLargeTextField({
+    Key? key,
+    required this.fieldLabel,
+    required this.textAreaLines,
+    required this.validationLogic,
+  }) : super(key: key);
+
+  @override
+  _SimposiLargeTextFieldState createState() => _SimposiLargeTextFieldState();
+}
+
+class _SimposiLargeTextFieldState extends State<SimposiLargeTextField> {
+  String _input = ' ';
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _fieldController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _fieldController.addListener(() => setState(() {}));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: _fieldController,
+      keyboardType: TextInputType.multiline,
+      textInputAction: TextInputAction.next,
+      enableSuggestions: true,
+      autocorrect: true,
+      obscureText: false,
+      showCursor: true,
+      maxLines: 5,
+      textAlignVertical: TextAlignVertical.top,
+
+      decoration: InputDecoration(
+        labelText: widget.fieldLabel,
+      ),
+
+      // VALIDATION LOGIC
+      validator: widget.validationLogic,
+
+      // ACTION ON SAVE
+      onSaved: (value) => setState(() => _input = value!),
+    );
+  }
+}
+
+
+
+// TEXT PLAIN FIELD
+class SimposiPlainField extends StatefulWidget {
+  final TextInputType inputType;
+  final String fieldLabel;
+  final validationLogic;
+
+  SimposiPlainField({
+    Key? key,
+    required this.inputType,
+    required this.fieldLabel,
+    required this.validationLogic,
+  }) : super(key: key);
+
+  @override
+  _SimposiPlainFieldState createState() => _SimposiPlainFieldState();
+}
+
+class _SimposiPlainFieldState extends State<SimposiPlainField> {
+  String _input = ' ';
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _fieldController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _fieldController.addListener(() => setState(() {}));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: _fieldController,
+      keyboardType: TextInputType.name,
+      textInputAction: TextInputAction.next,
+      enableSuggestions: true,
+      autocorrect: true,
+      obscureText: false,
+      showCursor: true,
+
+      decoration: InputDecoration(
+        labelText: widget.fieldLabel,
+      ),
+
+      // VALIDATION LOGIC
+      validator: widget.validationLogic,
+
+      // ACTION ON SAVE
+      onSaved: (value) => setState(() => _input = value!),
+    );
+  }
+}
+

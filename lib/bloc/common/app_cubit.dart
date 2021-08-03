@@ -12,7 +12,7 @@ abstract class AppCubit<State> extends Cubit<State> with ErrorHandle {
 
   LocalizedErrorType handleErrorWithAuth(dynamic exception) {
     if (exception is AuthException) {
-      authenticationBloc?.add(LoggedOut());
+      authenticationBloc.add(LoggedOut());
       return LocalizedErrorType.AUTH;
     } else if (exception is ApiException) {
       return exception.errorType;
