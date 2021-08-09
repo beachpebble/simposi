@@ -35,12 +35,12 @@ dependencies:
   dio_cookie_manager: ^2.0.0
   email_validator: ^2.0.1
   equatable: ^2.0.3
-  flutter_bloc: ^7.0.1
+  flutter_bloc: ^7.1.0
   flutter_compass: ^0.6.1
   flutter_plugin_android_lifecycle: ^2.0.2
-  fluttertoast: ^8.0.7
+  fluttertoast: ^8.0.8
   focused_menu: ^1.0.5
-  geolocator: ^7.3.1
+  geolocator: ^7.4.0
   google_maps_flutter: ^2.0.6
   google_map_location_picker:
     git:
@@ -50,13 +50,13 @@ dependencies:
   html: ^0.15.0
   http_parser: ^4.0.0
   intl: ^0.17.0
-  image_picker: ^0.8.2
+  image_picker: ^0.8.3
   keyboard_dismisser: ^2.0.0
   location: ^4.3.0
   localstorage: ^4.0.0+1
   material_floating_search_bar: ^0.3.4
   page_transition: ^2.0.2
-  permission_handler: ^8.1.4+1
+  permission_handler: ^8.1.4+2
   pretty_dio_logger: ^1.1.1
   pin_code_fields: ^7.3.0
   rxdart: ^0.27.1

@@ -13,6 +13,7 @@ import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/formfields.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
@@ -30,6 +31,8 @@ class _EditProfileState extends State<EditProfile> {
   String? _filePath;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _facebookController = TextEditingController();
   final TextEditingController _instagramController = TextEditingController();
   final TextEditingController _linkedinController = TextEditingController();
@@ -38,6 +41,8 @@ class _EditProfileState extends State<EditProfile> {
   void initState() {
     super.initState();
     _nameController.text = context.read<ProfileEditCubit>().profile.userName;
+    _phoneController.text = context.read<ProfileEditCubit>().profile.userPhone;
+    _emailController.text = context.read<ProfileEditCubit>().profile.userEmail;
     _facebookController.text =
         context.read<ProfileEditCubit>().profile.facebook ?? "";
     _instagramController.text =
@@ -45,6 +50,8 @@ class _EditProfileState extends State<EditProfile> {
     _linkedinController.text =
         context.read<ProfileEditCubit>().profile.linkedin ?? "";
     _nameController.addListener(() => setState(() {}));
+    _phoneController.addListener(() => setState(() {}));
+    _emailController.addListener(() => setState(() {}));
     _facebookController.addListener(() => setState(() {}));
     _instagramController.addListener(() => setState(() {}));
     _linkedinController.addListener(() => setState(() {}));
@@ -53,6 +60,8 @@ class _EditProfileState extends State<EditProfile> {
   @override
   void dispose() {
     _nameController.dispose();
+    _phoneController.dispose();
+    _emailController.dispose();
     _facebookController.dispose();
     _instagramController.dispose();
     _linkedinController.dispose();
@@ -66,20 +75,21 @@ class _EditProfileState extends State<EditProfile> {
           appBar: BasicFormAppBar(),
           body: LayoutBuilder(builder:
               (BuildContext context, BoxConstraints viewportConstraints) {
-            return SingleChildScrollView(
+            return Container(
               child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // HEADER
                   Container(
-                    height: 200,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(height: 20),
-                        // TODO: ENABLE IMAGE PICKER & ERROR MESSAGE IF NO IMAGE ON SUBMIT
+                        Text(
+                          'Account Settings',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.headline3,
+                        ),
+                        SizedBox(height: 10),
                         // TODO: ENSURE FIELDS ON THIS FORM RETAIN STATE/PREPOPULATE WITH USER DATA
                         //  PHOTO UPLOAD FIELD
                         AddPhotoButton(
@@ -97,78 +107,150 @@ class _EditProfileState extends State<EditProfile> {
                             fontSize: 15,
                           ),
                         ),
+                        SizedBox(height: 10),
                       ],
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        children: [
-                          SimposiFormFieldwClear(
-                            inputType: 'name',
-                            fieldLabel: ' Name',
-                            fieldController: _nameController,
-                            validationLogic: getValidator(
-                                context, Validators.NAME),
+
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                      child: Form(
+                        key: _formKey,
+                        child: MediaQuery.removePadding(
+                          removeTop: true,
+                          context: context,
+                          child: ListView(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            primary: true,
+                            shrinkWrap: true,
+                            children: <Widget>[
+                              Wrap(
+                                children: [
+                                  Container(
+                                    child: Column(
+                                      children: [
+                                        SimposiFormFieldwClear(
+                                          inputType: 'name',
+                                          fieldLabel: ' Name',
+                                          fieldController: _nameController,
+                                          validationLogic: getValidator(
+                                              context, Validators.NAME),
+                                        ),
+                                        const SizedBox(height: 10),
+                                      ],
+                                    ),
+                                  ),
+
+                                  Container(
+                                    child: Column(
+                                      children: [
+                                        SimposiFormFieldwClear(
+                                          inputType: 'phone',
+                                          fieldLabel: ' Phone',
+                                          fieldController: _phoneController,
+                                          validationLogic: getValidator(context, Validators.URL_LINK),
+                                        ),
+                                        SizedBox(height: 10),
+                                      ],
+                                    ),
+                                  ),
+
+                                  Container(
+                                    child: Column(
+                                      children: [
+                                        SimposiFormFieldwClear(
+                                          inputType: 'email',
+                                          fieldLabel: ' Email',
+                                          fieldController: _emailController,
+                                          validationLogic: getValidator(context, Validators.URL_LINK),
+                                        ),
+                                        SizedBox(height: 10),
+                                      ],
+                                    ),
+                                  ),
+
+                                  Container(
+                                    child: Column(
+                                      children: [
+                                        SimposiFormFieldwClear(
+                                          inputType: 'url',
+                                          fieldLabel: ' Facebook',
+                                          fieldController: _facebookController,
+                                          validationLogic: getValidator(context, Validators.URL_LINK),
+                                        ),
+                                        SizedBox(height: 10),
+                                      ],
+                                    ),
+                                  ),
+
+                                  Container(
+                                    child: Column(
+                                      children: [
+                                        SimposiFormFieldwClear(
+                                          inputType: 'url',
+                                          fieldLabel: ' Instagram',
+                                          fieldController: _instagramController,
+                                          validationLogic: getValidator(context, Validators.URL_LINK),
+                                        ),
+                                        SizedBox(height: 10),
+                                      ],
+                                    ),
+                                  ),
+
+                                  Container(
+                                    child: Column(
+                                      children: [
+                                        SimposiFormFieldwClear(
+                                          inputType: 'url',
+                                          fieldLabel: ' Linkedin',
+                                          fieldController: _linkedinController,
+                                          validationLogic: getValidator(context, Validators.URL_LINK),
+                                        ),
+                                        SizedBox(height: 10),
+                                      ],
+                                    ),
+                                  ),
+
+                                  BlocConsumer<ProfileEditCubit, ProfileEditState>(
+                                    listener: (context, state) {
+                                      if (state is ProfileEditError) {
+                                        showErrorToast(
+                                            handleError(state.error, context));
+                                      } else if (state is ProfileEditSuccess) {
+                                        showInfoToast(
+                                            "Profile is updated");
+                                        Navigator.of(context).pop();
+                                      }
+                                    },
+                                    builder: (context, state) {
+                                      return state is ProfileEditLoading ? AppProgressIndicator() : BigGBSelectButton(
+                                          buttonLabel: 'Save',
+                                          buttonAction: () {
+                                            if (_formKey.currentState!.validate()) {
+                                              context.read<ProfileEditCubit>().updateMainFields(
+                                                name: _nameController.text,
+                                                facebook: _facebookController.text,
+                                                instagram: _instagramController.text,
+                                                linkedin: _linkedinController.text,
+                                                filePath: _filePath
+                                              );
+                                            }
+                                          });
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                          SizedBox(height: 10),
-                          SimposiFormFieldwClear(
-                            inputType: 'url',
-                            fieldLabel: ' Facebook',
-                            fieldController: _facebookController,
-                            validationLogic: getValidator(context, Validators.URL_LINK),
-                          ),
-                          SizedBox(height: 10),
-                          SimposiFormFieldwClear(
-                            inputType: 'url',
-                            fieldLabel: ' Instagram',
-                            fieldController: _instagramController,
-                            validationLogic: getValidator(context, Validators.URL_LINK),
-                          ),
-                          SizedBox(height: 10),
-                          SimposiFormFieldwClear(
-                            inputType: 'url',
-                            fieldLabel: ' Linkedin',
-                            fieldController: _linkedinController,
-                            validationLogic: getValidator(context, Validators.URL_LINK),
-                          ),
-                          SizedBox(height: 10),
-                          BlocConsumer<ProfileEditCubit, ProfileEditState>(
-                            listener: (context, state) {
-                              if (state is ProfileEditError) {
-                                showErrorToast(
-                                    handleError(state.error, context));
-                              } else if (state is ProfileEditSuccess) {
-                                showInfoToast(
-                                    "Profile is updated");
-                                Navigator.of(context).pop();
-                              }
-                            },
-                            builder: (context, state) {
-                              return state is ProfileEditLoading ? AppProgressIndicator() : BigGBSelectButton(
-                                  buttonLabel: 'Save',
-                                  buttonAction: () {
-                                    if (_formKey.currentState!.validate()) {
-                                      context.read<ProfileEditCubit>().updateMainFields(
-                                        name: _nameController.text,
-                                        facebook: _facebookController.text,
-                                        instagram: _instagramController.text,
-                                        linkedin: _linkedinController.text,
-                                        filePath: _filePath
-                                      );
-                                    }
-                                  });
-                            },
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
+
                   // FOOTER
                   Container(
-                    height: 150,
+
                   ),
                 ],
               ),

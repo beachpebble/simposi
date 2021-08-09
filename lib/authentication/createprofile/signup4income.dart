@@ -60,100 +60,93 @@ class _SignUpForm4State extends State<SignUpForm4> {
       appBar: BasicFormAppBar(),
       body: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints viewportConstraints) {
-        return SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: viewportConstraints.maxHeight,
-            ),
-            child: Column(
-              children: [
-                SizedBox(height: 45),
-                Container(
-                  child: LinearProgressIndicator(
+        return Column(
+          children: [
+            // Header
+            Container(
+              child: Column(
+                children: [
+                  const SizedBox(height: 45),
+                  LinearProgressIndicator(
                     value: progress,
-                    valueColor: AlwaysStoppedAnimation(
+                    valueColor: const AlwaysStoppedAnimation(
                         SimposiAppColors.simposiDarkBlue),
                     backgroundColor: SimposiAppColors.simposiFadedBlue,
                   ),
-                ),
+                  const SizedBox(height: 70),
+                  Text(
+                    'Income Bracket...',
+                    style: Theme.of(context).textTheme.headline3,
+                  ),
+                  const SizedBox(height: 10),
+                ],
+              ),
+            ),
 
-                SizedBox(height: 70),
-
-                Container(
-                  padding: EdgeInsets.fromLTRB(40, 10, 40, 20),
-                  child: Column(
-                    children: [
-                      // Header
-                      Text(
-                        'Income Bracket...',
-                        style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.w500,
-                          color: SimposiAppColors.simposiDarkGrey,
-                        ),
-                      ),
-                      // SizedBox(height: 20),
-                      ListView.separated(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: context
+            // Body
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(40, 10, 40, 20),
+                child: Expanded(
+                  child: MediaQuery.removePadding(
+                    removeTop: true,
+                    context: context,
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: context
+                          .read<AuthenticationBloc>()
+                          .masterData
+                          .earnings
+                          .length,
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(height: 10);
+                      },
+                      itemBuilder: (context, index) {
+                        Earning earning = context
                             .read<AuthenticationBloc>()
                             .masterData
-                            .earnings
-                            .length,
-                        separatorBuilder: (context, index) {
-                          return SizedBox(height: 10);
-                        },
-                        itemBuilder: (context, index) {
-                          Earning earning = context
+                            .earnings[index];
+                        return BigGBSelectButton(
+                            buttonLabel: earning.title,
+                            isSelected: _selected.contains(earning),
+                            buttonAction: () {
+                              _selectEarning(earning);
+                            });
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            // Footer
+            Container(
+              padding: const EdgeInsets.fromLTRB(40, 0, 40, 40),
+              child: Column(
+                children: [
+                  BigGBSelectButton(
+                      buttonLabel: 'Select All',
+                      isSelected: _selected.length ==
+                          context
                               .read<AuthenticationBloc>()
                               .masterData
-                              .earnings[index];
-                          return BigGBSelectButton(
-                              buttonLabel: earning.title,
-                              isSelected: _selected.contains(earning),
-                              buttonAction: () {
-                                _selectEarning(earning);
-                              });
-                        },
-                      ),
-                      SizedBox(height: 10),
-                      // Silent Button
-                      BigGBSelectButton(
-                          buttonLabel: 'Select All',
-                          isSelected: _selected.length ==
-                              context
-                                  .read<AuthenticationBloc>()
-                                  .masterData
-                                  .earnings
-                                  .length,
-                          buttonAction: () {
-                            _selectAll();
-                          }),
-                    ],
+                              .earnings
+                              .length,
+                      buttonAction: () {
+                        _selectAll();
+                      }),
+                  const SizedBox(height: 10),
+                  ContinueButton(
+                    buttonAction: _selected.isEmpty
+                        ? null
+                        : () {
+                            Navigator.of(context).pushNamed('/signup5');
+                          },
                   ),
-                ),
-
-                // Continue Button
-                Container(
-                  padding: EdgeInsets.all(40),
-                  child: Column(
-                    children: [
-                      // TODO: Disable button until user has selected at least one income
-                      ContinueButton(
-                        buttonAction: _selected.isEmpty
-                            ? null
-                            : () {
-                                Navigator.of(context).pushNamed('/signup5');
-                              },
-                      ),
-                      SizedBox(height: 20),
-                    ],
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
+          ],
         );
       }));
 }

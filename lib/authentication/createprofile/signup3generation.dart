@@ -50,76 +50,70 @@ class _SignUpForm3State extends State<SignUpForm3> {
         appBar: BasicFormAppBar(),
         body: Column(
           children: [
-            SizedBox(height: 45),
+            // Header
             Container(
-              child: LinearProgressIndicator(
-                value: progress,
-                valueColor: const AlwaysStoppedAnimation(
-                    SimposiAppColors.simposiDarkBlue),
-                backgroundColor: SimposiAppColors.simposiFadedBlue,
+              child: Column(
+                children: [
+                  const SizedBox(height: 45),
+                  LinearProgressIndicator(
+                    value: progress,
+                    valueColor: const AlwaysStoppedAnimation(
+                        SimposiAppColors.simposiDarkBlue),
+                    backgroundColor: SimposiAppColors.simposiFadedBlue,
+                  ),
+                  const SizedBox(height: 70),
+                  Text(
+                    'Generation...',
+                    style: Theme.of(context).textTheme.headline3,
+                  ),
+                  const SizedBox(height: 10),
+                ],
               ),
             ),
 
-            SizedBox(height: 70),
-
             Expanded(
               child: Container(
-                padding: const EdgeInsets.fromLTRB(40, 10, 40, 0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    // Header
-                    Text(
-                      'Generation...',
-                      style: Theme.of(context).textTheme.headline3,
-                    ),
-                    SizedBox(height: 20),
-
-                    // iGen Button
-                    Expanded(
-                      child: MediaQuery.removePadding(
-                        removeTop: true,
-                        context: context,
-                        child: ListView.separated(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: context
+                padding: const EdgeInsets.fromLTRB(40, 10, 40, 20),
+                child: MediaQuery.removePadding(
+                  removeTop: true,
+                  context: context,
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: context
+                        .read<AuthenticationBloc>()
+                        .masterData
+                        .generations
+                        .length,
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(height: 10);
+                    },
+                    itemBuilder: (context, index) {
+                      return BigGBSelectButton(
+                          buttonLabel: context
                               .read<AuthenticationBloc>()
                               .masterData
-                              .generations
-                              .length,
-                          separatorBuilder: (context, index) {
-                            return SizedBox(height: 10);
-                          },
-                          itemBuilder: (context, index) {
-                            return BigGBSelectButton(
-                                buttonLabel: context
-                                    .read<AuthenticationBloc>()
-                                    .masterData
-                                    .generations[index]
-                                    .title,
-                                isSelected: _selected.contains(context
-                                    .read<AuthenticationBloc>()
-                                    .masterData
-                                    .generations[index]),
-                                buttonAction: () {
-                                  _selectGeneration(context
-                                      .read<AuthenticationBloc>()
-                                      .masterData
-                                      .generations[index]);
-                                });
-                          },
-                        ),
-                      ),
-                    )
-                  ],
+                              .generations[index]
+                              .title,
+                          isSelected: _selected.contains(context
+                              .read<AuthenticationBloc>()
+                              .masterData
+                              .generations[index]),
+                          buttonAction: () {
+                            _selectGeneration(context
+                                .read<AuthenticationBloc>()
+                                .masterData
+                                .generations[index]);
+                          });
+                    },
+                  ),
                 ),
               ),
             ),
 
-            // Continue Button
+            // Footer
             Container(
-              padding: const EdgeInsets.all(40),
+              padding: const EdgeInsets.fromLTRB(40, 10, 40, 40),
               child: Column(
                 children: [
                   ContinueButton(
@@ -129,7 +123,6 @@ class _SignUpForm3State extends State<SignUpForm3> {
                           }
                         : null,
                   ),
-                  SizedBox(height: 20),
                 ],
               ),
             ),

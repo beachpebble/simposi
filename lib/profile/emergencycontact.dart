@@ -55,6 +55,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
       body: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints viewportConstraints) {
             return SingleChildScrollView(
+              physics: NeverScrollableScrollPhysics(),
               child: ConstrainedBox(
                 constraints: BoxConstraints(
                   minHeight: viewportConstraints.maxHeight,
@@ -62,13 +63,9 @@ class _EmergencyContactState extends State<EmergencyContact> {
                 child: Container(
                   padding: EdgeInsets.all(40),
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-
-                      // HEADER LOGO
+                      // HEADER
                       Container(
-                        height: 200,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -89,48 +86,40 @@ class _EmergencyContactState extends State<EmergencyContact> {
                         ),
                       ),
 
-                      // TODO: Validate Account Exists and Start a New Page Stack with Home
-                      // RESET PASSWORD FORM
-                      Container(
-                        height: 250,
-                        child: Form(
-                          key: _formKey,
-                          child: Column(
-                            children: [
+                      // TODO: Enable Emergency Contact fields on User Profile
+                      // FORM
+                      Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            // EMERGENCY CONTACT NAME FIELD
+                            _eContactNameField(),
+                            SizedBox(height: 10),
+                            // PASSWORD FIELD
+                            _eContactPhoneField(),
+                            SizedBox(height: 10),
+                            BigGBSelectButton(
+                                buttonLabel: 'Save',
+                                buttonAction: () {
+                                  final isValid = _formKey.currentState!
+                                      .validate();
 
-                              // EMERGENCY CONTACT NAME FIELD
-                              _eContactNameField(),
-                              SizedBox(height: 10),
-
-                              // PASSWORD FIELD
-                              _eContactPhoneField(),
-                              SizedBox(height: 10),
-                              BigGBSelectButton(
-                                  buttonLabel: 'Save',
-                                  buttonAction: () {
-                                    final isValid = _formKey.currentState!
-                                        .validate();
-
-                                    if (isValid) {
-                                      _formKey.currentState!.save();
-                                      print('Password: ${eContactName}');
-                                      print('Password: ${eContactPhone}');
-                                      Navigator.of(context).pushReplacementNamed(
-                                          '/home');
-                                    }
+                                  if (isValid) {
+                                    _formKey.currentState!.save();
+                                    print('Password: ${eContactName}');
+                                    print('Password: ${eContactPhone}');
+                                    Navigator.of(context).pushReplacementNamed(
+                                        '/home');
                                   }
-                              ),
-                              SizedBox(height: 10),
-
-
-                            ],
-                          ),
+                                }
+                            ),
+                            SizedBox(height: 20),
+                          ],
                         ),
                       ),
 
                       // FOOTER
                       Container(
-                        height: 200,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [

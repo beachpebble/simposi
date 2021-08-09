@@ -12,9 +12,11 @@ import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposiappbar.dart';
 
+import 'eventwidgets/pickinvitationthumbnails.dart';
+
 
 class CreateEvent7 extends StatelessWidget {
-  double progress = 0.77;
+  double progress = 1.0;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -25,53 +27,57 @@ class CreateEvent7 extends StatelessWidget {
 
     body: Column(
       children: [
-        SizedBox(height: 45),
+        // Header
         Container(
-          child: LinearProgressIndicator(
-            value: progress,
-            valueColor: AlwaysStoppedAnimation(SimposiAppColors.simposiDarkBlue),
-            backgroundColor: SimposiAppColors.simposiFadedBlue,
+          child: Column(
+            children: [
+              SizedBox(height: 45),
+              LinearProgressIndicator(
+                value: progress,
+                valueColor: AlwaysStoppedAnimation(SimposiAppColors.simposiDarkBlue),
+                backgroundColor: SimposiAppColors.simposiFadedBlue,
+              ),
+              SizedBox(height: 70),
+              Text('Pick an Invitation',
+                style: Theme.of(context).textTheme.headline3,
+              ),
+              SizedBox(height: 20),
+            ],
           ),
         ),
 
-        SizedBox(height: 70),
-
+        // Body
         Expanded(
           child: Container(
-            padding: EdgeInsets.fromLTRB(40, 10, 40, 20),
-            child: Column(
-              children: [
-
-                // Header Title
-                Text('Pick an Invitation',
-                  style: TextStyle(
-                    fontSize: 19,
-                    fontWeight: FontWeight.w500,
-                    color: SimposiAppColors.simposiDarkGrey,
-                  ),),
-                SizedBox(height: 20),
-
-
-              ],
+            padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+            child: MediaQuery.removePadding(
+              removeTop: true,
+              context: context,
+              child: GridView.count(
+                crossAxisCount: 2,
+                children: List.generate(10, (index) {
+                  return IntrinsicHeight(
+                      child: PickInvitationThumbnail()
+                  );
+                }),
+              ),
             ),
           ),
         ),
 
+        // Footer
         Container(
-          padding: EdgeInsets.all(40),
+          padding: const EdgeInsets.fromLTRB(40, 10, 40, 40),
           child:
           Column(
             children: [
-
               // TODO: Disable Button until user has selected gender for who they want to meet
               BigGBSelectButton(
                 buttonLabel: 'Create Event',
-                buttonAction: () =>
-                {
+                buttonAction: () => {
                   Navigator.of(context).pushReplacementNamed('/home'),
                 },
               ),
-              SizedBox(height: 20),
             ],
           ),
         ),

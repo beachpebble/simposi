@@ -43,6 +43,7 @@ import 'package:simposi_app_v4/profile/emergencycontact.dart';
 import 'package:simposi_app_v4/profile/faqscreen.dart';
 import 'package:simposi_app_v4/profile/subscribe.dart';
 import 'package:simposi_app_v4/profile/invitationsettings.dart';
+import 'package:simposi_app_v4/profile/eventsettings.dart';
 import 'package:simposi_app_v4/profile/privacy.dart';
 import 'package:simposi_app_v4/profile/termsofuse.dart';
 import 'package:simposi_app_v4/repository/profile_repository.dart';
@@ -166,6 +167,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => EditProfile());
       case '/invitationsettings':
         return MaterialPageRoute(builder: (_) => InvitationSettings());
+      case '/eventsettings':
+        return MaterialPageRoute(builder: (_) => EventSettings());
       case '/emergencycontact':
         return MaterialPageRoute(builder: (_) => EmergencyContact());
       case '/faq':

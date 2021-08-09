@@ -89,7 +89,8 @@ class SimposiTextButton extends StatelessWidget {
           buttonLabel,
           textAlign: TextAlign.center,
         ),
-        onPressed: onClick);
+        onPressed: onClick
+    );
   }
 }
 
@@ -392,11 +393,11 @@ class SubscribeButton extends StatelessWidget {
   }
 }
 
-// MEET NOW PINK BUTTON
+// SMALL PINK BUTTON
 class SmallPinkButton extends StatelessWidget {
   // Set Variables
   final String buttonLabel;
-  final String nextPage;
+  final nextPage;
 
   const SmallPinkButton({
     Key? key,
@@ -408,21 +409,25 @@ class SmallPinkButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        primary: SimposiAppColors.simposiPink,
+        primary: Colors.white,
+        onPrimary: SimposiAppColors.simposiPink,
         textStyle: TextStyle(
           fontFamily: 'Muli',
           fontWeight: FontWeight.w800,
           fontSize: 15,
         ),
         shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20))),
-        padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          side: BorderSide(
+              color: SimposiAppColors.simposiPink,
+              width: 1.0
+          ),
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 20),
         elevation: 0,
       ),
       // TODO: Enable Meet Now Button
-      onPressed: () => {
-        Navigator.of(context).pushNamed(nextPage),
-      },
+      onPressed: nextPage,
       child: Text(
         buttonLabel,
         textAlign: TextAlign.center,

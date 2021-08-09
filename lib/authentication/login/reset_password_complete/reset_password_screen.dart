@@ -90,6 +90,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
           body: LayoutBuilder(builder:
               (BuildContext context, BoxConstraints viewportConstraints) {
             return SingleChildScrollView(
+              physics: NeverScrollableScrollPhysics(),
               child: ConstrainedBox(
                 constraints: BoxConstraints(
                   minHeight: viewportConstraints.maxHeight,
@@ -102,7 +103,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
                     children: [
                       // HEADER LOGO
                       Container(
-                        height: 300,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -134,175 +134,174 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
                           ],
                         ),
                       ),
+
                       // RESET PASSWORD FORM
-                      Container(
-                        child: Form(
-                          key: _formKey,
-                          autovalidateMode: _autoValidate
-                              ? AutovalidateMode.always
-                              : AutovalidateMode.disabled,
-                          child: Column(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.8,
-                                child: PinCodeTextField(
-                                  length: 6,
-                                  backgroundColor: Colors.transparent,
-                                  animationType: AnimationType.fade,
-                                  animationDuration:
-                                      const Duration(milliseconds: 200),
-                                  textStyle: const TextStyle(
-                                      color: Colors.black, fontSize: 24),
-                                  pinTheme: PinTheme(
-                                      shape: PinCodeFieldShape.box,
-                                      fieldHeight: 50,
-                                      fieldWidth:
-                                          ((MediaQuery.of(context).size.width *
-                                                      0.8) -
-                                                  (5 * 7)) /
-                                              6,
-                                      borderRadius: BorderRadius.circular(25),
-                                      borderWidth: 1,
-                                      inactiveColor:
-                                          SimposiAppColors.simposiLightGrey,
-                                      selectedColor:
-                                          SimposiAppColors.simposiDarkBlue,
-                                      disabledColor:
-                                          SimposiAppColors.simposiLightGrey,
-                                      activeColor:
-                                          SimposiAppColors.simposiDarkBlue),
-                                  appContext: context,
-                                  onChanged: (String value) {
-                                    setState(() {
-                                      code = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              // EMAIL FIELD
-                              PasswordField(
-                                  label: AppLocalizations.of(context)!
-                                      .passwordChangePassword,
-                                  controller: _passwordController,
-                                  validator: getValidator(
-                                      context, Validators.PASSWORD)),
-                              SizedBox(height: 10),
-                              // PASSWORD FIELD
-                              PasswordField(
-                                  label: AppLocalizations.of(context)!
-                                      .passwordChangePasswordConfirm,
-                                  controller: _confirmPasswordController,
-                                  //TODO make validator smarter to assept additional causes
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return AppLocalizations.of(context)!
-                                          .validatePasswordNotEmpty;
-                                    } else if (value !=
-                                        _passwordController.text) {
-                                      return AppLocalizations.of(context)!
-                                          .validatePasswordsDontMatch;
-                                    } else {
-                                      return null;
-                                    }
-                                  }),
-                              SizedBox(height: 10),
-                              BlocConsumer<ResetPasswordCompleteCubit,
-                                  ResetPasswordCompleteState>(
-                                listener: (context, state) {
-                                  if (state is ResetPasswordCompleteSuccess) {
-                                    showInfoToast(AppLocalizations.of(context)!
-                                        .passwordChangeSuccess);
-                                    Navigator.of(context).pop();
-                                  } else if (state
-                                      is ResetPasswordCompleteError)
-                                    showErrorToast(
-                                        handleError(state.error, context));
-                                  else if (state is ResetPasswordResendError)
-                                    showErrorToast(
-                                        handleError(state.error, context));
-                                  else if (state
-                                      is ResetPasswordResendSuccess) {
-                                    _startCountDownTimer();
-                                    showInfoToast("Code was sent");
-                                  } else if (state is ResetPasswordStateError)
-                                    showErrorToast(
-                                        "Incorrect Application State");
+                      Form(
+                        key: _formKey,
+                        autovalidateMode: _autoValidate
+                            ? AutovalidateMode.always
+                            : AutovalidateMode.disabled,
+                        child: Column(
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              child: PinCodeTextField(
+                                length: 6,
+                                backgroundColor: Colors.transparent,
+                                animationType: AnimationType.fade,
+                                animationDuration:
+                                    const Duration(milliseconds: 200),
+                                textStyle: const TextStyle(
+                                    color: Colors.black, fontSize: 24),
+                                pinTheme: PinTheme(
+                                    shape: PinCodeFieldShape.box,
+                                    fieldHeight: 50,
+                                    fieldWidth:
+                                        ((MediaQuery.of(context).size.width *
+                                                    0.8) -
+                                                (5 * 7)) /
+                                            6,
+                                    borderRadius: BorderRadius.circular(25),
+                                    borderWidth: 1,
+                                    inactiveColor:
+                                        SimposiAppColors.simposiLightGrey,
+                                    selectedColor:
+                                        SimposiAppColors.simposiDarkBlue,
+                                    disabledColor:
+                                        SimposiAppColors.simposiLightGrey,
+                                    activeColor:
+                                        SimposiAppColors.simposiDarkBlue),
+                                appContext: context,
+                                onChanged: (String value) {
+                                  setState(() {
+                                    code = value;
+                                  });
                                 },
-                                builder: (context, state) {
-                                  if (state is ResetPasswordCompleteProgress) {
-                                    return AppProgressIndicator();
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            // EMAIL FIELD
+                            PasswordField(
+                                label: AppLocalizations.of(context)!
+                                    .passwordChangePassword,
+                                controller: _passwordController,
+                                validator: getValidator(
+                                    context, Validators.PASSWORD)),
+                            SizedBox(height: 10),
+                            // PASSWORD FIELD
+                            PasswordField(
+                                label: AppLocalizations.of(context)!
+                                    .passwordChangePasswordConfirm,
+                                controller: _confirmPasswordController,
+                                //TODO make validator smarter to assept additional causes
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return AppLocalizations.of(context)!
+                                        .validatePasswordNotEmpty;
+                                  } else if (value !=
+                                      _passwordController.text) {
+                                    return AppLocalizations.of(context)!
+                                        .validatePasswordsDontMatch;
                                   } else {
-                                    return Column(
-                                      children: [
-                                        ContinueButton(
-                                            buttonLabel: AppLocalizations.of(
-                                                    context)!
-                                                .passwordChangeSetNewPassword,
-                                            buttonAction: _nextEnabled() ? () {
-                                              if (code.length == 6 &&
-                                                  _formKey.currentState!
-                                                      .validate()) {
-                                                _autoValidate = true;
-                                                print(
-                                                    'Password: ${_passwordController.text}');
+                                    return null;
+                                  }
+                                }),
+                            SizedBox(height: 10),
+                            BlocConsumer<ResetPasswordCompleteCubit,
+                                ResetPasswordCompleteState>(
+                              listener: (context, state) {
+                                if (state is ResetPasswordCompleteSuccess) {
+                                  showInfoToast(AppLocalizations.of(context)!
+                                      .passwordChangeSuccess);
+                                  Navigator.of(context).pop();
+                                } else if (state
+                                    is ResetPasswordCompleteError)
+                                  showErrorToast(
+                                      handleError(state.error, context));
+                                else if (state is ResetPasswordResendError)
+                                  showErrorToast(
+                                      handleError(state.error, context));
+                                else if (state
+                                    is ResetPasswordResendSuccess) {
+                                  _startCountDownTimer();
+                                  showInfoToast("Code was sent");
+                                } else if (state is ResetPasswordStateError)
+                                  showErrorToast(
+                                      "Incorrect Application State");
+                              },
+                              builder: (context, state) {
+                                if (state is ResetPasswordCompleteProgress) {
+                                  return AppProgressIndicator();
+                                } else {
+                                  return Column(
+                                    children: [
+                                      ContinueButton(
+                                          buttonLabel: AppLocalizations.of(
+                                                  context)!
+                                              .passwordChangeSetNewPassword,
+                                          buttonAction: _nextEnabled() ? () {
+                                            if (code.length == 6 &&
+                                                _formKey.currentState!
+                                                    .validate()) {
+                                              _autoValidate = true;
+                                              print(
+                                                  'Password: ${_passwordController.text}');
+                                              context
+                                                  .read<
+                                                      ResetPasswordCompleteCubit>()
+                                                  .sendForgotPasswordComplete(
+                                                      password:
+                                                          _passwordController
+                                                              .text,
+                                                      code: code);
+                                            }
+                                          }: null),
+                                      SizedBox(height: 15),
+                                      resendOnDelay
+                                          ? ResendCountDown(
+                                              animation: StepTween(
+                                                begin: 60,
+                                                // THIS IS A USER ENTERED NUMBER
+                                                end: 0,
+                                              ).animate(_controller),
+                                            )
+                                          : SimposiTextButton(
+                                              buttonLabel:
+                                                  'I never received a code',
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w900,
+                                              onClick: () {
                                                 context
                                                     .read<
                                                         ResetPasswordCompleteCubit>()
-                                                    .sendForgotPasswordComplete(
-                                                        password:
-                                                            _passwordController
-                                                                .text,
-                                                        code: code);
-                                              }
-                                            }: null),
-                                        SizedBox(height: 15),
-                                        resendOnDelay
-                                            ? ResendCountDown(
-                                                animation: StepTween(
-                                                  begin: 60,
-                                                  // THIS IS A USER ENTERED NUMBER
-                                                  end: 0,
-                                                ).animate(_controller),
-                                              )
-                                            : SimposiTextButton(
-                                                buttonLabel:
-                                                    'I never received a code',
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w900,
-                                                onClick: () {
-                                                  context
-                                                      .read<
-                                                          ResetPasswordCompleteCubit>()
-                                                      .resend();
-                                                },
-                                              ),
-                                      ],
-                                    );
-                                  }
-                                },
-                              ),
-                              SizedBox(height: 10),
-                              // FORGOT PASSWORD BUTTON CONTAINED IN BOTTOM SHEET (NOT IN BUTTONS)
-                              SimposiTextButton(
-                                buttonLabel: 'Contact Support',
-                                fontSize: 15,
-                                fontWeight: FontWeight.w900,
-                                onClick: () {},
-                              ),
-                            ],
-                          ),
+                                                    .resend();
+                                              },
+                                            ),
+                                    ],
+                                  );
+                                }
+                              },
+                            ),
+                            SizedBox(height: 10),
+                            // FORGOT PASSWORD BUTTON CONTAINED IN BOTTOM SHEET (NOT IN BUTTONS)
+                            SimposiTextButton(
+                              buttonLabel: 'Contact Support',
+                              fontSize: 15,
+                              fontWeight: FontWeight.w900,
+                              onClick: () {},
+                            ),
+                          ],
                         ),
                       ),
 
                       // FOOTER
                       Container(
-                        height: 200,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
+                            SizedBox(height: 20),
                             Text(
                               '© 2021 Simposi Inc.',
                               style: TextStyle(

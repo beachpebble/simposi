@@ -41,7 +41,7 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>Simposi requires access to your photos to upload profile and event photos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Simposi requires access to your photos to upload profile and event photos</string>
+	<string>Simposi only requires further access to your photos if you want to use more than one. Else Keep current selection to continue.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

@@ -31,37 +31,41 @@ class CreateEvent1 extends StatelessWidget {
 
     body: Column(
       children: [
-        SizedBox(height: 45),
+
         Container(
-          child: LinearProgressIndicator(
-            value: progress,
-            valueColor: AlwaysStoppedAnimation(SimposiAppColors.simposiDarkBlue),
-            backgroundColor: SimposiAppColors.simposiFadedBlue,
+          child: Column(
+            children: [
+              SizedBox(height: 45),
+              LinearProgressIndicator(
+                value: progress,
+                valueColor: AlwaysStoppedAnimation(SimposiAppColors.simposiDarkBlue),
+                backgroundColor: SimposiAppColors.simposiFadedBlue,
+              ),
+              SizedBox(height: 70),
+              Text('Post an activity \nand start meeting new people.',
+                style: TextStyle(
+                  fontSize: 19,
+                  fontWeight: FontWeight.w500,
+                  color: SimposiAppColors.simposiDarkGrey,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 20),
+              Container(
+                width: double.infinity,
+                child: AddEventImageButton(),
+              ),
+            ],
           ),
         ),
 
-        SizedBox(height: 70),
+
 
         Expanded(
           child: Container(
-            padding: EdgeInsets.fromLTRB(40, 10, 40, 20),
+            padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
             child: Column(
               children: [
-
-                Text('Post an activity \nand start meeting new people.',
-                  style: TextStyle(
-                    fontSize: 19,
-                    fontWeight: FontWeight.w500,
-                    color: SimposiAppColors.simposiDarkGrey,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-
-                Container(
-                  width: double.infinity,
-                  child: AddEventImageButton(),
-                ),
-
                 SimposiCounterField(
                     inputType: TextInputType.text,
                     fieldLabel: 'Title',
@@ -74,7 +78,7 @@ class CreateEvent1 extends StatelessWidget {
                       }
                     },
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 10),
 
                 GestureDetector(
                   onTap:() => showSheet(
@@ -96,11 +100,11 @@ class CreateEvent1 extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 10),
 
                 SimposiLargeTextField(
                     fieldLabel: 'Description',
-                    textAreaLines: 8,
+                    textAreaLines: 10,
                     validationLogic: (value) {
                       if (value!.length < 4) {
                         return 'Please enter a description';
@@ -116,17 +120,14 @@ class CreateEvent1 extends StatelessWidget {
         ),
 
         Container(
-          padding: EdgeInsets.all(40),
+          padding: const EdgeInsets.fromLTRB(40, 10, 40, 40),
           child:
           Column(
             children: [
-
-              // TODO: Disable button until user has selected a gender (LGBTQ optional)
-              // TODO: Make screen reusable by changing the Continue button to a save button when back is to profile menu?
+              // TODO: Disable button until user has entered event details in all fields
               BigGBSelectButton(
                 buttonLabel: 'Continue',
-                buttonAction: () =>
-                {
+                buttonAction: () => {
                   Navigator.of(context).pushNamed('/createevent2'),
                 },
               ),

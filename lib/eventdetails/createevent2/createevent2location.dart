@@ -1,5 +1,5 @@
 /*
-*  signup6location.dart
+*  createevent2location.dart
 *  Simposi App Designs V4.0
 *  Created by Simposi Inc.
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
@@ -21,14 +21,14 @@ import 'package:simposi_app_v4/utils/location.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/widgets/progress.dart';
 
-import 'signup6_location_cubit.dart';
+import 'createevent2_location_cubit.dart';
 
-class SignUpForm6 extends StatefulWidget {
+class CreateEvent2 extends StatefulWidget {
   @override
-  _SignUpForm6State createState() => _SignUpForm6State();
+  _CreateEvent2State createState() => _CreateEvent2State();
 }
 
-class _SignUpForm6State extends State<SignUpForm6> {
+class _CreateEvent2State extends State<CreateEvent2> {
   double progress = 0.85;
   final _placeSearchController = TextEditingController();
   Completer<GoogleMapController> _controller = Completer();
@@ -39,11 +39,11 @@ class _SignUpForm6State extends State<SignUpForm6> {
     super.initState();
     determinePosition()
         .then((value) => context
-            .read<Signup6LocationCubit>()
+            .read<CreateEvent2LocationCubit>()
             .selectLocation(LatLng(value.latitude, value.longitude)))
         .catchError((e) {
       showErrorToast("There is no location permission");
-      context.read<Signup6LocationCubit>().noPermission();
+      context.read<CreateEvent2LocationCubit>().noPermission();
     });
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       await Future.delayed(Duration(milliseconds: 200));
@@ -63,7 +63,7 @@ class _SignUpForm6State extends State<SignUpForm6> {
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
       appBar: BasicFormAppBar(),
-      body: BlocBuilder<Signup6LocationCubit, Signup6LocationState>(
+      body: BlocBuilder<CreateEvent2LocationCubit, CreateEvent2LocationState>(
         builder: (context, state) {
           return Column(
             children: [
@@ -135,7 +135,7 @@ class _SignUpForm6State extends State<SignUpForm6> {
         },
       ));
 
-  Widget _rangeSlider(Signup6LocationState state) {
+  Widget _rangeSlider(CreateEvent2LocationState state) {
     String units = localeIsImperial ? "miles" : "km";
     return Column(
       children: [
@@ -150,7 +150,7 @@ class _SignUpForm6State extends State<SignUpForm6> {
           divisions: 100,
           label: "${state.range.round()} $units",
           onChanged: (double value) {
-            context.read<Signup6LocationCubit>().selectRange(value);
+            context.read<CreateEvent2LocationCubit>().selectRange(value);
           },
         )
       ],
@@ -167,11 +167,11 @@ class _SignUpForm6State extends State<SignUpForm6> {
         suffixIcon: const Icon(Icons.search),
       ),
       onChanged: (value) =>
-          context.read<Signup6LocationCubit>().searchPlace(value),
+          context.read<CreateEvent2LocationCubit>().searchPlace(value),
     );
   }
 
-  Widget _googleMap(Signup6LocationState state) {
+  Widget _googleMap(CreateEvent2LocationState state) {
     double range = localeIsImperial ? state.range * 1.6 : state.range;
     return FutureBuilder(
         future: _initCompleter.future,
@@ -190,13 +190,13 @@ class _SignUpForm6State extends State<SignUpForm6> {
         },
         markers: _getMarkers(state.selectedLocation),
         onTap: (loc) {
-          context.read<Signup6LocationCubit>().selectLocation(loc);
+          context.read<CreateEvent2LocationCubit>().selectLocation(loc);
         },
         circles: _getCircle(state.selectedLocation, range));
         });
   }
 
-  Widget _searchResult(Signup6LocationState state) {
+  Widget _searchResult(CreateEvent2LocationState state) {
     return Container(
       color: Colors.black26,
       child: MediaQuery.removePadding(
@@ -234,7 +234,7 @@ class _SignUpForm6State extends State<SignUpForm6> {
                     placesSearchResult.geometry!.location.lng);
                 controller.animateCamera(CameraUpdate.newLatLng(newLoc));
                 setState(() {
-                  context.read<Signup6LocationCubit>().selectLocation(newLoc);
+                  context.read<CreateEvent2LocationCubit>().selectLocation(newLoc);
                   _placeSearchController.clear();
                 });
               }
@@ -265,7 +265,7 @@ class _SignUpForm6State extends State<SignUpForm6> {
               draggable: true,
               onDragEnd: ((newPosition) {
                 context
-                    .read<Signup6LocationCubit>()
+                    .read<CreateEvent2LocationCubit>()
                     .selectLocation(newPosition);
               }))
         ]);

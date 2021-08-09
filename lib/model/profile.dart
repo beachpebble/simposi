@@ -9,6 +9,8 @@ class Profile extends Equatable {
   final int userId;
   final int userRoleId;
   final String userName;
+  final String userPhone;
+  final String userEmail;
   final String? facebook;
   final String? instagram;
   final String? linkedin;
@@ -21,6 +23,8 @@ class Profile extends Equatable {
     required this.userId,
     required this.userRoleId,
     required this.userName,
+    required this.userPhone,
+    required this.userEmail,
     required this.profilePhoto,
     required this.isLgbt,
     required this.gender,
@@ -32,7 +36,7 @@ class Profile extends Equatable {
 
   @override
   List<Object?> get props =>
-      [userId, userRoleId, userName, profilePhoto, wantToMeet];
+      [userId, userRoleId, userName, userPhone, userEmail, profilePhoto, wantToMeet];
 
   static Profile fromJson(Map json) {
     developer.log("Profile loading from json $json");
@@ -47,7 +51,6 @@ class Profile extends Equatable {
     String? parsedGenderId = json.containsKey('gender') ? json['gender'] : null;
     bool parsedIsLgbt =
         json.containsKey('islgbtq') && json['islgbtq'] !=null ? json['islgbtq'] > 0 : false;
-
     String? parsedFacebook =
         json.containsKey('facebook_url') ? json['facebook_url'] : null;
     String? parsedInstagram =
@@ -70,6 +73,8 @@ class Profile extends Equatable {
     return Profile(
         userId: parsedUserId,
         userName: parsedUserName,
+        userPhone: "",
+        userEmail: "",
         profilePhoto: parsedProfilePhoto??"", // TODO just issue workaround until serverfix
         wantToMeet: parsedWantToMeet,
         isLgbt: parsedIsLgbt,

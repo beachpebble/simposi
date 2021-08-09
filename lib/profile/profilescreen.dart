@@ -20,7 +20,7 @@ class ProfileScreen extends StatelessWidget {
           // TODO: Insert username and city variables
           simposiTitle: 'Flora',
           simposiSubTitle: Text('Vancouver',
-            style: TextStyle(
+            style: const TextStyle(
               color: SimposiAppColors.simposiLightText,
               fontSize: 13,
             ),
@@ -28,7 +28,7 @@ class ProfileScreen extends StatelessWidget {
           simposiAction: Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
             child: IconButton(
-                icon: Icon(Icons.settings_outlined,
+                icon: const Icon(Icons.settings_outlined,
                 color: SimposiAppColors.simposiLightText,
                 size: 30),
                 onPressed: () => {
@@ -40,112 +40,123 @@ class ProfileScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Profile Image
-            Container(
-                height: 325,
-                // TODO: Replace Image URL with Variable from Profile
-                child: Image.asset(
-                  "assets/images/profileplaceholder.png",
-                  fit: BoxFit.fill,
-                )),
+            Expanded(
+              child: Container(
+                  // TODO: Replace Image URL with Variable from Profile
+                  child: Image.asset(
+                    "assets/images/profileplaceholder.png",
+                    fit: BoxFit.fitWidth,
+                  )),
+            ),
 
             // Engagement Stats
             Container(
               color: Colors.white,
               height: 70,
-              child: Row(children: <Widget>[
-                Expanded(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      // TODO: Turn this into a list
-                      children: <Widget>[
-                        // TODO: Enable Inviation Counter (Counts every invitation received regardless if it was accepted)
-                        Text(
-                          '10',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          'Invitations',
-                          style: TextStyle(
-                            color: SimposiAppColors.simposiLightText,
-                            fontSize: 13,
-                          ),
-                        ),
-                      ]),
-                ),
-                Expanded(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        // TODO: Enable Check In Counter (Counts everytime user checked in for an event)
-                        Text(
-                          '10',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          'Event Attended',
-                          style: TextStyle(
-                            color: SimposiAppColors.simposiLightText,
-                            fontSize: 13,
-                          ),
-                        ),
-                      ]),
-                ),
-                Expanded(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        // TODO: Enable People Counter (Counts every user from the check in screen. This user not included in Count.)
-                        Text(
-                          '10',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          'People Met',
-                          style: TextStyle(
-                            color: SimposiAppColors.simposiLightText,
-                            fontSize: 13,
-                          ),
-                        ),
-                      ]),
-                ),
-              ]),
-            ),
+              child: Row(
+                  children: <Widget>[
+                  Expanded(
+                    child: Container(
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          // TODO: Turn these into a ListTile's
+                          // TODO: Enable Profile Counters
+                          children: <Widget>[
+                            // TODO: Enable Invitation Counter (Counts every RSVP received regardless if it was accepted)
+                            Text( '10',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            Text( 'Invitations',
+                              style: const TextStyle(
+                                color: SimposiAppColors.simposiLightText,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ]
+                      ),
+                    ),
+                  ),
 
-            // Subscribe CTA
-            Expanded(
-              child: Container(
+                  Expanded(
+                    child: Container(
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            // TODO: Enable Check In Counter (Counts everytime user checked in for an event)
+                            Text(
+                              '10',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              'Event Attended',
+                              style: TextStyle(
+                                color: SimposiAppColors.simposiLightText,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ]),
+                    ),
+                  ),
+
+                  Expanded(
+                    child: Container(
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            // TODO: Enable People Counter (Counts every affinity survey sent.)
+                            Text(
+                              '10',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              'People Met',
+                              style: TextStyle(
+                                color: SimposiAppColors.simposiLightText,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ]),
+                    ),
+                  ),
+                ]),
+              ),
+
+              // Subscribe Footer Area
+              Container(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    SizedBox(height: 10),
                     Text('Get Unlimited Access',
-                        style: Theme.of(context).textTheme.headline3),
+                        style: Theme.of(context).textTheme.headline4),
                     SizedBox(height: 10),
                     Text(
-                        'Subscribe for unlimited access and \n meet as many people as you like.'),
-                    SizedBox(height: 20),
-
-                    // TODO: Update transition to push screen up from bottom
+                        'Subscribe for unlimited access and \n meet as many people as you like.',
+                    style: Theme.of(context).textTheme.caption,
+                    ),
+                    SizedBox(height: 10),
+                    // TODO: Update transition to draw bottom sheet instead of screen
                     SubscribeButton(
                       nextPage: '/subscribe',),
-                    SizedBox(height: 20),
-
+                    SizedBox(height: 10),
                     Text(
-                        'Free Users will always have access \n to one social / month.',
+                        'Free Users will always be able to \ncreate or attend one meetup per month.',
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.caption),
+                        style: Theme.of(context).textTheme.caption
+                    ),
+                    SizedBox(height: 10),
                   ],
                 ),
               ),
-            ),
           ],
         ),
       );

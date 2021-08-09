@@ -77,8 +77,6 @@ class _SignUpForm8State extends State<SignUpForm8> with TickerProviderStateMixin
                 child: Container(
                   padding: EdgeInsets.all(40),
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       // HEADER
                       Container(
@@ -98,18 +96,14 @@ class _SignUpForm8State extends State<SignUpForm8> with TickerProviderStateMixin
                         ),
                       ),
 
-                      // FORM
+                      // Body
                       Container(
                         child: Column(
                           children: [
-                            // TITLE
+                            SizedBox(height: 20),
                             Text(
                               'Account Created',
-                              style: TextStyle(
-                                fontSize: 19,
-                                fontWeight: FontWeight.w900,
-                                color: SimposiAppColors.simposiDarkGrey,
-                              ),
+                              style: Theme.of(context).textTheme.headline3,
                             ),
                             SizedBox(height: 15),
                             Text(
@@ -118,7 +112,6 @@ class _SignUpForm8State extends State<SignUpForm8> with TickerProviderStateMixin
                             ),
                             SizedBox(height: 25),
 
-                            // TODO: Enable These
                             // PIN CODE FIELDS
                             Container(
                               width: MediaQuery.of(context).size.width * 0.8,
@@ -218,6 +211,7 @@ class _SignUpForm8State extends State<SignUpForm8> with TickerProviderStateMixin
                         ),
                       ),
 
+                      // Footer
                       Container(
                         child: Column(
                           children: [

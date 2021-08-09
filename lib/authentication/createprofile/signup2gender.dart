@@ -69,35 +69,39 @@ class _SignUpForm2State extends State<SignUpForm2> {
       appBar: BasicFormAppBar(),
       body: Column(
         children: [
-          SizedBox(height: 45),
+          // Header
           Container(
-            child: LinearProgressIndicator(
-              value: progress,
-              valueColor:
-                  const AlwaysStoppedAnimation(SimposiAppColors.simposiDarkBlue),
-              backgroundColor: SimposiAppColors.simposiFadedBlue,
+            child: Column(
+              children: [
+                const SizedBox(height: 45),
+                LinearProgressIndicator(
+                  value: progress,
+                  valueColor:
+                      const AlwaysStoppedAnimation(SimposiAppColors.simposiDarkBlue),
+                  backgroundColor: SimposiAppColors.simposiFadedBlue,
+                ),
+                const SizedBox(height: 70),
+                Text('I indentify as...',
+                  style: Theme.of(context).textTheme.headline3,
+                ),
+                const SizedBox(height: 10),
+              ],
             ),
           ),
-          SizedBox(height: 70),
+
+          // Body
           Expanded(
             child: Container(
-              padding: EdgeInsets.fromLTRB(40, 10, 40, 20),
+              padding: const EdgeInsets.fromLTRB(40, 10, 40, 20),
               child: Column(
                 children: [
-                  // Header Title
-                  Text('I indentify as...',
-                    style: Theme.of(context).textTheme.headline3,
-                  ),
-                  SizedBox(height: 20),
-
-                  // Single Select Gender Buttons
                   BigGBSelectButton(
                       buttonLabel: 'Man', //TODO Localize
                       isSelected: _selected == Gender.Male,
                       buttonAction: () {
                         _selectGender(Gender.Male);
                       }),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   BigGBSelectButton(
                       buttonLabel: 'Woman', //TODO Localize
                       isSelected: _selected == Gender.Female,
@@ -105,7 +109,7 @@ class _SignUpForm2State extends State<SignUpForm2> {
                         _selectGender(Gender.Female);
                       }),
 
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   // Also Member Divider
                   Row(
                     children: [
@@ -115,7 +119,7 @@ class _SignUpForm2State extends State<SignUpForm2> {
                           color: SimposiAppColors.simposiLightText,
                         ),
                       ),
-                      Text(
+                      const Text(
                         'Also member of',
                         style: const TextStyle(
                           color: SimposiAppColors.simposiLightText,
@@ -130,7 +134,7 @@ class _SignUpForm2State extends State<SignUpForm2> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   // Multi-Select Community Buttons
                   BigGBSelectButton(
                       buttonLabel: 'LGBTQ', //TODO Localize
@@ -142,14 +146,15 @@ class _SignUpForm2State extends State<SignUpForm2> {
               ),
             ),
           ),
+
+          // Footer
           Container(
-            padding: const EdgeInsets.all(40),
+            padding: const EdgeInsets.fromLTRB(40, 10, 40, 40),
             child: Column(
               children: [
                 widget.editMode
                     ? profileEditNextButton()
                     : registrationNextButton(),
-                SizedBox(height: 10),
               ],
             ),
           ),

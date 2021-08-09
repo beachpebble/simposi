@@ -46,7 +46,7 @@ class SimposiThemes {
       // Dialog Header Text
       headline4: TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: SimposiAppColors.simposiDarkGrey),
       // Event Details Header
-      headline5: TextStyle(fontSize: 17, fontWeight: FontWeight.w700, color: SimposiAppColors.simposiDarkGrey),
+      headline5: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: SimposiAppColors.simposiDarkGrey),
       // Menu Text
       headline6: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SimposiAppColors.simposiLightText),
       // Input Text in Fields

@@ -16,6 +16,8 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
 
   Future<void> updateMainFields(
       {String? name,
+      String? phone,
+      String? email,
       String? facebook,
       String? instagram,
       String? linkedin,
@@ -26,7 +28,7 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
       if (filePath != null) {
         newPath = await profileRepository.uploadAvatar(filePath);
       }
-      await profileRepository.updateProfile(name: name, filepath: newPath, facebook: facebook, instagram: instagram, linkedin: linkedin);
+      await profileRepository.updateProfile(name: name, filepath: newPath, phone: phone, email: email, facebook: facebook, instagram: instagram, linkedin: linkedin);
       emit(ProfileEditSuccess());
     } catch (e) {
       emit(ProfileEditError(e));

@@ -242,10 +242,12 @@ class ProfileRepository {
 
   Future<String?> updateProfile(
       {String? name,
+      String? phone,
+      String? email,
       String? filepath,
       String? facebook,
       String? instagram,
-      String? linkedin}) async {
+      String? linkedin, }) async {
     Map<String, Object> data = {};
     if (name != null)
       data["user_name"] = name;

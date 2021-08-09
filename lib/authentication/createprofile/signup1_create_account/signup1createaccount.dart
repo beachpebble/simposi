@@ -134,7 +134,7 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                     _phoneField(),
                                     SizedBox(height: 10),
 
-                                    // phone FIELD
+                                    // email FIELD
                                     _emailField(),
                                     SizedBox(height: 10),
 
