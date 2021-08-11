@@ -49,16 +49,16 @@ class CreateEvent7 extends StatelessWidget {
         // Body
         Expanded(
           child: Container(
-            padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
             child: MediaQuery.removePadding(
               removeTop: true,
               context: context,
               child: GridView.count(
                 crossAxisCount: 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: (1.0 / 1.2),
                 children: List.generate(10, (index) {
-                  return IntrinsicHeight(
-                      child: PickInvitationThumbnail()
-                  );
+                  return PickInvitationThumbnail();
                 }),
               ),
             ),
@@ -71,7 +71,7 @@ class CreateEvent7 extends StatelessWidget {
           child:
           Column(
             children: [
-              // TODO: Disable Button until user has selected gender for who they want to meet
+              // TODO: Disable Button until user has selected an invitation
               BigGBSelectButton(
                 buttonLabel: 'Create Event',
                 buttonAction: () => {

@@ -411,11 +411,6 @@ class SmallPinkButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         primary: Colors.white,
         onPrimary: SimposiAppColors.simposiPink,
-        textStyle: TextStyle(
-          fontFamily: 'Muli',
-          fontWeight: FontWeight.w800,
-          fontSize: 15,
-        ),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(20)),
           side: BorderSide(
@@ -435,6 +430,46 @@ class SmallPinkButton extends StatelessWidget {
     );
   }
 }
+
+// SMALL BLUE BUTTON
+class SmallBlueButton extends StatelessWidget {
+  // Set Variables
+  final String buttonLabel;
+  final nextPage;
+
+  const SmallBlueButton({
+    Key? key,
+    required this.buttonLabel,
+    required this.nextPage,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: SimposiAppColors.simposiDarkBlue,
+        onPrimary: Colors.white,
+
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          side: BorderSide(
+              color: SimposiAppColors.simposiDarkBlue,
+              width: 0
+          ),
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 0),
+        elevation: 0,
+      ),
+      // TODO: Enable Meet Now Button
+      onPressed: nextPage,
+      child: Text(
+        buttonLabel,
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+}
+
 
 // COVID AGREE BUTTON
 class AgreeButton extends StatelessWidget {

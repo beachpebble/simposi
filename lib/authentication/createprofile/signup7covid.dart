@@ -11,7 +11,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup8/signup8_validate_cubit.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup8validate/signup8_validate_cubit.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';

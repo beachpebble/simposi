@@ -140,7 +140,7 @@ class _SignUpForm4State extends State<SignUpForm4> {
                     buttonAction: _selected.isEmpty
                         ? null
                         : () {
-                            Navigator.of(context).pushNamed('/signup5');
+                            Navigator.of(context).pushNamed('/signup5activities');
                           },
                   ),
                 ],

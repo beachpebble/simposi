@@ -65,7 +65,7 @@ class _InvitationSettingsState extends State<InvitationSettings> {
                       ),
                       menuCardLabel: 'My Income Range...',
                       onTap: () {
-                        Navigator.of(context).pushNamed('/signup5');
+                        Navigator.of(context).pushNamed('/signup5activities');
                       },
                     ),
                     SimposiMenuCard(
