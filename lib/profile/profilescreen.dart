@@ -45,7 +45,7 @@ class ProfileScreen extends StatelessWidget {
                   // TODO: Replace Image URL with Variable from Profile
                   child: Image.asset(
                     "assets/images/profileplaceholder.png",
-                    fit: BoxFit.fitWidth,
+                    fit: BoxFit.cover,
                   )),
             ),
 

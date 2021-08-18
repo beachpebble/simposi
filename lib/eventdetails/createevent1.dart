@@ -18,126 +18,142 @@ import 'package:simposi_app_v4/global/theme/elements/dialoguewidget.dart';
 
 
 class CreateEvent1 extends StatelessWidget {
-  double progress = 0.22;
+  double progress = 0.14;
   // NOTE: Progress Bar is top widget in content and is extended behind a Transparent AppBar.
   // This is not a great solution but simplest I could conceive of, it will cause display to be weird on non-notched phones
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    backgroundColor: Colors.white,
-    extendBodyBehindAppBar: true,
+  Widget build(BuildContext context) => KeyboardDismisser(
+    child: Scaffold(
+      backgroundColor: Colors.white,
+      extendBodyBehindAppBar: true,
 
-    appBar: BasicFormAppBar(),
+      appBar: BasicFormAppBar(),
 
-    body: Column(
-      children: [
-
-        Container(
-          child: Column(
-            children: [
-              SizedBox(height: 45),
-              LinearProgressIndicator(
-                value: progress,
-                valueColor: AlwaysStoppedAnimation(SimposiAppColors.simposiDarkBlue),
-                backgroundColor: SimposiAppColors.simposiFadedBlue,
-              ),
-              SizedBox(height: 70),
-              Text('Post an activity \nand start meeting new people.',
-                style: TextStyle(
-                  fontSize: 19,
-                  fontWeight: FontWeight.w500,
-                  color: SimposiAppColors.simposiDarkGrey,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 20),
-              Container(
-                width: double.infinity,
-                child: AddEventImageButton(),
-              ),
-            ],
-          ),
+      body: LayoutBuilder(builder:
+        (BuildContext context, BoxConstraints viewportConstraints) {
+        return SingleChildScrollView(
+        child: ConstrainedBox(
+            constraints: BoxConstraints(
+            minHeight: viewportConstraints.maxHeight,
         ),
-
-
-
-        Expanded(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-            child: Column(
-              children: [
-                SimposiCounterField(
-                    inputType: TextInputType.text,
-                    fieldLabel: 'Title',
-                    counterLength: 60,
-                    validationLogic: (value) {
-                      if (value!.length < 4) {
-                        return 'Please enter a Title for your activity';
-                      } else {
-                        return null;
-                      }
-                    },
-                ),
-                SizedBox(height: 10),
-
-                GestureDetector(
-                  onTap:() => showSheet(
-                    context,
-                    onClicked: () {},
-                    child: Text('Hello World!'),
+          child: IntrinsicHeight(
+            child: Container(
+              child: Column(
+                children: [
+                // Header
+                Container(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 45),
+                      LinearProgressIndicator(
+                        value: progress,
+                        valueColor: AlwaysStoppedAnimation(SimposiAppColors.simposiDarkBlue),
+                        backgroundColor: SimposiAppColors.simposiFadedBlue,
+                      ),
+                      const SizedBox(height: 70),
+                      Text('Post an activity \nand start meeting new people.',
+                        style: Theme.of(context).textTheme.headline3,
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 20),
+                      Container(
+                        width: double.infinity,
+                        child: AddEventImageButton(),
+                      ),
+                    ],
                   ),
-                  child: AbsorbPointer(
-                    child: SimposiPlainField(
-                        inputType: TextInputType.datetime,
-                        fieldLabel: 'Date & Time',
-                        validationLogic: (value) {
-                          if (value!.length < 4) {
-                            return 'Please enter a Title for your activity';
-                          } else {
-                            return null;
-                          }
-                        },
+                ),
+
+                // Body
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                    child: Column(
+                      children: [
+                        SimposiCounterField(
+                            inputType: TextInputType.text,
+                            fieldLabel: 'Title',
+                            counterLength: 60,
+                            validationLogic: (value) {
+                              if (value!.length < 4) {
+                                return 'Please enter a Title for your activity';
+                              } else {
+                                return null;
+                              }
+                            },
+                        ),
+                        const SizedBox(height: 10),
+
+                        GestureDetector(
+                          onTap:() => showSheet(
+                            context,
+                            // TODO: Enable this to set the variable and write it into the form field
+                            onClicked: () => {
+                            Navigator.of(context).pushNamed('/createevent1')
+                            },
+                            child: Container(
+                              height: 300,
+                              child: SimposiDateTimePicker()
+                            ),
+                          ),
+                          child: AbsorbPointer(
+                            child: SimposiPlainField(
+                                inputType: TextInputType.datetime,
+                                fieldLabel: 'Date & Time',
+                                validationLogic: (value) {
+                                  if (value!.length < 4) {
+                                    return 'Please enter a Date & Time';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+
+                        SimposiLargeTextField(
+                            fieldLabel: 'Description',
+                            textAreaLines: 10,
+                            validationLogic: (value) {
+                              if (value!.length < 4) {
+                                return 'Please enter a description';
+                              } else {
+                                return null;
+                              }
+                            },
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
 
-                SimposiLargeTextField(
-                    fieldLabel: 'Description',
-                    textAreaLines: 10,
-                    validationLogic: (value) {
-                      if (value!.length < 4) {
-                        return 'Please enter a description';
-                      } else {
-                        return null;
-                      }
-                    },
+                // Footer
+                Container(
+                  padding: const EdgeInsets.fromLTRB(40, 10, 40, 40),
+                  child:
+                  Column(
+                    children: [
+                      // TODO: Disable button until user has entered event details in all fields
+                      BigGBSelectButton(
+                        buttonLabel: 'Continue',
+                        buttonAction: () => {
+                          Navigator.of(context).pushNamed('/createevent2'),
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-
               ],
             ),
+           ),
           ),
         ),
-
-        Container(
-          padding: const EdgeInsets.fromLTRB(40, 10, 40, 40),
-          child:
-          Column(
-            children: [
-              // TODO: Disable button until user has entered event details in all fields
-              BigGBSelectButton(
-                buttonLabel: 'Continue',
-                buttonAction: () => {
-                  Navigator.of(context).pushNamed('/createevent2'),
-                },
-              ),
-              SizedBox(height: 10),
-            ],
-          ),
-        ),
-      ],
-    ),
-  );
+      );
+    }),
+  ),
+);
 
   static void showSheet(
       BuildContext context, {
@@ -148,13 +164,11 @@ class CreateEvent1 extends StatelessWidget {
         context: context,
         builder: (context) => CupertinoActionSheet(
           actions: [
-              Text('Hello World!'),
+              child,
           ],
           cancelButton: CupertinoActionSheetAction(
             child: Text('Save'),
-            onPressed: () => {
-              Navigator.of(context).pushNamed('/home'),
-            },
+            onPressed: onClicked,
           ),
       ),
   );

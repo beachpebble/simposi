@@ -91,6 +91,7 @@ class _SignUpForm4State extends State<SignUpForm4> {
                   child: MediaQuery.removePadding(
                     removeTop: true,
                     context: context,
+                    // TODO: Convert to Single Select instead of multiselect
                     child: ListView.separated(
                       shrinkWrap: true,
                       itemCount: context
@@ -124,6 +125,7 @@ class _SignUpForm4State extends State<SignUpForm4> {
               padding: const EdgeInsets.fromLTRB(40, 0, 40, 40),
               child: Column(
                 children: [
+                  // TODO: Remove Select All Function from Signup
                   BigGBSelectButton(
                       buttonLabel: 'Select All',
                       isSelected: _selected.length ==
@@ -148,5 +150,6 @@ class _SignUpForm4State extends State<SignUpForm4> {
             ),
           ],
         );
-      }));
+      })
+  );
 }

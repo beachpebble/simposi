@@ -49,6 +49,7 @@ class CreateEvent7 extends StatelessWidget {
         // Body
         Expanded(
           child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 10),
             child: MediaQuery.removePadding(
               removeTop: true,
               context: context,
@@ -57,6 +58,7 @@ class CreateEvent7 extends StatelessWidget {
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
                 childAspectRatio: (1.0 / 1.2),
+                // TODO: Allow infinite scroll of active invitation cards in DB, remove the 10 tile limit from this generated list
                 children: List.generate(10, (index) {
                   return PickInvitationThumbnail();
                 }),

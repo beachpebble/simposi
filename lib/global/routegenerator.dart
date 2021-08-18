@@ -37,13 +37,13 @@ import 'package:simposi_app_v4/calendar/simposicalendar.dart'; // Home/Socials
 
 // Manage Profile
 import 'package:simposi_app_v4/profile/profilescreen.dart';
-import 'package:simposi_app_v4/profile/profilemenu.dart';
+import 'package:simposi_app_v4/profile/accountmenu.dart';
 import 'package:simposi_app_v4/profile/editprofileform.dart';
 import 'package:simposi_app_v4/profile/emergencycontact.dart';
 import 'package:simposi_app_v4/profile/faqscreen.dart';
 import 'package:simposi_app_v4/profile/subscribe.dart';
-import 'package:simposi_app_v4/profile/invitationsettings.dart';
-import 'package:simposi_app_v4/profile/eventsettings.dart';
+import 'package:simposi_app_v4/profile/whoami_menu.dart';
+import 'package:simposi_app_v4/profile/whoiwanttomeet_menu.dart';
 import 'package:simposi_app_v4/profile/privacy.dart';
 import 'package:simposi_app_v4/profile/termsofuse.dart';
 import 'package:simposi_app_v4/repository/profile_repository.dart';

@@ -15,6 +15,8 @@ import 'package:simposi_app_v4/global/theme/elements/simposiappbar.dart';
 import 'package:simposi_app_v4/global/theme/theme.dart';
 import 'package:simposi_app_v4/global/theme/elements/searchbar.dart';
 
+
+// TODO: This is an old layout. Please replace this screen with the layout from authentication and update for the create event process.
 class CreateEvent3 extends StatefulWidget {
 
   @override
@@ -23,7 +25,7 @@ class CreateEvent3 extends StatefulWidget {
 
 class _CreateEvent3State extends State<CreateEvent3> {
   // Set Variables
-  double progress = 0.66;
+  double progress = 0.42;
 
   // TODO: Pass backend activities to this list
   final List<Activity> allActivities = <Activity>[

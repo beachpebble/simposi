@@ -1,5 +1,5 @@
 /*
-*  eventsettings.dart
+*  whoami_menu.dart
 *  Simposi App Designs V4.0
 *  Created by Simposi Inc.
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
@@ -14,14 +14,14 @@ import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/profile/elements/simposimenucard.dart';
 
 
-class EventSettings extends StatefulWidget {
-  const EventSettings({Key? key}) : super(key: key);
+class InvitationSettings extends StatefulWidget {
+  const InvitationSettings({Key? key}) : super(key: key);
 
   @override
-  _EventSettingsState createState() => _EventSettingsState();
+  _InvitationSettingsState createState() => _InvitationSettingsState();
 }
 
-class _EventSettingsState extends State<EventSettings> {
+class _InvitationSettingsState extends State<InvitationSettings> {
   @override
   Widget build(BuildContext context) => KeyboardDismisser(
     child: Scaffold(
@@ -41,12 +41,12 @@ class _EventSettingsState extends State<EventSettings> {
                 child: ListView(
                   children: [
                     SimposiMenuCard(
-                      menuCardIcon: Icon(Icons.people_outline,
+                      menuCardIcon: Icon(Icons.perm_identity,
                         color: SimposiAppColors.simposiPink,
                       ),
-                      menuCardLabel: 'Gender & Community',
+                      menuCardLabel: 'I Identify as...',
                       onTap: () {
-                        Navigator.of(context).pushNamed('/createevent4');
+                        Navigator.of(context).pushNamed('/signup2edit');
                       },
                     ),
                     SimposiMenuCard(
@@ -54,27 +54,36 @@ class _EventSettingsState extends State<EventSettings> {
                         color: SimposiAppColors.simposiLightBlue,
                         size: 20,
                       ),
-                      menuCardLabel: 'Generations',
+                      menuCardLabel: 'My Generations...',
                       onTap: () {
-                        Navigator.of(context).pushNamed('/createevent5');
+                        Navigator.of(context).pushNamed('/signup3'); // TODO: Enable Edit mode like Signup2 above
                       },
                     ),
                     SimposiMenuCard(
                       menuCardIcon: Icon(Icons.work_outline,
                         color: SimposiAppColors.simposiYellow,
                       ),
-                      menuCardLabel: 'Who earn',
+                      menuCardLabel: 'My Income Range...',
                       onTap: () {
-                        Navigator.of(context).pushNamed('/createevent6');
+                        Navigator.of(context).pushNamed('/signup4'); // TODO: Enable Edit mode like Signup2 above
                       },
                     ),
                     SimposiMenuCard(
                       menuCardIcon: Icon(Icons.directions_bike,
                         color: SimposiAppColors.simposiPink,
                       ),
-                      menuCardLabel: 'Who like',
+                      menuCardLabel: 'Activities I like...',
                       onTap: () {
-                        Navigator.of(context).pushNamed('/createevent7');
+                        Navigator.of(context).pushNamed('/signup5activities'); // TODO: Enable Edit mode like Signup2 above
+                      },
+                    ),
+                    SimposiMenuCard(
+                      menuCardIcon: Icon(Icons.location_searching,
+                        color: SimposiAppColors.simposiLightBlue,
+                      ),
+                      menuCardLabel: 'Location & Distance...',
+                      onTap: () {
+                        Navigator.of(context).pushNamed('/signup6'); // TODO: Enable Edit mode like Signup2 above
                       },
                     ),
                   ],

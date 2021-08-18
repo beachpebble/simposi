@@ -11,24 +11,33 @@ import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 
 
-class DateTimePicker extends StatefulWidget {
+class SimposiDateTimePicker extends StatefulWidget {
   @override
-  _DateTimePickerState createState() => _DateTimePickerState();
+  _SimposiDateTimePickerState createState() => _SimposiDateTimePickerState();
 }
 
-class _DateTimePickerState extends State<DateTimePicker> {
+class _SimposiDateTimePickerState extends State<SimposiDateTimePicker> {
   DateTime dateTime = DateTime.now().add(Duration(hours: 2));
 
   @override
-  Widget build(BuildContext context) => CupertinoDatePicker(
-          initialDateTime: dateTime,
-          mode: CupertinoDatePickerMode.dateAndTime,
-          minimumDate: DateTime.now().add(Duration(hours: 1)),
-          maximumDate: DateTime.now().add(Duration(days: 90)),
-          onDateTimeChanged: (dateTime) =>
-              setState( () => this.dateTime = dateTime )
-      );
+  Widget build(BuildContext context) => Scaffold(
+    body: Center(
+      child: buildDatePicker(),
+    ),
+
+  );
+
+  Widget buildDatePicker() => CupertinoDatePicker(
+    initialDateTime: dateTime,
+    mode: CupertinoDatePickerMode.dateAndTime,
+    minimumDate: DateTime.now().add(Duration(hours: 1)),
+    maximumDate: DateTime.now().add(Duration(days: 90)),
+    onDateTimeChanged: (dateTime) =>
+    setState( () => this.dateTime = dateTime )
+  );
 
 }
+
+
 
 

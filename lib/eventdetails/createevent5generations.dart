@@ -14,44 +14,43 @@ import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/theme.dart';
 
 class CreateEvent5 extends StatelessWidget {
-  double progress = 0.44;
+  double progress = 0.70;
 
   @override
   Widget build(BuildContext context) => Scaffold(
     backgroundColor: Colors.white,
     extendBodyBehindAppBar: true,
-
     appBar: BasicFormAppBar(),
-
     body: Column(
       children: [
-        SizedBox(height: 45),
+        // Header
         Container(
-          child: LinearProgressIndicator(
-            value: progress,
-            valueColor: AlwaysStoppedAnimation(SimposiAppColors.simposiDarkBlue),
-            backgroundColor: SimposiAppColors.simposiFadedBlue,
+          child: Column(
+            children: [
+              const SizedBox(height: 45),
+              LinearProgressIndicator(
+                value: progress,
+                valueColor: const AlwaysStoppedAnimation(
+                    SimposiAppColors.simposiDarkBlue),
+                backgroundColor: SimposiAppColors.simposiFadedBlue,
+              ),
+              const SizedBox(height: 70),
+              Text(
+                'Who do you want to meet ?',
+                style: Theme.of(context).textTheme.headline3,
+              ),
+              const SizedBox(height: 10),
+            ],
           ),
         ),
 
-        SizedBox(height: 70),
-
+        // Body
         Expanded(
           child: Container(
             padding: EdgeInsets.fromLTRB(40, 10, 40, 20),
             child: Column(
               children: [
-
-                // Header
-                Text('What Generations?',
-                  style: TextStyle(
-                    fontSize: 19,
-                    fontWeight: FontWeight.w500,
-                    color: SimposiAppColors.simposiDarkGrey,
-                  ),),
-                SizedBox(height: 20),
-
-                // TODO: Convert to Toggle Buttons
+                // TODO: Convert to Toggle Buttons (copy generations implementation from authentication)
                 // iGen Button
                 BigGBSelectButton(
                   buttonLabel: 'iGen (1996 - Present)',
@@ -82,22 +81,19 @@ class CreateEvent5 extends StatelessWidget {
           ),
         ),
 
-        // Continue Button
+        // Footer
         Container(
-          padding: EdgeInsets.all(40),
+          padding: const EdgeInsets.fromLTRB(40, 10, 40, 40),
           child:
           Column(
             children: [
-
               // TODO: Disable Button until user has selected a generation
               BigGBSelectButton(
                 buttonLabel: 'Continue',
-                buttonAction: () =>
-                {
+                buttonAction: () => {
                   Navigator.of(context).pushNamed('/createevent6'),
                 },
               ),
-              SizedBox(height: 20),
             ],
           ),
         ),

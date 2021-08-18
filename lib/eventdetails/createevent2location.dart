@@ -15,8 +15,10 @@ import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/theme.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 
+// TODO: THIS SCREEN IS JUST TO DISPLAY VISUAL. DEPRECATED LAYOUT.
+// TODO: This is an old layout, the updated layout has been copied from authentication to the createevent2 folder. Please update the screen in that folder for the create event process and deprecate this one.
 class CreateEvent2 extends StatelessWidget {
-  double progress = 0.77;
+  double progress = 0.28;
 
   @override
   Widget build(BuildContext context) => Scaffold(

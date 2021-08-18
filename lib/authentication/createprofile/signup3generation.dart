@@ -27,12 +27,12 @@ class _SignUpForm3State extends State<SignUpForm3> {
   Set<Generation> _selected = {};
   double progress = 0.42;
 
-  void _selectGeneration(Generation gender) {
+  void _selectGeneration(Generation generation) {
     setState(() {
-      if (_selected.contains(gender))
-        _selected.remove(gender);
+      if (_selected.contains(generation))
+        _selected.remove(generation);
       else
-        _selected.add(gender);
+        _selected.add(generation);
     });
     context.read<RegistrationCubit>().setGenerations(generations: _selected);
   }

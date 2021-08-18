@@ -114,6 +114,7 @@ class _CreateEvent2State extends State<CreateEvent2> {
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 40),
                 child: Column(
                   children: [
+                    // TODO: Remove Range Slider. It does not apply to events.
                     Container(
                       child: _rangeSlider(state),
                     ),
