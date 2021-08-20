@@ -1,5 +1,5 @@
 /*
-*  eventappbar.dart
+*  eventappbars.dart
 *  Simposi App Designs V4.0
 *  Created by Simposi Inc.
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
@@ -12,8 +12,7 @@ import 'package:focused_menu/modals.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 
-// TODO: Enable Progress Bar for Signup Screens
-// With Progress Bar
+
 class EventAppBar extends StatelessWidget with PreferredSizeWidget {
   // Variables
   final Size preferredSize;
@@ -89,3 +88,53 @@ class EventAppBar extends StatelessWidget with PreferredSizeWidget {
     );
   }
 }
+
+
+class InvitationAppBar extends StatelessWidget with PreferredSizeWidget {
+  // Variables
+  final Size preferredSize;
+
+  // Initiate Variables
+  InvitationAppBar({Key, key})
+      : preferredSize = Size.fromHeight(60),
+        super(key: key);
+
+  // Screen
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      centerTitle: false,
+      elevation: 0.0,
+      backgroundColor: Colors.transparent,
+      foregroundColor: Colors.transparent,
+      leading: Builder(
+        builder: (BuildContext context) {
+
+          // CLOSE BUTTON
+          return IconButton(
+            alignment: Alignment.center,
+            icon: Icon(Icons.close,
+                color: SimposiAppColors.simposiLightText),
+            onPressed: () {Navigator.pop(context);},
+          );
+        },
+      ),
+      actions: [
+
+        // SHARE BUTTON
+        IconButton(
+          alignment: Alignment.center,
+          visualDensity: VisualDensity(
+            horizontal: -2.0,
+          ),
+          padding: EdgeInsets.all(0),
+          icon: Icon(Icons.ios_share,
+              color: SimposiAppColors.simposiLightText),
+          onPressed: () {},
+        ),
+        SizedBox(width: 20),
+      ],
+    );
+  }
+}
+

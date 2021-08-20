@@ -37,7 +37,7 @@ class InvitationCard extends StatelessWidget {
             // TODO: Replace with Variable
             // Event Title
             Text('Ditch Fashion Show',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.w900,
                 color: SimposiAppColors.simposiDarkGrey,

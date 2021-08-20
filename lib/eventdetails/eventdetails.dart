@@ -6,26 +6,37 @@
 */
 
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:simposi_app_v4/eventdetails/eventwidgets/eventappbar.dart';
+import 'package:simposi_app_v4/eventdetails/eventwidgets/eventappbars.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
+import 'package:simposi_app_v4/eventdetails/eventwidgets/invitationcard.dart';
+
 
 class EventDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: EventAppBar(),
+    extendBodyBehindAppBar: true,
+        // TODO: Replace Invitation App Bar with Event App Bar based on RSVP Status (note: menu options differ based on if user created the event)
+        appBar: InvitationAppBar(),
         body: ListView(
+          padding: const EdgeInsets.only(top: 0),
           shrinkWrap: true,
           children: [
+            // TODO: Hide/Show this row/invitation card based on RSVP Status
+            Row(
+              children: [
+                //INVITATION CARD
+                InvitationCard(),
+              ],
+            ),
             Row(
               children: [
                 // EVENT IMAGE
                 Expanded(
-                  // TODO: Replace Image URL with Variable from Profile
+                  // TODO: Replace Image URL with Image from Event
                   child: ShaderMask(
                     shaderCallback: (rect) {
-                      return LinearGradient(
+                      return const LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [Colors.white, Colors.transparent],
@@ -54,81 +65,84 @@ class EventDetails extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          // TODO: Pull Event Title from Event
                           Text(
                             'Ditch Fashion Show',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 21,
                               color: SimposiAppColors.simposiDarkGrey,
                               fontWeight: FontWeight.w900,
                             ),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
 
                           // DATE & TIME
                           Row(
                             children: [
-                              Icon(Icons.access_time, size: 30),
-                              SizedBox(width: 10),
+                              const Icon(Icons.access_time, size: 30),
+                              const SizedBox(width: 10),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  // TODO: Pull Date variable from Event
                                   Text(
                                     'Thursday, September 19',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w900,
-                                      color: SimposiAppColors.simposiDarkGrey,
-                                    ),
+                                    style: Theme.of(context).textTheme.headline3,
                                   ),
+                                  // TODO: Pull Time variable from Event
                                   Text('6:00pm'),
                                 ],
                               ),
                             ],
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
 
                           // LOCATION
                           Row(
                             children: [
-                              Icon(Icons.location_on_outlined, size: 30),
-                              SizedBox(width: 10),
+                              const Icon(Icons.location_on_outlined, size: 30),
+                              const SizedBox(width: 10),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  // TODO: Pull Location Name from Event
                                   Text(
                                     'Cobana Pool Bar',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.w900,
                                       color: SimposiAppColors.simposiDarkGrey,
                                     ),
                                   ),
+                                  // TODO: Pull Location Address from Event
                                   Text('11 Poulson St, Toronto, ON, M4A 2F1'),
                                 ],
                               ),
                             ],
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
 
                           // RSVP COUNTS
                           Row(
                             children: [
-                              Icon(Icons.person_outline, size: 30),
-                              SizedBox(width: 10),
+                              const Icon(Icons.person_outline, size: 30),
+                              const SizedBox(width: 10),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     'Who\'s Going',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.w900,
                                       color: SimposiAppColors.simposiDarkGrey,
                                     ),
                                   ),
+                                  // TODO: Pull Counts of RSVPs where Status = Accepted (I think we have a count field scoped for this so status might not be relevant)
                                   Text('1 Women, 2 Men, 1 LGBTQ'),
                                 ],
                               ),
                             ],
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                         ],
                       ),
                     ],
@@ -137,7 +151,7 @@ class EventDetails extends StatelessWidget {
               ],
             ),
 
-            Divider(
+            const Divider(
               thickness: 2,
               indent: 20,
               endIndent: 20,
@@ -151,52 +165,55 @@ class EventDetails extends StatelessWidget {
                 children: [
                   Text(
                     'Organized for',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 21,
                       color: SimposiAppColors.simposiDarkGrey,
                       fontWeight: FontWeight.w900,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Column(
                     children: [
                       Row(
                         children: [
-                          Icon(Icons.circle,
+                          const Icon(Icons.circle,
                               color: SimposiAppColors.simposiDarkBlue,
                               size: 10),
-                          SizedBox(width: 10),
+                          const SizedBox(width: 10),
+                          // TODO: Display Event Settings for Gender
                           Text('Women, Men, LGBTQ'),
                         ],
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       Row(
                         children: [
-                          Icon(Icons.circle,
+                          const Icon(Icons.circle,
                               color: SimposiAppColors.simposiDarkBlue,
                               size: 10),
-                          SizedBox(width: 10),
+                          const SizedBox(width: 10),
+                          // TODO: Display Event Settings for Generations
                           Text('Millennial, Gen X'),
                         ],
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       Row(
                         children: [
-                          Icon(Icons.circle,
+                          const Icon(Icons.circle,
                               color: SimposiAppColors.simposiDarkBlue,
                               size: 10),
-                          SizedBox(width: 10),
+                          const SizedBox(width: 10),
+                          // TODO: Display Event Settings for Income
                           Text('\$35k to \$50k, \$50k to \$75k'),
                         ],
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
 
-            Divider(
+            const Divider(
               thickness: 2,
               indent: 20,
               endIndent: 20,
@@ -210,18 +227,21 @@ class EventDetails extends StatelessWidget {
                 children: [
                   Text(
                     'Description',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 21,
                       color: SimposiAppColors.simposiDarkGrey,
                       fontWeight: FontWeight.w900,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
+                  // TODO: Display Event Description
                   Text(
                       'Artists, Designers, Companies from different countries will present their collections on the Social Impact concept in order to explain how the fashion industry could be a powerful engine for the current society along the exhibition spaces for the people who decide to advertise during the event, where, apart the visibility, the presence of Influencers, Journalists and Photographers will do effort to present Artists, Fashion designers and Brands.'),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
+                  // TODO: Display tag cloud... same chip style as picker in grey without ability to click. Display only the tags on the event
                   // TAG CLOUD
                   Container(),
+                  // TODO: Display Map Location as square or rectangle. Click should request access to Google Maps or Apple Maps App
                   // MAP
                   Container(),
                 ],
