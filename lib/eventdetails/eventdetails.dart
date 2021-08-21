@@ -17,7 +17,8 @@ class EventDetails extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
     extendBodyBehindAppBar: true,
         // TODO: Replace Invitation App Bar with Event App Bar based on RSVP Status (note: menu options differ based on if user created the event)
-        appBar: InvitationAppBar(),
+        appBar: // InvitationAppBar(),
+      EventAppBar(), // add logic to change app bar based on status
         body: ListView(
           padding: const EdgeInsets.only(top: 0),
           shrinkWrap: true,

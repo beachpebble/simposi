@@ -19,9 +19,9 @@ import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
-import 'package:simposi_app_v4/widgets/password_field.dart';
-import 'package:simposi_app_v4/widgets/progress.dart';
-import 'package:simposi_app_v4/widgets/resend_countdown.dart';
+import 'package:simposi_app_v4/global/widgets/password_field.dart';
+import 'package:simposi_app_v4/global/widgets/progress.dart';
+import 'package:simposi_app_v4/global/widgets/resend_countdown.dart';
 
 import 'reset_password_complete_cubit.dart';
 

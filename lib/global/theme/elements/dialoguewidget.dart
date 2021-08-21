@@ -12,22 +12,20 @@ import 'package:simposi_app_v4/global/theme/appcolors.dart';
 
 class SimposiDialogue {
 
-  static void showSheet(
-      BuildContext context, {
-        required Widget child,
-        required VoidCallback onClicked,
-      }) =>
-        showCupertinoDialog(
-            context: context,
-            builder: (context) => CupertinoActionSheet(
-              actions: [
-                child,
-              ],
-              cancelButton: CupertinoActionSheetAction(
-                child: Text('Save'),
-                onPressed: onClicked,
-              ),
-            )
+  static Route<Object?> _dialogBuilder(BuildContext context, Object? arguments) {
+    return CupertinoDialogRoute<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return const CupertinoAlertDialog(
+          title: Text('Title'),
+          content: Text('Content'),
+          actions: <Widget>[
+            CupertinoDialogAction(child: Text('Yes')),
+            CupertinoDialogAction(child: Text('No')),
+          ],
         );
+      },
+    );
+  }
 
 }

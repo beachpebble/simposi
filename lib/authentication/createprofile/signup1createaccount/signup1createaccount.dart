@@ -16,9 +16,9 @@ import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
-import 'package:simposi_app_v4/widgets/add_photo_button.dart';
-import 'package:simposi_app_v4/widgets/password_field.dart';
-import 'package:simposi_app_v4/widgets/progress.dart';
+import 'package:simposi_app_v4/global/widgets/add_photo_button.dart';
+import 'package:simposi_app_v4/global/widgets/password_field.dart';
+import 'package:simposi_app_v4/global/widgets/progress.dart';
 
 import '../../../global/theme/elements/simposibuttons.dart';
 import '../../authenticationwidgets/privacytoufooter.dart';

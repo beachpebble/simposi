@@ -19,8 +19,8 @@ import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
-import 'package:simposi_app_v4/widgets/forgot_password_button.dart';
-import 'package:simposi_app_v4/widgets/progress.dart';
+import 'package:simposi_app_v4/global/widgets/forgot_password_button.dart';
+import 'package:simposi_app_v4/global/widgets/progress.dart';
 
 import '../reset_password_start/forgotpasswordbottomsheet.dart';
 import 'login_cubit.dart';

@@ -71,7 +71,7 @@ class _CreateEvent3State extends State<CreateEvent3> {
     }
   }
 
-  // SIGNUP FORM PAGE 6 LAYOUT
+  // CREATE EVENT 3 LAYOUT
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: Colors.white,

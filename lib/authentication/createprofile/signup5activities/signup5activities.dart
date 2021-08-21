@@ -115,7 +115,9 @@ class SignUpForm5 extends StatelessWidget {
             ),
           ),
         );
-      }));
+      }
+    )
+  );
 
   // FOR EACH ACTIVITY CREATE AN ACTIVITY BUTTON
   List<Widget> selectedActivityWidgets(Set<Interest> interests,

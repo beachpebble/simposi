@@ -7,6 +7,7 @@
 
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:simposi_app_v4/global/theme/elements/counterbubble.dart';
 import '../theme.dart';
 import '../appcolors.dart';
 import 'simposiappbar.dart';
@@ -67,23 +68,62 @@ class _SimposiHomeState extends State<SimposiHome> {
           ),
           items: [
             BottomNavigationBarItem(
-              icon: Container(
-                padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
-                child: Icon(SimposiNav.calendar),
+              icon: Stack(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
+                      alignment: Alignment.center,
+                      child: Icon(SimposiNav.calendar),
+                    ),
+                    Container(
+                      child: Positioned(
+                        right: 25,
+                        child: SimposiCounterBubble(
+                            count: '2', // TODO: Enable Counter for RSVPs where status = invited, hide if 0
+                        ),
+                      ),
+                    ),
+                  ]
               ),
               label: 'Socials',
             ),
             BottomNavigationBarItem(
-              icon: Container(
-                padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
-                child: Icon(SimposiNav.carddeck),
+              icon: Stack(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
+                    alignment: Alignment.center,
+                    child: Icon(SimposiNav.carddeck),
+                  ),
+                  Container(
+                    child: Positioned(
+                      right: 25,
+                      child: SimposiCounterBubble(
+                          count: '134', // TODO: Enable counter for Discover Cards, hide if 0
+                      ),
+                    ),
+                  ),
+                ],
               ),
               label: 'Discover',
             ),
             BottomNavigationBarItem(
-              icon: Container(
-                padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
-                child: Icon(SimposiNav.alerts),
+              icon: Stack(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
+                    alignment: Alignment.center,
+                    child: Icon(SimposiNav.alerts),
+                  ),
+                  Container(
+                    child: Positioned(
+                      right: 25,
+                      child: SimposiCounterBubble(
+                          count: '1', // TODO: Enable counter for unread alert messages, hide if 0
+                      ),
+                    ),
+                  ),
+                ],
               ),
               label: 'Alerts',
             ),

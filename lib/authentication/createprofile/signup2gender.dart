@@ -15,7 +15,7 @@ import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/model/gender.dart';
 import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
-import 'package:simposi_app_v4/widgets/progress.dart';
+import 'package:simposi_app_v4/global/widgets/progress.dart';
 
 class SignUpForm2 extends StatefulWidget {
   final bool editMode;

@@ -18,8 +18,8 @@ import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
-import 'package:simposi_app_v4/widgets/add_photo_button.dart';
-import 'package:simposi_app_v4/widgets/progress.dart';
+import 'package:simposi_app_v4/global/widgets/add_photo_button.dart';
+import 'package:simposi_app_v4/global/widgets/progress.dart';
 
 class EditProfile extends StatefulWidget {
   @override

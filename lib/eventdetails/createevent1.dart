@@ -129,22 +129,7 @@ class CreateEvent1 extends StatelessWidget {
                   ),
                 ),
 
-                // Footer
-                Container(
-                  padding: const EdgeInsets.fromLTRB(40, 10, 40, 40),
-                  child:
-                  Column(
-                    children: [
-                      // TODO: Disable button until user has entered event details in all fields
-                      BigGBSelectButton(
-                        buttonLabel: 'Continue',
-                        buttonAction: () => {
-                          Navigator.of(context).pushNamed('/createevent2'),
-                        },
-                      ),
-                    ],
-                  ),
-                ),
+
               ],
             ),
            ),

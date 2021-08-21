@@ -17,8 +17,8 @@ import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
-import 'package:simposi_app_v4/widgets/progress.dart';
-import 'package:simposi_app_v4/widgets/resend_countdown.dart';
+import 'package:simposi_app_v4/global/widgets/progress.dart';
+import 'package:simposi_app_v4/global/widgets/resend_countdown.dart';
 
 import 'signup8_validate_cubit.dart';
 

@@ -7,18 +7,13 @@
 
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import '../../global/theme/elements/simposiappbar.dart';
-import 'package:simposi_app_v4/global/theme/theme.dart';
-import '../../global/routegenerator.dart';
+import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
+
 
 class ProposeNewTime extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
-//    appBar: SimposiAppBar('Flora',
-//      simposiSubTitle: 'Vancouver',
-//    ),
-
-        body: Text('Propose New Time'),
-      );
+    appBar: BasicFormAppBar(),
+    body: Text('Propose New Time'),
+  );
 }

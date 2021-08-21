@@ -235,6 +235,9 @@ class _SimposiLargeTextFieldState extends State<SimposiLargeTextField> {
 
       decoration: InputDecoration(
         labelText: widget.fieldLabel,
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        ),
       ),
 
       // VALIDATION LOGIC
