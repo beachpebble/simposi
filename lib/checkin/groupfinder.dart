@@ -12,8 +12,8 @@ import 'package:flutter_compass/flutter_compass.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/formappbar.dart';
+import 'package:simposi_app_v4/global/widgets/simposibuttons.dart';
 
 
 class GroupFinder extends StatelessWidget {

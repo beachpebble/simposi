@@ -8,6 +8,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 
 // TEXT FIELD WITH CLEAR FUNCTION
@@ -299,6 +300,76 @@ class _SimposiPlainFieldState extends State<SimposiPlainField> {
 
       // ACTION ON SAVE
       onSaved: (value) => setState(() => _input = value!),
+    );
+  }
+}
+
+
+
+// SIMPOSI PHONE FIELD w/ COUNTRY CODE PICKER
+class SimposiPhoneField extends StatefulWidget {
+
+  SimposiPhoneField({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  _SimposiPhoneFieldState createState() => _SimposiPhoneFieldState();
+}
+
+class _SimposiPhoneFieldState extends State<SimposiPhoneField> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _fieldController = TextEditingController();
+
+  String initialCountry = 'NG';
+  PhoneNumber number = PhoneNumber(isoCode: 'NG');
+
+  @override
+  void initState() {
+    super.initState();
+    _fieldController.addListener(() => setState(() {}));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return InternationalPhoneNumberInput(
+      onInputChanged: (PhoneNumber number) {
+        print(number.phoneNumber);
+      },
+      onInputValidated: (bool value) {
+        print(value);
+      },
+      selectorConfig: SelectorConfig(
+        selectorType: PhoneInputSelectorType.DIALOG,
+        trailingSpace: false,
+        leadingPadding: 20,
+        setSelectorButtonAsPrefixIcon: true,
+      ),
+      ignoreBlank: false,
+      autoValidateMode: AutovalidateMode.disabled,
+      initialValue: number,
+      selectorTextStyle: TextStyle(
+          color: SimposiAppColors.simposiLightText,
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+          fontFamily: 'Muli',
+      ),
+      textFieldController: _fieldController,
+      formatInput: false,
+      keyboardType:
+      TextInputType.numberWithOptions(signed: true, decimal: true),
+      inputDecoration: InputDecoration(
+        labelText: 'Phone Number',
+        floatingLabelBehavior: FloatingLabelBehavior.never,
+      ),
+      inputBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(40.0)),
+          borderSide: BorderSide(
+            color: SimposiAppColors.simposiLightGrey,
+          )),
+      onSaved: (PhoneNumber number) {
+        print('On Saved: $number');
+      },
     );
   }
 }

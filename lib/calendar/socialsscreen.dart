@@ -9,9 +9,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/simposibuttons.dart';
 
-import '../global/theme/elements/simposiappbar.dart';
+import '../global/widgets/simposiappbar.dart';
 import 'calendarbackground.dart';
 // import '../theme/elements/calendarbackground.dart';
 

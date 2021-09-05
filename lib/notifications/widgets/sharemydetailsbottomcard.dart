@@ -10,9 +10,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/simposibuttons.dart';
 import 'package:simposi_app_v4/global/theme/theme.dart';
-import 'package:simposi_app_v4/global/theme/elements/social_icons.dart';
+import 'package:simposi_app_v4/global/widgets/social_icons.dart';
 
 
 // TODO: Trigger Check In Bottom Sheet from Check In Notification (Banner/Lockscreen) - so they land on Socials with Bottom Sheet open

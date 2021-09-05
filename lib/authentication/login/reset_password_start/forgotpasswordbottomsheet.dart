@@ -11,7 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/formfields.dart';
+import 'package:simposi_app_v4/global/widgets/simposibuttons.dart';
 import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/global/widgets/progress.dart';
@@ -44,7 +45,8 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
   }
 
   @override
-  Widget build(BuildContext context) => KeyboardDismisser(
+  Widget build(BuildContext context) =>
+      KeyboardDismisser(
         child: BlocConsumer<ForgotPasswordStartCubit, ForgotPasswordStartState>(
           listener: (context, state) {
             if (state is ForgotPasswordStartError)
@@ -53,14 +55,15 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
             else if (state is ForgotPasswordStartSuccess) {
               showInfoToast("Code was sent via SMS");
               Navigator.of(context).pop();
-              Navigator.of(context).pushNamed('/resetPassword', arguments: phone);
+              Navigator.of(context).pushNamed(
+                  '/resetPassword', arguments: phone);
             }
           },
           builder: (context, state) {
             return Container(
               color: Colors.black54,
               child: Container(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
@@ -72,58 +75,60 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Text(
                         'Recover Password',
                         style: TextStyle(
-                          color: SimposiAppColors.simposiDarkBlue,
                           fontSize: 17,
-                          fontWeight: FontWeight.w900,
+                          fontWeight: FontWeight.w800,
+                          color: SimposiAppColors.simposiDarkBlue
                         ),
                       ),
-                      SizedBox(height: 10),
-                      Text(
-                          'Please enter your email\nto restore your password.'),
-                      SizedBox(height: 30),
+                      const SizedBox(height: 10),
+                      const Text(
+                          'You will receive an SMS with a recovery code.'),
+                      const SizedBox(height: 30),
                       // FORGOT PASSWORD FORM
                       Form(
                         key: _formKey,
                         child: Column(
                           children: [
-                            _phoneField(),
-                            SizedBox(height: 10),
+                            SimposiPhoneField(),
+                            const SizedBox(height: 20),
                             state is ForgotPasswordStartLoading
                                 ? AppProgressIndicator()
                                 : ContinueButton(
-                                    buttonLabel: 'Reset Password',
-                                    buttonAction: _emailController.text.isNotEmpty ? () {
-                                      final isValid =
-                                          _formKey.currentState!.validate();
+                                buttonLabel: 'Reset Password',
+                                buttonAction: _emailController.text.isNotEmpty
+                                    ? () {
+                                  final isValid =
+                                  _formKey.currentState!.validate();
 
-                                      if (isValid) {
-                                        _formKey.currentState!.save();
-                                        print('Email: ${phone}');
-                                        context
-                                            .read<ForgotPasswordStartCubit>()
-                                            .sendForgotPasswordRequest(
-                                                phone: phone);
-                                      }
-                                    } : null),
+                                  if (isValid) {
+                                    _formKey.currentState!.save();
+                                    print('Email: ${phone}');
+                                    context
+                                        .read<ForgotPasswordStartCubit>()
+                                        .sendForgotPasswordRequest(
+                                        phone: phone);
+                                  }
+                                }
+                                    : null),
                           ],
                         ),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       TextButton(
                           onPressed: _contactSupport,
-                          child: Text(
+                          child: const Text(
                             'Contact Support',
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: SimposiAppColors.simposiDarkBlue,
                               fontSize: 15,
                               fontWeight: FontWeight.w900,
                             ),
                           )),
-                      SizedBox(height: 150),
+                      const SizedBox(height: 150),
                     ],
                   )),
             );
@@ -132,89 +137,8 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
       );
 
   void _contactSupport() async {
-    var url = 'mailto:<email address>?subject=<subject>&body=<body>';
+    var url = 'mailto:<support@simposi.com>?subject=<Account Recovery>&body=<body>';
     await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
   }
 
-  // EMAIL FIELD
-  Widget _phoneField() => TextFormField(
-        controller: _emailController,
-        keyboardType: TextInputType.phone,
-        textInputAction: TextInputAction.next,
-        enableSuggestions: true,
-        autocorrect: true,
-        obscureText: false,
-        showCursor: true,
-
-        style: TextStyle(
-          color: SimposiAppColors.simposiLightText,
-          fontWeight: FontWeight.w500,
-          fontSize: 15,
-        ),
-
-        decoration: InputDecoration(
-          labelText: 'Phone',
-          contentPadding: EdgeInsets.all(20),
-          labelStyle: TextStyle(
-            color: SimposiAppColors.simposiLightText,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            letterSpacing: 1.5,
-          ),
-
-          suffixIcon: _emailController.text.isEmpty
-              ? Container(width: 0)
-              : IconButton(
-                  icon: Icon(Icons.close,
-                      size: 20, color: SimposiAppColors.simposiLightGrey),
-                  onPressed: () => _emailController.clear(),
-                ),
-
-          // INITIAL STATE
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiLightGrey,
-              )),
-
-          // FOCUS STATE
-          focusColor: SimposiAppColors.simposiDarkBlue,
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiDarkBlue,
-              )),
-
-          // FOCUS ERROR STATE
-          focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiPink,
-              )),
-
-          // ERROR STATE
-          errorStyle: TextStyle(
-            color: SimposiAppColors.simposiPink,
-          ),
-          errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiPink,
-              )),
-        ),
-
-        // EMAIL VALIDATION LOGIC
-        validator: (value) {
-          if (value == null || value.isEmpty == true) {
-            return 'Phone Required';
-          } else if (value.length < 10) {
-            return 'Must be at least 10 characters';
-          } else {
-            return null;
-          }
-        },
-
-        // OUTPUT ACTIONS
-        onSaved: (value) => setState(() => phone = value!),
-      );
 }

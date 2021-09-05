@@ -10,8 +10,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/formappbar.dart';
+import 'package:simposi_app_v4/global/widgets/simposibuttons.dart';
 
 
 class EmergencyContact extends StatefulWidget {

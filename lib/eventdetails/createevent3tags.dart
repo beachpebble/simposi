@@ -8,14 +8,14 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/formappbar.dart';
+import 'package:simposi_app_v4/global/widgets/simposibuttons.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposiappbar.dart';
+import 'package:simposi_app_v4/global/widgets/simposiappbar.dart';
 import 'package:simposi_app_v4/global/theme/theme.dart';
-import 'package:simposi_app_v4/global/theme/elements/searchbar.dart';
+import 'package:simposi_app_v4/global/widgets/searchbar.dart';
 
-
+// TODO: DEPRECATED UI. PLEASE ENABLE FUNCTIONALITY ON FOLDER UI AND DELETE THIS ONE. THIS IS JUST FOR CLICK PATH.
 // TODO: This is an old layout. Please replace this screen with the layout from authentication and update for the create event process.
 class CreateEvent3 extends StatefulWidget {
 
@@ -77,7 +77,7 @@ class _CreateEvent3State extends State<CreateEvent3> {
         backgroundColor: Colors.white,
         extendBodyBehindAppBar: true,
 
-        appBar: BasicFormAppBar(),
+        appBar: CancelFormAppBar(),
 
         body: Column(
           children: [

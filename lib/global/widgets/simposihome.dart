@@ -7,15 +7,15 @@
 
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:simposi_app_v4/global/theme/elements/counterbubble.dart';
-import '../theme.dart';
-import '../appcolors.dart';
+import 'package:simposi_app_v4/global/widgets/counterbubble.dart';
+import '../theme/theme.dart';
+import '../theme/appcolors.dart';
 import 'simposiappbar.dart';
 import 'simposinavicons.dart';
-import '../../../calendar/simposicalendar.dart';
-import '../../../discover/discoverscreen.dart';
-import '../../../notifications/alertsscreen.dart';
-import '../../../profile/profilescreen.dart';
+import '../../calendar/simposicalendar.dart';
+import '../../discover/discoverscreen.dart';
+import '../../notifications/alertsscreen.dart';
+import '../../profile/profilescreen.dart';
 
 // Simposi Page Template
 class SimposiHome extends StatefulWidget {

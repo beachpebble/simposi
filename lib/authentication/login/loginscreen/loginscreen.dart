@@ -15,7 +15,8 @@ import 'package:simposi_app_v4/authentication/login/reset_password_start/forgot_
 import 'package:simposi_app_v4/authentication/createprofile/signup8validate/signup8_validate_cubit.dart';
 import 'package:simposi_app_v4/authentication/login/reset_password_start/forgot_password_start_cubit.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/formfields.dart';
+import 'package:simposi_app_v4/global/widgets/simposibuttons.dart';
 import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
@@ -106,6 +107,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               children: [
                                 // EMAIL FIELD
                                 _phoneField(),
+                                SizedBox(height: 10),
+
+                                SimposiPhoneField(),
                                 SizedBox(height: 10),
 
                                 // PASSWORD FIELD

@@ -8,7 +8,7 @@
 // Global
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
+import 'package:simposi_app_v4/global/widgets/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 
 // Create Profile
@@ -56,11 +56,9 @@ import 'package:simposi_app_v4/notifications/youlikeeachother.dart';
 import 'package:simposi_app_v4/notifications/adminalert.dart';
 
 // Calendar & Events (Home)
-import 'theme/elements/simposihome.dart';
+import 'widgets/simposihome.dart';
 import 'package:simposi_app_v4/eventdetails/eventdetails.dart';
-import 'package:simposi_app_v4/eventdetails/eventwidgets/cancelrsvp.dart';
 import 'package:simposi_app_v4/eventdetails/eventwidgets/invitationcard.dart';
-import 'package:simposi_app_v4/eventdetails/eventwidgets/proposenewtime.dart';
 import 'package:simposi_app_v4/eventdetails/reportevent.dart';
 
 // Create Event
@@ -186,14 +184,10 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => SimposiHome());
       case '/eventlist':
         return MaterialPageRoute(builder: (_) => SimposiCalendar());
-      case '/cancelrsvp':
-        return MaterialPageRoute(builder: (_) => CancelRSVP());
       case '/eventdetails':
         return MaterialPageRoute(builder: (_) => EventDetails());
       case '/invitationcard':
         return MaterialPageRoute(builder: (_) => InvitationCard());
-      case '/proposenewtime':
-        return MaterialPageRoute(builder: (_) => ProposeNewTime());
       case '/reportevent':
         return MaterialPageRoute(builder: (_) => ReportEvent());
 

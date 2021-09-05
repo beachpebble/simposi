@@ -7,10 +7,10 @@
 
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/simposibuttons.dart';
 import 'package:simposi_app_v4/global/routegenerator.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
+import 'package:simposi_app_v4/global/widgets/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/theme.dart';
 
 class CreateEvent5 extends StatelessWidget {
@@ -20,7 +20,7 @@ class CreateEvent5 extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
     backgroundColor: Colors.white,
     extendBodyBehindAppBar: true,
-    appBar: BasicFormAppBar(),
+    appBar: CancelFormAppBar(),
     body: Column(
       children: [
         // Header
@@ -47,7 +47,7 @@ class CreateEvent5 extends StatelessWidget {
         // Body
         Expanded(
           child: Container(
-            padding: EdgeInsets.fromLTRB(40, 10, 40, 20),
+            padding: const EdgeInsets.fromLTRB(40, 10, 40, 20),
             child: Column(
               children: [
                 // TODO: Convert to Toggle Buttons (copy generations implementation from authentication)
@@ -55,22 +55,22 @@ class CreateEvent5 extends StatelessWidget {
                 BigGBSelectButton(
                   buttonLabel: 'iGen (1996 - Present)',
                   buttonAction: null),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 // Millennial Button
                 BigGBSelectButton(
                   buttonLabel: 'Millennial (1981 - 1995)',
                   buttonAction: null),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 // Gen X Button
                 BigGBSelectButton(
                   buttonLabel: 'Gen X (1965 - 1980)',
                   buttonAction: null),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 // Boomer Button
                 BigGBSelectButton(
                   buttonLabel: 'Boomer (1946 - 1964)',
                   buttonAction: null),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 // Silent Button
                 BigGBSelectButton(
                   buttonLabel: 'Silent (1928 - 1945)',
@@ -87,9 +87,19 @@ class CreateEvent5 extends StatelessWidget {
           child:
           Column(
             children: [
-              // TODO: Disable Button until user has selected a generation
+              // TODO: Disable Button until user has selected generation for who they want to meet
+              // TODO: THIS SCREEN CAN BE SAVED AS A REUSABLE SETTING. Make screen reusable by hiding the This Event Only button when user is coming from profile menu.
+              // TODO: IF user has saved settings PREPOPULATE SCREEN SETTINGS, HIDE THIS EVENT ONLY BUTTON, HIDE SAVE FOR ALL EVENTS BUTTON SHOW CONTINUE BUTTON INSTEAD.
+              // TODO: IF user changes prepoulated setting Hide Continue button and SHOW This Event Only & Save for all Events buttons
               BigGBSelectButton(
-                buttonLabel: 'Continue',
+                buttonLabel: 'This Event Only',
+                buttonAction: () => {
+                  Navigator.of(context).pushNamed('/createevent6'),
+                },
+              ),
+              const SizedBox(height: 10),
+              BigGBSelectButton(
+                buttonLabel: 'Save for all Events',
                 buttonAction: () => {
                   Navigator.of(context).pushNamed('/createevent6'),
                 },

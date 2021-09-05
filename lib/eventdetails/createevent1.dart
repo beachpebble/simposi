@@ -11,10 +11,10 @@ import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/eventdetails/eventwidgets/datetimepicker.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
-import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
-import 'package:simposi_app_v4/global/theme/elements/formfields.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
-import 'package:simposi_app_v4/global/theme/elements/dialoguewidget.dart';
+import 'package:simposi_app_v4/global/widgets/formappbar.dart';
+import 'package:simposi_app_v4/global/widgets/formfields.dart';
+import 'package:simposi_app_v4/global/widgets/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/dialoguewidget.dart';
 
 
 class CreateEvent1 extends StatelessWidget {
@@ -28,7 +28,7 @@ class CreateEvent1 extends StatelessWidget {
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
 
-      appBar: BasicFormAppBar(),
+      appBar: CancelFormAppBar(),
 
       body: LayoutBuilder(builder:
         (BuildContext context, BoxConstraints viewportConstraints) {
@@ -129,7 +129,24 @@ class CreateEvent1 extends StatelessWidget {
                   ),
                 ),
 
-
+                  // Footer
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(40, 10, 40, 40),
+                    child:
+                    Column(
+                      children: [
+                        // TODO: Disable Button until user has selected gender for who they want to meet
+                        // TODO: Make screen reusable by changing the Continue button to a save button when user comes from profile menu?
+                        // TODO: IF user does NOT have saved invitation settings, display dialog asking if they want to save these settings.
+                        BigGBSelectButton(
+                          buttonLabel: 'Continue',
+                          buttonAction: () => {
+                            Navigator.of(context).pushNamed('/createevent2'),
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
               ],
             ),
            ),
@@ -152,7 +169,7 @@ class CreateEvent1 extends StatelessWidget {
               child,
           ],
           cancelButton: CupertinoActionSheetAction(
-            child: Text('Save'),
+            child: const Text('Save'),
             onPressed: onClicked,
           ),
       ),

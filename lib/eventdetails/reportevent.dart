@@ -8,10 +8,10 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
-import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
+import 'package:simposi_app_v4/global/widgets/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/global/theme/elements/formfields.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/formfields.dart';
+import 'package:simposi_app_v4/global/widgets/simposibuttons.dart';
 
 enum ReportOption { offensivephoto, offensivedescription, other }
 
@@ -45,7 +45,7 @@ class _ReportEventState extends State<ReportEvent> {
                       children: <Widget>[
                         // Header
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Column(
                             children: [
                               Text('Why are you reporting this event?',
@@ -53,7 +53,7 @@ class _ReportEventState extends State<ReportEvent> {
                                 textAlign: TextAlign.center,
                               ),
                               const SizedBox(height: 20),
-                              Text('Please describe why the nature of the offense.',
+                              const Text('Please describe why the nature of the offense.',
                                 textAlign: TextAlign.center,
                               ),
                             ],
@@ -61,7 +61,7 @@ class _ReportEventState extends State<ReportEvent> {
                         ),
 
                         Container(
-                          padding: EdgeInsets.fromLTRB( 20, 20, 20, 0),
+                          padding: const EdgeInsets.fromLTRB( 20, 20, 20, 0),
                           child: Column(
                             children: <Widget>[
                               RadioListTile(
@@ -109,7 +109,7 @@ class _ReportEventState extends State<ReportEvent> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Container(
-                          padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                          padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
                           child: SimposiLargeTextField(
                             fieldLabel: 'Description',
                             textAreaLines: 15,

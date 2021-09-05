@@ -12,9 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simposi_app_v4/calendar/calendarwidgets/calendarcards.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/global/theme/elements/counterbubble.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposiappbar.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/counterbubble.dart';
+import 'package:simposi_app_v4/global/widgets/simposiappbar.dart';
+import 'package:simposi_app_v4/global/widgets/simposibuttons.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class SimposiCalendar extends StatefulWidget {

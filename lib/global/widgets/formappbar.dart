@@ -8,8 +8,8 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
-import '../theme.dart';
+import 'package:simposi_app_v4/global/widgets/simposibuttons.dart';
+import '../theme/theme.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 
 
@@ -87,7 +87,7 @@ class HeaderFormAppBar extends StatelessWidget with PreferredSizeWidget {
               onPressed: () => {
                 Navigator.of(context).pop(popPage),
               },
-              child: Text('Cancel',
+              child: Text('Back',
               style: TextStyle(
                 color: SimposiAppColors.simposiDarkBlue,
                 fontSize: 17,
@@ -108,6 +108,49 @@ class HeaderFormAppBar extends StatelessWidget with PreferredSizeWidget {
             color: SimposiAppColors.simposiDarkBlue,
           ),
         ),
+        ),
+      ],
+    );
+  }
+}
+
+// BACK & CANCEL BUTTON
+class CancelFormAppBar extends StatelessWidget with PreferredSizeWidget {
+  // Variables
+  final Size preferredSize;
+
+  // Initiate Variables
+  CancelFormAppBar({Key, key})
+      : preferredSize = Size.fromHeight(70),
+        super(key: key);
+
+  // Screen
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      centerTitle: false,
+      elevation: 0.0,
+      backgroundColor: Colors.transparent,
+      foregroundColor: SimposiAppColors.simposiDarkGrey,
+      leading: Builder(
+        builder: (BuildContext context) {
+          return BackButton(
+            color: SimposiAppColors.simposiDarkGrey,
+          );
+        },
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () => {
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false),
+          },
+          child: Text('Cancel ',
+            style: TextStyle(
+              fontSize: 17,
+              color: SimposiAppColors.simposiDarkBlue,
+            ),
+          ),
         ),
       ],
     );

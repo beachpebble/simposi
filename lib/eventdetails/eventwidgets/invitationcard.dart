@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/simposibuttons.dart';
 import 'package:simposi_app_v4/eventdetails/eventwidgets/datetimepicker.dart';
 
 class InvitationCard extends StatelessWidget {
@@ -137,7 +137,8 @@ class InvitationCard extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
-          title: Text('You\'re Going!'),
+          title: const Text('You\'re Going!'),
+          // TODO: Replace with Event Title and Date variables
           content: Text('Ditch Fashion Show \n Sept. 16, 2021'),
           actions: <Widget>[
             CupertinoDialogAction(
@@ -147,7 +148,7 @@ class InvitationCard extends StatelessWidget {
               }
             ),
             CupertinoDialogAction(
-              child: Text('Done'),
+              child: const Text('Done'),
               onPressed: () =>
                   Navigator.of(context, rootNavigator: true).pushNamed('/home'),
             ),
@@ -187,7 +188,7 @@ class InvitationCard extends StatelessWidget {
             ),
           ),
           message: const Text('If the organizer accepts \nyour RSVP will be automatic.',
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 15,
             color: SimposiAppColors.simposiLightText,
             ),
@@ -197,7 +198,7 @@ class InvitationCard extends StatelessWidget {
           ],
           // TODO: Capture Date/Time from picker, generate Alert message for user who created the event
           cancelButton: CupertinoActionSheetAction(
-            child: Text('Submit'),
+            child: const Text('Submit'),
             onPressed: onClicked,
           ),
         ),

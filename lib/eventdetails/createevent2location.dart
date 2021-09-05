@@ -11,12 +11,12 @@ import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:simposi_app_v4/global/routegenerator.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
+import 'package:simposi_app_v4/global/widgets/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/theme.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/simposibuttons.dart';
 
 // TODO: THIS SCREEN IS JUST TO DISPLAY VISUAL. DEPRECATED LAYOUT.
-// TODO: This is an old layout, the updated layout has been copied from authentication to the createevent2 folder. Please update the screen in that folder for the create event process and deprecate this one.
+// TODO: Please enable functionality on the CreateEvent2 Folder UI and delete this one.
 class CreateEvent2 extends StatelessWidget {
   double progress = 0.28;
 
@@ -25,11 +25,11 @@ class CreateEvent2 extends StatelessWidget {
         backgroundColor: Colors.white,
         extendBodyBehindAppBar: true,
 
-        appBar: BasicFormAppBar(),
+        appBar: CancelFormAppBar(),
 
         body: Column(
           children: [
-            SizedBox(height: 45),
+            const SizedBox(height: 45),
             Container(
               child: LinearProgressIndicator(
                 value: progress,
@@ -38,11 +38,11 @@ class CreateEvent2 extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 70),
+            const SizedBox(height: 70),
 
             Expanded(
               child: Container(
-                padding: EdgeInsets.fromLTRB(40, 10, 40, 20),
+                padding: const EdgeInsets.fromLTRB(40, 10, 40, 20),
                 child: Column(
                   children: [
 
@@ -62,7 +62,7 @@ class CreateEvent2 extends StatelessWidget {
             ),
 
             Container(
-              padding: EdgeInsets.all(40),
+              padding: const EdgeInsets.all(40),
               child:
               Column(
                 children: [

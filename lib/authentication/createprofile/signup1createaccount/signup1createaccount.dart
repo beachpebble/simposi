@@ -13,6 +13,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
+import 'package:simposi_app_v4/global/widgets/formfields.dart';
 import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
@@ -20,7 +21,7 @@ import 'package:simposi_app_v4/global/widgets/add_photo_button.dart';
 import 'package:simposi_app_v4/global/widgets/password_field.dart';
 import 'package:simposi_app_v4/global/widgets/progress.dart';
 
-import '../../../global/theme/elements/simposibuttons.dart';
+import '../../../global/widgets/simposibuttons.dart';
 import '../../authenticationwidgets/privacytoufooter.dart';
 import 'signup1_create_account_cubit.dart';
 
@@ -132,6 +133,9 @@ class _SignUpForm1State extends State<SignUpForm1> {
 
                                     // phone FIELD
                                     _phoneField(),
+                                    SizedBox(height: 10),
+
+                                    SimposiPhoneField(),
                                     SizedBox(height: 10),
 
                                     // email FIELD

@@ -8,7 +8,7 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
-  - geolocator_apple (1.0.0):
+  - geolocator_apple (1.2.0):
     - Flutter
   - google_maps_flutter (0.0.1):
     - Flutter
@@ -96,8 +96,8 @@ SPEC CHECKSUMS:
   flutter_compass: cbbd285cea1584c7ac9c4e0c3e1f17cbea55e855
   fluttertoast: 6122fa75143e992b1d3470f61000f591a798cc58
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  geolocator_apple: 60a1c3f5930c090d2f5164ba8bf25f4f89121e3c
-  google_maps_flutter: df4e7de95264aa0a2f11aac0fc7e313acb8ffc7e
+  geolocator_apple: b741765c55dc21950e3e106e8b3584e55cf81ce5
+  google_maps_flutter: 279865bd07e2d8751f43a3bc64bac7f6075d0c93
   GoogleMaps: 008e2c80e38605b56b560e8deb73d4194ff30bef
   image_picker: e06f7a68f000bd36f552c1847e33cda96ed31f1f
   location: 3a2eed4dd2fab25e7b7baf2a9efefe82b512d740
@@ -112,4 +112,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: ffd7293eb7d5907b54a367fd400872baeef513a5
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.0

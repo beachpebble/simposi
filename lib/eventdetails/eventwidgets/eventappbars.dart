@@ -10,8 +10,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
-import 'package:simposi_app_v4/global/theme/elements/dialoguewidget.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/dialoguewidget.dart';
+import 'package:simposi_app_v4/global/widgets/simposibuttons.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 
 
@@ -67,7 +67,7 @@ class EventAppBar extends StatelessWidget with PreferredSizeWidget {
             FocusedMenuItem(
               // TODO: Enable Cancel RSVP Button
                 title: const Text('Cancel RSVP',
-                style: TextStyle(
+                style: const TextStyle(
                   color: SimposiAppColors.simposiDarkBlue,
                 ),),
                 onPressed: () => Navigator.of(context).restorablePush(_dialogBuilder),
@@ -105,13 +105,15 @@ class EventAppBar extends StatelessWidget with PreferredSizeWidget {
             CupertinoDialogAction(
               child: Text('Cancel'),
               onPressed: () =>
-                  Navigator.of(context, rootNavigator: true).pop('Cancel'),
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false),
             ),
-            // TODO: Enable cancel button to update status of RSVP to Cancelled, this should remove event from calendar
+            // TODO: Enable CONFIRM button to update status of RSVP to Cancelled, this should remove event from calendar
             CupertinoDialogAction(
               child: Text('Confirm'),
               onPressed: () =>
-                  Navigator.of(context, rootNavigator: true).pushNamed('/home'),
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false),
             ),
           ],
         );

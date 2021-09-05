@@ -7,12 +7,12 @@
 
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/simposibuttons.dart';
 import 'package:simposi_app_v4/profile/termsofuse.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import '../../global/theme/elements/simposiappbar.dart';
+import '../../global/widgets/simposiappbar.dart';
 import 'package:simposi_app_v4/global/theme/theme.dart';
-import '../../global/theme/elements/simposiicons.dart';
+import '../../global/widgets/simposiicons.dart';
 
 
 

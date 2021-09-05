@@ -8,9 +8,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
-import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposiappbar.dart';
+import 'package:simposi_app_v4/global/widgets/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/formappbar.dart';
+import 'package:simposi_app_v4/global/widgets/simposiappbar.dart';
 
 import 'eventwidgets/pickinvitationthumbnails.dart';
 
@@ -23,7 +23,7 @@ class CreateEvent7 extends StatelessWidget {
     backgroundColor: Colors.white,
     extendBodyBehindAppBar: true,
 
-    appBar: BasicFormAppBar(),
+    appBar: CancelFormAppBar(),
 
     body: Column(
       children: [
@@ -31,17 +31,17 @@ class CreateEvent7 extends StatelessWidget {
         Container(
           child: Column(
             children: [
-              SizedBox(height: 45),
+              const SizedBox(height: 45),
               LinearProgressIndicator(
                 value: progress,
                 valueColor: AlwaysStoppedAnimation(SimposiAppColors.simposiDarkBlue),
                 backgroundColor: SimposiAppColors.simposiFadedBlue,
               ),
-              SizedBox(height: 70),
+              const SizedBox(height: 70),
               Text('Pick an Invitation',
                 style: Theme.of(context).textTheme.headline3,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
             ],
           ),
         ),
@@ -49,7 +49,7 @@ class CreateEvent7 extends StatelessWidget {
         // Body
         Expanded(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: MediaQuery.removePadding(
               removeTop: true,
               context: context,

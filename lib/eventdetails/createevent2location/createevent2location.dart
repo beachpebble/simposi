@@ -15,8 +15,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/formappbar.dart';
+import 'package:simposi_app_v4/global/widgets/simposibuttons.dart';
 import 'package:simposi_app_v4/utils/location.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/global/widgets/progress.dart';
@@ -62,7 +62,7 @@ class _CreateEvent2State extends State<CreateEvent2> {
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
-      appBar: BasicFormAppBar(),
+      appBar: CancelFormAppBar(),
       body: BlocBuilder<CreateEvent2LocationCubit, CreateEvent2LocationState>(
         builder: (context, state) {
           return Column(
@@ -80,7 +80,7 @@ class _CreateEvent2State extends State<CreateEvent2> {
                     ),
                     const SizedBox(height: 70),
                     Text(
-                      'I want to meet nearby...',
+                      'Where do you want to meet?',
                       style: Theme.of(context).textTheme.headline3,
                     ),
                     const SizedBox(height: 20),

@@ -10,9 +10,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
-import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
-import 'package:simposi_app_v4/global/theme/elements/formfields.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/formappbar.dart';
+import 'package:simposi_app_v4/global/widgets/formfields.dart';
+import 'package:simposi_app_v4/global/widgets/simposibuttons.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
@@ -32,7 +32,6 @@ class _EditProfileState extends State<EditProfile> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _facebookController = TextEditingController();
   final TextEditingController _instagramController = TextEditingController();
   final TextEditingController _linkedinController = TextEditingController();
@@ -42,7 +41,6 @@ class _EditProfileState extends State<EditProfile> {
     super.initState();
     _nameController.text = context.read<ProfileEditCubit>().profile.userName;
     _phoneController.text = context.read<ProfileEditCubit>().profile.userPhone;
-    _emailController.text = context.read<ProfileEditCubit>().profile.userEmail;
     _facebookController.text =
         context.read<ProfileEditCubit>().profile.facebook ?? "";
     _instagramController.text =
@@ -51,7 +49,6 @@ class _EditProfileState extends State<EditProfile> {
         context.read<ProfileEditCubit>().profile.linkedin ?? "";
     _nameController.addListener(() => setState(() {}));
     _phoneController.addListener(() => setState(() {}));
-    _emailController.addListener(() => setState(() {}));
     _facebookController.addListener(() => setState(() {}));
     _instagramController.addListener(() => setState(() {}));
     _linkedinController.addListener(() => setState(() {}));
@@ -61,7 +58,6 @@ class _EditProfileState extends State<EditProfile> {
   void dispose() {
     _nameController.dispose();
     _phoneController.dispose();
-    _emailController.dispose();
     _facebookController.dispose();
     _instagramController.dispose();
     _linkedinController.dispose();
@@ -149,20 +145,6 @@ class _EditProfileState extends State<EditProfile> {
                                           inputType: 'phone',
                                           fieldLabel: ' Phone',
                                           fieldController: _phoneController,
-                                          validationLogic: getValidator(context, Validators.URL_LINK),
-                                        ),
-                                        SizedBox(height: 10),
-                                      ],
-                                    ),
-                                  ),
-
-                                  Container(
-                                    child: Column(
-                                      children: [
-                                        SimposiFormFieldwClear(
-                                          inputType: 'email',
-                                          fieldLabel: ' Email',
-                                          fieldController: _emailController,
                                           validationLogic: getValidator(context, Validators.URL_LINK),
                                         ),
                                         SizedBox(height: 10),

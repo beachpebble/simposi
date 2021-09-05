@@ -9,7 +9,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/calendar/calendarwidgets/checkinbottomsheet.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/simposibuttons.dart';
 
 // TODO: Create & Insert Variables for Invitation Thumbnails
 // TODO: Enable First Click to Display Overlay with Preview and Select Buttons
@@ -49,7 +49,7 @@ class PickInvitationThumbnail extends StatelessWidget {
                 // PREVIEW OVERLAY
                 Center(
                   child: Container(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     // color: Colors.black12,
                     child: SizedBox(
                       height: 30,
@@ -72,7 +72,7 @@ class PickInvitationThumbnail extends StatelessWidget {
         // TODO: Final State - On Click of Select Button - Charge users appstore account, create invite, generate receipt and all of that
         // Select Button
         Container(
-          padding: EdgeInsets.only(top: 5),
+          padding: const EdgeInsets.only(top: 5),
           child: SizedBox(
             height: 30,
             child: SmallBlueButton(

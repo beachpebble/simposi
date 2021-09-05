@@ -1,5 +1,5 @@
 /*
-*  signup5activities.dart
+*  createevent3tags.dart
 *  Simposi App Designs V4.0
 *  Created by Simposi Inc.
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
@@ -17,9 +17,9 @@ import 'package:simposi_app_v4/global/widgets/formappbar.dart';
 import 'package:simposi_app_v4/global/widgets/simposibuttons.dart';
 import 'package:simposi_app_v4/model/interest.dart';
 
-import 'signup5_activities_cubit.dart';
+import 'createevent3_tags_cubit.dart';
 
-class SignUpForm5 extends StatelessWidget {
+class CreateEvent3 extends StatelessWidget {
 
   final double progress = 0.66;
 
@@ -36,7 +36,7 @@ class SignUpForm5 extends StatelessWidget {
               minHeight: viewportConstraints.maxHeight,
             ),
             child:
-            BlocBuilder<Signup5ActivitiesCubit, Signup5ActivitiesState>(
+            BlocBuilder<CreateEvent3TagsCubit, CreateEvent3TagsState>(
               buildWhen: (prev, current) {
                 return prev.filtered != current.filtered ||
                     prev.nextEnabled != current.nextEnabled;
@@ -57,12 +57,19 @@ class SignUpForm5 extends StatelessWidget {
                           ),
                           const SizedBox(height: 70),
                           Text(
-                            'I like to ...',
+                            'Tag your Activity',
                             style: Theme.of(context).textTheme.headline3,
                           ),
                           const SizedBox(height: 10),
+                          const Text('So the right people get invited!',
+                            style: const TextStyle(
+                              color: SimposiAppColors.simposiLightText,
+                              fontSize: 13,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
                           Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: _searchBar(context),
                           ),
                         ],
@@ -129,9 +136,9 @@ class SignUpForm5 extends StatelessWidget {
         title: item.title,
         onClick: (value) {
           value
-              ? context.read<Signup5ActivitiesCubit>().selectInterest(item)
+              ? context.read<CreateEvent3TagsCubit>().selectInterest(item)
               : context
-              .read<Signup5ActivitiesCubit>()
+              .read<CreateEvent3TagsCubit>()
               .deselectInterest(item);
         }))
         .toList();
@@ -148,7 +155,7 @@ class SignUpForm5 extends StatelessWidget {
           suffixIcon: const Icon(Icons.search),
         ),
         onChanged: (value) =>
-            context.read<Signup5ActivitiesCubit>().search(value),
+            context.read<CreateEvent3TagsCubit>().search(value),
       ),
     );
   }

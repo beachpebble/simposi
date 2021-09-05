@@ -130,7 +130,7 @@ class EventDetails extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
+                                  const Text(
                                     'Who\'s Going',
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w900,
@@ -164,7 +164,7 @@ class EventDetails extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Organized for',
                     style: const TextStyle(
                       fontSize: 21,
@@ -226,7 +226,7 @@ class EventDetails extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Description',
                     style: const TextStyle(
                       fontSize: 21,

@@ -8,9 +8,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
+import 'package:simposi_app_v4/global/widgets/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/theme.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/simposibuttons.dart';
 
 
 class CreateEvent4 extends StatefulWidget {
@@ -29,7 +29,7 @@ class _CreateEvent4State extends State<CreateEvent4> {
   Widget build(BuildContext context) => Scaffold(
     backgroundColor: Colors.white,
     extendBodyBehindAppBar: true,
-    appBar: BasicFormAppBar(),
+    appBar: CancelFormAppBar(),
     body: Column(
       children: [
         // Header
@@ -116,10 +116,18 @@ class _CreateEvent4State extends State<CreateEvent4> {
           Column(
             children: [
               // TODO: Disable Button until user has selected gender for who they want to meet
-              // TODO: Make screen reusable by changing the Continue button to a save button when user comes from profile menu?
-              // TODO: IF user does NOT have saved invitation settings, display dialog asking if they want to save these settings.
+              // TODO: THIS SCREEN CAN BE SAVED AS A REUSABLE SETTING. Make screen reusable by hiding the This Event Only button when user is coming from profile menu.
+              // TODO: IF user has saved settings PREPOPULATE SCREEN SETTINGS, HIDE THIS EVENT ONLY BUTTON, HIDE SAVE FOR ALL EVENTS BUTTON SHOW CONTINUE BUTTON INSTEAD.
+              // TODO: IF user changes prepoulated setting Hide Continue button and SHOW This Event Only & Save for all Events buttons
               BigGBSelectButton(
-                buttonLabel: 'Continue',
+                buttonLabel: 'This Event Only',
+                buttonAction: () => {
+                  Navigator.of(context).pushNamed('/createevent5'),
+                },
+              ),
+              const SizedBox(height: 10),
+              BigGBSelectButton(
+                buttonLabel: 'Save for all Events',
                 buttonAction: () => {
                   Navigator.of(context).pushNamed('/createevent5'),
                 },
