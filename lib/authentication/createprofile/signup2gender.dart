@@ -27,7 +27,7 @@ class SignUpForm2 extends StatefulWidget {
 }
 
 class _SignUpForm2State extends State<SignUpForm2> {
-  double progress = 0.28;
+  double progress = 0.28 ;
 
   Gender? _selected;
   late bool _isLgbt;
@@ -75,7 +75,7 @@ class _SignUpForm2State extends State<SignUpForm2> {
               children: [
                 const SizedBox(height: 45),
                 LinearProgressIndicator(
-                  value: progress,
+                  value: widget.editMode ? 1 : progress,
                   valueColor:
                       const AlwaysStoppedAnimation(SimposiAppColors.simposiDarkBlue),
                   backgroundColor: SimposiAppColors.simposiFadedBlue,
