@@ -27,6 +27,7 @@ class Signup8ValidateCubit extends Cubit<Signup8ValidateState> {
         String? token = await profileRepository.acceptCode(phone, code);
         if (token!= null) {
           emit(Signup8ValidateSuccess("Validated"));
+          await Future.delayed(Duration(seconds: 1));
           authenticationBloc.add(SaveAuthEvent(token));
         } else {
           emit(Signup8ValidateError(ServerException(errorType: LocalizedErrorType.UNEXPECTED)));
