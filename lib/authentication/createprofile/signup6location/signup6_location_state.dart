@@ -4,18 +4,18 @@ class Signup6LocationState extends Equatable {
   const Signup6LocationState(
       {required this.selectedLocation,
         required this.searchResults,
-        required this.range});
+        required this.rangeKm});
 
   final LatLng? selectedLocation;
   final List<PlacesSearchResult> searchResults;
-  final double range;
+  final double rangeKm;
 
   @override
-  List<Object?> get props => [selectedLocation, searchResults, range];
+  List<Object?> get props => [selectedLocation, searchResults, rangeKm];
 
   static Signup6LocationState initial(double? range, double? latitude, double? longitude) {
     LatLng? location = (latitude != null && longitude != null) ?  LatLng(latitude, longitude) : null;
-    return Signup6LocationState(selectedLocation: location, searchResults: [], range: range ?? 1);
+    return Signup6LocationState(selectedLocation: location, searchResults: [], rangeKm: range ?? 1);
   }
 
 
@@ -27,7 +27,7 @@ class Signup6LocationState extends Equatable {
     return Signup6LocationState(
       selectedLocation: selectedLocation ?? this.selectedLocation,
       searchResults: searchResults ?? this.searchResults,
-      range: range ?? this.range,
+      rangeKm: range ?? this.rangeKm,
     );
   }
 }

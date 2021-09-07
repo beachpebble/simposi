@@ -137,20 +137,23 @@ class _SignUpForm6State extends State<SignUpForm6> {
 
   Widget _rangeSlider(Signup6LocationState state) {
     String units = localeIsImperial ? "miles" : "km";
+    double range = localeIsImperial ? state.rangeKm / 1.6 : state.rangeKm;
+    if (range < 1) range = 1;
+    if (range > 150) range = 150;
     return Column(
       children: [
         const SizedBox(height: 5),
-        Text("Within ${state.range.round()} $units of this location"),
+        Text("Within ${range.round()} $units of this location"),
         const SizedBox(height: 5),
         Slider(
           activeColor: SimposiAppColors.simposiDarkBlue,
-          value: state.range,
+          value: range,
           min: 1,
           max: 150,
-          divisions: 100,
-          label: "${state.range.round()} $units",
+          divisions: 150,
+          label: "${range.round()} $units",
           onChanged: (double value) {
-            context.read<Signup6LocationCubit>().selectRange(value);
+            context.read<Signup6LocationCubit>().selectRange(localeIsImperial ? value*1.6 : value);
           },
         )
       ],
@@ -172,7 +175,9 @@ class _SignUpForm6State extends State<SignUpForm6> {
   }
 
   Widget _googleMap(Signup6LocationState state) {
-    double range = localeIsImperial ? state.range * 1.6 : state.range;
+    double range = localeIsImperial ? state.rangeKm * 1.6 : state.rangeKm;
+    if (range < 1) range = 1;
+    if (range > 150) range = 150;
     return FutureBuilder(
         future: _initCompleter.future,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
