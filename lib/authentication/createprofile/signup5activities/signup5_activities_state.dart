@@ -3,11 +3,12 @@ part of 'signup5_activities_cubit.dart';
 class Signup5ActivitiesState extends Equatable {
   const Signup5ActivitiesState({this.selected = const {},
     required this.interests,
-    this.filtered = const {}});
+    this.filtered = const {}, required this.editMode });
 
   final Set<Interest> selected;
   final Set<Interest> interests;
   final Set<Interest> filtered;
+  final bool editMode;
 
   bool get nextEnabled => selected.isNotEmpty;
 
@@ -18,6 +19,7 @@ class Signup5ActivitiesState extends Equatable {
       interests: interests ?? this.interests,
       selected: selected ?? this.selected,
       filtered: filtered ?? this.filtered,
+      editMode: this.editMode
     );
   }
 

@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:simposi_app_v4/model/earning.dart';
 import 'package:simposi_app_v4/model/gender.dart';
+import 'package:simposi_app_v4/model/generation.dart';
 import 'package:simposi_app_v4/model/profile.dart';
 import 'package:simposi_app_v4/repository/profile_repository.dart';
 
@@ -28,7 +30,14 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
       if (filePath != null) {
         newPath = await profileRepository.uploadAvatar(filePath);
       }
-      await profileRepository.updateProfile(name: name, filepath: newPath, phone: phone, email: email, facebook: facebook, instagram: instagram, linkedin: linkedin);
+      await profileRepository.updateProfile(
+          name: name,
+          filepath: newPath,
+          phone: phone,
+          email: email,
+          facebook: facebook,
+          instagram: instagram,
+          linkedin: linkedin);
       emit(ProfileEditSuccess());
     } catch (e) {
       emit(ProfileEditError(e));
@@ -45,11 +54,22 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
     }
   }
 
-  Future<void> iWantToMeet() async {
+  Future<void> generation(Set<Generation> generations) async {
     emit(ProfileEditLoading());
     try {
-      //just a stub
-      await Future.delayed(Duration(seconds: 3));
+      await profileRepository.updateProfileGenerations(
+          generation: generations.map((e) => e.id).toList());
+      emit(ProfileEditInitial());
+    } catch (e) {
+      emit(ProfileEditError(e));
+    }
+  }
+
+  Future<void> income(Set<Earning> earnings) async {
+    emit(ProfileEditLoading());
+    try {
+      await profileRepository.updateProfileIncome(
+          earnings: earnings.map((e) => e.id).toList());
       emit(ProfileEditInitial());
     } catch (e) {
       emit(ProfileEditError(e));

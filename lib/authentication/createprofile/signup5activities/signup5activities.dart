@@ -20,7 +20,6 @@ import 'package:simposi_app_v4/model/interest.dart';
 import 'signup5_activities_cubit.dart';
 
 class SignUpForm5 extends StatelessWidget {
-
   final double progress = 0.66;
 
   @override
@@ -28,15 +27,14 @@ class SignUpForm5 extends StatelessWidget {
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
       appBar: BasicFormAppBar(),
-      body: LayoutBuilder(builder:
-          (BuildContext context, BoxConstraints viewportConstraints) {
+      body: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints viewportConstraints) {
         return Container(
           child: ConstrainedBox(
-            constraints:BoxConstraints(
+            constraints: BoxConstraints(
               minHeight: viewportConstraints.maxHeight,
             ),
-            child:
-            BlocBuilder<Signup5ActivitiesCubit, Signup5ActivitiesState>(
+            child: BlocBuilder<Signup5ActivitiesCubit, Signup5ActivitiesState>(
               buildWhen: (prev, current) {
                 return prev.filtered != current.filtered ||
                     prev.nextEnabled != current.nextEnabled;
@@ -50,7 +48,7 @@ class SignUpForm5 extends StatelessWidget {
                         children: [
                           const SizedBox(height: 45),
                           LinearProgressIndicator(
-                            value: progress,
+                            value: state.editMode ? 1 : progress,
                             valueColor: const AlwaysStoppedAnimation(
                                 SimposiAppColors.simposiDarkBlue),
                             backgroundColor: SimposiAppColors.simposiFadedBlue,
@@ -69,7 +67,7 @@ class SignUpForm5 extends StatelessWidget {
                       ),
                     ),
 
-                    // Body 
+                    // Body
                     Expanded(
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -82,9 +80,9 @@ class SignUpForm5 extends StatelessWidget {
                             shrinkWrap: true,
                             children: <Widget>[
                               Wrap(
-                              runSpacing: -8.0,
-                              children: selectedActivityWidgets(
-                                  state.filtered, state.selected, context),
+                                runSpacing: -8.0,
+                                children: selectedActivityWidgets(
+                                    state.filtered, state.selected, context),
                               ),
                             ],
                           ),
@@ -99,11 +97,11 @@ class SignUpForm5 extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           ContinueButton(
+                            buttonLabel: state.editMode ? "Save" : "Continue",
                             buttonAction: state.nextEnabled
                                 ? () {
-                              Navigator.of(context)
-                                  .pushNamed('/signup6');
-                            }
+                                    Navigator.of(context).pushNamed('/signup6');
+                                  }
                                 : null,
                           ),
                         ],
@@ -115,25 +113,23 @@ class SignUpForm5 extends StatelessWidget {
             ),
           ),
         );
-      }
-    )
-  );
+      }));
 
   // FOR EACH ACTIVITY CREATE AN ACTIVITY BUTTON
   List<Widget> selectedActivityWidgets(Set<Interest> interests,
       Set<Interest> selectedItems, BuildContext context) {
     return interests
         .map((item) => SelectableChip(
-        key: ValueKey(item.id),
-        selected: selectedItems.contains(item),
-        title: item.title,
-        onClick: (value) {
-          value
-              ? context.read<Signup5ActivitiesCubit>().selectInterest(item)
-              : context
-              .read<Signup5ActivitiesCubit>()
-              .deselectInterest(item);
-        }))
+            key: ValueKey(item.id),
+            selected: selectedItems.contains(item),
+            title: item.title,
+            onClick: (value) {
+              value
+                  ? context.read<Signup5ActivitiesCubit>().selectInterest(item)
+                  : context
+                      .read<Signup5ActivitiesCubit>()
+                      .deselectInterest(item);
+            }))
         .toList();
   }
 
@@ -153,7 +149,6 @@ class SignUpForm5 extends StatelessWidget {
     );
   }
 }
-
 
 /**
  * We need to make separate stateful to improve performance

@@ -15,14 +15,19 @@ import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/model/earning.dart';
+import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
 
-class SignUpForm4 extends StatefulWidget {
+import 'registration_profile_screen.dart';
+
+class SignUpForm4 extends RegistrationProfileScreen {
+  SignUpForm4({bool editMode = false}) : super(editMode: editMode);
+
   @override
   _SignUpForm4State createState() => _SignUpForm4State();
 }
 
-class _SignUpForm4State extends State<SignUpForm4> {
-  double progress = 0.56;
+class _SignUpForm4State extends RegistrationProfileScreenState<SignUpForm4> {
+  // double progress = 0.56;
 
   Set<Earning> _selected = {};
 
@@ -50,7 +55,9 @@ class _SignUpForm4State extends State<SignUpForm4> {
   @override
   void initState() {
     super.initState();
-    _selected = context.read<RegistrationCubit>().earnings ?? {};
+    _selected = widget.editMode
+        ? context.read<ProfileEditCubit>().profile.earnings
+        : context.read<RegistrationCubit>().earnings ?? {};
   }
 
   @override
@@ -68,7 +75,7 @@ class _SignUpForm4State extends State<SignUpForm4> {
                 children: [
                   const SizedBox(height: 45),
                   LinearProgressIndicator(
-                    value: progress,
+                    value: getProgressValue(),
                     valueColor: const AlwaysStoppedAnimation(
                         SimposiAppColors.simposiDarkBlue),
                     backgroundColor: SimposiAppColors.simposiFadedBlue,
@@ -138,18 +145,28 @@ class _SignUpForm4State extends State<SignUpForm4> {
                         _selectAll();
                       }),
                   const SizedBox(height: 10),
-                  ContinueButton(
-                    buttonAction: _selected.isEmpty
-                        ? null
-                        : () {
-                            Navigator.of(context).pushNamed('/signup5activities');
-                          },
-                  ),
+                  getFooter()
                 ],
               ),
             ),
           ],
         );
-      })
-  );
+      }));
+
+  @override
+  VoidCallback? continueAction() => _selected.isEmpty
+      ? null
+      : () {
+          Navigator.of(context).pushNamed('/signup5activities');
+        };
+
+  @override
+  double progress() => 0.56;
+
+  @override
+  VoidCallback? saveAction() => _selected.isNotEmpty
+      ? () {
+          context.read<ProfileEditCubit>().income(_selected);
+        }
+      : null;
 }

@@ -1,7 +1,10 @@
 import 'dart:developer' as developer;
 
 import 'package:equatable/equatable.dart';
+import 'package:simposi_app_v4/model/earning.dart';
 import 'package:simposi_app_v4/model/gender.dart';
+import 'package:simposi_app_v4/model/generation.dart';
+import 'package:simposi_app_v4/model/interest.dart';
 
 import 'errors.dart';
 
@@ -18,6 +21,9 @@ class Profile extends Equatable {
   final String? wantToMeet;
   final bool isLgbt;
   final Gender gender;
+  final Set<Generation> generations;
+  final Set<Earning> earnings;
+  final Set<Interest> interests;
 
   Profile({
     required this.userId,
@@ -29,14 +35,24 @@ class Profile extends Equatable {
     required this.isLgbt,
     required this.gender,
     required this.wantToMeet,
+    required this.generations,
+    required this.earnings,
+    required this.interests,
     this.facebook,
     this.instagram,
     this.linkedin,
   });
 
   @override
-  List<Object?> get props =>
-      [userId, userRoleId, userName, userPhone, userEmail, profilePhoto, wantToMeet];
+  List<Object?> get props => [
+        userId,
+        userRoleId,
+        userName,
+        userPhone,
+        userEmail,
+        profilePhoto,
+        wantToMeet
+      ];
 
   static Profile fromJson(Map json) {
     developer.log("Profile loading from json $json");
@@ -49,8 +65,9 @@ class Profile extends Equatable {
         json.containsKey('profile_photo') ? json['profile_photo'] : null;
     String? parsedWantToMeet = json.containsKey('meet') ? json['meet'] : null;
     String? parsedGenderId = json.containsKey('gender') ? json['gender'] : null;
-    bool parsedIsLgbt =
-        json.containsKey('islgbtq') && json['islgbtq'] !=null ? json['islgbtq'] > 0 : false;
+    bool parsedIsLgbt = json.containsKey('islgbtq') && json['islgbtq'] != null
+        ? json['islgbtq'] > 0
+        : false;
     String? parsedFacebook =
         json.containsKey('facebook_url') ? json['facebook_url'] : null;
     String? parsedInstagram =
@@ -61,27 +78,45 @@ class Profile extends Equatable {
     if (parsedUserId == null ||
         parsedUserRoleId == null ||
         parsedUserName == null ||
-        parsedGenderId == null
-        )
+        parsedGenderId == null)
       throw ParseException(message: "Incorrect data structure");
+
+    // generations
+    // whoEarn
+    // what_you_like
 
     Gender? gender = Gender.fromId(parsedGenderId);
 
     if (gender == null)
       throw ParseException(message: "Incorrect data structure");
 
+    List generationsStr =
+        json.containsKey('generations') ? json['generations'] : [];
+    Set<Generation> generations =
+        generationsStr.map((e) => Generation.fromJson(e)).toSet();
+    List earningsStr = json.containsKey('whoEarn') ? json['whoEarn'] : [];
+    Set<Earning> earnings = earningsStr.map((e) => Earning.fromJson(e)).toSet();
+    List interestsStr =
+        json.containsKey('what_you_like') ? json['what_you_like'] : [];
+    Set<Interest> interests =
+        interestsStr.map((e) => Interest.fromJson(e)).toSet();
+
     return Profile(
-        userId: parsedUserId,
-        userName: parsedUserName,
-        userPhone: "",
-        userEmail: "",
-        profilePhoto: parsedProfilePhoto??"", // TODO just issue workaround until serverfix
-        wantToMeet: parsedWantToMeet,
-        isLgbt: parsedIsLgbt,
-        gender: gender,
-        facebook: parsedFacebook,
-        instagram: parsedInstagram,
-        linkedin: parsedLinkedin,
-        userRoleId: parsedUserRoleId);
+      userId: parsedUserId,
+      userName: parsedUserName,
+      userPhone: "",
+      userEmail: "",
+      profilePhoto: parsedProfilePhoto ?? "",
+      wantToMeet: parsedWantToMeet,
+      isLgbt: parsedIsLgbt,
+      gender: gender,
+      facebook: parsedFacebook,
+      instagram: parsedInstagram,
+      linkedin: parsedLinkedin,
+      userRoleId: parsedUserRoleId,
+      interests: interests,
+      earnings: earnings,
+      generations: generations,
+    );
   }
 }

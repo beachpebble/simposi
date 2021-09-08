@@ -15,17 +15,20 @@ import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/model/generation.dart';
+import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
 
 import 'cubit/registration_cubit.dart';
+import 'registration_profile_screen.dart';
 
-class SignUpForm3 extends StatefulWidget {
+class SignUpForm3 extends RegistrationProfileScreen {
+  SignUpForm3({bool editMode = false}) : super(editMode: editMode);
+
   @override
   _SignUpForm3State createState() => _SignUpForm3State();
 }
 
-class _SignUpForm3State extends State<SignUpForm3> {
+class _SignUpForm3State extends RegistrationProfileScreenState<SignUpForm3> {
   Set<Generation> _selected = {};
-  double progress = 0.42;
 
   void _selectGeneration(Generation generation) {
     setState(() {
@@ -40,7 +43,9 @@ class _SignUpForm3State extends State<SignUpForm3> {
   @override
   void initState() {
     super.initState();
-    _selected = context.read<RegistrationCubit>().generations ?? {};
+    _selected = widget.editMode
+        ? context.read<ProfileEditCubit>().profile.generations
+        : context.read<RegistrationCubit>().generations ?? {};
   }
 
   @override
@@ -56,7 +61,7 @@ class _SignUpForm3State extends State<SignUpForm3> {
                 children: [
                   const SizedBox(height: 45),
                   LinearProgressIndicator(
-                    value: progress,
+                    value: getProgressValue(),
                     valueColor: const AlwaysStoppedAnimation(
                         SimposiAppColors.simposiDarkBlue),
                     backgroundColor: SimposiAppColors.simposiFadedBlue,
@@ -112,21 +117,25 @@ class _SignUpForm3State extends State<SignUpForm3> {
             ),
 
             // Footer
-            Container(
-              padding: const EdgeInsets.fromLTRB(40, 10, 40, 40),
-              child: Column(
-                children: [
-                  ContinueButton(
-                    buttonAction: _selected.isNotEmpty
-                        ? () {
-                            Navigator.of(context).pushNamed('/signup4');
-                          }
-                        : null,
-                  ),
-                ],
-              ),
-            ),
+            getFooter()
           ],
         ),
       );
+
+  @override
+  VoidCallback? continueAction() => _selected.isNotEmpty
+      ? () {
+          Navigator.of(context).pushNamed('/signup4');
+        }
+      : null;
+
+  @override
+  VoidCallback? saveAction() => _selected.isNotEmpty
+      ? () {
+          context.read<ProfileEditCubit>().generation(_selected);
+        }
+      : null;
+
+  @override
+  double progress() => 0.42;
 }

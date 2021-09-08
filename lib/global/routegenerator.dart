@@ -72,7 +72,6 @@ import 'package:simposi_app_v4/eventdetails/createevent5generations.dart';
 import 'package:simposi_app_v4/eventdetails/createevent6income.dart';
 import 'package:simposi_app_v4/eventdetails/createevent7pickinvitation.dart';
 
-
 // Check In
 import 'package:simposi_app_v4/checkin/firsttoarrivemodal.dart';
 import 'package:simposi_app_v4/checkin/groupfinder.dart';
@@ -82,8 +81,6 @@ import 'package:simposi_app_v4/affinityindex/reportuser.dart';
 
 // Discover
 import 'package:simposi_app_v4/discover/discoverscreen.dart';
-
-
 
 class RouteGenerator {
   static const String FORGOT_PASSWORD_DL = "/ResetPassword?token=";
@@ -127,14 +124,26 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => SignUpForm2(editMode: true));
       case '/signup3':
         return MaterialPageRoute(builder: (_) => SignUpForm3());
+      case '/signup3edit':
+        return MaterialPageRoute(builder: (_) => SignUpForm3(editMode: true));
       case '/signup4':
         return MaterialPageRoute(builder: (_) => SignUpForm4());
+      case '/signup4edit':
+        return MaterialPageRoute(builder: (_) => SignUpForm4(editMode: true));
       case '/signup5activities':
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
               create: (context) => Signup5ActivitiesCubit(
                   context.read<AuthenticationBloc>().masterData.interests,
-                  context.read()),
+                  context.read(), context.read()),
+              child: SignUpForm5()),
+        );
+      case '/signup5activitiesedit':
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+              create: (context) => Signup5ActivitiesCubit(
+                  context.read<AuthenticationBloc>().masterData.interests,
+                  context.read(), context.read(), editMode: true),
               child: SignUpForm5()),
         );
       case '/signup6':
@@ -174,11 +183,11 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => EmergencyContact());
       case '/faq':
         return MaterialPageRoute(builder: (_) => FAQScreen());
-      case '/privacy' :
+      case '/privacy':
         return MaterialPageRoute(builder: (_) => PrivacyScreen());
       case '/tou':
         return MaterialPageRoute(builder: (_) => TermsOfUse());
-      case '/subscriptionpurchase' :
+      case '/subscriptionpurchase':
         return MaterialPageRoute(builder: (_) => SubscriptionPurchase());
 
       // Calendar
@@ -211,20 +220,20 @@ class RouteGenerator {
       case '/connect':
         return MaterialPageRoute(builder: (_) => YouLikeEachOther());
 
-    // Create Event
-      case '/createevent1' :
+      // Create Event
+      case '/createevent1':
         return MaterialPageRoute(builder: (_) => CreateEvent1());
-      case '/createevent2' :
+      case '/createevent2':
         return MaterialPageRoute(builder: (_) => CreateEvent2());
-      case '/createevent3' :
+      case '/createevent3':
         return MaterialPageRoute(builder: (_) => CreateEvent3());
-      case '/createevent4' :
+      case '/createevent4':
         return MaterialPageRoute(builder: (_) => CreateEvent4());
-      case '/createevent5' :
+      case '/createevent5':
         return MaterialPageRoute(builder: (_) => CreateEvent5());
-      case '/createevent6' :
+      case '/createevent6':
         return MaterialPageRoute(builder: (_) => CreateEvent6());
-      case '/createevent7' :
+      case '/createevent7':
         return MaterialPageRoute(builder: (_) => CreateEvent7());
 
       // Discover
@@ -240,7 +249,6 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => NewTimeSuggestedAlert());
       case '/youlikeeachother':
         return MaterialPageRoute(builder: (_) => YouLikeEachOther());
-
 
       // Default Error Message
       default:

@@ -17,18 +17,16 @@ import 'package:simposi_app_v4/model/gender.dart';
 import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
 import 'package:simposi_app_v4/global/widgets/progress.dart';
 
-class SignUpForm2 extends StatefulWidget {
-  final bool editMode;
+import 'registration_profile_screen.dart';
 
-  const SignUpForm2({Key? key, this.editMode = false}) : super(key: key);
+class SignUpForm2 extends RegistrationProfileScreen {
+  SignUpForm2({bool editMode = false}) : super(editMode: editMode);
 
   @override
   _SignUpForm2State createState() => _SignUpForm2State();
 }
 
-class _SignUpForm2State extends State<SignUpForm2> {
-  double progress = 0.28 ;
-
+class _SignUpForm2State extends RegistrationProfileScreenState<SignUpForm2> {
   Gender? _selected;
   late bool _isLgbt;
 
@@ -75,13 +73,14 @@ class _SignUpForm2State extends State<SignUpForm2> {
               children: [
                 const SizedBox(height: 45),
                 LinearProgressIndicator(
-                  value: widget.editMode ? 1 : progress,
-                  valueColor:
-                      const AlwaysStoppedAnimation(SimposiAppColors.simposiDarkBlue),
+                  value: getProgressValue(),
+                  valueColor: const AlwaysStoppedAnimation(
+                      SimposiAppColors.simposiDarkBlue),
                   backgroundColor: SimposiAppColors.simposiFadedBlue,
                 ),
                 const SizedBox(height: 70),
-                Text('I indentify as...',
+                Text(
+                  'I indentify as...',
                   style: Theme.of(context).textTheme.headline3,
                 ),
                 const SizedBox(height: 10),
@@ -148,49 +147,26 @@ class _SignUpForm2State extends State<SignUpForm2> {
           ),
 
           // Footer
-          Container(
-            padding: const EdgeInsets.fromLTRB(40, 10, 40, 40),
-            child: Column(
-              children: [
-                widget.editMode
-                    ? profileEditNextButton()
-                    : registrationNextButton(),
-              ],
-            ),
-          ),
+          getFooter()
         ],
       ),
     );
   }
 
-  Widget registrationNextButton() {
-    return ContinueButton(
-      buttonAction: _selected != null
-          ? () {
-              Navigator.of(context).pushNamed('/signup3');
-            }
-          : null,
-    );
-  }
+  @override
+  VoidCallback? continueAction() => _selected != null
+      ? () {
+          Navigator.of(context).pushNamed('/signup3');
+        }
+      : null;
 
-  Widget profileEditNextButton() {
-    return BlocConsumer<ProfileEditCubit, ProfileEditState>(
-      listener: (context, state) {
-        if (state is ProfileEditSuccess) Navigator.of(context).pop();
-      },
-      builder: (context, state) {
-        return state is ProfileEditLoading
-            ? AppProgressIndicator()
-            : BigGBSelectButton(
-                buttonLabel: 'Save',
-                buttonAction: _selected != null
-                    ? () {
-                        context.read<ProfileEditCubit>().indentifyAs(_selected!, _isLgbt);
-                      }
-                    : null,
-              );
-      },
-    );
-  }
+  @override
+  VoidCallback? saveAction() => _selected != null
+      ? () {
+          context.read<ProfileEditCubit>().indentifyAs(_selected!, _isLgbt);
+        }
+      : null;
+
+  @override
+  double progress() => 0.28;
 }
-

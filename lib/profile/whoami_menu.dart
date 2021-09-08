@@ -56,7 +56,7 @@ class _InvitationSettingsState extends State<InvitationSettings> {
                       ),
                       menuCardLabel: 'My Generations...',
                       onTap: () {
-                        Navigator.of(context).pushNamed('/signup3'); // TODO: Enable Edit mode like Signup2 above
+                        Navigator.of(context).pushNamed('/signup3edit'); // TODO: Enable Edit mode like Signup2 above
                       },
                     ),
                     SimposiMenuCard(
@@ -65,7 +65,7 @@ class _InvitationSettingsState extends State<InvitationSettings> {
                       ),
                       menuCardLabel: 'My Income Range...',
                       onTap: () {
-                        Navigator.of(context).pushNamed('/signup4'); // TODO: Enable Edit mode like Signup2 above
+                        Navigator.of(context).pushNamed('/signup4edit'); // TODO: Enable Edit mode like Signup2 above
                       },
                     ),
                     SimposiMenuCard(
@@ -74,7 +74,7 @@ class _InvitationSettingsState extends State<InvitationSettings> {
                       ),
                       menuCardLabel: 'Activities I like...',
                       onTap: () {
-                        Navigator.of(context).pushNamed('/signup5activities'); // TODO: Enable Edit mode like Signup2 above
+                        Navigator.of(context).pushNamed('/signup5activitiesedit'); // TODO: Enable Edit mode like Signup2 above
                       },
                     ),
                     SimposiMenuCard(

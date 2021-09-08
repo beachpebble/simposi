@@ -272,6 +272,22 @@ class ProfileRepository {
     return updateProfileFields(data);
   }
 
+  Future<String?> updateProfileGenerations(
+      {required List<int> generation}) async {
+    Map<String, Object> data = {
+      "generations": generation
+    };
+    return updateProfileFields(data);
+  }
+
+  Future<String?> updateProfileIncome(
+      {required List<int> earnings}) async {
+    Map<String, Object> data = {
+      "whoEarn": earnings
+    };
+    return updateProfileFields(data);
+  }
+
   Future<String?> updateProfileFields(
       Map<String, Object> data) async {
     NetworkResponse response =
