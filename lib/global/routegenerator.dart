@@ -8,12 +8,12 @@
 // Global
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
-import 'package:simposi_app_v4/global/theme/appcolors.dart';
+import 'package:simposi_app_v4/affinityindex/affinityratingcards.dart';
+import 'package:simposi_app_v4/affinityindex/reportuser.dart';
+import 'package:simposi_app_v4/authentication/createprofile/signup1createaccount/signup1_create_account_cubit.dart';
 
 // Create Profile
 import 'package:simposi_app_v4/authentication/createprofile/signup1createaccount/signup1createaccount.dart';
-import 'package:simposi_app_v4/authentication/createprofile/signup1createaccount/signup1_create_account_cubit.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup2gender.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup3generation.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup4income.dart';
@@ -34,34 +34,13 @@ import 'package:simposi_app_v4/authentication/login/reset_password_complete/rese
 import 'package:simposi_app_v4/authentication/login/splash_screen.dart';
 import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/calendar/simposicalendar.dart'; // Home/Socials
+// Check In
+import 'package:simposi_app_v4/checkin/firsttoarrivemodal.dart';
+import 'package:simposi_app_v4/checkin/groupfinder.dart';
+import 'package:simposi_app_v4/checkin/groupfinderchat.dart';
 
-// Manage Profile
-import 'package:simposi_app_v4/profile/profilescreen.dart';
-import 'package:simposi_app_v4/profile/accountmenu.dart';
-import 'package:simposi_app_v4/profile/editprofileform.dart';
-import 'package:simposi_app_v4/profile/emergencycontact.dart';
-import 'package:simposi_app_v4/profile/faqscreen.dart';
-import 'package:simposi_app_v4/profile/subscribe.dart';
-import 'package:simposi_app_v4/profile/whoami_menu.dart';
-import 'package:simposi_app_v4/profile/whoiwanttomeet_menu.dart';
-import 'package:simposi_app_v4/profile/privacy.dart';
-import 'package:simposi_app_v4/profile/termsofuse.dart';
-import 'package:simposi_app_v4/repository/profile_repository.dart';
-import 'package:simposi_app_v4/profile/subscriptionpurchase.dart';
-
-// Alerts & Notifications
-import 'package:simposi_app_v4/notifications/alertsscreen.dart';
-import 'package:simposi_app_v4/notifications/newtimesuggestedalert.dart';
-import 'package:simposi_app_v4/notifications/youlikeeachother.dart';
-import 'package:simposi_app_v4/notifications/adminalert.dart';
-
-// Calendar & Events (Home)
-import 'theme/elements/simposihome.dart';
-import 'package:simposi_app_v4/eventdetails/eventdetails.dart';
-import 'package:simposi_app_v4/eventdetails/eventwidgets/cancelrsvp.dart';
-import 'package:simposi_app_v4/eventdetails/eventwidgets/invitationcard.dart';
-import 'package:simposi_app_v4/eventdetails/eventwidgets/proposenewtime.dart';
-import 'package:simposi_app_v4/eventdetails/reportevent.dart';
+// Discover
+import 'package:simposi_app_v4/discover/discoverscreen.dart';
 
 // Create Event
 import 'package:simposi_app_v4/eventdetails/createevent1.dart';
@@ -71,21 +50,42 @@ import 'package:simposi_app_v4/eventdetails/createevent4gender.dart';
 import 'package:simposi_app_v4/eventdetails/createevent5generations.dart';
 import 'package:simposi_app_v4/eventdetails/createevent6income.dart';
 import 'package:simposi_app_v4/eventdetails/createevent7pickinvitation.dart';
+import 'package:simposi_app_v4/eventdetails/eventdetails.dart';
+import 'package:simposi_app_v4/eventdetails/eventwidgets/cancelrsvp.dart';
+import 'package:simposi_app_v4/eventdetails/eventwidgets/invitationcard.dart';
+import 'package:simposi_app_v4/eventdetails/eventwidgets/proposenewtime.dart';
+import 'package:simposi_app_v4/eventdetails/reportevent.dart';
+import 'package:simposi_app_v4/global/theme/appcolors.dart';
+import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
+import 'package:simposi_app_v4/notifications/adminalert.dart';
 
-// Check In
-import 'package:simposi_app_v4/checkin/firsttoarrivemodal.dart';
-import 'package:simposi_app_v4/checkin/groupfinder.dart';
-import 'package:simposi_app_v4/checkin/groupfinderchat.dart';
-import 'package:simposi_app_v4/affinityindex/affinityratingcards.dart';
-import 'package:simposi_app_v4/affinityindex/reportuser.dart';
+// Alerts & Notifications
+import 'package:simposi_app_v4/notifications/alertsscreen.dart';
+import 'package:simposi_app_v4/notifications/newtimesuggestedalert.dart';
+import 'package:simposi_app_v4/notifications/youlikeeachother.dart';
+import 'package:simposi_app_v4/profile/accountmenu.dart';
+import 'package:simposi_app_v4/profile/editprofileform.dart';
+import 'package:simposi_app_v4/profile/emergencycontact.dart';
+import 'package:simposi_app_v4/profile/faqscreen.dart';
+import 'package:simposi_app_v4/profile/privacy.dart';
 
-// Discover
-import 'package:simposi_app_v4/discover/discoverscreen.dart';
+// Manage Profile
+import 'package:simposi_app_v4/profile/profilescreen.dart';
+import 'package:simposi_app_v4/profile/subscribe.dart';
+import 'package:simposi_app_v4/profile/subscriptionpurchase.dart';
+import 'package:simposi_app_v4/profile/termsofuse.dart';
+import 'package:simposi_app_v4/profile/whoami_menu.dart';
+import 'package:simposi_app_v4/profile/whoiwanttomeet_menu.dart';
+import 'package:simposi_app_v4/repository/profile_repository.dart';
+
+// Calendar & Events (Home)
+import 'theme/elements/simposihome.dart';
 
 class RouteGenerator {
   static const String FORGOT_PASSWORD_DL = "/ResetPassword?token=";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
+    print("!!! route ${settings.name}");
     switch (settings.name) {
       // Login
       // TODO: Build validation on GetStarted Screen to check if user has device token and ask for device permissions
@@ -135,7 +135,8 @@ class RouteGenerator {
           builder: (_) => BlocProvider(
               create: (context) => Signup5ActivitiesCubit(
                   context.read<AuthenticationBloc>().masterData.interests,
-                  context.read(), context.read()),
+                  context.read(),
+                  context.read()),
               child: SignUpForm5()),
         );
       case '/signup5activitiesedit':
@@ -143,21 +144,26 @@ class RouteGenerator {
           builder: (_) => BlocProvider(
               create: (context) => Signup5ActivitiesCubit(
                   context.read<AuthenticationBloc>().masterData.interests,
-                  context.read(), context.read(), editMode: true),
+                  context.read(),
+                  context.read(),
+                  editMode: true),
               child: SignUpForm5()),
         );
       case '/signup6':
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
-                  create: (context) =>
-                      Signup6LocationCubit(registrationCubit: context.read(), profileEditCubit: context.read()),
+                  create: (context) => Signup6LocationCubit(
+                      registrationCubit: context.read(),
+                      profileEditCubit: context.read()),
                   child: SignUpForm6(),
                 ));
-        case '/signup6edit':
+      case '/signup6edit':
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
-                  create: (context) =>
-                      Signup6LocationCubit(registrationCubit: context.read(), profileEditCubit: context.read(), editMode: true),
+                  create: (context) => Signup6LocationCubit(
+                      registrationCubit: context.read(),
+                      profileEditCubit: context.read(),
+                      editMode: true),
                   child: SignUpForm6(),
                 ));
       case '/signup7':

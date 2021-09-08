@@ -21,12 +21,10 @@ FormFieldValidator<String>? getValidator(
       return (value) {
         if (value == null || value.isEmpty) {
           return AppLocalizations.of(context)!.validatePhoneNotEmpty;
-        } else if (value.length < 8) {
+        } else if (value.length < 7) {
           return AppLocalizations.of(context)!.validatePhoneLength;
-        } else if (value.length > 14) {
+        } else if (value.length > 12) {
           return AppLocalizations.of(context)!.validatePhoneLengthMax;
-        } else if (!value.startsWith("+")) {
-          return AppLocalizations.of(context)!.validatePhonePlus;
         } else {
           return null;
         }

@@ -11,16 +11,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
-import 'package:simposi_app_v4/authentication/login/reset_password_start/forgot_password_start_cubit.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup8validate/signup8_validate_cubit.dart';
 import 'package:simposi_app_v4/authentication/login/reset_password_start/forgot_password_start_cubit.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/forgot_password_button.dart';
+import 'package:simposi_app_v4/global/widgets/phone_field.dart';
+import 'package:simposi_app_v4/global/widgets/progress.dart';
 import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
-import 'package:simposi_app_v4/global/widgets/forgot_password_button.dart';
-import 'package:simposi_app_v4/global/widgets/progress.dart';
 
 import '../reset_password_start/forgotpasswordbottomsheet.dart';
 import 'login_cubit.dart';
@@ -55,7 +55,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   bool _nextEnabled() {
-    return _phoneController.text.isNotEmpty && _passwordController.text.isNotEmpty;
+    return _phoneController.text.isNotEmpty &&
+        _passwordController.text.isNotEmpty;
   }
 
   @override
@@ -105,7 +106,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Column(
                               children: [
                                 // EMAIL FIELD
-                                _phoneField(),
+                                PhoneField(
+                                  controller: _phoneController,
+                                  onSave: (value) =>
+                                      setState(() => phone = value),
+                                ),
                                 SizedBox(height: 10),
 
                                 // PASSWORD FIELD
@@ -117,7 +122,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                       showErrorToast(
                                           handleError(state.error, context));
                                     } else if (state is LoginUnconfirmed) {
-                                      Navigator.of(context).pushNamed('/signup9', arguments: ValidateParameters(phone, state.token));
+                                      Navigator.of(context).pushNamed(
+                                          '/signup8',
+                                          arguments: ValidateParameters(
+                                              phone, state.token));
                                     }
                                   },
                                   builder: (context, state) {
@@ -127,20 +135,25 @@ class _LoginScreenState extends State<LoginScreen> {
                                             buttonLabel:
                                                 AppLocalizations.of(context)!
                                                     .loginLogInButton,
-                                            buttonAction: _nextEnabled() ? () {
-                                              final isValid = _formKey
-                                                  .currentState!
-                                                  .validate();
+                                            buttonAction: _nextEnabled()
+                                                ? () {
+                                                    final isValid = _formKey
+                                                        .currentState!
+                                                        .validate();
 
-                                              if (isValid) {
-                                                _formKey.currentState!.save();
-                                                print('Phone: ${phone}');
-                                                print('Password: ${password}');
-                                                context
-                                                    .read<LoginCubit>()
-                                                    .login(phone, password);
-                                              }
-                                            } : null);
+                                                    if (isValid) {
+                                                      _formKey.currentState!
+                                                          .save();
+                                                      print('Phone: ${phone}');
+                                                      print(
+                                                          'Password: ${password}');
+                                                      context
+                                                          .read<LoginCubit>()
+                                                          .login(
+                                                              phone, password);
+                                                    }
+                                                  }
+                                                : null);
                                   },
                                 ),
                                 SizedBox(height: 10),
@@ -208,77 +221,6 @@ class _LoginScreenState extends State<LoginScreen> {
             }),
           ),
         ),
-      );
-
-  // PHONE FIELD
-  Widget _phoneField() => TextFormField(
-        controller: _phoneController,
-        keyboardType: TextInputType.phone,
-        textInputAction: TextInputAction.next,
-        enableSuggestions: true,
-        autocorrect: true,
-        obscureText: false,
-        showCursor: true,
-
-        style: TextStyle(
-          color: SimposiAppColors.simposiLightText,
-          fontWeight: FontWeight.w500,
-          fontSize: 15,
-        ),
-
-        decoration: InputDecoration(
-          labelText: ' Phone Number',
-          contentPadding: EdgeInsets.all(20),
-          labelStyle: TextStyle(
-            color: SimposiAppColors.simposiLightText,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            letterSpacing: 1.5,
-          ),
-
-          // INITIAL STATE
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiLightGrey,
-              )),
-
-          // FOCUS STATE
-          focusColor: SimposiAppColors.simposiDarkBlue,
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiDarkBlue,
-              )),
-
-          // FOCUS ERROR STATE
-          focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiPink,
-              )),
-
-          // ERROR STATE
-          errorStyle: TextStyle(
-            color: SimposiAppColors.simposiPink,
-          ),
-          errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(
-                color: SimposiAppColors.simposiPink,
-              )),
-
-          suffixIcon: _phoneController.text.isEmpty
-              ? Container(width: 0)
-              : IconButton(
-                  icon: Icon(Icons.close,
-                      size: 20, color: SimposiAppColors.simposiLightGrey),
-                  onPressed: () => _phoneController.clear(),
-                ),
-        ),
-        validator: getValidator(context, Validators.PHONE),
-        // OUTPUT ACTIONS
-        onSaved: (value) => setState(() => phone = value!),
       );
 
   // PASSWORD FIELD
