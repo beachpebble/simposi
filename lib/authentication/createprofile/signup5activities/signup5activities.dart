@@ -40,14 +40,13 @@ class SignUpForm5 extends StatelessWidget {
             child: BlocConsumer<Signup5ActivitiesCubit, Signup5ActivitiesState>(
               buildWhen: (prev, current) {
                 return prev.filtered != current.filtered ||
-                    prev.nextEnabled != current.nextEnabled ||
-                    prev.loading != current.loading;
+                    prev.nextEnabled != current.nextEnabled;
               },
               listener: (context, state) {
                 if (state is Signup5ActivitiesStateSuccessChange) {
                   Navigator.pop(context);
                 }
-                if (state.error != null) {
+                if (state is Signup5ActivitiesStateErrorChange) {
                   showErrorToast(handleError(state.error!, context));
                 }
               },
@@ -103,7 +102,7 @@ class SignUpForm5 extends StatelessWidget {
                     ),
 
                     // Footer
-                    state.loading
+                    state is Signup5ActivitiesStatLoading
                         ? AppProgressIndicator()
                         : Container(
                             padding: const EdgeInsets.fromLTRB(40, 10, 40, 40),

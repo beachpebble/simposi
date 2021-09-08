@@ -7,7 +7,6 @@
 
 import 'dart:async';
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,9 +16,10 @@ import 'package:google_maps_webservice/places.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/progress.dart';
+import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/utils/location.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
-import 'package:simposi_app_v4/global/widgets/progress.dart';
 
 import 'signup6_location_cubit.dart';
 
@@ -40,7 +40,7 @@ class _SignUpForm6State extends State<SignUpForm6> {
     determinePosition()
         .then((value) => context
             .read<Signup6LocationCubit>()
-            .selectLocation(LatLng(value.latitude, value.longitude)))
+            .selectInitialLocation(LatLng(value.latitude, value.longitude)))
         .catchError((e) {
       showErrorToast("There is no location permission");
       context.read<Signup6LocationCubit>().noPermission();
@@ -63,7 +63,15 @@ class _SignUpForm6State extends State<SignUpForm6> {
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
       appBar: BasicFormAppBar(),
-      body: BlocBuilder<Signup6LocationCubit, Signup6LocationState>(
+      body: BlocConsumer<Signup6LocationCubit, Signup6LocationState>(
+        listener: (context, state) {
+          if (state is Signup6LocationStateSuccess) {
+            Navigator.pop(context);
+          }
+          if (state is Signup6LocationStateError) {
+            showErrorToast(handleError(state.error!, context));
+          }
+        },
         builder: (context, state) {
           return Column(
             children: [
@@ -73,9 +81,9 @@ class _SignUpForm6State extends State<SignUpForm6> {
                   children: [
                     const SizedBox(height: 45),
                     LinearProgressIndicator(
-                      value: progress,
-                      valueColor:
-                          AlwaysStoppedAnimation(SimposiAppColors.simposiDarkBlue),
+                      value: state.editMode ? 1 : progress,
+                      valueColor: AlwaysStoppedAnimation(
+                          SimposiAppColors.simposiDarkBlue),
                       backgroundColor: SimposiAppColors.simposiFadedBlue,
                     ),
                     const SizedBox(height: 70),
@@ -110,26 +118,37 @@ class _SignUpForm6State extends State<SignUpForm6> {
               ),
 
               // Footer
-              Container(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 40),
-                child: Column(
-                  children: [
-                    Container(
-                      child: _rangeSlider(state),
-                    ),
-                    const SizedBox(height: 10),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
-                      child: ContinueButton(
-                          buttonAction: state.selectedLocation != null
-                              ? () {
-                                  Navigator.of(context).pushNamed('/signup7');
-                                }
-                              : null),
-                    ),
-                  ],
-                ),
-              )
+              state is Signup6LocationStateLoading
+                  ? AppProgressIndicator()
+                  : Container(
+                      padding: const EdgeInsets.fromLTRB(10, 10, 10, 40),
+                      child: Column(
+                        children: [
+                          Container(
+                            child: _rangeSlider(state),
+                          ),
+                          const SizedBox(height: 10),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            child: ContinueButton(
+                                buttonLabel:
+                                    state.editMode ? "Save" : "Continue",
+                                buttonAction: state.selectedLocation != null
+                                    ? state.editMode
+                                        ? () {
+                                            context
+                                                .read<Signup6LocationCubit>()
+                                                .save();
+                                          }
+                                        : () {
+                                            Navigator.of(context)
+                                                .pushNamed('/signup7');
+                                          }
+                                    : null),
+                          ),
+                        ],
+                      ),
+                    )
             ],
           );
         },
@@ -153,7 +172,9 @@ class _SignUpForm6State extends State<SignUpForm6> {
           divisions: 150,
           label: "${range.round()} $units",
           onChanged: (double value) {
-            context.read<Signup6LocationCubit>().selectRange(localeIsImperial ? value*1.6 : value);
+            context
+                .read<Signup6LocationCubit>()
+                .selectRange(localeIsImperial ? value * 1.6 : value);
           },
         )
       ],
@@ -183,21 +204,21 @@ class _SignUpForm6State extends State<SignUpForm6> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           return snapshot.connectionState == ConnectionState.waiting
               ? Center(child: AppProgressIndicator())
-    : GoogleMap(
-        zoomControlsEnabled: true,
-        zoomGesturesEnabled: true,
-        myLocationEnabled: true,
-        mapType: MapType.normal,
-        initialCameraPosition:
-            CameraPosition(target: state.selectedLocation!, zoom: 11),
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
-        markers: _getMarkers(state.selectedLocation),
-        onTap: (loc) {
-          context.read<Signup6LocationCubit>().selectLocation(loc);
-        },
-        circles: _getCircle(state.selectedLocation, range));
+              : GoogleMap(
+                  zoomControlsEnabled: true,
+                  zoomGesturesEnabled: true,
+                  myLocationEnabled: true,
+                  mapType: MapType.normal,
+                  initialCameraPosition:
+                      CameraPosition(target: state.selectedLocation!, zoom: 11),
+                  onMapCreated: (GoogleMapController controller) {
+                    _controller.complete(controller);
+                  },
+                  markers: _getMarkers(state.selectedLocation),
+                  onTap: (loc) {
+                    context.read<Signup6LocationCubit>().selectLocation(loc);
+                  },
+                  circles: _getCircle(state.selectedLocation, range));
         });
   }
 

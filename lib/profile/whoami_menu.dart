@@ -83,7 +83,7 @@ class _InvitationSettingsState extends State<InvitationSettings> {
                       ),
                       menuCardLabel: 'Location & Distance...',
                       onTap: () {
-                        Navigator.of(context).pushNamed('/signup6'); // TODO: Enable Edit mode like Signup2 above
+                        Navigator.of(context).pushNamed('/signup6edit'); // TODO: Enable Edit mode like Signup2 above
                       },
                     ),
                   ],

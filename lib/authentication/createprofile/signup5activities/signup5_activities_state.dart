@@ -5,63 +5,65 @@ class Signup5ActivitiesState extends Equatable {
       {this.selected = const {},
       required this.interests,
       this.filtered = const {},
-      required this.editMode,
-      required this.loading,
-      this.error});
+      required this.editMode});
 
   final Set<Interest> selected;
   final Set<Interest> interests;
   final Set<Interest> filtered;
   final bool editMode;
-  final bool loading;
-  final dynamic error;
+
 
   bool get nextEnabled => selected.isNotEmpty;
 
   Signup5ActivitiesState copyWith(
       {Set<Interest>? selected,
       Set<Interest>? interests,
-      final Set<Interest>? filtered,
-      bool? loading,
-      dynamic error}) {
+      final Set<Interest>? filtered}) {
     return Signup5ActivitiesState(
         interests: interests ?? this.interests,
         selected: selected ?? this.selected,
         filtered: filtered ?? this.filtered,
-        editMode: this.editMode,
-        loading: loading ?? this.loading,
-        error: error);
+        editMode: this.editMode);
   }
 
   @override
-  List<Object> get props => [selected, interests, filtered, loading];
+  List<Object> get props => [selected, interests, filtered];
 
   bool? get stringify => true;
 }
 
-class Signup5ActivitiesStateSuccessChange extends Signup5ActivitiesState {
-  const Signup5ActivitiesStateSuccessChange(
-      {required Set<Interest> selected,
-      required Set<Interest> interests,
-      required Set<Interest> filtered,
-      required bool editMode,
-      required bool loading,
-      final dynamic error})
+class Signup5ActivitiesStatLoading extends Signup5ActivitiesState {
+  Signup5ActivitiesStatLoading(
+      {required Signup5ActivitiesState state})
       : super(
-            selected: selected,
-            interests: interests,
-            filtered: filtered,
-            editMode: editMode,
-            error: error,
-            loading: loading);
+      selected: state.selected,
+      interests: state.interests,
+      filtered: state.filtered,
+      editMode: state.editMode,
+  );
+}
 
-  static Signup5ActivitiesStateSuccessChange copyFrom(
-      {required Signup5ActivitiesState state}) {
-    return Signup5ActivitiesStateSuccessChange(
-        interests: state.interests,
-        selected: state.selected,
-        filtered: state.filtered,
-        editMode: state.editMode,
-        loading: false);
-  }
+
+class Signup5ActivitiesStateSuccessChange extends Signup5ActivitiesState {
+  Signup5ActivitiesStateSuccessChange(
+      {required Signup5ActivitiesState state})
+      : super(
+            selected: state.selected,
+            interests: state.interests,
+            filtered: state.filtered,
+            editMode: state.editMode,
+            );
+}
+
+class Signup5ActivitiesStateErrorChange extends Signup5ActivitiesState {
+  Signup5ActivitiesStateErrorChange(
+      {required Signup5ActivitiesState state, this.error})
+      : super(
+      selected: state.selected,
+      interests: state.interests,
+      filtered: state.filtered,
+      editMode: state.editMode,
+  );
+
+  final dynamic error;
 }

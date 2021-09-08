@@ -202,9 +202,9 @@ class ProfileRepository {
       "distance": distance,
       "gender": gender,
       "is_lgbtq": isLgbt,
-      "generation": generation,
-      "earning": earning,
-      "likes": likes,
+      "generations": generation,
+      "whoEarn": earning,
+      "what_you_like": likes,
     };
     data["device_token"] = "1234567";
     data["device_type"] = Platform.isAndroid ? 1 : 2;
@@ -284,6 +284,16 @@ class ProfileRepository {
       {required List<int> interests}) async {
     Map<String, Object> data = {
       "what_you_like": interests
+    };
+    return updateProfileFields(data);
+  }
+
+  Future<String?> updateProfileLocation(
+      {required double latitude, required double longitude, required double range}) async {
+    Map<String, Object> data = {
+      "longitude": longitude,
+      "latitude": latitude,
+      "distance": range,
     };
     return updateProfileFields(data);
   }

@@ -150,7 +150,14 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
                   create: (context) =>
-                      Signup6LocationCubit(registrationCubit: context.read()),
+                      Signup6LocationCubit(registrationCubit: context.read(), profileEditCubit: context.read()),
+                  child: SignUpForm6(),
+                ));
+        case '/signup6edit':
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) =>
+                      Signup6LocationCubit(registrationCubit: context.read(), profileEditCubit: context.read(), editMode: true),
                   child: SignUpForm6(),
                 ));
       case '/signup7':

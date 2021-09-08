@@ -20,19 +20,18 @@ class Signup5ActivitiesCubit extends Cubit<Signup5ActivitiesState> {
             interests: interests,
             filtered: interests,
             editMode: editMode,
-            loading: false,
             selected: editMode
                 ? profileEditCubit.profile.interests
                 : registrationCubit.interests ?? {})) {
     profileEditSubscription = profileEditCubit.stream.listen((state) {
       if (state is ProfileEditLoading) {
-        emit(this.state.copyWith(loading: true));
+        emit(Signup5ActivitiesStatLoading(state: this.state));
       } else if (state is ProfileEditSuccess) {
-        emit(Signup5ActivitiesStateSuccessChange.copyFrom(state: this.state));
+        emit(Signup5ActivitiesStateSuccessChange(state: this.state));
       } else if (state is ProfileEditError) {
-        emit(this.state.copyWith(loading: false, error: state.error));
+        emit(Signup5ActivitiesStateErrorChange(state: this.state, error:state.error ));
       } else {
-        emit(this.state.copyWith(loading: false));
+        emit(this.state.copyWith());
       }
     });
   }

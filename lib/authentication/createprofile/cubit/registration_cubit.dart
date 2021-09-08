@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -7,7 +6,6 @@ import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/model/gender.dart';
 import 'package:simposi_app_v4/model/generation.dart';
 import 'package:simposi_app_v4/model/interest.dart';
-import 'package:simposi_app_v4/model/master_data.dart';
 import 'package:simposi_app_v4/repository/profile_repository.dart';
 
 part 'registration_state.dart';

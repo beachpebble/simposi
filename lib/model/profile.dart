@@ -5,6 +5,7 @@ import 'package:simposi_app_v4/model/earning.dart';
 import 'package:simposi_app_v4/model/gender.dart';
 import 'package:simposi_app_v4/model/generation.dart';
 import 'package:simposi_app_v4/model/interest.dart';
+import 'package:simposi_app_v4/utils/type_utils.dart';
 
 import 'errors.dart';
 
@@ -24,6 +25,9 @@ class Profile extends Equatable {
   final Set<Generation> generations;
   final Set<Earning> earnings;
   final Set<Interest> interests;
+  final double latitude;
+  final double longitude;
+  final double range;
 
   Profile({
     required this.userId,
@@ -38,6 +42,9 @@ class Profile extends Equatable {
     required this.generations,
     required this.earnings,
     required this.interests,
+    required this.latitude,
+    required this.longitude,
+    required this.range,
     this.facebook,
     this.instagram,
     this.linkedin,
@@ -51,7 +58,8 @@ class Profile extends Equatable {
         userPhone,
         userEmail,
         profilePhoto,
-        wantToMeet
+        wantToMeet,
+    generations, earnings, interests, latitude, longitude, range
       ];
 
   static Profile fromJson(Map json) {
@@ -75,10 +83,18 @@ class Profile extends Equatable {
     String? parsedLinkedin =
         json.containsKey('linkedln__url') ? json['linkedln__url'] : null;
 
+    String? parsedLatitude = json.containsKey('latitude') ? json['latitude'] : null;
+    String? parsedLongitude = json.containsKey('longitude') ? json['longitude'] : null;
+    double? parsedDistance = json.containsKey('distance') ? checkDouble(json['distance']) : null;
+
     if (parsedUserId == null ||
         parsedUserRoleId == null ||
         parsedUserName == null ||
-        parsedGenderId == null)
+        parsedGenderId == null ||
+        parsedLatitude == null ||
+        parsedLongitude == null ||
+        parsedDistance == null
+    )
       throw ParseException(message: "Incorrect data structure");
 
     // generations
@@ -117,6 +133,9 @@ class Profile extends Equatable {
       interests: interests,
       earnings: earnings,
       generations: generations,
+      longitude: double.parse(parsedLongitude),
+      latitude:double.parse(parsedLatitude),
+      range: parsedDistance,
     );
   }
 }

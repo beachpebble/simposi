@@ -78,6 +78,19 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
     }
   }
 
+  Future<void> location(
+      double latitude, double longitude, double range) async {
+    emit(ProfileEditLoading());
+    try {
+      await profileRepository.updateProfileLocation(
+          latitude: latitude, longitude: longitude, range: range);
+      emit(ProfileEditSuccess());
+    } catch (e) {
+      print("!!! error catched ! $e");
+      emit(ProfileEditError(e));
+    }
+  }
+
   Future<void> income(Set<Earning> earnings) async {
     emit(ProfileEditLoading());
     try {
