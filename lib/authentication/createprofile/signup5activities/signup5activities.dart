@@ -15,7 +15,10 @@ import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/progress.dart';
+import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/model/interest.dart';
+import 'package:simposi_app_v4/utils/toast_utils.dart';
 
 import 'signup5_activities_cubit.dart';
 
@@ -34,10 +37,19 @@ class SignUpForm5 extends StatelessWidget {
             constraints: BoxConstraints(
               minHeight: viewportConstraints.maxHeight,
             ),
-            child: BlocBuilder<Signup5ActivitiesCubit, Signup5ActivitiesState>(
+            child: BlocConsumer<Signup5ActivitiesCubit, Signup5ActivitiesState>(
               buildWhen: (prev, current) {
                 return prev.filtered != current.filtered ||
-                    prev.nextEnabled != current.nextEnabled;
+                    prev.nextEnabled != current.nextEnabled ||
+                    prev.loading != current.loading;
+              },
+              listener: (context, state) {
+                if (state is Signup5ActivitiesStateSuccessChange) {
+                  Navigator.pop(context);
+                }
+                if (state.error != null) {
+                  showErrorToast(handleError(state.error!, context));
+                }
               },
               builder: (context, state) {
                 return Column(
@@ -91,22 +103,33 @@ class SignUpForm5 extends StatelessWidget {
                     ),
 
                     // Footer
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(40, 10, 40, 40),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          ContinueButton(
-                            buttonLabel: state.editMode ? "Save" : "Continue",
-                            buttonAction: state.nextEnabled
-                                ? () {
-                                    Navigator.of(context).pushNamed('/signup6');
-                                  }
-                                : null,
+                    state.loading
+                        ? AppProgressIndicator()
+                        : Container(
+                            padding: const EdgeInsets.fromLTRB(40, 10, 40, 40),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                ContinueButton(
+                                  buttonLabel:
+                                      state.editMode ? "Save" : "Continue",
+                                  buttonAction: state.nextEnabled
+                                      ? state.editMode
+                                          ? () {
+                                              context
+                                                  .read<
+                                                      Signup5ActivitiesCubit>()
+                                                  .savePressed();
+                                            }
+                                          : () {
+                                              Navigator.of(context)
+                                                  .pushNamed('/signup6');
+                                            }
+                                      : null,
+                                ),
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
                   ],
                 );
               },
@@ -115,7 +138,6 @@ class SignUpForm5 extends StatelessWidget {
         );
       }));
 
-  // FOR EACH ACTIVITY CREATE AN ACTIVITY BUTTON
   List<Widget> selectedActivityWidgets(Set<Interest> interests,
       Set<Interest> selectedItems, BuildContext context) {
     return interests

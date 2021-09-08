@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:simposi_app_v4/model/earning.dart';
 import 'package:simposi_app_v4/model/gender.dart';
 import 'package:simposi_app_v4/model/generation.dart';
+import 'package:simposi_app_v4/model/interest.dart';
 import 'package:simposi_app_v4/model/profile.dart';
 import 'package:simposi_app_v4/repository/profile_repository.dart';
 
@@ -48,7 +49,7 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
     emit(ProfileEditLoading());
     try {
       await profileRepository.updateProfileGender(gender: gender, lgbt: isLgbt);
-      emit(ProfileEditInitial());
+      emit(ProfileEditSuccess());
     } catch (e) {
       emit(ProfileEditError(e));
     }
@@ -59,8 +60,20 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
     try {
       await profileRepository.updateProfileGenerations(
           generation: generations.map((e) => e.id).toList());
-      emit(ProfileEditInitial());
+      emit(ProfileEditSuccess());
     } catch (e) {
+      emit(ProfileEditError(e));
+    }
+  }
+
+  Future<void> interests(Set<Interest> interests) async {
+    emit(ProfileEditLoading());
+    try {
+      await profileRepository.updateProfileInterests(
+          interests: interests.map((e) => e.id).toList());
+      emit(ProfileEditSuccess());
+    } catch (e) {
+      print("!!! error catched ! $e");
       emit(ProfileEditError(e));
     }
   }
@@ -70,7 +83,7 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
     try {
       await profileRepository.updateProfileIncome(
           earnings: earnings.map((e) => e.id).toList());
-      emit(ProfileEditInitial());
+      emit(ProfileEditSuccess());
     } catch (e) {
       emit(ProfileEditError(e));
     }

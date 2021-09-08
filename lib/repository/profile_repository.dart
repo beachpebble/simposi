@@ -280,6 +280,14 @@ class ProfileRepository {
     return updateProfileFields(data);
   }
 
+  Future<String?> updateProfileInterests(
+      {required List<int> interests}) async {
+    Map<String, Object> data = {
+      "what_you_like": interests
+    };
+    return updateProfileFields(data);
+  }
+
   Future<String?> updateProfileIncome(
       {required List<int> earnings}) async {
     Map<String, Object> data = {

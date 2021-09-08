@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/global/widgets/progress.dart';
+import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
+import 'package:simposi_app_v4/utils/toast_utils.dart';
 
 abstract class RegistrationProfileScreen extends StatefulWidget {
   final bool editMode;
 
-  const RegistrationProfileScreen({Key? key, required this.editMode })
+  const RegistrationProfileScreen({Key? key, required this.editMode})
       : super(key: key);
 }
 
@@ -39,12 +41,16 @@ abstract class RegistrationProfileScreenState<T>
   Widget profileEditNextButton() {
     return BlocConsumer<ProfileEditCubit, ProfileEditState>(
       listener: (context, state) {
-        if (state is ProfileEditSuccess) Navigator.of(context).pop();
+        if (state is ProfileEditSuccess) {
+          Navigator.of(context).pop();
+        } else if (state is ProfileEditError) {
+          showErrorToast(handleError(state.error, context));
+        }
       },
       builder: (context, state) {
         return state is ProfileEditLoading
             ? AppProgressIndicator()
-            : BigGBSelectButton(
+            : ContinueButton(
                 buttonLabel: 'Save',
                 buttonAction: saveAction(),
               );
