@@ -48,6 +48,9 @@ class _EditProfileState extends State<EditProfile> {
         context.read<ProfileEditCubit>().profile.instagram ?? "";
     _linkedinController.text =
         context.read<ProfileEditCubit>().profile.linkedin ?? "";
+
+    _phoneController.text =
+        context.read<ProfileEditCubit>().profile.userPhone;
     _nameController.addListener(() => setState(() {}));
     _phoneController.addListener(() => setState(() {}));
     _emailController.addListener(() => setState(() {}));
@@ -144,30 +147,21 @@ class _EditProfileState extends State<EditProfile> {
                                       ],
                                     ),
                                   ),
-                                  Container(
-                                    child: Column(
-                                      children: [
-                                        PhoneField(
-                                            onSave: (val) {},
-                                            controller: _phoneController),
-                                        SizedBox(height: 10),
-                                      ],
-                                    ),
-                                  ),
+
                                   Container(
                                     child: Column(
                                       children: [
                                         SimposiFormFieldwClear(
-                                          inputType: 'email',
-                                          fieldLabel: ' Email',
-                                          fieldController: _emailController,
-                                          validationLogic: getValidator(
-                                              context, Validators.URL_LINK),
+                                          inputType: 'phone',
+                                          fieldLabel: ' Phone',
+                                          fieldController: _phoneController,
+                                          validationLogic: getValidator(context, Validators.PHONE),
                                         ),
                                         SizedBox(height: 10),
                                       ],
                                     ),
                                   ),
+
                                   Container(
                                     child: Column(
                                       children: [
@@ -223,8 +217,8 @@ class _EditProfileState extends State<EditProfile> {
                                     },
                                     builder: (context, state) {
                                       return state is ProfileEditLoading
-                                          ? AppProgressIndicator()
-                                          : BigGBSelectButton(
+                                          ? Center(child: AppProgressIndicator())
+                                          : ContinueButton(
                                               buttonLabel: 'Save',
                                               buttonAction: () {
                                                 if (_formKey.currentState!
@@ -234,6 +228,7 @@ class _EditProfileState extends State<EditProfile> {
                                                       .updateMainFields(
                                                           name: _nameController
                                                               .text,
+                                                          phone: _phoneController.text,
                                                           facebook:
                                                               _facebookController
                                                                   .text,

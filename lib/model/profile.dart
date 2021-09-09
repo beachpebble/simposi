@@ -83,6 +83,8 @@ class Profile extends Equatable {
     String? parsedLinkedin =
         json.containsKey('linkedln__url') ? json['linkedln__url'] : null;
 
+    String? parsedPhone = json.containsKey('phone') ? json['phone'] : null;
+
     String? parsedLatitude = json.containsKey('latitude') ? json['latitude'] : null;
     String? parsedLongitude = json.containsKey('longitude') ? json['longitude'] : null;
     double? parsedDistance = json.containsKey('distance') ? checkDouble(json['distance']) : null;
@@ -93,6 +95,7 @@ class Profile extends Equatable {
         parsedGenderId == null ||
         parsedLatitude == null ||
         parsedLongitude == null ||
+        parsedPhone == null ||
         parsedDistance == null
     )
       throw ParseException(message: "Incorrect data structure");
@@ -120,7 +123,7 @@ class Profile extends Equatable {
     return Profile(
       userId: parsedUserId,
       userName: parsedUserName,
-      userPhone: "",
+      userPhone: parsedPhone,
       userEmail: "",
       profilePhoto: parsedProfilePhoto ?? "",
       wantToMeet: parsedWantToMeet,

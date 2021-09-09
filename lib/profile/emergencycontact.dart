@@ -101,7 +101,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
                             // PASSWORD FIELD
                             PhoneField(
                               onSave: (value) =>
-                                  setState(() => eContactPhone = value!),
+                                  setState(() => eContactPhone = value),
                               controller: _eContactPhoneController,
                             ),
                             SizedBox(height: 10),

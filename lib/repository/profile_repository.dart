@@ -243,7 +243,6 @@ class ProfileRepository {
   Future<String?> updateProfile(
       {String? name,
       String? phone,
-      String? email,
       String? filepath,
       String? facebook,
       String? instagram,
@@ -259,6 +258,8 @@ class ProfileRepository {
       data["instagram__url"] = instagram;
     if (linkedin != null && linkedin.isNotEmpty)
       data["linkedin__url"] = linkedin;
+    if (phone != null && phone.isNotEmpty)
+      data["phone"] = phone;
     return updateProfileFields(data);
   }
 

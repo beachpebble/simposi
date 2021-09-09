@@ -20,7 +20,6 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
   Future<void> updateMainFields(
       {String? name,
       String? phone,
-      String? email,
       String? facebook,
       String? instagram,
       String? linkedin,
@@ -31,11 +30,17 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
       if (filePath != null) {
         newPath = await profileRepository.uploadAvatar(filePath);
       }
+      String? newPhone  = (profileRepository.profile.userPhone != phone && phone!= null && phone.isNotEmpty) ? phone : null;
+      print("NewPHopne $newPhone");
+      //if we want to change phone first check it it exists
+      if (newPhone != null) {
+        await profileRepository.userNotExist(phone: newPhone);
+      }
+
       await profileRepository.updateProfile(
           name: name,
           filepath: newPath,
-          phone: phone,
-          email: email,
+          phone: newPhone,
           facebook: facebook,
           instagram: instagram,
           linkedin: linkedin);
