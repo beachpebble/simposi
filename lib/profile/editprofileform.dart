@@ -13,13 +13,13 @@ import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/formfields.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
-import 'package:simposi_app_v4/global/theme/appcolors.dart';
+import 'package:simposi_app_v4/global/widgets/add_photo_button.dart';
+import 'package:simposi_app_v4/global/widgets/phone_field.dart';
+import 'package:simposi_app_v4/global/widgets/progress.dart';
 import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
-import 'package:simposi_app_v4/global/widgets/add_photo_button.dart';
-import 'package:simposi_app_v4/global/widgets/progress.dart';
 
 class EditProfile extends StatefulWidget {
   @override
@@ -27,7 +27,6 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-
   String? _filePath;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
@@ -93,7 +92,10 @@ class _EditProfileState extends State<EditProfile> {
                         // TODO: ENSURE FIELDS ON THIS FORM RETAIN STATE/PREPOPULATE WITH USER DATA
                         //  PHOTO UPLOAD FIELD
                         AddPhotoButton(
-                          initialImage: context.read<ProfileEditCubit>().profile.profilePhoto,
+                          initialImage: context
+                              .read<ProfileEditCubit>()
+                              .profile
+                              .profilePhoto,
                           imageSelectCallback: (val) {
                             print("selected image $val");
                             _filePath = val;
@@ -114,7 +116,8 @@ class _EditProfileState extends State<EditProfile> {
 
                   Expanded(
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                       child: Form(
                         key: _formKey,
                         child: MediaQuery.removePadding(
@@ -141,21 +144,16 @@ class _EditProfileState extends State<EditProfile> {
                                       ],
                                     ),
                                   ),
-
                                   Container(
                                     child: Column(
                                       children: [
-                                        SimposiFormFieldwClear(
-                                          inputType: 'phone',
-                                          fieldLabel: ' Phone',
-                                          fieldController: _phoneController,
-                                          validationLogic: getValidator(context, Validators.URL_LINK),
-                                        ),
+                                        PhoneField(
+                                            onSave: (val) {},
+                                            controller: _phoneController),
                                         SizedBox(height: 10),
                                       ],
                                     ),
                                   ),
-
                                   Container(
                                     child: Column(
                                       children: [
@@ -163,13 +161,13 @@ class _EditProfileState extends State<EditProfile> {
                                           inputType: 'email',
                                           fieldLabel: ' Email',
                                           fieldController: _emailController,
-                                          validationLogic: getValidator(context, Validators.URL_LINK),
+                                          validationLogic: getValidator(
+                                              context, Validators.URL_LINK),
                                         ),
                                         SizedBox(height: 10),
                                       ],
                                     ),
                                   ),
-
                                   Container(
                                     child: Column(
                                       children: [
@@ -177,13 +175,13 @@ class _EditProfileState extends State<EditProfile> {
                                           inputType: 'url',
                                           fieldLabel: ' Facebook',
                                           fieldController: _facebookController,
-                                          validationLogic: getValidator(context, Validators.URL_LINK),
+                                          validationLogic: getValidator(
+                                              context, Validators.URL_LINK),
                                         ),
                                         SizedBox(height: 10),
                                       ],
                                     ),
                                   ),
-
                                   Container(
                                     child: Column(
                                       children: [
@@ -191,13 +189,13 @@ class _EditProfileState extends State<EditProfile> {
                                           inputType: 'url',
                                           fieldLabel: ' Instagram',
                                           fieldController: _instagramController,
-                                          validationLogic: getValidator(context, Validators.URL_LINK),
+                                          validationLogic: getValidator(
+                                              context, Validators.URL_LINK),
                                         ),
                                         SizedBox(height: 10),
                                       ],
                                     ),
                                   ),
-
                                   Container(
                                     child: Column(
                                       children: [
@@ -205,38 +203,49 @@ class _EditProfileState extends State<EditProfile> {
                                           inputType: 'url',
                                           fieldLabel: ' Linkedin',
                                           fieldController: _linkedinController,
-                                          validationLogic: getValidator(context, Validators.URL_LINK),
+                                          validationLogic: getValidator(
+                                              context, Validators.URL_LINK),
                                         ),
                                         SizedBox(height: 10),
                                       ],
                                     ),
                                   ),
-
-                                  BlocConsumer<ProfileEditCubit, ProfileEditState>(
+                                  BlocConsumer<ProfileEditCubit,
+                                      ProfileEditState>(
                                     listener: (context, state) {
                                       if (state is ProfileEditError) {
                                         showErrorToast(
                                             handleError(state.error, context));
                                       } else if (state is ProfileEditSuccess) {
-                                        showInfoToast(
-                                            "Profile is updated");
+                                        showInfoToast("Profile is updated");
                                         Navigator.of(context).pop();
                                       }
                                     },
                                     builder: (context, state) {
-                                      return state is ProfileEditLoading ? AppProgressIndicator() : BigGBSelectButton(
-                                          buttonLabel: 'Save',
-                                          buttonAction: () {
-                                            if (_formKey.currentState!.validate()) {
-                                              context.read<ProfileEditCubit>().updateMainFields(
-                                                name: _nameController.text,
-                                                facebook: _facebookController.text,
-                                                instagram: _instagramController.text,
-                                                linkedin: _linkedinController.text,
-                                                filePath: _filePath
-                                              );
-                                            }
-                                          });
+                                      return state is ProfileEditLoading
+                                          ? AppProgressIndicator()
+                                          : BigGBSelectButton(
+                                              buttonLabel: 'Save',
+                                              buttonAction: () {
+                                                if (_formKey.currentState!
+                                                    .validate()) {
+                                                  context
+                                                      .read<ProfileEditCubit>()
+                                                      .updateMainFields(
+                                                          name: _nameController
+                                                              .text,
+                                                          facebook:
+                                                              _facebookController
+                                                                  .text,
+                                                          instagram:
+                                                              _instagramController
+                                                                  .text,
+                                                          linkedin:
+                                                              _linkedinController
+                                                                  .text,
+                                                          filePath: _filePath);
+                                                }
+                                              });
                                     },
                                   ),
                                 ],
@@ -249,9 +258,7 @@ class _EditProfileState extends State<EditProfile> {
                   ),
 
                   // FOOTER
-                  Container(
-
-                  ),
+                  Container(),
                 ],
               ),
             );

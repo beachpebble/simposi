@@ -33,8 +33,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   // Set Variables
-  String phone = ' ';
-  String password = ' ';
+  String phone = '';
+  String password = '';
   bool _passwordVisible = true;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _phoneController = TextEditingController();

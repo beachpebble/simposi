@@ -153,54 +153,6 @@ class _ResetPasswordState extends State<ResetPassword> {
     ),
   );
 
-
-  // EMAIL FIELD
-  Widget _emailField() => TextFormField(
-    controller: _emailController,
-    keyboardType: TextInputType.emailAddress,
-    textInputAction: TextInputAction.next,
-    enableSuggestions: true,
-    autocorrect: true,
-    obscureText: false,
-    showCursor: true,
-
-    decoration: InputDecoration(
-      labelText: ' Email Address',
-
-      suffixIcon: _emailController.text.isEmpty
-          ? Container(width: 0)
-          : IconButton(
-        icon: Icon(Icons.close,
-            size: 20, color: SimposiAppColors.simposiLightGrey),
-        onPressed: () => _emailController.clear(),
-      ),
-
-    ),
-
-    // EMAIL VALIDATION LOGIC
-    validator: (value) {
-      final pattern = r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
-      final regExp = RegExp(pattern);
-
-      // IF Empty
-      if (value!.isEmpty) {
-        return 'Email Required';
-      }
-      // IF does not match RegEx pattern
-      if (!regExp.hasMatch(value)) {
-        return 'Enter a Valid Email';
-      }
-      // TODO: Add Validation for IF Account does not Exist, display Account does not exist message
-      else {
-        return null;
-      }
-    },
-
-    // OUTPUT ACTIONS
-    onSaved: (value) => setState(() => email = value!),
-  );
-
-
   // PASSWORD FIELD
   Widget _passwordField() => TextFormField(
     controller: _passwordController,

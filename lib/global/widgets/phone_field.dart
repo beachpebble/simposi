@@ -4,9 +4,10 @@ import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
 
 class PhoneField extends StatefulWidget {
-  PhoneField({Key? key, required this.controller, required this.onSave}) : super(key: key);
-  final TextEditingController controller;
+  PhoneField({Key? key, this.controller, required this.onSave, this.showClearIcon = true}) : super(key: key);
+  final TextEditingController? controller;
   final Function(String newValue) onSave;
+  final bool showClearIcon;
 
   @override
   _PhoneFieldState createState() => _PhoneFieldState();
@@ -93,13 +94,13 @@ class _PhoneFieldState extends State<PhoneField> {
               color: SimposiAppColors.simposiPink,
             )),
 
-        suffixIcon: widget.controller.text.isEmpty
+        suffixIcon: widget.showClearIcon ? widget.controller?.text?.isEmpty == true
             ? Container(width: 0)
             : IconButton(
           icon: Icon(Icons.close,
               size: 20, color: SimposiAppColors.simposiLightGrey),
-          onPressed: () => widget.controller.clear(),
-        ),
+          onPressed: () => widget.controller?.clear(),
+        ) : null,
       ),
       validator: getValidator(context, Validators.PHONE),
       // OUTPUT ACTIONS

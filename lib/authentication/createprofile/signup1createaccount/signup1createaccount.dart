@@ -13,12 +13,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
+import 'package:simposi_app_v4/global/widgets/add_photo_button.dart';
+import 'package:simposi_app_v4/global/widgets/password_field.dart';
+import 'package:simposi_app_v4/global/widgets/phone_field.dart';
+import 'package:simposi_app_v4/global/widgets/progress.dart';
 import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
-import 'package:simposi_app_v4/global/widgets/add_photo_button.dart';
-import 'package:simposi_app_v4/global/widgets/password_field.dart';
-import 'package:simposi_app_v4/global/widgets/progress.dart';
 
 import '../../../global/theme/elements/simposibuttons.dart';
 import '../../authenticationwidgets/privacytoufooter.dart';
@@ -36,6 +37,7 @@ class _SignUpForm1State extends State<SignUpForm1> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  String _phone = "";
 
   @override
   void initState() {
@@ -80,7 +82,6 @@ class _SignUpForm1State extends State<SignUpForm1> {
                       }
                     },
                     builder: (context, state) {
-
                       return Container(
                         padding: EdgeInsets.all(40),
                         child: Column(
@@ -111,7 +112,6 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                       setState(() {
                                         _filePath = val;
                                       });
-
                                     },
                                   ),
                                 ],
@@ -131,7 +131,11 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                     SizedBox(height: 10),
 
                                     // phone FIELD
-                                    _phoneField(),
+                                    PhoneField(
+                                      onSave: (value) =>
+                                          setState(() => _phone = value),
+                                      controller: _phoneController,
+                                    ),
                                     SizedBox(height: 10),
 
                                     // email FIELD
@@ -147,55 +151,59 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                             context, Validators.PASSWORD)),
                                     SizedBox(height: 15),
 
-                                  // SUBMIT BUTTON
-                                  state is Signup1CreateAccountLoading
-                                      ? AppProgressIndicator()
-                                      : ContinueButton(
-                                      buttonLabel: 'Submit',
-                                      buttonAction: _nextEnabled() ? () {
-                                        if (_formKey.currentState!
-                                            .validate()) {
-                                          // Navigator.of(context)
-                                          //     .pushNamed('/signup2');
-                                          if (_filePath?.isNotEmpty ==
-                                              true) {
-                                            context
-                                                .read<
-                                                Signup1CreateAccountCubit>()
-                                                .firstStage(
-                                                name: _nameController
-                                                    .text,
-                                                email:
-                                                _emailController
-                                                    .text,
-                                                password:
-                                                _passwordController
-                                                    .text,
-                                                file: _filePath!,
-                                                phone:
-                                                _phoneController
-                                                    .text);
-                                          } else {
-                                            showErrorToast("Add photo");
-                                          }
-                                        }
-                                      } : null),
-                                  SizedBox(height: 10),
-                                  // TODO: Are we able to reuse this screen for edit profile? Change Button to just a save and hide footer?
-                                  // LOGIN BUTTON
-                                  SimposiTextButton(
-                                    buttonLabel: "Log In",
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w900,
-                                    onClick: () {
-                                      Navigator.of(context)
-                                          .pushReplacementNamed('/login');
-                                    },
-                                  ),
-                                ],
+                                    // SUBMIT BUTTON
+                                    state is Signup1CreateAccountLoading
+                                        ? AppProgressIndicator()
+                                        : ContinueButton(
+                                            buttonLabel: 'Submit',
+                                            buttonAction: _nextEnabled()
+                                                ? () {
+                                                    if (_formKey.currentState!
+                                                        .validate()) {
+                                                      // Navigator.of(context)
+                                                      //     .pushNamed('/signup2');
+                                                      if (_filePath
+                                                              ?.isNotEmpty ==
+                                                          true) {
+                                                        context
+                                                            .read<
+                                                                Signup1CreateAccountCubit>()
+                                                            .firstStage(
+                                                                name:
+                                                                    _nameController
+                                                                        .text,
+                                                                email:
+                                                                    _emailController
+                                                                        .text,
+                                                                password:
+                                                                    _passwordController
+                                                                        .text,
+                                                                file:
+                                                                    _filePath!,
+                                                                phone: _phone);
+                                                      } else {
+                                                        showErrorToast(
+                                                            "Add photo");
+                                                      }
+                                                    }
+                                                  }
+                                                : null),
+                                    SizedBox(height: 10),
+                                    // TODO: Are we able to reuse this screen for edit profile? Change Button to just a save and hide footer?
+                                    // LOGIN BUTTON
+                                    SimposiTextButton(
+                                      buttonLabel: "Log In",
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w900,
+                                      onClick: () {
+                                        Navigator.of(context)
+                                            .pushReplacementNamed('/login');
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
 
                             // FOOTER
                             Container(
@@ -205,7 +213,7 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                   SizedBox(height: 30),
                                   PrivacyTOUFooter(
                                     footerColor:
-                                    SimposiAppColors.simposiLightText,
+                                        SimposiAppColors.simposiLightText,
                                   ),
                                 ],
                               ),
@@ -213,14 +221,12 @@ class _SignUpForm1State extends State<SignUpForm1> {
                           ],
                         ),
                       );
-
                     },
                   ),
                 ),
               ),
             );
           }),
-
         ),
       );
 
@@ -236,7 +242,6 @@ class _SignUpForm1State extends State<SignUpForm1> {
 
         decoration: InputDecoration(
           labelText: ' Name',
-
           suffixIcon: _nameController.text.isEmpty
               ? Container(width: 0)
               : IconButton(
@@ -268,7 +273,6 @@ class _SignUpForm1State extends State<SignUpForm1> {
 
         decoration: InputDecoration(
           labelText: ' Phone Number',
-
           suffixIcon: _phoneController.text.isEmpty
               ? Container(width: 0)
               : IconButton(
@@ -293,7 +297,12 @@ class _SignUpForm1State extends State<SignUpForm1> {
       );
 
   bool _nextEnabled() {
-    return _nameController.text.isNotEmpty && _phoneController.text.isNotEmpty && _passwordController.text.isNotEmpty && _emailController.text.isNotEmpty && _filePath != null && _filePath!.isNotEmpty;
+    return _nameController.text.isNotEmpty &&
+        _phoneController.text.isNotEmpty &&
+        _passwordController.text.isNotEmpty &&
+        _emailController.text.isNotEmpty &&
+        _filePath != null &&
+        _filePath!.isNotEmpty;
   }
 
   Widget _emailField() => TextFormField(
@@ -307,7 +316,6 @@ class _SignUpForm1State extends State<SignUpForm1> {
 
         decoration: InputDecoration(
           labelText: ' Email',
-
           suffixIcon: _emailController.text.isEmpty
               ? Container(width: 0)
               : IconButton(
