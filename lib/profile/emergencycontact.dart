@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/widgets/formappbar.dart';
+import 'package:simposi_app_v4/global/widgets/formfields.dart';
 import 'package:simposi_app_v4/global/widgets/simposibuttons.dart';
 
 
@@ -97,6 +98,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
                             SizedBox(height: 10),
                             // PASSWORD FIELD
                             _eContactPhoneField(),
+                            SimposiPhoneField(),
                             SizedBox(height: 10),
                             BigGBSelectButton(
                                 buttonLabel: 'Save',

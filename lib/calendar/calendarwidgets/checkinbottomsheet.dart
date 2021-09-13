@@ -25,8 +25,9 @@ class CheckInButton extends StatelessWidget {
 
       // TODO: Enable Check In Button
       onPressed: () {
-        showModalBottomSheet<void>(
+        showModalBottomSheet<dynamic>(
           context: context,
+          isScrollControlled: true,
           builder: (BuildContext context) {
             return CheckInPopup();
           },
@@ -52,57 +53,62 @@ class CheckInPopup extends StatefulWidget {
 class _CheckInPopupState extends State<CheckInPopup> {
 
   @override
-  Widget build(BuildContext context) => Container(
-    // Transparent Overlay
-    color: Colors.black54,
-    // Bottom Sheet
+  Widget build(BuildContext context) => SingleChildScrollView(
     child: Container(
-      padding: EdgeInsets.fromLTRB(20, 40, 20, 20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20.0),
-          topRight: Radius.circular(20.0),
-        )),
-      child: Column(
-        children: [
-          Text('First to Arrive',
-          style: TextStyle(
-            color: SimposiAppColors.simposiDarkGrey,
-            fontWeight: FontWeight.w900,
-            fontSize: 19,
-            ),
-          ),
-          SizedBox(height: 10),
-          Text('Ditch Fashion Show',
+      // Transparent Overlay
+      color: Colors.black54,
+
+      // Bottom Sheet
+      child: Container(
+        padding: EdgeInsets.fromLTRB(20, 40, 20, 40),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
+          )),
+        child: Column(
+          children: [
+            Text('First to Arrive',
             style: TextStyle(
-            color: SimposiAppColors.simposiDarkGrey,
-            fontWeight: FontWeight.w900,
-            fontSize: 17,
-          ),),
-          SizedBox(height: 10),
-          Text('First to arrive picks the meeting spot.'),
-          SizedBox(height: 10),
-          Text('Find a good location to wait and then use \nthe button below to set the meeting \nlocation and check in.',
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 20),
-          Image.asset("assets/images/airbaloon.png"),
-          SizedBox(height: 20),
+              color: SimposiAppColors.simposiDarkGrey,
+              fontWeight: FontWeight.w900,
+              fontSize: 19,
+              ),
+            ),
+            SizedBox(height: 10),
+            Text('Ditch Fashion Show',
+              style: TextStyle(
+              color: SimposiAppColors.simposiDarkGrey,
+              fontWeight: FontWeight.w900,
+              fontSize: 17,
+            ),),
+            SizedBox(height: 10),
+            Text('First to arrive picks the meeting spot.'),
+            SizedBox(height: 10),
+            Text('Find a good location to wait and then use \nthe button below to set the meeting \nlocation and check in.',
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20),
+            Image.asset("assets/images/airbaloon.png"),
+            SizedBox(height: 20),
 
-          // BUTTONS
-          BigCheckInButton(),
-          SizedBox(height: 10),
-          BigButton(
-            buttonLabel: 'Cancel RSVP',
-            buttonAction: null,
-            buttonColor: SimposiAppColors.simposiLightGrey,
-            textColor: SimposiAppColors.simposiDarkGrey,
-          ),
+            // BUTTONS
+            BigCheckInButton(),
+            SizedBox(height: 10),
+            BigButton(
+              buttonLabel: 'Cancel RSVP',
+              buttonAction: () => {
+                Navigator.of(context).pop('/home'),
+              },
+              buttonColor: SimposiAppColors.simposiLightGrey,
+              textColor: SimposiAppColors.simposiDarkGrey,
+            ),
 
-        ],
+          ],
+        ),
+
       ),
-
     ),
   );
 }

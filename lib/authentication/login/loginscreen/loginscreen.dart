@@ -75,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     minHeight: viewportConstraints.maxHeight,
                   ),
                   child: Container(
-                    padding: EdgeInsets.all(40),
+                    padding:const EdgeInsets.all(40),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -89,12 +89,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               Image.asset("assets/images/logo.png"),
                               Text(
                                 AppLocalizations.of(context)!.loginTitle,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: SimposiAppColors.simposiDarkBlue,
                                   fontWeight: FontWeight.w900,
                                   fontSize: 30,
                                 ),
-                              )
+                              ),
+                              SizedBox(height: 10),
                             ],
                           ),
                         ),

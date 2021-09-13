@@ -69,11 +69,7 @@ class EventDetails extends StatelessWidget {
                           // TODO: Pull Event Title from Event
                           Text(
                             'Ditch Fashion Show',
-                            style: const TextStyle(
-                              fontSize: 21,
-                              color: SimposiAppColors.simposiDarkGrey,
-                              fontWeight: FontWeight.w900,
-                            ),
+                            style: Theme.of(context).textTheme.headline3,
                           ),
                           const SizedBox(height: 10),
 
@@ -88,7 +84,10 @@ class EventDetails extends StatelessWidget {
                                   // TODO: Pull Date variable from Event
                                   Text(
                                     'Thursday, September 19',
-                                    style: Theme.of(context).textTheme.headline3,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w900,
+                                      color: SimposiAppColors.simposiDarkGrey,
+                                    ),
                                   ),
                                   // TODO: Pull Time variable from Event
                                   Text('6:00pm'),

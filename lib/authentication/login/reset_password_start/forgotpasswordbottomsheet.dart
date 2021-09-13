@@ -86,7 +86,9 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                       ),
                       const SizedBox(height: 10),
                       const Text(
-                          'You will receive an SMS with a recovery code.'),
+                        'You will receive an SMS with a recovery code.',
+                        textAlign: TextAlign.center,
+                      ),
                       const SizedBox(height: 30),
                       // FORGOT PASSWORD FORM
                       Form(
@@ -137,7 +139,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
       );
 
   void _contactSupport() async {
-    var url = 'mailto:<support@simposi.com>?subject=<Account Recovery>&body=<body>';
+    var url = 'mailto:<support@simposi.com>?subject=<SUBJECT>&body=<body>';
     await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
   }
 

@@ -135,9 +135,7 @@ class CreateEvent1 extends StatelessWidget {
                     child:
                     Column(
                       children: [
-                        // TODO: Disable Button until user has selected gender for who they want to meet
-                        // TODO: Make screen reusable by changing the Continue button to a save button when user comes from profile menu?
-                        // TODO: IF user does NOT have saved invitation settings, display dialog asking if they want to save these settings.
+                        // TODO: Disable Button until user has completed the form
                         BigGBSelectButton(
                           buttonLabel: 'Continue',
                           buttonAction: () => {
