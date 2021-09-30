@@ -14,7 +14,6 @@ import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/formfields.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/global/widgets/add_photo_button.dart';
-import 'package:simposi_app_v4/global/widgets/phone_field.dart';
 import 'package:simposi_app_v4/global/widgets/progress.dart';
 import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
@@ -49,8 +48,7 @@ class _EditProfileState extends State<EditProfile> {
     _linkedinController.text =
         context.read<ProfileEditCubit>().profile.linkedin ?? "";
 
-    _phoneController.text =
-        context.read<ProfileEditCubit>().profile.userPhone;
+    _phoneController.text = context.read<ProfileEditCubit>().profile.userPhone;
     _nameController.addListener(() => setState(() {}));
     _phoneController.addListener(() => setState(() {}));
     _emailController.addListener(() => setState(() {}));
@@ -147,7 +145,6 @@ class _EditProfileState extends State<EditProfile> {
                                       ],
                                     ),
                                   ),
-
                                   Container(
                                     child: Column(
                                       children: [
@@ -155,13 +152,13 @@ class _EditProfileState extends State<EditProfile> {
                                           inputType: 'phone',
                                           fieldLabel: ' Phone',
                                           fieldController: _phoneController,
-                                          validationLogic: getValidator(context, Validators.PHONE),
+                                          validationLogic: getValidator(
+                                              context, Validators.PHONE),
                                         ),
                                         SizedBox(height: 10),
                                       ],
                                     ),
                                   ),
-
                                   Container(
                                     child: Column(
                                       children: [
@@ -204,45 +201,6 @@ class _EditProfileState extends State<EditProfile> {
                                       ],
                                     ),
                                   ),
-                                  BlocConsumer<ProfileEditCubit,
-                                      ProfileEditState>(
-                                    listener: (context, state) {
-                                      if (state is ProfileEditError) {
-                                        showErrorToast(
-                                            handleError(state.error, context));
-                                      } else if (state is ProfileEditSuccess) {
-                                        showInfoToast("Profile is updated");
-                                        Navigator.of(context).pop();
-                                      }
-                                    },
-                                    builder: (context, state) {
-                                      return state is ProfileEditLoading
-                                          ? Center(child: AppProgressIndicator())
-                                          : ContinueButton(
-                                              buttonLabel: 'Save',
-                                              buttonAction: () {
-                                                if (_formKey.currentState!
-                                                    .validate()) {
-                                                  context
-                                                      .read<ProfileEditCubit>()
-                                                      .updateMainFields(
-                                                          name: _nameController
-                                                              .text,
-                                                          phone: _phoneController.text,
-                                                          facebook:
-                                                              _facebookController
-                                                                  .text,
-                                                          instagram:
-                                                              _instagramController
-                                                                  .text,
-                                                          linkedin:
-                                                              _linkedinController
-                                                                  .text,
-                                                          filePath: _filePath);
-                                                }
-                                              });
-                                    },
-                                  ),
                                 ],
                               ),
                             ],
@@ -253,7 +211,40 @@ class _EditProfileState extends State<EditProfile> {
                   ),
 
                   // FOOTER
-                  Container(),
+                  Container(
+                    child: SafeArea(
+                      child: BlocConsumer<ProfileEditCubit, ProfileEditState>(
+                        listener: (context, state) {
+                          if (state is ProfileEditError) {
+                            showErrorToast(handleError(state.error, context));
+                          } else if (state is ProfileEditSuccess) {
+                            showInfoToast("Profile is updated");
+                            Navigator.of(context).pop();
+                          }
+                        },
+                        builder: (context, state) {
+                          return state is ProfileEditLoading
+                              ? Center(child: AppProgressIndicator())
+                              : ContinueButton(
+                                  buttonLabel: 'Save',
+                                  buttonAction: () {
+                                    if (_formKey.currentState!.validate()) {
+                                      context
+                                          .read<ProfileEditCubit>()
+                                          .updateMainFields(
+                                              name: _nameController.text,
+                                              phone: _phoneController.text,
+                                              facebook: _facebookController.text,
+                                              instagram:
+                                                  _instagramController.text,
+                                              linkedin: _linkedinController.text,
+                                              filePath: _filePath);
+                                    }
+                                  });
+                        },
+                      ),
+                    ),
+                  ),
                 ],
               ),
             );
