@@ -13,7 +13,6 @@ import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/global/widgets/phone_field.dart';
-import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/global/widgets/progress.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -137,7 +136,8 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
       );
 
   void _contactSupport() async {
-    var url = 'mailto:<email address>?subject=<subject>&body=<body>';
+    _formKey.currentState!.save();
+    var url = 'mailto:support@simposi.com?subject=Account%20Recovery%20-%20$phone&body=$phone';
     await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
   }
 

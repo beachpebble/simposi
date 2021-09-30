@@ -94,7 +94,7 @@ class _PhoneFieldState extends State<PhoneField> {
               color: SimposiAppColors.simposiPink,
             )),
 
-        suffixIcon: widget.showClearIcon ? widget.controller?.text?.isEmpty == true
+        suffixIcon: widget.showClearIcon ? widget.controller?.text.isEmpty == true
             ? Container(width: 0)
             : IconButton(
           icon: Icon(Icons.close,
