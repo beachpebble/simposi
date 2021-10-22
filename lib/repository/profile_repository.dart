@@ -128,16 +128,16 @@ class ProfileRepository {
       Map? data = response.data;
       List<Interest> interestList = [];
       if (data != null &&
-          data.containsKey('interest') &&
-          data['interest'] is List) {
-        List il = data['interest'];
+          data.containsKey('whatYouLike') &&
+          data['whatYouLike'] is List) {
+        List il = data['whatYouLike'];
         interestList = (il.map((e) => Interest.fromJson(e)).toList());
       }
       List<Generation> generationList = [];
       if (data != null &&
-          data.containsKey('generationIdentify') &&
-          data['generationIdentify'] is List) {
-        List il = data['generationIdentify'];
+          data.containsKey('generationsIdentity') &&
+          data['generationsIdentity'] is List) {
+        List il = data['generationsIdentity'];
         generationList = (il.map((e) => Generation.fromJson(e)).toList());
       }
       List<Earning> earninigList = [];
@@ -185,7 +185,7 @@ class ProfileRepository {
     required String password,
     required String latitude,
     required String longitude,
-    required double distance,
+    required String distance,
     required String gender,
     required bool isLgbt,
     required List<int> generation,
@@ -194,20 +194,21 @@ class ProfileRepository {
   }) async {
     var data = {
       "name": name,
-      "profile_photo": image,
+      //"profile_photo": image,
       "phone": phone,
       "password": password,
+      "password_confirmation": password,
       "latitude": latitude,
       "longitude": longitude,
       "distance": distance,
       "gender": gender,
       "is_lgbtq": isLgbt,
-      "generations": generation,
-      "whoEarn": earning,
-      "what_you_like": likes,
+      "generation": generation.first,
+      "who_earns": earning,
+      "what_you_likes": likes,
     };
-    data["device_token"] = "1234567";
-    data["device_type"] = Platform.isAndroid ? 1 : 2;
+    // data["device_token"] = "1234567";
+    // data["device_type"] = Platform.isAndroid ? 1 : 2;
     NetworkResponse response = await _apiService.post(ApiService.API_REGISTER,
         auth: false, data: data);
     if (response is NetworkResponseError) {

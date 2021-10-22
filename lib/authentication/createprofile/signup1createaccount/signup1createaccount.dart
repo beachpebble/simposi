@@ -36,7 +36,7 @@ class _SignUpForm1State extends State<SignUpForm1> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordConfirmController = TextEditingController();
   String _phone = "";
 
   @override
@@ -46,7 +46,7 @@ class _SignUpForm1State extends State<SignUpForm1> {
     _nameController.addListener(() => setState(() {}));
     _phoneController.addListener(() => setState(() {}));
     _passwordController.addListener(() => setState(() {}));
-    _emailController.addListener(() => setState(() {}));
+    _passwordConfirmController.addListener(() => setState(() {}));
 
     context.read<RegistrationCubit>().reset();
   }
@@ -56,7 +56,7 @@ class _SignUpForm1State extends State<SignUpForm1> {
     _nameController.dispose();
     _phoneController.dispose();
     _passwordController.dispose();
-    _emailController.dispose();
+    _passwordConfirmController.dispose();
     super.dispose();
   }
 
@@ -139,14 +139,20 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                     SizedBox(height: 10),
 
                                     // email FIELD
-                                    _emailField(),
+                                    // PASSWORD FIELD
+                                    PasswordField(
+                                        label: AppLocalizations.of(context)!
+                                            .signUpPassword,
+                                        controller: _passwordController,
+                                        validator: getValidator(
+                                            context, Validators.PASSWORD)),
                                     SizedBox(height: 10),
 
                                     // PASSWORD FIELD
                                     PasswordField(
                                         label: AppLocalizations.of(context)!
                                             .signUpPassword,
-                                        controller: _passwordController,
+                                        controller: _passwordConfirmController,
                                         validator: getValidator(
                                             context, Validators.PASSWORD)),
                                     SizedBox(height: 15),
@@ -163,15 +169,13 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                                       if (_filePath
                                                               ?.isNotEmpty ==
                                                           true) {
+                                                        _formKey.currentState!.save();
                                                         context
                                                             .read<
                                                                 Signup1CreateAccountCubit>()
                                                             .firstStage(
                                                                 name:
                                                                     _nameController
-                                                                        .text,
-                                                                email:
-                                                                    _emailController
                                                                         .text,
                                                                 password:
                                                                     _passwordController
@@ -262,32 +266,8 @@ class _SignUpForm1State extends State<SignUpForm1> {
     return _nameController.text.isNotEmpty &&
         _phoneController.text.isNotEmpty &&
         _passwordController.text.isNotEmpty &&
-        _emailController.text.isNotEmpty &&
+        _passwordConfirmController.text.isNotEmpty &&
         _filePath != null &&
         _filePath!.isNotEmpty;
   }
-
-  Widget _emailField() => TextFormField(
-        controller: _emailController,
-        keyboardType: TextInputType.emailAddress,
-        textInputAction: TextInputAction.next,
-        enableSuggestions: true,
-        autocorrect: true,
-        obscureText: false,
-        showCursor: true,
-
-        decoration: InputDecoration(
-          labelText: ' Email',
-          suffixIcon: _emailController.text.isEmpty
-              ? Container(width: 0)
-              : IconButton(
-                  icon: const Icon(Icons.close,
-                      size: 20, color: SimposiAppColors.simposiLightGrey),
-                  onPressed: () => _emailController.clear(),
-                ),
-        ),
-
-        // PHONE VALIDATION LOGIC
-        validator: getValidator(context, Validators.EMAIL),
-      );
 }

@@ -9,8 +9,8 @@ class Generation extends Equatable {
   Generation({required this.id, required this.title});
 
   static Generation fromJson(Map json) {
-    int? parsedId = json.containsKey('generations_identify_id')
-        ? json['generations_identify_id']
+    int? parsedId = json.containsKey('id')
+        ? json['id']
         : null;
     String? parsedTitle = json.containsKey('title') ? json['title'] : null;
 

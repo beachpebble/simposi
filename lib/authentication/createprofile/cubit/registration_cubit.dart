@@ -19,7 +19,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   String? path;
   String? name;
   String? phone;
-  String? email;
   String? password;
   Gender? gender;
   Set<Generation>? generations;
@@ -88,7 +87,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     path = null;
     name = null;
     phone = null;
-    email = null;
     password = null;
     gender = null;
     generations = null;
@@ -111,7 +109,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         password: password!,
         latitude: latitude!.toString(),
         longitude: longitude!.toString(),
-        distance: range ?? 1,
+        distance: range?.toString() ?? "1",
         gender: gender!.id,
         isLgbt: lgbt,
         generation: generations!.map((e) => e.id).toList(),
@@ -119,17 +117,10 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         likes: interests!.map((e) => e.id).toList(),
       );
 
-      if (data.containsKey("apiAccessToken")) {
-        await profileRepository.setProfile(data);
-        var apiToken = data["apiAccessToken"];
-        if (apiToken! != null) {
-          emit(RegistrationWaitCode(apiToken, phone!));
-          reset();
-        } else {
-          emit(RegistrationError(ServerException(
-              errorType: LocalizedErrorType.UNEXPECTED,
-              message: "There is no token in response")));
-        }
+      if (data.containsKey("user")) {
+        await profileRepository.setProfile(data['user']);
+        emit(RegistrationWaitCode( phone!));
+        reset();
       } else {
         emit(RegistrationError(ServerException(
             errorType: LocalizedErrorType.UNEXPECTED,

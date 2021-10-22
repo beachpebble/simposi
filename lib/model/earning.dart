@@ -11,8 +11,8 @@ class Earning extends Equatable {
 
   static Earning fromJson(Map json) {
     int? parsedId =
-        json.containsKey('who_earns_id') ? json['who_earns_id'] : null;
-    int? parsedSortId = json.containsKey('sort_id') ? json['sort_id'] : null;
+        json.containsKey('id') ? json['id'] : null;
+    int? parsedSortId = json.containsKey('sort') ? json['sort'] : null;
     String? parsedTitle = json.containsKey('title') ? json['title'] : null;
 
     if (parsedId == null || parsedTitle == null || parsedSortId == null)

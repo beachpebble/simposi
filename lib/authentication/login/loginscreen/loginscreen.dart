@@ -126,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       Navigator.of(context).pushNamed(
                                           '/signup8',
                                           arguments: ValidateParameters(
-                                              phone, state.token));
+                                              phone));
                                     }
                                   },
                                   builder: (context, state) {

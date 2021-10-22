@@ -191,7 +191,7 @@ class _SignUpForm7State extends State<SignUpForm7> {
                             Navigator.of(context).pushNamedAndRemoveUntil(
                                 '/signup8', ModalRoute.withName('start'),
                                 arguments: ValidateParameters(
-                                    state.phone, state.token));
+                                    state.phone));
                           else if (state is RegistrationError) {
                             showErrorToast(handleError(state.error, context));
                           }

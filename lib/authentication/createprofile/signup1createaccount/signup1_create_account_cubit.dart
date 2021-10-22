@@ -18,24 +18,18 @@ class Signup1CreateAccountCubit extends Cubit<Signup1CreateAccountState> {
     required String file,
     required String name,
     required String phone,
-    required String email,
     required String password,
   }) async {
     if (state is Signup1CreateAccountInitial || state is Signup1CreateAccountError || state is Signup1CreateAccountReady) {
       emit(Signup1CreateAccountLoading());
       try {
         await profileRepository.userNotExist(phone: phone);
-        String? path = await profileRepository.uploadAvatar(file);
-        if (path != null) {
-          registrationCubit.path = path;
-          registrationCubit.name = name;
-          registrationCubit.phone = phone;
-          registrationCubit.email = email;
-          registrationCubit.password = password;
-          emit(Signup1CreateAccountReady());
-        } else {
-          emit(Signup1CreateAccountError("File is not loaded"));
-        }
+        // String? path = await profileRepository.uploadAvatar(file);
+        registrationCubit.path = file;
+        registrationCubit.name = name;
+        registrationCubit.phone = phone;
+        registrationCubit.password = password;
+        emit(Signup1CreateAccountReady());
       } catch (e) {
         emit(Signup1CreateAccountError(e));
       }

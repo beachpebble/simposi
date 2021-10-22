@@ -9,7 +9,7 @@ class Interest extends Equatable {
   Interest({required this.id, required this.title});
 
   static Interest fromJson(Map json) {
-    int? parsedId = json.containsKey('what_you_like_id') ? json['what_you_like_id'] : null;
+    int? parsedId = json.containsKey('id') ? json['id'] : null;
     String? parsedTitle = json.containsKey('title') ? json['title'] : null;
 
     if (parsedId == null || parsedTitle == null)

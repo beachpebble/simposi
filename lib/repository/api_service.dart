@@ -21,9 +21,9 @@ class ApiService {
   static const String API_CHANGE_PASSWORD = "/api/v1/user/changeForgotPassword";
   static const String API_ACCEPT_CODE = "/api/v1/code";
   static const String API_UPLOAD_AVATAR = "/api/v1/user/userpic";
-  static const String API_MASTER_DATA = "/api/v1/user/GetMasterTableData";
-  static const String API_REGISTER = "/api/v1/user/register";
-  static const String API_USER_EXISTS = "/api/v1/user/check";
+  static const String API_MASTER_DATA = "/api/v1/dictionaries";
+  static const String API_REGISTER = "/api/v1/register";
+  static const String API_USER_EXISTS = "/api/v1/verification/check-phone";
   static const String API_USER_EDIT = "/api/v1/user";
 
   ApiService({required this.authRepository, this.baseUrl = TEST}) {
@@ -38,7 +38,7 @@ class ApiService {
         requestHeader: true,
         requestBody: true,
         responseBody: true,
-        responseHeader: false,
+        responseHeader: true,
         error: true,
         compact: true,
         maxWidth: 200));
@@ -53,9 +53,11 @@ class ApiService {
     var options = await _prepareRequest(path, auth);
     if (customToken != null && auth == false)
       options.headers!['Authorization'] = "Bearer $customToken";
-    //TODO later change to locale set on device
-    if (data is Map<String, dynamic> && lang)
-      data["language_id"] = 1;
+    // //TODO later change to locale set on device
+    // if (data is Map<String, dynamic> && lang)
+    //   data["language_id"] = 1;
+    String s = json.encode(data);
+    print("WTF $s");
     final response = await _dio.post(path, data: data, options: options);
     return _handleResponse(response, 'POST', path);
   }
