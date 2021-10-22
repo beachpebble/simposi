@@ -224,7 +224,7 @@ class ProfileRepository {
   }
 
   Future<String> sendConfirmationCode(String phone) async {
-    NetworkResponse response = await _apiService.get(ApiService.API_SEND_CODE,
+    NetworkResponse response = await _apiService.get(ApiService.API_ACCEPT_CODE,
         queryParameters: {"phone": phone}, auth: false);
     if (response is NetworkResponseError) {
       throw ApiException(

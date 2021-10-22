@@ -9,7 +9,6 @@ import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 
 class AddPhotoButton extends StatefulWidget {
-  // Set Variables
   final Function(String)? imageSelectCallback;
   final String? initialImage;
 
@@ -24,11 +23,11 @@ class AddPhotoButton extends StatefulWidget {
 }
 
 class _AddPhotoButtonState extends State<AddPhotoButton> {
-  PickedFile? _image;
+  XFile? _image;
   final _picker = ImagePicker();
 
   void _settingModalBottomSheet(
-      context, Function(PickedFile) fileSelectCallback) {
+      context, Function(XFile) fileSelectCallback) {
       showModalBottomSheet(
         backgroundColor: Colors.transparent,
         context: context,
@@ -51,8 +50,8 @@ class _AddPhotoButtonState extends State<AddPhotoButton> {
                         new Text(AppLocalizations.of(context)!.imageDialogCamera),
                     onTap: () async {
                       Navigator.pop(context);
-                      PickedFile? image =
-                          await _picker.getImage(source: ImageSource.camera);
+                      XFile? image =
+                          await _picker.pickImage(source: ImageSource.camera);
                       if (image != null)
                         fileSelectCallback(image);
                       else
@@ -66,10 +65,10 @@ class _AddPhotoButtonState extends State<AddPhotoButton> {
                         AppLocalizations.of(context)!.imageDialogGallery),
                     onTap: () async {
                       Navigator.pop(context);
-                      PickedFile? image =
-                          await _picker.getImage(source: ImageSource.gallery);
-                      if (image != null)
-                        fileSelectCallback(image);
+                      XFile? imageFile =
+                          await _picker.pickImage(source: ImageSource.gallery, maxHeight: 640, maxWidth: 640, imageQuality: 80);
+                      if (imageFile != null)
+                        fileSelectCallback(imageFile);
                       else
                         showErrorToast(
                             AppLocalizations.of(context)!.imageSelectError);

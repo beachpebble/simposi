@@ -1,13 +1,15 @@
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:country_code_picker/country_codes.dart';
 import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
 
 class PhoneField extends StatefulWidget {
-  PhoneField({Key? key, this.controller, required this.onSave, this.showClearIcon = true}) : super(key: key);
+  PhoneField({Key? key, required this.controller, required this.onSave, this.showClearIcon = true, this.initialPhone}) : super(key: key);
   final TextEditingController? controller;
   final Function(String newValue) onSave;
   final bool showClearIcon;
+  final String? initialPhone;
 
   @override
   _PhoneFieldState createState() => _PhoneFieldState();
@@ -16,6 +18,16 @@ class PhoneField extends StatefulWidget {
 class _PhoneFieldState extends State<PhoneField> {
 
   late String prefix;
+
+  @override
+  void initState() {
+    super.initState();
+    String? pref = getPrefixByPhone(widget.initialPhone);
+    if (pref != null && pref.isNotEmpty && widget.initialPhone != null) {
+      widget.controller?.text = widget.initialPhone!.substring(pref.length);
+      prefix = pref;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +54,10 @@ class _PhoneFieldState extends State<PhoneField> {
           onInit: (val) {
             prefix = val?.dialCode ??"";
           },
-          // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-          initialSelection: 'UK',
-          favorite: ['+38','UA'],
-          // optional. Shows only country name and flag
+          initialSelection: getPrefixByPhone(widget.initialPhone) ?? '+380',
+          favorite: ['+380'],
           showCountryOnly: false,
-          // optional. Shows only country name and flag when popup is closed.
           showOnlyCountryWhenClosed: false,
-          // optional. aligns the flag and the Text left
           alignLeft: false,
         ),
         prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
@@ -108,5 +116,15 @@ class _PhoneFieldState extends State<PhoneField> {
         widget.onSave(prefix + value!);
       },
     );
+  }
+
+  String? getPrefixByPhone(String? phone) {
+    if (phone == null)
+      return null;
+    for (Map item in codes) {
+      if (phone.startsWith(item['dial_code']))
+        return item['dial_code'];
+    }
+    return null;
   }
 }

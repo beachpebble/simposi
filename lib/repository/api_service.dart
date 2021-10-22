@@ -23,7 +23,6 @@ class ApiService {
   static const String API_UPLOAD_AVATAR = "/api/v1/user/userpic";
   static const String API_MASTER_DATA = "/api/v1/user/GetMasterTableData";
   static const String API_REGISTER = "/api/v1/user/register";
-  static const String API_SEND_CODE = "/api/v1/code";
   static const String API_USER_EXISTS = "/api/v1/user/check";
   static const String API_USER_EDIT = "/api/v1/user";
 

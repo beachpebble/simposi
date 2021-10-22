@@ -7,6 +7,7 @@
 
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../../global/routegenerator.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/calendar/calendarwidgets/checkinbottomsheet.dart';
@@ -15,9 +16,13 @@ import 'package:simposi_app_v4/calendar/calendarwidgets/checkinbottomsheet.dart'
 // TODO: Create & Insert Variables for EventCard
 // TODO: Create Sent Flag and Add Logic to Display it IF Creator = User
 class EventCard extends StatelessWidget {
-  const EventCard({
-    Key? key,
+
+  EventCard({
+    Key? key,  this.date, this.title,
   }) : super(key: key);
+
+final DateTime? date;
+final String?  title;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +60,7 @@ class EventCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     SizedBox(height: 50),
-                    Text('Title',
+                    Text(title ?? "",
                       style: TextStyle(
                         fontWeight: FontWeight.w900,
                         fontSize: 15,
@@ -70,7 +75,7 @@ class EventCard extends StatelessWidget {
                           size: 15,
                         ),
                         SizedBox(width: 5),
-                        Text('Event Time',
+                        Text(date != null ? DateFormat('yyyy-MM-dd – kk:mm').format(date!) : "",
                           style: TextStyle(
                             fontSize: 13,
                             color: Colors.white,

@@ -8,12 +8,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
-import 'package:simposi_app_v4/utils/bloc_observer.dart';
+import 'package:simposi_app_v4/bloc/bloc_observer.dart';
 
 import 'bloc/auth/authentication_bloc.dart';
+import 'calendar/bloc/calendar_bloc.dart';
 import 'profile/bloc/profile_edit_cubit.dart';
 import 'repository/api_service.dart';
 import 'repository/auth_repository.dart';
+import 'repository/calendar_repository.dart';
 import 'repository/profile_repository.dart';
 import 'simposi_app.dart';
 
@@ -31,17 +33,23 @@ void main() {
         RepositoryProvider(
           create: (context) => ProfileRepository(context.read()),
         ),
+        RepositoryProvider(
+          create: (context) => CalendarRepository(context.read()),
+        ),
       ],
       child: MultiBlocProvider(providers: [
         BlocProvider(
-          create: (context) =>
-              AuthenticationBloc(authManager: context.read(), profileRepository: context.read())
-                ..add(ReloadAuthEvent()),
+          create: (context) => AuthenticationBloc(
+              authManager: context.read(), profileRepository: context.read())
+            ..add(ReloadAuthEvent()),
         ),
         BlocProvider(
-          create: (context) =>
-          RegistrationCubit(profileRepository: context.read())),BlocProvider(
-          create: (context) =>
-              ProfileEditCubit(profileRepository: context.read())),
+            create: (context) =>
+                RegistrationCubit(profileRepository: context.read())),
+        BlocProvider(
+            create: (context) =>
+                ProfileEditCubit(profileRepository: context.read())), BlocProvider(
+            create: (context) =>
+                CalendarBloc(context.read())),
       ], child: SimposiApp())));
 }

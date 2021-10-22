@@ -160,8 +160,6 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                                 ? () {
                                                     if (_formKey.currentState!
                                                         .validate()) {
-                                                      // Navigator.of(context)
-                                                      //     .pushNamed('/signup2');
                                                       if (_filePath
                                                               ?.isNotEmpty ==
                                                           true) {
@@ -189,7 +187,6 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                                   }
                                                 : null),
                                     SizedBox(height: 10),
-                                    // TODO: Are we able to reuse this screen for edit profile? Change Button to just a save and hide footer?
                                     // LOGIN BUTTON
                                     SimposiTextButton(
                                       buttonLabel: "Log In",
@@ -255,41 +252,6 @@ class _SignUpForm1State extends State<SignUpForm1> {
         validator: (value) {
           if (value!.length < 4) {
             return 'Please enter your first name';
-          } else {
-            return null;
-          }
-        },
-      );
-
-  // PHONE FIELD
-  Widget _phoneField() => TextFormField(
-        controller: _phoneController,
-        keyboardType: TextInputType.phone,
-        textInputAction: TextInputAction.next,
-        enableSuggestions: true,
-        autocorrect: true,
-        obscureText: false,
-        showCursor: true,
-
-        decoration: InputDecoration(
-          labelText: ' Phone Number',
-          suffixIcon: _phoneController.text.isEmpty
-              ? Container(width: 0)
-              : IconButton(
-                  icon: const Icon(Icons.close,
-                      size: 20, color: SimposiAppColors.simposiLightGrey),
-                  onPressed: () => _phoneController.clear(),
-                ),
-        ),
-
-        // PHONE VALIDATION LOGIC
-        validator: (value) {
-          // IF Empty
-          if (value!.isEmpty) {
-            return 'Phone Required';
-          }
-          if (value.length < 10) {
-            return 'Must be at least 10 characters';
           } else {
             return null;
           }

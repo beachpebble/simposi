@@ -100,12 +100,7 @@ class Profile extends Equatable {
     )
       throw ParseException(message: "Incorrect data structure");
 
-    // generations
-    // whoEarn
-    // what_you_like
-
     Gender? gender = Gender.fromId(parsedGenderId);
-
     if (gender == null)
       throw ParseException(message: "Incorrect data structure");
 
