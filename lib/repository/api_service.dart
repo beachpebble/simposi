@@ -15,7 +15,7 @@ class ApiService {
   late Dio _dio;
   late CookieJar _cookieJar;
 
-  static const String TEST = "https://simposi.uastar.space";
+  static const String TEST = "https://simposi-dev.uastar.space";
 
   static const String API_LOGIN = "/api/v1/user/login";
   static const String API_CHANGE_PASSWORD = "/api/v1/user/changeForgotPassword";

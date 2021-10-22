@@ -11,7 +11,6 @@ import 'errors.dart';
 
 class Profile extends Equatable {
   final int userId;
-  final int userRoleId;
   final String userName;
   final String userPhone;
   final String userEmail;
@@ -31,7 +30,6 @@ class Profile extends Equatable {
 
   Profile({
     required this.userId,
-    required this.userRoleId,
     required this.userName,
     required this.userPhone,
     required this.userEmail,
@@ -53,7 +51,6 @@ class Profile extends Equatable {
   @override
   List<Object?> get props => [
         userId,
-        userRoleId,
         userName,
         userPhone,
         userEmail,
@@ -65,8 +62,6 @@ class Profile extends Equatable {
   static Profile fromJson(Map json) {
     developer.log("Profile loading from json $json");
     int? parsedUserId = json.containsKey('user_id') ? json['user_id'] : null;
-    int? parsedUserRoleId =
-        json.containsKey('user_role_id') ? json['user_role_id'] : null;
     String? parsedUserName =
         json.containsKey('user_name') ? json['user_name'] : null;
     String? parsedProfilePhoto =
@@ -90,7 +85,6 @@ class Profile extends Equatable {
     double? parsedDistance = json.containsKey('distance') ? checkDouble(json['distance']) : null;
 
     if (parsedUserId == null ||
-        parsedUserRoleId == null ||
         parsedUserName == null ||
         parsedGenderId == null ||
         parsedLatitude == null ||
@@ -127,7 +121,6 @@ class Profile extends Equatable {
       facebook: parsedFacebook,
       instagram: parsedInstagram,
       linkedin: parsedLinkedin,
-      userRoleId: parsedUserRoleId,
       interests: interests,
       earnings: earnings,
       generations: generations,
