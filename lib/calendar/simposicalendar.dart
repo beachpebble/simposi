@@ -32,8 +32,8 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
   final ItemPositionsListener _itemPositionsListener =
       ItemPositionsListener.create();
   CalendarController? _calendarPageController;
-  int _firstScrollItem = 0;
-  int _lastScrollItem = 0;
+  int _firstScrollItemIndex = 0;
+  int _lastScrollItemIndex = 0;
 
   @override
   void initState() {
@@ -45,11 +45,9 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
         return s1.index.compareTo(s2.index);
       });
 
-      ItemPosition first = items.first;
-      _lastScrollItem = items.last.index;
-      int index = first.index;
-      _firstScrollItem = index;
-      context.read<CalendarBloc>().add(ListScrolled(_firstScrollItem));
+      _lastScrollItemIndex = items.last.index;
+      _firstScrollItemIndex = items.first.index;
+      context.read<CalendarBloc>().add(ListScrolled(_firstScrollItemIndex));
     });
   }
 
@@ -165,8 +163,8 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
             listener: (context, state) {
               if (state is CalendarLoaded && state.loadBy == LoadBy.CALENDAR) {
                 print(
-                    "@@@ ${state.scrollPos}  $_firstScrollItem $_lastScrollItem");
-                if (state.scrollPos != _firstScrollItem) {
+                    "@@@ ${state.scrollPos}  $_firstScrollItemIndex $_lastScrollItemIndex");
+                if (state.scrollPos != _firstScrollItemIndex) {
                   _itemScrollController.scrollTo(
                       index: state.scrollPos,
                       duration: Duration(milliseconds: 500),
