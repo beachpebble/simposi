@@ -30,7 +30,6 @@ class _EditProfileState extends State<EditProfile> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _facebookController = TextEditingController();
   final TextEditingController _instagramController = TextEditingController();
   final TextEditingController _linkedinController = TextEditingController();
@@ -40,7 +39,6 @@ class _EditProfileState extends State<EditProfile> {
     super.initState();
     _nameController.text = context.read<ProfileEditCubit>().profile.userName;
     _phoneController.text = context.read<ProfileEditCubit>().profile.userPhone;
-    _emailController.text = context.read<ProfileEditCubit>().profile.userEmail;
     _facebookController.text =
         context.read<ProfileEditCubit>().profile.facebook ?? "";
     _instagramController.text =
@@ -51,7 +49,6 @@ class _EditProfileState extends State<EditProfile> {
     _phoneController.text = context.read<ProfileEditCubit>().profile.userPhone;
     _nameController.addListener(() => setState(() {}));
     _phoneController.addListener(() => setState(() {}));
-    _emailController.addListener(() => setState(() {}));
     _facebookController.addListener(() => setState(() {}));
     _instagramController.addListener(() => setState(() {}));
     _linkedinController.addListener(() => setState(() {}));
@@ -61,7 +58,6 @@ class _EditProfileState extends State<EditProfile> {
   void dispose() {
     _nameController.dispose();
     _phoneController.dispose();
-    _emailController.dispose();
     _facebookController.dispose();
     _instagramController.dispose();
     _linkedinController.dispose();

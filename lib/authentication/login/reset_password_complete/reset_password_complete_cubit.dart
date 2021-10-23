@@ -37,7 +37,7 @@ class ResetPasswordCompleteCubit extends Cubit<ResetPasswordCompleteState> {
   Future<void> resend() async {
     emit(ResetPasswordCompleteProgress());
     try {
-      await profileRepository.sendConfirmationCode(phone);
+      await profileRepository.requestConfirmationCode(phone);
       emit(ResetPasswordResendSuccess());
     } catch (e) {
       emit(ResetPasswordResendError(e));

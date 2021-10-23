@@ -9,7 +9,6 @@ import 'package:simposi_app_v4/model/gender.dart';
 import 'package:simposi_app_v4/model/generation.dart';
 import 'package:simposi_app_v4/model/interest.dart';
 import 'package:simposi_app_v4/model/master_data.dart';
-import 'package:simposi_app_v4/model/network_response.dart';
 import 'package:simposi_app_v4/model/profile.dart';
 
 import 'api_service.dart';
@@ -28,7 +27,7 @@ class ProfileRepository {
   }
 
   Future<void> refreshProfile() async {
-    var data  = await storage.getItem("profile");
+    var data = await storage.getItem("profile");
     profile = Profile.fromJson(data);
   }
 
@@ -40,51 +39,29 @@ class ProfileRepository {
     //TODO take this value from FCM
     params["device_token"] = "1234567";
     params["device_type"] = Platform.isAndroid ? 1 : 2;
-    NetworkResponse response = await (await _apiService
-        .post(ApiService.API_LOGIN, data: params, auth: false));
-    if (response is NetworkResponseError) {
-      throw ApiException(
-          errorType: LocalizedErrorType.AUTH, message: response.message);
-    } else if (response is NetworkResponseSuccess) {
-      return response.data;
-    } else {
-      throw ApiException(errorType: LocalizedErrorType.UNEXPECTED);
-    }
+    Response response = await (await _apiService.post(ApiService.API_LOGIN,
+        data: params, auth: false));
+    return response.data;
   }
 
-  Future<String?> changePassword(String password, String token) async {
-    NetworkResponse response =
-        await _apiService.post(ApiService.API_CHANGE_PASSWORD,
-            data: {
-              'password': password,
-            },
-            auth: false,
-            customToken: token);
-    if (response is NetworkResponseError) {
-      throw ApiException(
-          errorType: LocalizedErrorType.AUTH, message: response.message);
-    } else if (response is NetworkResponseSuccess) {
-      String? message = response.message;
-      return message;
-    }
+  Future changePassword(String password, String token) async {
+    await _apiService.post(ApiService.API_CHANGE_PASSWORD,
+        data: {
+          'password': password,
+        },
+        auth: false,
+        customToken: token);
   }
 
   Future<String?> acceptCode(String phone, String code) async {
-    NetworkResponse response =
-        await _apiService.post(ApiService.API_ACCEPT_CODE,
-            data: {
-              'code': code,
-              'phone': phone,
-            },
-            auth: false);
-    if (response is NetworkResponseError) {
-      throw ApiException(
-          errorType: LocalizedErrorType.SERVER_ERROR,
-          message: response.message);
-    } else if (response is NetworkResponseSuccess) {
-      String? token = response.data["apiAccessToken"];
-      return token;
-    }
+    Response response = await _apiService.post(ApiService.API_ACCEPT_CODE,
+        data: {
+          'code': code,
+          'phone': phone,
+        },
+        auth: false);
+    String? token = response.data["apiAccessToken"];
+    return token;
   }
 
   Future<String?> uploadAvatar(String path) async {
@@ -96,64 +73,50 @@ class ProfileRepository {
         contentType: MediaType("image", "jpeg"),
       ),
     });
-    NetworkResponse response = await _apiService.postMulti(
+    Response response = await _apiService.postMulti(
         ApiService.API_UPLOAD_AVATAR,
         data: formData,
         lang: false,
         auth: false);
-    if (response is NetworkResponseError) {
+    var messages = response.data;
+    if (messages is List && messages.isNotEmpty) {
+      return messages.first;
+    } else {
       throw ApiException(
-          errorType: LocalizedErrorType.AUTH, message: response.message);
-    } else if (response is NetworkResponseSuccess) {
-      var messages = response.data;
-      if (messages is List && messages.isNotEmpty) {
-        return messages.first;
-      } else {
-        throw ApiException(
-            errorType: LocalizedErrorType.OTHER,
-            message: "Unexpected response");
-      }
+          errorType: LocalizedErrorType.OTHER, message: "Unexpected response");
     }
   }
 
   //TODO make a local cache for this data
   Future<MasterData> getMasterData() async {
-    NetworkResponse response =
+    Response response =
         await _apiService.get(ApiService.API_MASTER_DATA, auth: false);
-    if (response is NetworkResponseError) {
-      throw ApiException(
-          errorType: LocalizedErrorType.SERVER_ERROR,
-          message: response.message);
-    } else if (response is NetworkResponseSuccess) {
-      Map? data = response.data;
-      List<Interest> interestList = [];
-      if (data != null &&
-          data.containsKey('whatYouLike') &&
-          data['whatYouLike'] is List) {
-        List il = data['whatYouLike'];
-        interestList = (il.map((e) => Interest.fromJson(e)).toList());
-      }
-      List<Generation> generationList = [];
-      if (data != null &&
-          data.containsKey('generationsIdentity') &&
-          data['generationsIdentity'] is List) {
-        List il = data['generationsIdentity'];
-        generationList = (il.map((e) => Generation.fromJson(e)).toList());
-      }
-      List<Earning> earninigList = [];
-      if (data != null &&
-          data.containsKey('whoEarn') &&
-          data['whoEarn'] is List) {
-        List il = data['whoEarn'];
-        earninigList = (il.map((e) => Earning.fromJson(e)).toList());
-        earninigList.sort((first, second){ return first.sortId.compareTo(second.sortId);});
-      }
-      return MasterData({}..addAll(interestList), generationList, earninigList);
-    } else {
-      throw ApiException(
-        errorType: LocalizedErrorType.SERVER_ERROR,
-      );
+    Map? data = response.data['data'];
+    List<Interest> interestList = [];
+    if (data != null &&
+        data.containsKey('whatYouLike') &&
+        data['whatYouLike'] is List) {
+      List il = data['whatYouLike'];
+      interestList = (il.map((e) => Interest.fromJson(e)).toList());
     }
+    List<Generation> generationList = [];
+    if (data != null &&
+        data.containsKey('generationsIdentity') &&
+        data['generationsIdentity'] is List) {
+      List il = data['generationsIdentity'];
+      generationList = (il.map((e) => Generation.fromJson(e)).toList());
+    }
+    List<Earning> earninigList = [];
+    if (data != null &&
+        data.containsKey('whoEarn') &&
+        data['whoEarn'] is List) {
+      List il = data['whoEarn'];
+      earninigList = (il.map((e) => Earning.fromJson(e)).toList());
+      earninigList.sort((first, second) {
+        return first.sortId.compareTo(second.sortId);
+      });
+    }
+    return MasterData({}..addAll(interestList), generationList, earninigList);
   }
 
   // Returns 200 if user doesnt exist
@@ -163,19 +126,8 @@ class ProfileRepository {
     Map<String, Object> data = {
       "phone": phone,
     };
-    NetworkResponse response = await _apiService
-        .post(ApiService.API_USER_EXISTS, auth: false, data: data);
-    if (response is NetworkResponseError) {
-      throw ApiException(
-          errorType: LocalizedErrorType.SERVER_ERROR,
-          message: response.message);
-    } else if (response is NetworkResponseSuccess) {
-      return;
-    } else {
-      throw ApiException(
-        errorType: LocalizedErrorType.SERVER_ERROR,
-      );
-    }
+    Response response = await _apiService.post(ApiService.API_USER_EXISTS,
+        auth: false, data: data);
   }
 
   Future<Map> sendRegistration({
@@ -188,7 +140,7 @@ class ProfileRepository {
     required String distance,
     required String gender,
     required bool isLgbt,
-    required List<int> generation,
+    required int generation,
     required List<int> earning,
     required List<int> likes,
   }) async {
@@ -203,70 +155,43 @@ class ProfileRepository {
       "distance": distance,
       "gender": gender,
       "is_lgbtq": isLgbt,
-      "generation": generation.first,
+      "generation": generation,
       "who_earns": earning,
       "what_you_likes": likes,
     };
-    // data["device_token"] = "1234567";
-    // data["device_type"] = Platform.isAndroid ? 1 : 2;
-    NetworkResponse response = await _apiService.post(ApiService.API_REGISTER,
+    Response response = await _apiService.post(ApiService.API_REGISTER,
         auth: false, data: data);
-    if (response is NetworkResponseError) {
-      throw ApiException(
-          errorType: LocalizedErrorType.SERVER_ERROR,
-          message: response.message);
-    } else if (response is NetworkResponseSuccess) {
-      return response.data;
-    } else {
-      throw ApiException(
-        errorType: LocalizedErrorType.SERVER_ERROR,
-      );
-    }
+    return response.data;
   }
 
-  Future<String> sendConfirmationCode(String phone) async {
-    NetworkResponse response = await _apiService.get(ApiService.API_ACCEPT_CODE,
+  Future requestConfirmationCode(String phone) async {
+    await _apiService.get(ApiService.API_ACCEPT_CODE,
         queryParameters: {"phone": phone}, auth: false);
-    if (response is NetworkResponseError) {
-      throw ApiException(
-          errorType: LocalizedErrorType.SERVER_ERROR,
-          message: response.message);
-    } else if (response is NetworkResponseSuccess) {
-      String? message = response.message;
-      return message ?? "";
-    } else {
-      throw ApiException(
-        errorType: LocalizedErrorType.SERVER_ERROR,
-      );
-    }
   }
 
-  Future<String?> updateProfile(
-      {String? name,
-      String? phone,
-      String? filepath,
-      String? facebook,
-      String? instagram,
-      String? linkedin, }) async {
+  Future updateProfile({
+    String? name,
+    String? phone,
+    String? filepath,
+    String? facebook,
+    String? instagram,
+    String? linkedin,
+  }) async {
     Map<String, Object> data = {};
-    if (name != null)
-      data["user_name"] = name;
-    if (filepath != null)
-      data["profile_photo"] = filepath;
+    if (name != null) data["user_name"] = name;
+    if (filepath != null) data["profile_photo"] = filepath;
     if (facebook != null && facebook.isNotEmpty)
       data["facebook_url"] = facebook;
     if (instagram != null && instagram.isNotEmpty)
       data["instagram__url"] = instagram;
     if (linkedin != null && linkedin.isNotEmpty)
       data["linkedin__url"] = linkedin;
-    if (phone != null && phone.isNotEmpty)
-      data["phone"] = phone;
+    if (phone != null && phone.isNotEmpty) data["phone"] = phone;
     return updateProfileFields(data);
   }
 
-  Future<String?> updateProfileGender(
-      {required Gender gender,
-        required bool lgbt}) async {
+  Future updateProfileGender(
+      {required Gender gender, required bool lgbt}) async {
     Map<String, Object> data = {
       "Gender": gender.id,
       "IsLGBTQ": lgbt,
@@ -274,24 +199,20 @@ class ProfileRepository {
     return updateProfileFields(data);
   }
 
-  Future<String?> updateProfileGenerations(
-      {required List<int> generation}) async {
-    Map<String, Object> data = {
-      "generations": generation
-    };
+  Future updateProfileGenerations({required int generation}) async {
+    Map<String, Object> data = {"generation": generation};
     return updateProfileFields(data);
   }
 
-  Future<String?> updateProfileInterests(
-      {required List<int> interests}) async {
-    Map<String, Object> data = {
-      "what_you_like": interests
-    };
+  Future updateProfileInterests({required List<int> interests}) async {
+    Map<String, Object> data = {"what_you_like": interests};
     return updateProfileFields(data);
   }
 
-  Future<String?> updateProfileLocation(
-      {required double latitude, required double longitude, required double range}) async {
+  Future updateProfileLocation(
+      {required double latitude,
+      required double longitude,
+      required double range}) async {
     Map<String, Object> data = {
       "longitude": longitude,
       "latitude": latitude,
@@ -300,30 +221,17 @@ class ProfileRepository {
     return updateProfileFields(data);
   }
 
-  Future<String?> updateProfileIncome(
-      {required List<int> earnings}) async {
-    Map<String, Object> data = {
-      "whoEarn": earnings
-    };
+  Future updateProfileIncome({required List<int> earnings}) async {
+    Map<String, Object> data = {"whoEarn": earnings};
     return updateProfileFields(data);
   }
 
-  Future<String?> updateProfileFields(
-      Map<String, Object> data) async {
-    NetworkResponse response =
-    await _apiService.put(ApiService.API_USER_EDIT,
+  Future updateProfileFields(Map<String, Object> data) async {
+    Response response = await _apiService.put(
+      ApiService.API_USER_EDIT,
       data: data,
       auth: true,
     );
-    if (response is NetworkResponseError) {
-      throw ApiException(
-          errorType: LocalizedErrorType.SERVER_ERROR, message: response.message);
-    } else if (response is NetworkResponseSuccess) {
-      String? message = response.message;
-      await setProfile(response.data);
-      return message;
-    }
+    await setProfile(response.data);
   }
-
-
 }

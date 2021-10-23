@@ -41,7 +41,7 @@ class Signup8ValidateCubit extends Cubit<Signup8ValidateState> {
     if (!(state is Signup8ValidateLoading)) {
       emit(Signup8ValidateLoading());
       try {
-        await profileRepository.sendConfirmationCode(phone);
+        await profileRepository.requestConfirmationCode(phone);
         emit(Signup8ResendSuccess());
       } catch (e) {
         emit(Signup8ValidateError(e));

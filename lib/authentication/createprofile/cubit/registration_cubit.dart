@@ -21,7 +21,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   String? phone;
   String? password;
   Gender? gender;
-  Set<Generation>? generations;
+  int? generation;
   Set<Earning>? earnings;
   Set<Interest>? interests;
   bool lgbt = false;
@@ -43,9 +43,9 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   }
 
   void setGenerations({
-    required Set<Generation> generations,
+    required int generation,
   }) async {
-    this.generations = generations;
+    this.generation = generation;
   }
 
   void setEarnings({
@@ -89,7 +89,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     phone = null;
     password = null;
     gender = null;
-    generations = null;
+    generation = null;
     earnings = null;
     interests = null;
     lgbt = false;
@@ -112,19 +112,20 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         distance: range?.toString() ?? "1",
         gender: gender!.id,
         isLgbt: lgbt,
-        generation: generations!.map((e) => e.id).toList(),
+        //TODO clean this
+        generation: generation!,
         earning: earnings!.map((e) => e.id).toList(),
         likes: interests!.map((e) => e.id).toList(),
       );
 
       if (data.containsKey("user")) {
-        await profileRepository.setProfile(data['user']);
+        await profileRepository.setProfile(data['data']['user']);
         emit(RegistrationWaitCode( phone!));
         reset();
       } else {
         emit(RegistrationError(ServerException(
             errorType: LocalizedErrorType.UNEXPECTED,
-            message: "There is no token in response")));
+            message: "There is no user in response")));
       }
     } catch (e) {
       emit(RegistrationError(e));

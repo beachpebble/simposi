@@ -28,28 +28,32 @@ class SignUpForm3 extends RegistrationProfileScreen {
 }
 
 class _SignUpForm3State extends RegistrationProfileScreenState<SignUpForm3> {
-  Set<Generation> _selected = {};
+  int? _selected;
 
   void _selectGeneration(Generation generation) {
     setState(() {
-      if (_selected.contains(generation))
-        _selected.remove(generation);
-      else
-        _selected.add(generation);
+      _selected = generation.id;
     });
-    context.read<RegistrationCubit>().setGenerations(generations: _selected);
+    context.read<RegistrationCubit>().setGenerations(generation: generation.id);
   }
 
   @override
   void initState() {
     super.initState();
     _selected = widget.editMode
-        ? context.read<ProfileEditCubit>().profile.generations
-        : context.read<RegistrationCubit>().generations ?? {};
+        ? context.read<ProfileEditCubit>().profile.generationId
+        : context.read<RegistrationCubit>().generation;
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) {
+
+    print("gen   ${context
+        .read<AuthenticationBloc>()
+        .masterData
+        .generations}");
+  return
+  Scaffold(
         backgroundColor: Colors.white,
         extendBodyBehindAppBar: true,
         appBar: BasicFormAppBar(),
@@ -100,10 +104,10 @@ class _SignUpForm3State extends RegistrationProfileScreenState<SignUpForm3> {
                               .masterData
                               .generations[index]
                               .title,
-                          isSelected: _selected.contains(context
+                          isSelected: context
                               .read<AuthenticationBloc>()
                               .masterData
-                              .generations[index]),
+                              .generations[index].id == _selected,
                           buttonAction: () {
                             _selectGeneration(context
                                 .read<AuthenticationBloc>()
@@ -120,19 +124,19 @@ class _SignUpForm3State extends RegistrationProfileScreenState<SignUpForm3> {
             getFooter()
           ],
         ),
-      );
+      );}
 
   @override
-  VoidCallback? continueAction() => _selected.isNotEmpty
+  VoidCallback? continueAction() => _selected != null
       ? () {
           Navigator.of(context).pushNamed('/signup4');
         }
       : null;
 
   @override
-  VoidCallback? saveAction() => _selected.isNotEmpty
+  VoidCallback? saveAction() => _selected != null
       ? () {
-          context.read<ProfileEditCubit>().generation(_selected);
+          context.read<ProfileEditCubit>().generation(_selected!);
         }
       : null;
 

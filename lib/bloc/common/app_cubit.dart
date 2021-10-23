@@ -37,8 +37,9 @@ mixin ErrorHandle {
 }
 
 LocalizedErrorType handleDioException(DioError exception) {
-  if (exception.type == null) return LocalizedErrorType.DIO_DEFAULT;
   switch (exception.type) {
+    case DioErrorType.response:
+      return LocalizedErrorType.DIO_DEFAULT;
     case DioErrorType.cancel:
       return LocalizedErrorType.DIO_DEFAULT;
     case DioErrorType.connectTimeout:
@@ -57,3 +58,5 @@ LocalizedErrorType handleDioException(DioError exception) {
       return LocalizedErrorType.DIO_DEFAULT;
   }
 }
+
+

@@ -17,9 +17,9 @@ class ApiService {
 
   static const String TEST = "https://simposi-dev.uastar.space";
 
-  static const String API_LOGIN = "/api/v1/user/login";
-  static const String API_CHANGE_PASSWORD = "/api/v1/user/changeForgotPassword";
-  static const String API_ACCEPT_CODE = "/api/v1/code";
+  static const String API_LOGIN = "/api/v1/login";
+  static const String API_CHANGE_PASSWORD = "/api/v1/forgot-password";
+  static const String API_ACCEPT_CODE = "/api/v1/verification/sms-code";
   static const String API_UPLOAD_AVATAR = "/api/v1/user/userpic";
   static const String API_MASTER_DATA = "/api/v1/dictionaries";
   static const String API_REGISTER = "/api/v1/register";
@@ -44,7 +44,7 @@ class ApiService {
         maxWidth: 200));
   }
 
-  Future<NetworkResponse> post(String path, {
+  Future<Response> post(String path, {
     required Map<String, Object> data,
     auth: true,
     String? customToken,
@@ -53,16 +53,13 @@ class ApiService {
     var options = await _prepareRequest(path, auth);
     if (customToken != null && auth == false)
       options.headers!['Authorization'] = "Bearer $customToken";
-    // //TODO later change to locale set on device
-    // if (data is Map<String, dynamic> && lang)
-    //   data["language_id"] = 1;
     String s = json.encode(data);
     print("WTF $s");
     final response = await _dio.post(path, data: data, options: options);
-    return _handleResponse(response, 'POST', path);
+    return response;
   }
 
-  Future<NetworkResponse> put(String path, {
+  Future<Response> put(String path, {
     required Map<String, Object> data,
     auth: true,
     String? customToken,
@@ -75,20 +72,20 @@ class ApiService {
     if (data is Map<String, dynamic> && lang)
       data["language_id"] = 1;
     final response = await _dio.put(path, data: data, options: options);
-    return _handleResponse(response, 'POST', path);
+    return response;
   }
 
-  Future<NetworkResponse> postMulti(String path, {
+  Future<Response> postMulti(String path, {
     required dynamic data,
     auth: true,
     bool lang = true
   }) async {
     var options = await _prepareRequest(path, auth);
     final response = await _dio.post(path, data: data, options: options);
-    return _handleResponse(response, 'POST', path);
+    return response;
   }
 
-  Future<NetworkResponse> get(
+  Future<Response> get(
       String path, {
         auth: true,
         String? customToken,
@@ -98,7 +95,7 @@ class ApiService {
     if (customToken != null && auth == false)
       options.headers!['Authorization'] = "Bearer $customToken";
     final response = await _dio.get(path, options: options, queryParameters: queryParameters);
-    return _handleResponse(response, 'GET', path);
+    return response;
   }
 
   Future<Options> _prepareRequest(String path, bool withAuth) async {
@@ -118,33 +115,33 @@ class ApiService {
         responseType: ResponseType.json);
   }
 
-  NetworkResponse _handleResponse(Response response, String method, String host) {
-    if (response.statusCode != 200) {
-      throw ServerException(
-          errorType: LocalizedErrorType.SERVER_ERROR,
-          message: 'Fail $method $host Error: ${response.statusCode}');
-    }
-    var body;
-    try {
-      if (response.data is String)
-        body = jsonDecode(response.data);
-      else
-        body = response.data;
-      if (body is Map && body.containsKey("status")) {
-        if (body['status'] == 200 || body['status'] == 201) {
-          NetworkResponseSuccess networkResponseSuccess =
-          NetworkResponseSuccess.fromJson(body);
-          return networkResponseSuccess;
-        } else {
-          NetworkResponseError networkResponseError =
-          NetworkResponseError.fromJson(body);
-          return networkResponseError;
-        }
-      } else {
-        throw ParseException(message: 'Invalid server response type');
-      }
-    } catch (e) {
-      throw ParseException(message: 'Invalid server response');
-    }
-  }
+  // NetworkResponse _handleResponse(Response response, String method, String host) {
+  //   if (response.statusCode != 200) {
+  //     throw ServerException(
+  //         errorType: LocalizedErrorType.SERVER_ERROR,
+  //         message: 'Fail $method $host Error: ${response.statusCode}');
+  //   }
+  //   var body;
+  //   try {
+  //     if (response.data is String)
+  //       body = jsonDecode(response.data);
+  //     else
+  //       body = response.data;
+  //     if (body is Map && body.containsKey("status")) {
+  //       if (body['status'] == 200 || body['status'] == 201) {
+  //         NetworkResponseSuccess networkResponseSuccess =
+  //         NetworkResponseSuccess.fromJson(body);
+  //         return networkResponseSuccess;
+  //       } else {
+  //         NetworkResponseError networkResponseError =
+  //         NetworkResponseError.fromJson(body);
+  //         return networkResponseError;
+  //       }
+  //     } else {
+  //       throw ParseException(message: 'Invalid server response type');
+  //     }
+  //   } catch (e) {
+  //     throw ParseException(message: 'Invalid server response');
+  //   }
+  // }
 }

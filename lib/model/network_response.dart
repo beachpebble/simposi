@@ -31,9 +31,15 @@ class NetworkResponseError extends NetworkResponse {
   List<Object> get props => [message, status];
 
   static NetworkResponseError fromJson(Map json) {
-    if (!json.containsKey('message') || !json.containsKey('status')) {
+    if (!json.containsKey('error') && json.containsKey('status')) {
+      Map error = json['error'];
+      if (error.containsKey('message')) {
+        return NetworkResponseError(error['message'], json['status']);
+      } else {
+        throw ParseException(message: "ResponseError doesn't contain mandatory fields");
+      }
+    } else {
       throw ParseException(message: "ResponseError doesn't contain mandatory fields");
     }
-    return NetworkResponseError(json['message'], json['status']);
   }
 }

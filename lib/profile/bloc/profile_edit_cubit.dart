@@ -31,7 +31,6 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
         newPath = await profileRepository.uploadAvatar(filePath);
       }
       String? newPhone  = (profileRepository.profile.userPhone != phone && phone!= null && phone.isNotEmpty) ? phone : null;
-      print("NewPHopne $newPhone");
       //if we want to change phone first check it it exists
       if (newPhone != null) {
         await profileRepository.userNotExist(phone: newPhone);
@@ -60,11 +59,11 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
     }
   }
 
-  Future<void> generation(Set<Generation> generations) async {
+  Future<void> generation(int generation) async {
     emit(ProfileEditLoading());
     try {
       await profileRepository.updateProfileGenerations(
-          generation: generations.map((e) => e.id).toList());
+          generation: generation);
       emit(ProfileEditSuccess());
     } catch (e) {
       emit(ProfileEditError(e));

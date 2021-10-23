@@ -146,8 +146,22 @@ String _getDioResponseError(DioError dioError) {
     Response response = dioError.response!;
     try {
       var body = response.data is String ? jsonDecode(response.data) : response.data;
-      if (body is Map && body.containsKey('message')) {
-        return body['message'];
+      if (body is Map && body.containsKey('error')) {
+        Map? error = body['error'];
+        if (error != null && error.containsKey('message')) {
+          var message = error['message'];
+          if (message is String) {
+            return message;
+          } else if (message is Map) {
+            String error = "";
+            for(List f in message.values) {
+              String fs = f.join(", ");
+              error += fs;
+            }
+            return error;
+          }
+
+        }
       }
     } catch (e) {
 
