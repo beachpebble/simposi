@@ -8,4 +8,6 @@ class SimposiDateUtils {
         .subtract(Duration(days: daysOfWeek));
     return eventWeekStart;
   }
+
+
 }

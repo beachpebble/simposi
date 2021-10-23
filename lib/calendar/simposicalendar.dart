@@ -11,16 +11,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:simposi_app_v4/calendar/week_calendar/utils.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/counterbubble.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposiappbar.dart';
 import 'package:simposi_app_v4/global/widgets/progress.dart';
-import 'package:simposi_app_v4/model/event.dart';
 import 'package:simposi_app_v4/utils/date_utils.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 import 'bloc/calendar_bloc.dart';
 import 'calendarwidgets/calendarcards.dart';
+import 'week_calendar/week_calendar.dart';
 
 class SimposiCalendar extends StatefulWidget {
   @override
@@ -31,9 +31,9 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
   final ItemScrollController _itemScrollController = ItemScrollController();
   final ItemPositionsListener _itemPositionsListener =
       ItemPositionsListener.create();
-  PageController? _calendarPageController;
-  int _firstScrollItem = 0;
-  int _lastScrollItem = 0;
+  CalendarController? _calendarPageController;
+  int _firstScrollItemIndex = 0;
+  int _lastScrollItemIndex = 0;
 
   @override
   void initState() {
@@ -45,12 +45,9 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
         return s1.index.compareTo(s2.index);
       });
 
-      ItemPosition first = items.first;
-      _lastScrollItem = items.last.index;
-      int index = first.index;
-      print("first index ${index}  $_lastScrollItem");
-      _firstScrollItem = index;
-      context.read<CalendarBloc>().add(ListScrolled(_firstScrollItem));
+      _lastScrollItemIndex = items.last.index;
+      _firstScrollItemIndex = items.first.index;
+      context.read<CalendarBloc>().add(ListScrolled(_firstScrollItemIndex));
     });
   }
 
@@ -67,7 +64,6 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
         simposiTitle: 'Socials',
         simposiSubTitle: BlocBuilder<CalendarBloc, CalendarState>(
           builder: (context, state) {
-            print("QQQQQQQ      ${state}");
             if (state is CalendarLoaded) {
               return _CalendarHeader(
                 focusedDay: state.weekStart,
@@ -107,48 +103,31 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
                 return s1 is CalendarLoading && s2 is CalendarLoaded;
               },
               builder: (context, state) {
-                return TableCalendar<CalEvent>(
-                  daysOfWeekVisible: false,
-                  calendarBuilders: CalendarBuilders(
-                    todayBuilder: fosusedBuilder,
-                    defaultBuilder: defaultBuilder,
-                    outsideBuilder: defaultBuilder,
-                  ),
-                  onCalendarCreated: (c) {
-                    _calendarPageController = c;
-                  },
+                return WeekCalendar(
                   firstDay: DateTime.now().subtract(Duration(days: 90)),
                   lastDay: DateTime.now().add(Duration(days: 90)),
                   focusedDay: SimposiDateUtils.weekStart(
                       DateUtils.dateOnly(DateTime.now())),
-                  headerVisible: false,
-                  calendarFormat: CalendarFormat.week,
-                  rangeSelectionMode: RangeSelectionMode.toggledOff,
-                  eventLoader: (day) {
-                    if (state is CalendarLoaded) {
-                      return state.events
-                          .where((element) =>
-                              DateUtils.isSameDay(day, element.date))
-                          .toList();
-                    } else {
-                      return [];
-                    }
-                  },
                   onPageChanged: (fd) {
                     print("!cal ${fd.day}");
                     context.read<CalendarBloc>().add(WeekSelected(fd));
                   },
-                  rowHeight: 60,
-                  daysOfWeekHeight: 48,
-                  calendarStyle: CalendarStyle(
-                    markersMaxCount: 1,
-                    outsideDaysVisible: true,
-                    isTodayHighlighted: true,
-                    markerDecoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
+                  onCalendarCreated: (c) {
+                    _calendarPageController = c;
+                  },
+                  todayBuilder: fosusedBuilder,
+                  defaultBuilder: defaultBuilder,
+                  eventChecker: (day) {
+                    if (state is CalendarLoaded) {
+                      bool d = state.events
+                          .map((e) => e.date.toUtc())
+                          .toList()
+                          .contains(day.toUtc());
+                      return d;
+                    } else {
+                      return false;
+                    }
+                  },
                 );
               },
             ),
@@ -184,8 +163,8 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
             listener: (context, state) {
               if (state is CalendarLoaded && state.loadBy == LoadBy.CALENDAR) {
                 print(
-                    "@@@ ${state.scrollPos}  $_firstScrollItem $_lastScrollItem");
-                if (state.scrollPos != _firstScrollItem) {
+                    "@@@ ${state.scrollPos}  $_firstScrollItemIndex $_lastScrollItemIndex");
+                if (state.scrollPos != _firstScrollItemIndex) {
                   _itemScrollController.scrollTo(
                       index: state.scrollPos,
                       duration: Duration(milliseconds: 500),
@@ -194,10 +173,9 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
               } else if (state is CalendarLoaded &&
                   state.loadBy == LoadBy.LIST) {
                 if (state.difWeeks != 0) {
-                  int cur = _calendarPageController?.page?.toInt() ?? 0;
+                  int cur = _calendarPageController?.getPage()?.toInt() ?? 0;
                   _calendarPageController?.animateToPage(cur + state.difWeeks,
-                      duration: Duration(milliseconds: 500),
-                      curve: Curves.easeInOutCubic);
+                      callback: false);
                 }
               }
             },
@@ -250,42 +228,21 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
           color: SimposiAppColors.simposiFadedBlue,
           shape: BoxShape.rectangle,
         ),
-        child: Column(
-          children: [
-            Text(DateFormat('EEE').format(d1),
-                style: TextStyle(
-                  color: Colors.white,
-                )),
-
-            Text(d1.day.toString(),
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w900,
-                )),
-          ],
-        ),
+        child: Text(d1.day.toString(),
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w900,
+            )),
       ),
     );
   };
   var defaultBuilder = (context, d1, d2) {
     return Center(
-      child: Container(
-        padding: const EdgeInsets.all(5),
-        child: Column(
-          children: [
-            Text(DateFormat('EEE').format(d1),
-                style: TextStyle(
-                  color: Colors.white,
-                )),
-            Text(d1.day.toString(),
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w900,
-                )),
-          ],
-        ),
-      ),
-    );
+        child: Text(d1.day.toString(),
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w900,
+            )));
   };
 }
 
