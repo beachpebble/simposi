@@ -7,16 +7,7 @@ import 'package:simposi_app_v4/model/errors.dart';
 class AuthRepository {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   String? jwt;
-  String? get usedId {
-    if (jwt == null) return null;
-    try {
-      Map jwtMap = _decodeJwt(jwt!);
-      Map data = jwtMap['data'];
-      return data['id'];
-    } catch (e) {
-      return null;
-    }
-  }
+
   bool get authorized => jwt!= null && jwt?.isNotEmpty == true;
 
   loadAuth() async {
@@ -29,14 +20,6 @@ class AuthRepository {
       return;
     }
     developer.log('jwt $jwt', name: 'AuthRepository loadAuth');
-    Map payload;
-    try {
-      payload = _decodeJwt(jwt!);
-      developer.log('payload parsed $payload', name: 'AuthRepository loadAuth');
-    } catch (e) {
-      await logout();
-      return;
-    }
     developer.log('loadAuth complete', name: 'AuthRepository loadAuth');
   }
 
@@ -54,21 +37,5 @@ class AuthRepository {
     await prefs.remove('access_token');
     await prefs.remove('userId');
     jwt = null;
-  }
-
-  Map _decodeJwt(String jwt) {
-    var parts = jwt.split('.');
-    if (parts.length != 3) {
-      throw Exception('Invalid jwt');
-    }
-    Map payload;
-    try {
-      payload = jsonDecode(
-          utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))));
-    } catch (e) {
-      throw ParseException(errorType: LocalizedErrorType.PARSE_JWT_ERROR,
-          message: 'Unable to parse jwt');
-    }
-    return payload;
   }
 }

@@ -20,7 +20,7 @@ class ApiService {
   static const String API_LOGIN = "/api/v1/login";
   static const String API_CHANGE_PASSWORD = "/api/v1/forgot-password";
   static const String API_ACCEPT_CODE = "/api/v1/verification/sms-code";
-  static const String API_UPLOAD_AVATAR = "/api/v1/user/userpic";
+  static const String API_UPLOAD_AVATAR = "/api/v1/upload-profile-photo";
   static const String API_MASTER_DATA = "/api/v1/dictionaries";
   static const String API_REGISTER = "/api/v1/register";
   static const String API_USER_EXISTS = "/api/v1/verification/check-phone";
@@ -44,7 +44,7 @@ class ApiService {
         maxWidth: 200));
   }
 
-  Future<Response> post(String path, {
+  Future<Response<Map>> post(String path, {
     required Map<String, Object> data,
     auth: true,
     String? customToken,
@@ -55,7 +55,7 @@ class ApiService {
       options.headers!['Authorization'] = "Bearer $customToken";
     String s = json.encode(data);
     print("WTF $s");
-    final response = await _dio.post(path, data: data, options: options);
+    Response<Map> response = await _dio.post(path, data: data, options: options);
     return response;
   }
 
@@ -85,7 +85,7 @@ class ApiService {
     return response;
   }
 
-  Future<Response> get(
+  Future<Response<Map>> get(
       String path, {
         auth: true,
         String? customToken,
@@ -94,7 +94,7 @@ class ApiService {
     var options = await _prepareRequest(path, auth);
     if (customToken != null && auth == false)
       options.headers!['Authorization'] = "Bearer $customToken";
-    final response = await _dio.get(path, options: options, queryParameters: queryParameters);
+    Response<Map> response = await _dio.get(path, options: options, queryParameters: queryParameters);
     return response;
   }
 

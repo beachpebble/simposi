@@ -26,7 +26,7 @@ class LoginCubit extends Cubit<LoginState> {
             data['token'] != null &&
             user.containsKey('verified') &&
             user['verified'] == true) {
-          await profileRepository.setProfile(data);
+          await profileRepository.setProfile(user);
           emit(LoginSuccess());
           authenticationBloc.add(SaveAuthEvent(data['token']));
         } else {

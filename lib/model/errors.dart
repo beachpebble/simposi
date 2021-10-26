@@ -79,23 +79,6 @@ class ServerException implements Exception {
   }
 }
 
-/**
-    Errors from network layer in cases when http code is not 200*
- */
-class AppStateException implements Exception {
-  final String message;
-  final LocalizedErrorType errorType;
-
-  AppStateException({this.errorType = LocalizedErrorType.APP_STATE, this.message = ""});
-
-  @override
-  String toString() {
-    if (message.isNotEmpty)
-      return message;
-    else
-      return "Unknown AppStateException";
-  }
-}
 
 class AuthException extends ApiException {
   AuthException({String message = ""})
@@ -112,7 +95,9 @@ String handleError(dynamic exception, BuildContext context) {
     return getDioException(exception, context);
   } else if (exception is ParseException) {
     return "Data parse error";
-  } else {
+  } if (exception is String ){
+    return exception;
+  }else {
     return "Unknown error";
   }
 }

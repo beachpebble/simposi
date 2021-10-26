@@ -60,14 +60,21 @@ class ProfileRepository {
           'phone': phone,
         },
         auth: false);
-    String? token = response.data["apiAccessToken"];
-    return token;
+    Map data = response.data;
+
+    if (data["data"]?["token"] != null) {
+      String token = data["data"]?["token"];
+      return token;
+    } else {
+      throw ApiException(
+          errorType: LocalizedErrorType.OTHER, message: "Unexpected response");
+    }
   }
 
-  Future<String?> uploadAvatar(String path) async {
+  Future<String?> uploadProfilePhoto(String path) async {
     String fileName = path.split('/').last;
     FormData formData = FormData.fromMap({
-      "Image": await MultipartFile.fromFile(
+      "image": await MultipartFile.fromFile(
         path,
         filename: fileName,
         contentType: MediaType("image", "jpeg"),
@@ -78,9 +85,10 @@ class ProfileRepository {
         data: formData,
         lang: false,
         auth: false);
-    var messages = response.data;
-    if (messages is List && messages.isNotEmpty) {
-      return messages.first;
+    Map? data = response.data;
+    String? name = data?["data"]?['name'];
+    if (name != null) {
+      return name;
     } else {
       throw ApiException(
           errorType: LocalizedErrorType.OTHER, message: "Unexpected response");
@@ -120,14 +128,21 @@ class ProfileRepository {
   }
 
   // Returns 200 if user doesnt exist
-  Future userNotExist({
+  Future<bool> userNotExist({
     required String phone,
   }) async {
     Map<String, Object> data = {
       "phone": phone,
     };
-    Response response = await _apiService.post(ApiService.API_USER_EXISTS,
+    Response<Map> response = await _apiService.post(ApiService.API_USER_EXISTS,
         auth: false, data: data);
+    bool? isPhoneUsed = response.data?['data']?['isPhoneUsed'];
+    if (isPhoneUsed == null) {
+      throw ApiException(
+          errorType: LocalizedErrorType.OTHER, message: "Unexpected response");
+    } else {
+      return isPhoneUsed;
+    }
   }
 
   Future<Map> sendRegistration({
@@ -146,7 +161,7 @@ class ProfileRepository {
   }) async {
     var data = {
       "name": name,
-      //"profile_photo": image,
+      "profile_photo": image,
       "phone": phone,
       "password": password,
       "password_confirmation": password,

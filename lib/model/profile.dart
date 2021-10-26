@@ -66,8 +66,8 @@ class Profile extends Equatable {
     String? parsedUserName = json.containsKey('name') ? json['name'] : null;
     String? parsedProfilePhoto =
         json.containsKey('profile_photo') ? json['profile_photo'] : null;
-    String? parsedWantToMeet =
-        json.containsKey('want_to_meets') ? json['want_to_meets'] : null;
+    // String? parsedWantToMeet =
+    //     json.containsKey('want_to_meets') ? json['want_to_meets'] : null;
     String? parsedGenderId = json.containsKey('gender') ? json['gender'] : null;
     bool parsedIsLgbt = json.containsKey('is_lgbtq') && json['is_lgbtq'] != null
         ? json['is_lgbtq']
@@ -117,7 +117,7 @@ class Profile extends Equatable {
       userName: parsedUserName,
       userPhone: parsedPhone,
       profilePhoto: parsedProfilePhoto ?? "",
-      wantToMeet: parsedWantToMeet,
+      wantToMeet: "",
       isLgbt: parsedIsLgbt,
       gender: gender,
       facebook: parsedFacebook,

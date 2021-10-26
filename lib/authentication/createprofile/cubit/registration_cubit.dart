@@ -118,7 +118,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         likes: interests!.map((e) => e.id).toList(),
       );
 
-      if (data.containsKey("user")) {
+      if (data.containsKey("data")) {
         await profileRepository.setProfile(data['data']['user']);
         emit(RegistrationWaitCode( phone!));
         reset();

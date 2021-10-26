@@ -28,7 +28,7 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
     try {
       String? newPath;
       if (filePath != null) {
-        newPath = await profileRepository.uploadAvatar(filePath);
+        newPath = await profileRepository.uploadProfilePhoto(filePath);
       }
       String? newPhone  = (profileRepository.profile.userPhone != phone && phone!= null && phone.isNotEmpty) ? phone : null;
       //if we want to change phone first check it it exists
