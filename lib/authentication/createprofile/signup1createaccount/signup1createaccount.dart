@@ -36,7 +36,8 @@ class _SignUpForm1State extends State<SignUpForm1> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _passwordConfirmController = TextEditingController();
+  final TextEditingController _passwordConfirmController =
+      TextEditingController();
   String _phone = "";
 
   @override
@@ -153,8 +154,18 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                         label: AppLocalizations.of(context)!
                                             .signUpPassword,
                                         controller: _passwordConfirmController,
-                                        validator: getValidator(
-                                            context, Validators.PASSWORD)),
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return AppLocalizations.of(context)!
+                                                .validatePasswordNotEmpty;
+                                          } else if (value !=
+                                              _passwordController.text) {
+                                            return AppLocalizations.of(context)!
+                                                .validatePasswordsDontMatch;
+                                          } else {
+                                            return null;
+                                          }
+                                        }),
                                     SizedBox(height: 15),
 
                                     // SUBMIT BUTTON
@@ -169,7 +180,8 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                                       if (_filePath
                                                               ?.isNotEmpty ==
                                                           true) {
-                                                        _formKey.currentState!.save();
+                                                        _formKey.currentState!
+                                                            .save();
                                                         context
                                                             .read<
                                                                 Signup1CreateAccountCubit>()

@@ -56,7 +56,7 @@ class _EventSettingsState extends State<EventSettings> {
                       ),
                       menuCardLabel: 'Generations',
                       onTap: () {
-                        Navigator.of(context).pushNamed('/createevent5');
+                        Navigator.of(context).pushNamed('/createevent5edit');
                       },
                     ),
                     SimposiMenuCard(
@@ -65,7 +65,7 @@ class _EventSettingsState extends State<EventSettings> {
                       ),
                       menuCardLabel: 'Who earn',
                       onTap: () {
-                        Navigator.of(context).pushNamed('/createevent6');
+                        Navigator.of(context).pushNamed('/createevent6edit');
                       },
                     ),
                   ],

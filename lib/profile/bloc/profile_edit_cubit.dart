@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:simposi_app_v4/model/earning.dart';
+import 'package:simposi_app_v4/model/emergency_contact.dart';
 import 'package:simposi_app_v4/model/gender.dart';
 import 'package:simposi_app_v4/model/generation.dart';
 import 'package:simposi_app_v4/model/interest.dart';
@@ -100,6 +101,48 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
     try {
       await profileRepository.updateProfileIncome(
           earnings: earnings.map((e) => e.id).toList());
+      emit(ProfileEditSuccess());
+    } catch (e) {
+      emit(ProfileEditError(e));
+    }
+  }
+
+  Future<void> emergencyContact(String name, String phone) async {
+    emit(ProfileEditLoading());
+    try {
+      await profileRepository.updateEmergencyContact(contact: EmergencyContact(name, phone));
+      emit(ProfileEditSuccess());
+    } catch (e) {
+      emit(ProfileEditError(e));
+    }
+  }
+
+  Future<void> wantToMeetGeneration(Set<Generation> generations) async {
+    emit(ProfileEditLoading());
+    try {
+      await profileRepository.updateWantToMeetGenerations(
+          generations: generations.map((e) => e.id).toList());
+      emit(ProfileEditSuccess());
+    } catch (e) {
+      emit(ProfileEditError(e));
+    }
+  }
+
+  Future<void> wantToMeetIncome(Set<Earning> earnings) async {
+    emit(ProfileEditLoading());
+    try {
+      await profileRepository.updateProfileIncome(
+          earnings: earnings.map((e) => e.id).toList());
+      emit(ProfileEditSuccess());
+    } catch (e) {
+      emit(ProfileEditError(e));
+    }
+  }
+
+  Future<void> wantToMeetGender(List<Gender> gender, bool isLgbt) async {
+    emit(ProfileEditLoading());
+    try {
+      await profileRepository.updateWantToMeetGender(gender: gender.map((e) => e.id).toList(), lgbt: isLgbt);
       emit(ProfileEditSuccess());
     } catch (e) {
       emit(ProfileEditError(e));

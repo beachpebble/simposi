@@ -24,7 +24,7 @@ class ApiService {
   static const String API_MASTER_DATA = "/api/v1/dictionaries";
   static const String API_REGISTER = "/api/v1/register";
   static const String API_USER_EXISTS = "/api/v1/verification/check-phone";
-  static const String API_USER_EDIT = "/api/v1/user";
+  static const String API_USER_EDIT = "/api/v1/user/update-profile";
 
   ApiService({required this.authRepository, this.baseUrl = TEST}) {
     _dio = Dio();
@@ -69,8 +69,6 @@ class ApiService {
     if (customToken != null && auth == false)
       options.headers!['Authorization'] = "Bearer $customToken";
     //TODO later change to locale set on device
-    if (data is Map<String, dynamic> && lang)
-      data["language_id"] = 1;
     final response = await _dio.put(path, data: data, options: options);
     return response;
   }

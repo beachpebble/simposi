@@ -107,7 +107,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               children: [
                                 // EMAIL FIELD
                                 PhoneField(
-                                  initialPhone: "+380676396288",
                                   controller: _phoneController,
                                   onSave: (value) =>
                                       setState(() => phone = value),

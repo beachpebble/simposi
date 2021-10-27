@@ -65,7 +65,7 @@ import 'package:simposi_app_v4/notifications/newtimesuggestedalert.dart';
 import 'package:simposi_app_v4/notifications/youlikeeachother.dart';
 import 'package:simposi_app_v4/profile/accountmenu.dart';
 import 'package:simposi_app_v4/profile/editprofileform.dart';
-import 'package:simposi_app_v4/profile/emergencycontact.dart';
+import 'package:simposi_app_v4/profile/emergency_contact_screen.dart';
 import 'package:simposi_app_v4/profile/faqscreen.dart';
 import 'package:simposi_app_v4/profile/privacy.dart';
 
@@ -243,9 +243,14 @@ class RouteGenerator {
       case '/createevent4':
         return MaterialPageRoute(builder: (_) => CreateEvent4());
       case '/createevent5':
-        return MaterialPageRoute(builder: (_) => CreateEvent5());
+        return MaterialPageRoute(builder: (_) => CreateEvent5Generations());
+      case '/createevent5edit':
+        return MaterialPageRoute(
+            builder: (_) => CreateEvent5Generations(editMode: true));
       case '/createevent6':
         return MaterialPageRoute(builder: (_) => CreateEvent6());
+      case '/createevent6edit':
+        return MaterialPageRoute(builder: (_) => CreateEvent6(editMode: true));
       case '/createevent7':
         return MaterialPageRoute(builder: (_) => CreateEvent7());
 

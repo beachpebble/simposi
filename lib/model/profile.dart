@@ -7,6 +7,7 @@ import 'package:simposi_app_v4/model/interest.dart';
 import 'package:simposi_app_v4/utils/type_utils.dart';
 
 import 'errors.dart';
+import 'generation.dart';
 
 class Profile extends Equatable {
   final int userId;
@@ -25,6 +26,12 @@ class Profile extends Equatable {
   final double latitude;
   final double longitude;
   final double range;
+  final String? emergencyContactName;
+  final String? emergencyContactPhone;
+  final Set<Generation>? wantToMeetGenerations;
+  final Set<Earning>? wantToMeetEarnings;
+  final Set<Gender>? wantToMeetGender;
+  final bool? wantToMeetLgbt;
 
   Profile({
     required this.userId,
@@ -43,6 +50,12 @@ class Profile extends Equatable {
     this.facebook,
     this.instagram,
     this.linkedin,
+    this.emergencyContactName,
+    this.emergencyContactPhone,
+    this.wantToMeetGenerations,
+    this.wantToMeetEarnings,
+    this.wantToMeetGender,
+    this.wantToMeetLgbt,
   });
 
   @override
@@ -57,14 +70,20 @@ class Profile extends Equatable {
         interests,
         latitude,
         longitude,
-        range
+        range,
+        emergencyContactName,
+        emergencyContactPhone,
+        wantToMeetEarnings,
+        wantToMeetGenerations,
+        wantToMeetLgbt,
+        wantToMeetGender
       ];
 
   static Profile fromJson(Map json) {
     developer.log("Profile loading from json $json");
     int? parsedUserId = json.containsKey('id') ? json['id'] : null;
     String? parsedUserName = json.containsKey('name') ? json['name'] : null;
-    String? parsedProfilePhoto =
+    Map? parsedProfilePhoto =
         json.containsKey('profile_photo') ? json['profile_photo'] : null;
     // String? parsedWantToMeet =
     //     json.containsKey('want_to_meets') ? json['want_to_meets'] : null;
@@ -75,9 +94,9 @@ class Profile extends Equatable {
     String? parsedFacebook =
         json.containsKey('facebook_url') ? json['facebook_url'] : null;
     String? parsedInstagram =
-        json.containsKey('instagram__url') ? json['instagram__url'] : null;
+        json.containsKey('instagram') ? json['instagram'] : null;
     String? parsedLinkedin =
-        json.containsKey('linkedln__url') ? json['linkedln__url'] : null;
+        json.containsKey('linkedin_url') ? json['linkedin_url'] : null;
 
     String? parsedPhone = json.containsKey('phone') ? json['phone'] : null;
 
@@ -98,6 +117,27 @@ class Profile extends Equatable {
     Set<Interest> interests =
         interestsStr.map((e) => Interest.fromJson(e)).toSet();
 
+    String parsedEmergencyContactName =
+        json.containsKey('emergency_contact_name')
+            ? json['emergency_contact_name']
+            : null;
+    ;
+    String parsedEmergencyContactPhone =
+        json.containsKey('emergency_contact_phone')
+            ? json['emergency_contact_phone']
+            : null;
+    ;
+
+    print("$parsedUserId + "
+        "$parsedUserName + "
+        "$parsedGenderId + "
+        "$parsedLatitude + "
+        "$parsedLongitude + "
+        "$parsedLongitude + "
+        "$parsedPhone + "
+        "$parsedDistance + "
+        "$parsedProfilePhoto + "
+        "$generations + ");
     if (parsedUserId == null ||
         parsedUserName == null ||
         parsedGenderId == null ||
@@ -105,6 +145,7 @@ class Profile extends Equatable {
         parsedLongitude == null ||
         parsedPhone == null ||
         parsedDistance == null ||
+        parsedProfilePhoto == null ||
         generations == null)
       throw ParseException(message: "Incorrect data structure");
 
@@ -116,8 +157,10 @@ class Profile extends Equatable {
       userId: parsedUserId,
       userName: parsedUserName,
       userPhone: parsedPhone,
-      profilePhoto: parsedProfilePhoto ?? "",
+      profilePhoto: parsedProfilePhoto['url'],
       wantToMeet: "",
+      emergencyContactName: parsedEmergencyContactName,
+      emergencyContactPhone: parsedEmergencyContactPhone,
       isLgbt: parsedIsLgbt,
       gender: gender,
       facebook: parsedFacebook,

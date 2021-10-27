@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:simposi_app_v4/model/earning.dart';
+import 'package:simposi_app_v4/model/emergency_contact.dart';
 import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/model/gender.dart';
 import 'package:simposi_app_v4/model/generation.dart';
@@ -180,8 +181,7 @@ class ProfileRepository {
   }
 
   Future requestConfirmationCode(String phone) async {
-    await _apiService.get(ApiService.API_ACCEPT_CODE,
-        queryParameters: {"phone": phone}, auth: false);
+    await _apiService.get(ApiService.API_ACCEPT_CODE+"/"+phone, auth: false);
   }
 
   Future updateProfile({
@@ -193,14 +193,14 @@ class ProfileRepository {
     String? linkedin,
   }) async {
     Map<String, Object> data = {};
-    if (name != null) data["user_name"] = name;
+    if (name != null) data["name"] = name;
     if (filepath != null) data["profile_photo"] = filepath;
     if (facebook != null && facebook.isNotEmpty)
       data["facebook_url"] = facebook;
     if (instagram != null && instagram.isNotEmpty)
-      data["instagram__url"] = instagram;
+      data["instagram"] = instagram;
     if (linkedin != null && linkedin.isNotEmpty)
-      data["linkedin__url"] = linkedin;
+      data["linkedin_url"] = linkedin;
     if (phone != null && phone.isNotEmpty) data["phone"] = phone;
     return updateProfileFields(data);
   }
@@ -208,19 +208,33 @@ class ProfileRepository {
   Future updateProfileGender(
       {required Gender gender, required bool lgbt}) async {
     Map<String, Object> data = {
-      "Gender": gender.id,
-      "IsLGBTQ": lgbt,
+      "gender": gender.id,
+      "is_lgbtq": lgbt,
+    };
+    return updateProfileFields(data);
+  }
+
+  Future updateEmergencyContact(
+      {required EmergencyContact contact}) async {
+    Map<String, Object> data = {
+      "emergency_contact_name": contact.name,
+      "emergency_contact_phone": contact.phone,
     };
     return updateProfileFields(data);
   }
 
   Future updateProfileGenerations({required int generation}) async {
-    Map<String, Object> data = {"generation": generation};
+    Map<String, Object> data = {"generations_identity_id": generation};
+    return updateProfileFields(data);
+  }
+
+  Future updateWantToMeetGenerations({required List<int> generations}) async {
+    Map<String, Object> data = {"want_to_meet_generations": generations};
     return updateProfileFields(data);
   }
 
   Future updateProfileInterests({required List<int> interests}) async {
-    Map<String, Object> data = {"what_you_like": interests};
+    Map<String, Object> data = {"what_you_likes": interests};
     return updateProfileFields(data);
   }
 
@@ -237,7 +251,21 @@ class ProfileRepository {
   }
 
   Future updateProfileIncome({required List<int> earnings}) async {
-    Map<String, Object> data = {"whoEarn": earnings};
+    Map<String, Object> data = {"who_earns": earnings};
+    return updateProfileFields(data);
+  }
+
+  Future updateWantToMeetIncome({required List<int> earnings}) async {
+    Map<String, Object> data = {"want_to_meet_earnings": earnings};
+    return updateProfileFields(data);
+  }
+
+  Future updateWantToMeetGender(
+      {required List<String> gender, required bool lgbt}) async {
+    Map<String, Object> data = {
+      "want_to_meet_gender": gender,
+      "is_lgbtq": lgbt,
+    };
     return updateProfileFields(data);
   }
 
@@ -247,6 +275,12 @@ class ProfileRepository {
       data: data,
       auth: true,
     );
-    await setProfile(response.data);
+    Map? user = response.data["data"]?["user"];
+    if (user != null) {
+      await setProfile(user);
+    } else {
+      throw ApiException(
+          errorType: LocalizedErrorType.OTHER, message: "Unexpected response");
+    }
   }
 }
