@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/progress.dart';
 
 import '../global/theme/elements/simposiappbar.dart';
 import 'bloc/profile_edit_cubit.dart';
@@ -58,7 +59,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
                 placeholder: (context, url) =>
-                    SizedBox(height: 25, child: CircularProgressIndicator()),
+                    Center(child: AppProgressIndicator()),
                 errorWidget: (context, url, error) => Icon(Icons.error),
               )),
             ),

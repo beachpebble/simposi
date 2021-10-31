@@ -14,10 +14,14 @@ import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/progress.dart';
 import 'package:simposi_app_v4/model/earning.dart';
+import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
+import 'package:simposi_app_v4/utils/toast_utils.dart';
 
 import 'create_event_screen.dart';
+import 'cubit/event_edit_cubit.dart';
 
 class CreateEvent6 extends CreateEventScreen {
   CreateEvent6({bool editMode = false}) : super(editMode: editMode);
@@ -38,7 +42,10 @@ class _SignUpForm4State extends CreateEventScreenState<CreateEvent6> {
       else
         _selected.add(earning);
     });
-    //context.read<RegistrationCubit>().setEarnings(earnings: _selected);
+    if (!widget.editMode) {
+      context.read<EventEditCubit>().stage6Earnings(earnings: _selected);
+    }
+
   }
 
   void _selectAll() {
@@ -50,6 +57,10 @@ class _SignUpForm4State extends CreateEventScreenState<CreateEvent6> {
         _selected
             .addAll(context.read<AuthenticationBloc>().masterData.earnings);
     });
+
+    if (!widget.editMode) {
+      context.read<EventEditCubit>().stage6Earnings(earnings: _selected);
+    }
   }
 
   @override
@@ -153,6 +164,29 @@ class _SignUpForm4State extends CreateEventScreenState<CreateEvent6> {
         );
       }));
 
+
+  @override
+  Widget registrationNextButton() {
+    return BlocConsumer<EventEditCubit, EventEditState>(
+  listener: (context, state) {
+    if (state is EventEditSuccess) {
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          '/home', ModalRoute.withName('start'),
+        );
+    } else if (state is EventEditError) {
+      showErrorToast(handleError(state.error, context));
+    }
+  },
+  builder: (context, state) {
+    return state is EventEditLoading ? AppProgressIndicator() : ContinueButton(
+        buttonLabel: "Save",
+        buttonAction: (){
+          context.read<EventEditCubit>().send();
+    });
+  },
+);
+  }
+  
   @override
   VoidCallback? continueAction() => _selected.isEmpty
       ? null
@@ -161,7 +195,7 @@ class _SignUpForm4State extends CreateEventScreenState<CreateEvent6> {
         };
 
   @override
-  double progress() => 0.56;
+  double progress() => 0.96;
 
   @override
   VoidCallback? saveAction() => _selected.isNotEmpty

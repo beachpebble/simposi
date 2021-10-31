@@ -46,7 +46,7 @@ class _EventSettingsState extends State<EventSettings> {
                       ),
                       menuCardLabel: 'Gender & Community',
                       onTap: () {
-                        Navigator.of(context).pushNamed('/createevent4');
+                        Navigator.of(context).pushNamed('/createevent4edit');
                       },
                     ),
                     SimposiMenuCard(

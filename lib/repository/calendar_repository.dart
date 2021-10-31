@@ -1,4 +1,8 @@
+import 'package:simposi_app_v4/model/earning.dart';
 import 'package:simposi_app_v4/model/event.dart';
+import 'package:simposi_app_v4/model/gender.dart';
+import 'package:simposi_app_v4/model/generation.dart';
+import 'package:simposi_app_v4/model/interest.dart';
 
 import 'api_service.dart';
 
@@ -18,4 +22,23 @@ class CalendarRepository {
       CalEvent(id:7, title: "New super event6", date: DateTime.now().add(Duration(days: 8))),
     ];
   }
+
+  Future sendEvent({
+    required String title,
+    required String image,
+    required String description,
+    required DateTime date,
+    required String latitude,
+    required String longitude,
+    required String address,
+    required String city,
+    required bool isLgbt,
+    required Set<Gender>? wantToMeetGender,
+    required Set<Earning>? wantToMeetEarnings,
+    required Set<Interest>? wantToMeetInterests,
+    required Set<Generation>? wantToMeetGenerations,
+  }) async {
+
+  }
+
 }

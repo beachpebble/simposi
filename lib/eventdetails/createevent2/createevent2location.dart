@@ -7,7 +7,6 @@
 
 import 'dart:async';
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,9 +16,9 @@ import 'package:google_maps_webservice/places.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/progress.dart';
 import 'package:simposi_app_v4/utils/location.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
-import 'package:simposi_app_v4/global/widgets/progress.dart';
 
 import 'createevent2_location_cubit.dart';
 
@@ -29,7 +28,7 @@ class CreateEvent2 extends StatefulWidget {
 }
 
 class _CreateEvent2State extends State<CreateEvent2> {
-  double progress = 0.85;
+  double progress = 0.32;
   final _placeSearchController = TextEditingController();
   Completer<GoogleMapController> _controller = Completer();
   Completer<void> _initCompleter = Completer();
@@ -74,8 +73,8 @@ class _CreateEvent2State extends State<CreateEvent2> {
                     const SizedBox(height: 45),
                     LinearProgressIndicator(
                       value: progress,
-                      valueColor:
-                          AlwaysStoppedAnimation(SimposiAppColors.simposiDarkBlue),
+                      valueColor: AlwaysStoppedAnimation(
+                          SimposiAppColors.simposiDarkBlue),
                       backgroundColor: SimposiAppColors.simposiFadedBlue,
                     ),
                     const SizedBox(height: 70),
@@ -115,8 +114,11 @@ class _CreateEvent2State extends State<CreateEvent2> {
                 child: Column(
                   children: [
                     // TODO: Remove Range Slider. It does not apply to events.
-                    Container(
-                      child: _rangeSlider(state),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        child: Text(state.address ?? ""),
+                      ),
                     ),
                     const SizedBox(height: 10),
                     Container(
@@ -124,7 +126,7 @@ class _CreateEvent2State extends State<CreateEvent2> {
                       child: ContinueButton(
                           buttonAction: state.selectedLocation != null
                               ? () {
-                                  Navigator.of(context).pushNamed('/signup7');
+                            Navigator.of(context).pushNamed('/createevent3');
                                 }
                               : null),
                     ),
@@ -136,27 +138,6 @@ class _CreateEvent2State extends State<CreateEvent2> {
         },
       ));
 
-  Widget _rangeSlider(CreateEvent2LocationState state) {
-    String units = localeIsImperial ? "miles" : "km";
-    return Column(
-      children: [
-        const SizedBox(height: 5),
-        Text("Within ${state.range.round()} $units of this location"),
-        const SizedBox(height: 5),
-        Slider(
-          activeColor: SimposiAppColors.simposiDarkBlue,
-          value: state.range,
-          min: 1,
-          max: 150,
-          divisions: 100,
-          label: "${state.range.round()} $units",
-          onChanged: (double value) {
-            context.read<CreateEvent2LocationCubit>().selectRange(value);
-          },
-        )
-      ],
-    );
-  }
 
   Widget _searchBar() {
     return TextField(
@@ -173,27 +154,28 @@ class _CreateEvent2State extends State<CreateEvent2> {
   }
 
   Widget _googleMap(CreateEvent2LocationState state) {
-    double range = localeIsImperial ? state.range * 1.6 : state.range;
     return FutureBuilder(
         future: _initCompleter.future,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           return snapshot.connectionState == ConnectionState.waiting
               ? Center(child: AppProgressIndicator())
-    : GoogleMap(
-        zoomControlsEnabled: true,
-        zoomGesturesEnabled: true,
-        myLocationEnabled: true,
-        mapType: MapType.normal,
-        initialCameraPosition:
-            CameraPosition(target: state.selectedLocation!, zoom: 11),
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
-        markers: _getMarkers(state.selectedLocation),
-        onTap: (loc) {
-          context.read<CreateEvent2LocationCubit>().selectLocation(loc);
-        },
-        circles: _getCircle(state.selectedLocation, range));
+              : GoogleMap(
+                  zoomControlsEnabled: true,
+                  zoomGesturesEnabled: true,
+                  myLocationEnabled: true,
+                  mapType: MapType.normal,
+                  initialCameraPosition:
+                      CameraPosition(target: state.selectedLocation!, zoom: 11),
+                  onMapCreated: (GoogleMapController controller) {
+                    _controller.complete(controller);
+                  },
+                  markers: _getMarkers(state.selectedLocation),
+                  onTap: (loc) {
+                    context
+                        .read<CreateEvent2LocationCubit>()
+                        .selectLocation(loc);
+                  },
+                  );
         });
   }
 
@@ -235,7 +217,9 @@ class _CreateEvent2State extends State<CreateEvent2> {
                     placesSearchResult.geometry!.location.lng);
                 controller.animateCamera(CameraUpdate.newLatLng(newLoc));
                 setState(() {
-                  context.read<CreateEvent2LocationCubit>().selectLocation(newLoc);
+                  context
+                      .read<CreateEvent2LocationCubit>()
+                      .selectLocation(newLoc);
                   _placeSearchController.clear();
                 });
               }

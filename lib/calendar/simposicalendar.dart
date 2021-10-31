@@ -28,9 +28,8 @@ class SimposiCalendar extends StatefulWidget {
 }
 
 class _SimposiCalendarState extends State<SimposiCalendar> {
-  final ItemScrollController _itemScrollController = ItemScrollController();
-  final ItemPositionsListener _itemPositionsListener =
-      ItemPositionsListener.create();
+  late final ItemScrollController _itemScrollController;
+  late final ItemPositionsListener _itemPositionsListener ;
   CalendarController? _calendarPageController;
   int _firstScrollItemIndex = 0;
   int _lastScrollItemIndex = 0;
@@ -38,6 +37,9 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
   @override
   void initState() {
     super.initState();
+    _itemScrollController = ItemScrollController();
+    _itemPositionsListener =
+    ItemPositionsListener.create();
     _itemPositionsListener.itemPositions.addListener(() {
       List<ItemPosition> items =
           _itemPositionsListener.itemPositions.value.toList();

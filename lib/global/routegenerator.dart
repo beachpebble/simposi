@@ -41,11 +41,13 @@ import 'package:simposi_app_v4/checkin/groupfinderchat.dart';
 
 // Discover
 import 'package:simposi_app_v4/discover/discoverscreen.dart';
+import 'package:simposi_app_v4/eventdetails/create_event3/createevent3_activities.dart';
+import 'package:simposi_app_v4/eventdetails/create_event3/createevent_activities_cubit.dart';
 
 // Create Event
 import 'package:simposi_app_v4/eventdetails/createevent1.dart';
-import 'package:simposi_app_v4/eventdetails/createevent2location.dart';
-import 'package:simposi_app_v4/eventdetails/createevent3tags.dart';
+import 'package:simposi_app_v4/eventdetails/createevent2/createevent2_location_cubit.dart';
+import 'package:simposi_app_v4/eventdetails/createevent2/createevent2location.dart';
 import 'package:simposi_app_v4/eventdetails/createevent4gender.dart';
 import 'package:simposi_app_v4/eventdetails/createevent5generations.dart';
 import 'package:simposi_app_v4/eventdetails/createevent6income.dart';
@@ -237,11 +239,25 @@ class RouteGenerator {
       case '/createevent1':
         return MaterialPageRoute(builder: (_) => CreateEvent1());
       case '/createevent2':
-        return MaterialPageRoute(builder: (_) => CreateEvent2());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) =>
+                      CreateEvent2LocationCubit(editEventCubit: context.read())
+                        ..refreshInitial(),
+                  child: CreateEvent2(),
+                ));
       case '/createevent3':
-        return MaterialPageRoute(builder: (_) => CreateEvent3());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+              create: (context) => CreateEventActivitiesCubit(
+                  context.read<AuthenticationBloc>().masterData.interests,
+                  context.read()),
+              child: CreateEvent3Activities()),
+        );
       case '/createevent4':
         return MaterialPageRoute(builder: (_) => CreateEvent4());
+      case '/createevent4edit':
+        return MaterialPageRoute(builder: (_) => CreateEvent4(editMode: true));
       case '/createevent5':
         return MaterialPageRoute(builder: (_) => CreateEvent5Generations());
       case '/createevent5edit':

@@ -162,43 +162,6 @@ class GetStartedButton extends StatelessWidget {
   }
 }
 
-// TODO: Enable button to upload images from the device
-// ADD PHOTO BUTTON (CREATE EVENT)
-class AddEventImageButton extends StatelessWidget {
-  // Set Variables
-  final onPressed;
-
-  const AddEventImageButton({
-    this.onPressed,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 76,
-      width: 76,
-      child: ElevatedButton(
-        onPressed: null,
-        child: Stack(
-          children: [
-            Center(
-                child: Image.asset('assets/images/imagepickerbackground.png')),
-            Center(
-                child: Icon(
-              Icons.camera_alt_rounded,
-              color: SimposiAppColors.simposiLightGrey,
-            )),
-          ],
-        ),
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.transparent),
-        ),
-      ),
-    );
-  }
-}
-
 // CONTINUE BUTTON
 class ContinueButton extends StatelessWidget {
   final VoidCallback? buttonAction;

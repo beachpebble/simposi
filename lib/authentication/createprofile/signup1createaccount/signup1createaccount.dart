@@ -13,7 +13,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/global/widgets/add_photo_button.dart';
+import 'package:simposi_app_v4/global/widgets/profile_photo_pick_button.dart';
 import 'package:simposi_app_v4/global/widgets/password_field.dart';
 import 'package:simposi_app_v4/global/widgets/phone_field.dart';
 import 'package:simposi_app_v4/global/widgets/progress.dart';
@@ -107,7 +107,7 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                   SizedBox(height: 20),
                                   // TODO: ENABLE IMAGE PICKER & ERROR MESSAGE IF NO IMAGE ON SUBMIT
                                   //  PHOTO UPLOAD FIELD
-                                  AddPhotoButton(
+                                  ProfilePhotoPickButton(
                                     imageSelectCallback: (val) {
                                       print("selected image $val");
                                       setState(() {

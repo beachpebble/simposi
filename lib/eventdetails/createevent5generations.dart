@@ -18,6 +18,7 @@ import 'package:simposi_app_v4/model/generation.dart';
 import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
 
 import 'create_event_screen.dart';
+import 'cubit/event_edit_cubit.dart';
 
 //AppLocalizations.of(context)!.wantToMeetTitle,
 
@@ -41,13 +42,13 @@ class _CreateEvent5GenerationsState
       else
         _selected.add(generation);
     });
-    //context.read<RegistrationCubit>().setGenerations(generation: generation.id);
+    context.read<EventEditCubit>().stage5Generations(generation: _selected);
   }
 
   @override
   void initState() {
     super.initState();
-    //TODO new bloc
+    //TODO new cubit
     _selected = widget.editMode
         ? context.read<ProfileEditCubit>().profile.wantToMeetGenerations ?? {}
         : null ?? {};
@@ -131,7 +132,7 @@ class _CreateEvent5GenerationsState
   @override
   VoidCallback? continueAction() => _selected.isNotEmpty
       ? () {
-          Navigator.of(context).pushNamed('');
+          Navigator.of(context).pushNamed('/createevent6');
         }
       : null;
 
@@ -143,5 +144,5 @@ class _CreateEvent5GenerationsState
       : null;
 
   @override
-  double progress() => 0.42;
+  double progress() => 0.80;
 }

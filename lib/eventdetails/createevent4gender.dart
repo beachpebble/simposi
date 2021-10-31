@@ -17,6 +17,7 @@ import 'package:simposi_app_v4/model/gender.dart';
 import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
 
 import 'create_event_screen.dart';
+import 'cubit/event_edit_cubit.dart';
 
 class CreateEvent4 extends CreateEventScreen {
   CreateEvent4({bool editMode = false}) : super(editMode: editMode);
@@ -48,7 +49,7 @@ class _SignUpForm2State extends CreateEventScreenState<CreateEvent4> {
         _selected.add(gender);
     });
     if (!widget.editMode) {
-      //context.read<RegistrationCubit>().stage2Gender(gender: _selected!);
+      context.read<EventEditCubit>().stage4Gender(gender: _selected);
     }
   }
 
@@ -56,7 +57,7 @@ class _SignUpForm2State extends CreateEventScreenState<CreateEvent4> {
     setState(() {
       _isLgbt = !_isLgbt;
       if (!widget.editMode) {
-        //context.read<RegistrationCubit>().stage2Lgbt(lgbt: _isLgbt);
+        context.read<EventEditCubit>().stage4Lgbt(lgbt: _isLgbt);
       }
     });
   }
@@ -156,9 +157,10 @@ class _SignUpForm2State extends CreateEventScreenState<CreateEvent4> {
   }
 
   @override
-  VoidCallback? continueAction() => _selected != null
+  VoidCallback? continueAction() => _selected.isNotEmpty
       ? () {
-          Navigator.of(context).pushNamed('/signup3');
+
+          Navigator.of(context).pushNamed('/createevent5');
         }
       : null;
 
@@ -172,5 +174,5 @@ class _SignUpForm2State extends CreateEventScreenState<CreateEvent4> {
       : null;
 
   @override
-  double progress() => 0.28;
+  double progress() => 0.64;
 }

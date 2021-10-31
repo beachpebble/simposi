@@ -13,7 +13,7 @@ import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/formfields.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
-import 'package:simposi_app_v4/global/widgets/add_photo_button.dart';
+import 'package:simposi_app_v4/global/widgets/profile_photo_pick_button.dart';
 import 'package:simposi_app_v4/global/widgets/progress.dart';
 import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
@@ -88,7 +88,7 @@ class _EditProfileState extends State<EditProfile> {
                         SizedBox(height: 10),
                         // TODO: ENSURE FIELDS ON THIS FORM RETAIN STATE/PREPOPULATE WITH USER DATA
                         //  PHOTO UPLOAD FIELD
-                        AddPhotoButton(
+                        ProfilePhotoPickButton(
                           initialImage: context
                               .read<ProfileEditCubit>()
                               .profile

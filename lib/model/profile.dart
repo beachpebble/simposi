@@ -117,12 +117,12 @@ class Profile extends Equatable {
     Set<Interest> interests =
         interestsStr.map((e) => Interest.fromJson(e)).toSet();
 
-    String parsedEmergencyContactName =
+    String? parsedEmergencyContactName =
         json.containsKey('emergency_contact_name')
             ? json['emergency_contact_name']
             : null;
     ;
-    String parsedEmergencyContactPhone =
+    String? parsedEmergencyContactPhone =
         json.containsKey('emergency_contact_phone')
             ? json['emergency_contact_phone']
             : null;

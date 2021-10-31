@@ -10,21 +10,16 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup5activities/selectable_chip.dart';
-import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
-import 'package:simposi_app_v4/global/widgets/progress.dart';
-import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/model/interest.dart';
-import 'package:simposi_app_v4/utils/toast_utils.dart';
 
-import 'signup5_activities_cubit.dart';
+import 'createevent_activities_cubit.dart';
 
-class SignUpForm5 extends StatelessWidget {
-  final double progress = 0.66;
+class CreateEvent3Activities extends StatelessWidget {
+  final double progress = 0.48;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -38,19 +33,13 @@ class SignUpForm5 extends StatelessWidget {
             constraints: BoxConstraints(
               minHeight: viewportConstraints.maxHeight,
             ),
-            child: BlocConsumer<Signup5ActivitiesCubit, Signup5ActivitiesState>(
+            child: BlocConsumer<CreateEventActivitiesCubit,
+                CreateEventActivitiesState>(
               buildWhen: (prev, current) {
                 return prev.filtered != current.filtered ||
                     prev.nextEnabled != current.nextEnabled;
               },
-              listener: (context, state) {
-                if (state is Signup5ActivitiesStateSuccessChange) {
-                  Navigator.pop(context);
-                }
-                if (state is Signup5ActivitiesStateErrorChange) {
-                  showErrorToast(handleError(state.error!, context));
-                }
-              },
+              listener: (context, state) {},
               builder: (context, state) {
                 return Column(
                   children: [
@@ -60,15 +49,27 @@ class SignUpForm5 extends StatelessWidget {
                         children: [
                           const SizedBox(height: 45),
                           LinearProgressIndicator(
-                            value: state.editMode ? 1 : progress,
+                            value: progress,
                             valueColor: const AlwaysStoppedAnimation(
                                 SimposiAppColors.simposiDarkBlue),
                             backgroundColor: SimposiAppColors.simposiFadedBlue,
                           ),
                           const SizedBox(height: 70),
                           Text(
-                            'I like to ...',
-                            style: Theme.of(context).textTheme.headline3,
+                            'What kind of activity is this?',
+                            style: TextStyle(
+                              fontSize: 19,
+                              fontWeight: FontWeight.w500,
+                              color: SimposiAppColors.simposiDarkGrey,
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          Text(
+                            'Choose as many interests as you like.',
+                            style: TextStyle(
+                              color: SimposiAppColors.simposiLightText,
+                              fontSize: 13,
+                            ),
                           ),
                           const SizedBox(height: 10),
                           Container(
@@ -103,33 +104,21 @@ class SignUpForm5 extends StatelessWidget {
                     ),
 
                     // Footer
-                    state is Signup5ActivitiesStatLoading
-                        ? AppProgressIndicator()
-                        : Container(
-                            padding: const EdgeInsets.fromLTRB(40, 10, 40, 40),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                ContinueButton(
-                                  buttonLabel:
-                                      state.editMode ? "Save" : "Continue",
-                                  buttonAction: state.nextEnabled
-                                      ? state.editMode
-                                          ? () {
-                                              context
-                                                  .read<
-                                                      Signup5ActivitiesCubit>()
-                                                  .savePressed();
-                                            }
-                                          : () {
-                                              Navigator.of(context)
-                                                  .pushNamed('/signup6');
-                                            }
-                                      : null,
-                                ),
-                              ],
-                            ),
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(40, 10, 40, 40),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          ContinueButton(
+                            buttonAction: state.nextEnabled
+                                ? () {
+                                    Navigator.of(context).pushNamed('/createevent4');
+                                  }
+                                : null,
                           ),
+                        ],
+                      ),
+                    )
                   ],
                 );
               },
@@ -147,9 +136,11 @@ class SignUpForm5 extends StatelessWidget {
             title: item.title,
             onClick: (value) {
               value
-                  ? context.read<Signup5ActivitiesCubit>().selectInterest(item)
+                  ? context
+                      .read<CreateEventActivitiesCubit>()
+                      .selectInterest(item)
                   : context
-                      .read<Signup5ActivitiesCubit>()
+                      .read<CreateEventActivitiesCubit>()
                       .deselectInterest(item);
             }))
         .toList();
@@ -166,9 +157,8 @@ class SignUpForm5 extends StatelessWidget {
           suffixIcon: const Icon(Icons.search),
         ),
         onChanged: (value) =>
-            context.read<Signup5ActivitiesCubit>().search(value),
+            context.read<CreateEventActivitiesCubit>().search(value),
       ),
     );
   }
 }
-

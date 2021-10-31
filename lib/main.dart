@@ -12,6 +12,7 @@ import 'package:simposi_app_v4/bloc/bloc_observer.dart';
 
 import 'bloc/auth/authentication_bloc.dart';
 import 'calendar/bloc/calendar_bloc.dart';
+import 'eventdetails/cubit/event_edit_cubit.dart';
 import 'profile/bloc/profile_edit_cubit.dart';
 import 'repository/api_service.dart';
 import 'repository/auth_repository.dart';
@@ -48,8 +49,10 @@ void main() {
                 RegistrationCubit(profileRepository: context.read())),
         BlocProvider(
             create: (context) =>
-                ProfileEditCubit(profileRepository: context.read())), BlocProvider(
+                EventEditCubit(calendarRepository: context.read())),
+        BlocProvider(
             create: (context) =>
-                CalendarBloc(context.read())),
+                ProfileEditCubit(profileRepository: context.read())),
+        BlocProvider(create: (context) => CalendarBloc(context.read())),
       ], child: SimposiApp())));
 }
