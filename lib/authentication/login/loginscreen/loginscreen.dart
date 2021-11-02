@@ -7,6 +7,7 @@
 
 import 'dart:ui';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -22,6 +23,7 @@ import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
 
+import '../../../app_router.dart';
 import '../reset_password_start/forgotpasswordbottomsheet.dart';
 import 'login_cubit.dart';
 
@@ -197,8 +199,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                                 onPressed: () => {
-                                  Navigator.of(context)
-                                      .pushReplacementNamed('/signup1')
+                                  AutoRouter.of(context)
+                                      .replace(SignUpForm1Route())
                                 },
                               ),
                               SizedBox(height: 10),

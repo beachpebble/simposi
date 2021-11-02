@@ -23,6 +23,10 @@ import 'package:simposi_app_v4/global/widgets/resend_countdown.dart';
 import 'signup8_validate_cubit.dart';
 
 class SignUpForm8 extends StatefulWidget {
+
+  final ValidateParameters validateParameters;
+
+  const SignUpForm8({Key? key, required this.validateParameters}) : super(key: key);
   @override
   _SignUpForm8State createState() => _SignUpForm8State();
 }
@@ -63,7 +67,13 @@ class _SignUpForm8State extends State<SignUpForm8> with TickerProviderStateMixin
   }
 
   @override
-  Widget build(BuildContext context) => KeyboardDismisser(
+  Widget build(BuildContext context) => BlocProvider(
+    create: (context) => Signup8ValidateCubit(
+        validateParameters:
+        widget.validateParameters,
+        authenticationBloc: context.read(),
+        profileRepository: context.read()),
+  child: KeyboardDismisser(
         child: Scaffold(
           backgroundColor: Colors.white,
           appBar: BasicFormAppBar(),
@@ -232,5 +242,6 @@ class _SignUpForm8State extends State<SignUpForm8> with TickerProviderStateMixin
             );
           }),
         ),
-      );
+      ),
+);
 }

@@ -110,7 +110,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         latitude: latitude!.toString(),
         longitude: longitude!.toString(),
         distance: range?.toString() ?? "1",
-        gender: gender!.id,
+        gender: gender!.id.toString(),
         isLgbt: lgbt,
         //TODO clean this
         generation: generation!,

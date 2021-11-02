@@ -1,28 +1,27 @@
 import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 import 'errors.dart';
 
+part 'earning.g.dart';
+
+@JsonSerializable(ignoreUnannotated: true)
 class Earning extends Equatable {
+  @JsonKey(name: 'id', required: true, disallowNullValue: true)
   final int id;
+  @JsonKey(name: 'title', required: true, disallowNullValue: true)
   final String title;
+  @JsonKey(name: 'sort', required: true, disallowNullValue: true)
   final int sortId;
 
   Earning({required this.id, required this.title, required this.sortId});
 
-  static Earning fromJson(Map json) {
-    int? parsedId =
-        json.containsKey('id') ? json['id'] : null;
-    int? parsedSortId = json.containsKey('sort') ? json['sort'] : null;
-    String? parsedTitle = json.containsKey('title') ? json['title'] : null;
+  factory Earning.fromJson(Map<String, dynamic> json) => _$EarningFromJson(json);
 
-    if (parsedId == null || parsedTitle == null || parsedSortId == null)
-      throw ParseException(message: "Incorrect data structure");
-
-    return Earning(id: parsedId, title: parsedTitle, sortId: parsedSortId);
-  }
+  Map<String, dynamic> toJson() => _$EarningToJson(this);
 
   @override
-  List<Object> get props => [id, title];
+  List<Object> get props => [id, title, sortId];
 
   @override
   bool get stringify => true;

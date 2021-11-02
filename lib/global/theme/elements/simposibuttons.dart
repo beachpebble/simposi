@@ -18,7 +18,7 @@ class TinyTextButton extends StatelessWidget {
   final Color color;
   final TextAlign footerButtonAlign;
   final String buttonLabel;
-  final String nextPage;
+  final VoidCallback nextPage;
 
   const TinyTextButton({
     Key? key,
@@ -47,9 +47,7 @@ class TinyTextButton extends StatelessWidget {
         buttonLabel,
         textAlign: footerButtonAlign,
       ),
-      onPressed: () => {
-        Navigator.of(context).pushNamed(nextPage),
-      },
+      onPressed: () => nextPage,
     );
   }
 }
@@ -328,11 +326,11 @@ class _BigButtonState extends State<BigButton> {
 // SUBSCRIBE BUTTON ON PROFILE PAGE
 class SubscribeButton extends StatelessWidget {
   // Set Variables
-  final String nextPage;
+  final VoidCallback onClick;
 
   const SubscribeButton({
     Key? key,
-    required this.nextPage,
+    required this.onClick,
   }) : super(key: key);
 
   @override
@@ -349,9 +347,7 @@ class SubscribeButton extends StatelessWidget {
       ),
 
       // ACTION
-      onPressed: () => {
-        Navigator.of(context).pushNamed(nextPage),
-      },
+      onPressed: onClick,
     );
   }
 }

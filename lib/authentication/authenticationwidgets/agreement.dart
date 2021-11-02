@@ -6,12 +6,9 @@
 */
 
 import 'dart:ui';
-import 'package:flutter/material.dart';
-import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
-import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
-import 'package:simposi_app_v4/global/theme/theme.dart';
 
+import 'package:flutter/material.dart';
+import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 
 class Agreement extends StatelessWidget {
   final String agreementtext;
@@ -21,21 +18,18 @@ class Agreement extends StatelessWidget {
     required this.agreementtext,
   }) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Row(
-          children: [
-            Flexible(
-              child: Text('I have read & understand my local regulations and the CDC Guidelines.',
-                textAlign: TextAlign.start,
-              ),
-            ),
-            AgreeButton(),
-
-          ]
-      ),
+      child: Row(children: [
+        Flexible(
+          child: Text(
+            'I have read & understand my local regulations and the CDC Guidelines.',
+            textAlign: TextAlign.start,
+          ),
+        ),
+        AgreeButton(),
+      ]),
     );
   }
 }

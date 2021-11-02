@@ -6,7 +6,7 @@ abstract class CalendarState extends Equatable {
 
 class CalendarLoaded extends CalendarState {
   final DateTime weekStart;
-  final List<CalEvent> events;
+  final List<EventModel> events;
   final int scrollPos;
   final int difWeeks;
   final LoadBy loadBy;

@@ -7,9 +7,11 @@
 
 import 'dart:ui';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
+import 'package:simposi_app_v4/app_router.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/global/widgets/phone_field.dart';
@@ -52,8 +54,8 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
               showErrorToast("Code was not sent");
             else if (state is ForgotPasswordStartSuccess) {
               showInfoToast("Code was sent via SMS");
-              Navigator.of(context).pop();
-              Navigator.of(context).pushNamed('/resetPassword', arguments: phone);
+              AutoRouter.of(context).pop();
+              AutoRouter.of(context).push(ResetPasswordScreenRoute(phone: phone));
             }
           },
           builder: (context, state) {

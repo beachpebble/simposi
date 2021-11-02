@@ -7,125 +7,139 @@
 
 import 'dart:ui';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup5activities/selectable_chip.dart';
+import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/model/interest.dart';
 
+import '../../app_router.dart';
 import 'createevent_activities_cubit.dart';
 
 class CreateEvent3Activities extends StatelessWidget {
   final double progress = 0.48;
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-      backgroundColor: Colors.white,
-      extendBodyBehindAppBar: true,
-      appBar: BasicFormAppBar(),
-      body: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints viewportConstraints) {
-        return Container(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: viewportConstraints.maxHeight,
-            ),
-            child: BlocConsumer<CreateEventActivitiesCubit,
-                CreateEventActivitiesState>(
-              buildWhen: (prev, current) {
-                return prev.filtered != current.filtered ||
-                    prev.nextEnabled != current.nextEnabled;
-              },
-              listener: (context, state) {},
-              builder: (context, state) {
-                return Column(
-                  children: [
-                    // Header
-                    Container(
-                      child: Column(
+  Widget build(BuildContext context) => BlocProvider(
+        create: (context) => CreateEventActivitiesCubit(
+            context.read<AuthenticationBloc>().masterData.interests,
+            context.read()),
+        child: Scaffold(
+            backgroundColor: Colors.white,
+            extendBodyBehindAppBar: true,
+            appBar: BasicFormAppBar(),
+            body: LayoutBuilder(builder:
+                (BuildContext context, BoxConstraints viewportConstraints) {
+              return Container(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: viewportConstraints.maxHeight,
+                  ),
+                  child: BlocConsumer<CreateEventActivitiesCubit,
+                      CreateEventActivitiesState>(
+                    buildWhen: (prev, current) {
+                      return prev.filtered != current.filtered ||
+                          prev.nextEnabled != current.nextEnabled;
+                    },
+                    listener: (context, state) {},
+                    builder: (context, state) {
+                      return Column(
                         children: [
-                          const SizedBox(height: 45),
-                          LinearProgressIndicator(
-                            value: progress,
-                            valueColor: const AlwaysStoppedAnimation(
-                                SimposiAppColors.simposiDarkBlue),
-                            backgroundColor: SimposiAppColors.simposiFadedBlue,
-                          ),
-                          const SizedBox(height: 70),
-                          Text(
-                            'What kind of activity is this?',
-                            style: TextStyle(
-                              fontSize: 19,
-                              fontWeight: FontWeight.w500,
-                              color: SimposiAppColors.simposiDarkGrey,
-                            ),
-                          ),
-                          SizedBox(height: 20),
-                          Text(
-                            'Choose as many interests as you like.',
-                            style: TextStyle(
-                              color: SimposiAppColors.simposiLightText,
-                              fontSize: 13,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
+                          // Header
                           Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: _searchBar(context),
+                            child: Column(
+                              children: [
+                                const SizedBox(height: 45),
+                                LinearProgressIndicator(
+                                  value: progress,
+                                  valueColor: const AlwaysStoppedAnimation(
+                                      SimposiAppColors.simposiDarkBlue),
+                                  backgroundColor:
+                                      SimposiAppColors.simposiFadedBlue,
+                                ),
+                                const SizedBox(height: 70),
+                                Text(
+                                  'What kind of activity is this?',
+                                  style: TextStyle(
+                                    fontSize: 19,
+                                    fontWeight: FontWeight.w500,
+                                    color: SimposiAppColors.simposiDarkGrey,
+                                  ),
+                                ),
+                                SizedBox(height: 20),
+                                Text(
+                                  'Choose as many interests as you like.',
+                                  style: TextStyle(
+                                    color: SimposiAppColors.simposiLightText,
+                                    fontSize: 13,
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  child: _searchBar(context),
+                                ),
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
 
-                    // Body
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: MediaQuery.removePadding(
-                          removeTop: true,
-                          context: context,
-                          child: ListView(
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            primary: true,
-                            shrinkWrap: true,
-                            children: <Widget>[
-                              Wrap(
-                                runSpacing: -8.0,
-                                children: selectedActivityWidgets(
-                                    state.filtered, state.selected, context),
+                          // Body
+                          Expanded(
+                            child: Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: MediaQuery.removePadding(
+                                removeTop: true,
+                                context: context,
+                                child: ListView(
+                                  physics:
+                                      const AlwaysScrollableScrollPhysics(),
+                                  primary: true,
+                                  shrinkWrap: true,
+                                  children: <Widget>[
+                                    Wrap(
+                                      runSpacing: -8.0,
+                                      children: selectedActivityWidgets(
+                                          state.filtered,
+                                          state.selected,
+                                          context),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
 
-                    // Footer
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(40, 10, 40, 40),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          ContinueButton(
-                            buttonAction: state.nextEnabled
-                                ? () {
-                                    Navigator.of(context).pushNamed('/createevent4');
-                                  }
-                                : null,
-                          ),
+                          // Footer
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(40, 10, 40, 40),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                ContinueButton(
+                                  buttonAction: state.nextEnabled
+                                      ? () {
+                                          AutoRouter.of(context)
+                                              .push(CreateEvent4Route());
+                                        }
+                                      : null,
+                                ),
+                              ],
+                            ),
+                          )
                         ],
-                      ),
-                    )
-                  ],
-                );
-              },
-            ),
-          ),
-        );
-      }));
+                      );
+                    },
+                  ),
+                ),
+              );
+            })),
+      );
 
   List<Widget> selectedActivityWidgets(Set<Interest> interests,
       Set<Interest> selectedItems, BuildContext context) {

@@ -8,6 +8,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,14 +22,31 @@ import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/utils/location.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 
+import '../../../app_router.dart';
 import 'signup6_location_cubit.dart';
 
-class SignUpForm6 extends StatefulWidget {
+class SignUpForm6 extends StatelessWidget {
+  final bool editMode;
+
+  const SignUpForm6({Key? key, this.editMode = false}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+        create: (context) => Signup6LocationCubit(
+            registrationCubit: context.read(),
+            profileEditCubit: context.read(),
+            editMode: editMode),
+        child: _SignUpForm6View());
+  }
+}
+
+class _SignUpForm6View extends StatefulWidget {
   @override
   _SignUpForm6State createState() => _SignUpForm6State();
 }
 
-class _SignUpForm6State extends State<SignUpForm6> {
+class _SignUpForm6State extends State<_SignUpForm6View> {
   double progress = 0.85;
   final _placeSearchController = TextEditingController();
   Completer<GoogleMapController> _controller = Completer();
@@ -42,7 +60,8 @@ class _SignUpForm6State extends State<SignUpForm6> {
             .read<Signup6LocationCubit>()
             .selectInitialLocation(LatLng(value.latitude, value.longitude)))
         .catchError((e) {
-      showErrorToast("There is no location permission");
+      print("@@@ $e");
+      showErrorToast("There is no location permission !!!  $e");
       context.read<Signup6LocationCubit>().noPermission();
     });
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
@@ -108,12 +127,12 @@ class _SignUpForm6State extends State<SignUpForm6> {
                   child: state.selectedLocation == null
                       ? Center(child: AppProgressIndicator())
                       : Stack(
-                          children: [
-                            _googleMap(state),
-                            if (state.searchResults.isNotEmpty)
-                              _searchResult(state)
-                          ],
-                        ),
+                    children: [
+                      _googleMap(state),
+                      if (state.searchResults.isNotEmpty)
+                        _searchResult(state)
+                    ],
+                  ),
                 ),
               ),
 
@@ -121,34 +140,37 @@ class _SignUpForm6State extends State<SignUpForm6> {
               state is Signup6LocationStateLoading
                   ? AppProgressIndicator()
                   : Container(
-                      padding: const EdgeInsets.fromLTRB(10, 10, 10, 40),
-                      child: Column(
-                        children: [
-                          Container(
-                            child: _rangeSlider(state),
-                          ),
-                          const SizedBox(height: 10),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 30),
-                            child: ContinueButton(
-                                buttonLabel:
-                                    state.editMode ? "Save" : "Continue",
-                                buttonAction: state.selectedLocation != null
-                                    ? state.editMode
-                                        ? () {
-                                            context
-                                                .read<Signup6LocationCubit>()
-                                                .save();
-                                          }
-                                        : () {
-                                            Navigator.of(context)
-                                                .pushNamed('/signup7');
-                                          }
-                                    : null),
-                          ),
-                        ],
-                      ),
-                    )
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 40),
+                child: Column(
+                  children: [
+                    Container(
+                      child: _rangeSlider(state),
+                    ),
+                    const SizedBox(height: 10),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30),
+                      child: ContinueButton(
+                          buttonLabel:
+                          state.editMode ? "Save" : "Continue",
+                          buttonAction: state.selectedLocation !=
+                              null
+                              ? state.editMode
+                              ? () {
+                            context
+                                .read<
+                                Signup6LocationCubit>()
+                                .save();
+                          }
+                              : () {
+                            AutoRouter.of(context)
+                                .push(SignUpForm7Route());
+                          }
+                              : null),
+                    ),
+                  ],
+                ),
+              )
             ],
           );
         },

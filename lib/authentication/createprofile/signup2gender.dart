@@ -7,15 +7,16 @@
 
 import 'dart:ui';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simposi_app_v4/app_router.dart';
 import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/model/gender.dart';
 import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
-import 'package:simposi_app_v4/global/widgets/progress.dart';
 
 import 'registration_profile_screen.dart';
 
@@ -156,7 +157,7 @@ class _SignUpForm2State extends RegistrationProfileScreenState<SignUpForm2> {
   @override
   VoidCallback? continueAction() => _selected != null
       ? () {
-          Navigator.of(context).pushNamed('/signup3');
+          AutoRouter.of(context).push(SignUpForm3Route());
         }
       : null;
 

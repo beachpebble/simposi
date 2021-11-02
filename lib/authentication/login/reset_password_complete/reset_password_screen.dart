@@ -17,6 +17,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/model/errors.dart';
+import 'package:simposi_app_v4/repository/profile_repository.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
 import 'package:simposi_app_v4/global/widgets/password_field.dart';
@@ -29,6 +30,10 @@ import 'reset_password_complete_cubit.dart';
 Use only for pwd change before login
  */
 class ResetPasswordScreen extends StatefulWidget {
+
+  final String phone;
+
+  const ResetPasswordScreen({Key? key, required this.phone}) : super(key: key);
   // Set Variables
   @override
   _ResetPasswordScreenState createState() => _ResetPasswordScreenState();
@@ -84,7 +89,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
   }
 
   @override
-  Widget build(BuildContext context) => KeyboardDismisser(
+  Widget build(BuildContext context) => BlocProvider(
+    create: (context) => ResetPasswordCompleteCubit(
+        profileRepository: context.read<ProfileRepository>(),
+        phone: widget.phone),
+  child: KeyboardDismisser(
         child: Scaffold(
           backgroundColor: Colors.white,
           body: LayoutBuilder(builder:
@@ -319,5 +328,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
             );
           }),
         ),
-      );
+      ),
+);
 }

@@ -7,6 +7,7 @@
 
 import 'dart:ui';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +15,7 @@ import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/global/widgets/progress.dart';
 
+import '../app_router.dart';
 import '../global/theme/elements/simposiappbar.dart';
 import 'bloc/profile_edit_cubit.dart';
 
@@ -35,10 +37,8 @@ class ProfileScreen extends StatelessWidget {
             child: IconButton(
                 icon: const Icon(Icons.settings_outlined,
                     color: SimposiAppColors.simposiLightText, size: 30),
-                onPressed: () => {
-                      Navigator.of(context).pushNamed('/profilemenu'),
-                    }),
-          ),
+                onPressed: () => AutoRouter.of(context).push(ProfileMenuRoute())
+            )),
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -158,7 +158,8 @@ class ProfileScreen extends StatelessWidget {
                   SizedBox(height: 10),
                   // TODO: Update transition to draw bottom sheet instead of screen
                   SubscribeButton(
-                    nextPage: '/subscribe',
+                    onClick: () =>  AutoRouter.of(context)
+                        .push(SimposiSubscribeRoute()),
                   ),
                   SizedBox(height: 10),
                   Text(

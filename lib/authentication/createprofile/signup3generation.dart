@@ -7,9 +7,11 @@
 
 import 'dart:ui';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simposi_app_v4/app_router.dart';
 import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
@@ -47,89 +49,87 @@ class _SignUpForm3State extends RegistrationProfileScreenState<SignUpForm3> {
 
   @override
   Widget build(BuildContext context) {
-
-    print("gen   ${context
-        .read<AuthenticationBloc>()
-        .masterData
-        .generations}");
-  return
-  Scaffold(
-        backgroundColor: Colors.white,
-        extendBodyBehindAppBar: true,
-        appBar: BasicFormAppBar(),
-        body: Column(
-          children: [
-            // Header
-            Container(
-              child: Column(
-                children: [
-                  const SizedBox(height: 45),
-                  LinearProgressIndicator(
-                    value: getProgressValue(),
-                    valueColor: const AlwaysStoppedAnimation(
-                        SimposiAppColors.simposiDarkBlue),
-                    backgroundColor: SimposiAppColors.simposiFadedBlue,
-                  ),
-                  const SizedBox(height: 70),
-                  Text(
-                    'Generation...',
-                    style: Theme.of(context).textTheme.headline3,
-                  ),
-                  const SizedBox(height: 10),
-                ],
-              ),
+    print("gen   ${context.read<AuthenticationBloc>().masterData.generations}");
+    return Scaffold(
+      backgroundColor: Colors.white,
+      extendBodyBehindAppBar: true,
+      appBar: BasicFormAppBar(),
+      body: Column(
+        children: [
+          // Header
+          Container(
+            child: Column(
+              children: [
+                const SizedBox(height: 45),
+                LinearProgressIndicator(
+                  value: getProgressValue(),
+                  valueColor: const AlwaysStoppedAnimation(
+                      SimposiAppColors.simposiDarkBlue),
+                  backgroundColor: SimposiAppColors.simposiFadedBlue,
+                ),
+                const SizedBox(height: 70),
+                Text(
+                  'Generation...',
+                  style: Theme.of(context).textTheme.headline3,
+                ),
+                const SizedBox(height: 10),
+              ],
             ),
+          ),
 
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.fromLTRB(40, 10, 40, 20),
-                child: MediaQuery.removePadding(
-                  removeTop: true,
-                  context: context,
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: context
-                        .read<AuthenticationBloc>()
-                        .masterData
-                        .generations
-                        .length,
-                    separatorBuilder: (context, index) {
-                      return const SizedBox(height: 10);
-                    },
-                    itemBuilder: (context, index) {
-                      return BigGBSelectButton(
-                          buttonLabel: context
-                              .read<AuthenticationBloc>()
-                              .masterData
-                              .generations[index]
-                              .title,
-                          isSelected: context
-                              .read<AuthenticationBloc>()
-                              .masterData
-                              .generations[index].id == _selected,
-                          buttonAction: () {
-                            _selectGeneration(context
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(40, 10, 40, 20),
+              child: MediaQuery.removePadding(
+                removeTop: true,
+                context: context,
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: context
+                      .read<AuthenticationBloc>()
+                      .masterData
+                      .generations
+                      .length,
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(height: 10);
+                  },
+                  itemBuilder: (context, index) {
+                    return BigGBSelectButton(
+                        buttonLabel: context
+                            .read<AuthenticationBloc>()
+                            .masterData
+                            .generations[index]
+                            .title,
+                        isSelected: context
                                 .read<AuthenticationBloc>()
                                 .masterData
-                                .generations[index]);
-                          });
-                    },
-                  ),
+                                .generations[index]
+                                .id ==
+                            _selected,
+                        buttonAction: () {
+                          _selectGeneration(context
+                              .read<AuthenticationBloc>()
+                              .masterData
+                              .generations[index]);
+                        });
+                  },
                 ),
               ),
             ),
+          ),
 
-            // Footer
-            getFooter()
-          ],
-        ),
-      );}
+          // Footer
+          getFooter()
+        ],
+      ),
+    );
+  }
 
   @override
   VoidCallback? continueAction() => _selected != null
       ? () {
-          Navigator.of(context).pushNamed('/signup4');
+          AutoRouter.of(context).push(SignUpForm4Route());
         }
       : null;
 

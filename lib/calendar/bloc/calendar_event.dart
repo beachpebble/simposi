@@ -21,3 +21,12 @@ class ListScrolled extends CalendarEvent {
   @override
   List<Object?> get props => [index];
 }
+
+class Reload extends CalendarEvent {
+  final DateTime from, to;
+
+  Reload(this.from, this.to);
+
+  @override
+  List<Object?> get props => [from, to];
+}

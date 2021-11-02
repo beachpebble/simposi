@@ -7,6 +7,7 @@
 
 import 'dart:ui';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +18,8 @@ import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
+
+import '../../app_router.dart';
 
 class SignUpForm7 extends StatefulWidget {
   @override
@@ -109,7 +112,8 @@ class _SignUpForm7State extends State<SignUpForm7> {
                                     });
                                     context
                                         .read<RegistrationCubit>()
-                                        .covidAgree(agreeNum: 0, agreeVal: _agreement0);
+                                        .covidAgree(
+                                            agreeNum: 0, agreeVal: _agreement0);
                                   }),
                               _getAgreeItem(
                                   title:
@@ -121,7 +125,8 @@ class _SignUpForm7State extends State<SignUpForm7> {
                                     });
                                     context
                                         .read<RegistrationCubit>()
-                                        .covidAgree(agreeNum: 1, agreeVal: _agreement1);
+                                        .covidAgree(
+                                            agreeNum: 1, agreeVal: _agreement1);
                                   }),
                               _getAgreeItem(
                                   title:
@@ -133,7 +138,8 @@ class _SignUpForm7State extends State<SignUpForm7> {
                                     });
                                     context
                                         .read<RegistrationCubit>()
-                                        .covidAgree(agreeNum: 2, agreeVal: _agreement2);
+                                        .covidAgree(
+                                            agreeNum: 2, agreeVal: _agreement2);
                                   }),
                               _getAgreeItem(
                                   title:
@@ -145,7 +151,8 @@ class _SignUpForm7State extends State<SignUpForm7> {
                                     });
                                     context
                                         .read<RegistrationCubit>()
-                                        .covidAgree(agreeNum: 3, agreeVal: _agreement3);
+                                        .covidAgree(
+                                            agreeNum: 3, agreeVal: _agreement3);
                                   }),
                               _getAgreeItem(
                                   title:
@@ -157,7 +164,8 @@ class _SignUpForm7State extends State<SignUpForm7> {
                                     });
                                     context
                                         .read<RegistrationCubit>()
-                                        .covidAgree(agreeNum: 4, agreeVal: _agreement4);
+                                        .covidAgree(
+                                            agreeNum: 4, agreeVal: _agreement4);
                                   }),
                               _getAgreeItem(
                                   title:
@@ -169,7 +177,8 @@ class _SignUpForm7State extends State<SignUpForm7> {
                                     });
                                     context
                                         .read<RegistrationCubit>()
-                                        .covidAgree(agreeNum: 5, agreeVal: _agreement5);
+                                        .covidAgree(
+                                            agreeNum: 5, agreeVal: _agreement5);
                                   }),
                             ],
                           ),
@@ -188,10 +197,11 @@ class _SignUpForm7State extends State<SignUpForm7> {
                       BlocListener<RegistrationCubit, RegistrationState>(
                         listener: (context, state) {
                           if (state is RegistrationWaitCode)
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                                '/signup8', ModalRoute.withName('start'),
-                                arguments: ValidateParameters(
-                                    state.phone));
+                            AutoRouter.of(context).replaceAll([
+                              SignUpForm8Route(
+                                  validateParameters:
+                                      ValidateParameters(state.phone))
+                            ]);
                           else if (state is RegistrationError) {
                             showErrorToast(handleError(state.error, context));
                           }

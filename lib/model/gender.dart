@@ -22,6 +22,16 @@ class Gender extends Equatable{
     }
   }
 
+  factory Gender.fromJson(Map<String, dynamic> json){
+    return json['id'] == "1" ?  Gender.Male  :  Gender.Female;
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id
+    };
+  }
+
   @override
   List<Object?> get props => [gender, id];
 

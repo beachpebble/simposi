@@ -6,23 +6,23 @@
 */
 
 import 'dart:ui';
+
+import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../global/routegenerator.dart';
-import 'package:simposi_app_v4/global/theme/appcolors.dart';
+import 'package:simposi_app_v4/app_router.dart';
 import 'package:simposi_app_v4/calendar/calendarwidgets/checkinbottomsheet.dart';
+import 'package:simposi_app_v4/calendar/event_model.dart';
+import 'package:simposi_app_v4/global/theme/appcolors.dart';
+import 'package:simposi_app_v4/global/widgets/progress.dart';
 
-// TODO: Create a Test list to iterate over?
-// TODO: Create & Insert Variables for EventCard
-// TODO: Create Sent Flag and Add Logic to Display it IF Creator = User
+import 'rsvp_indicator.dart';
+
 class EventCard extends StatelessWidget {
+  EventCard({Key? key, required this.eventModel}) : super(key: key);
 
-  EventCard({
-    Key? key,  this.date, this.title,
-  }) : super(key: key);
-
-final DateTime? date;
-final String?  title;
+  final EventModel eventModel;
 
   @override
   Widget build(BuildContext context) {
@@ -33,21 +33,27 @@ final String?  title;
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
-
       child: Container(
         // CLICK CARD ACTION
         child: InkWell(
-          onTap: () => {
-            Navigator.of(context).pushNamed('/eventdetails',),
-          },
+          onTap: () => {AutoRouter.of(context).push(EventDetailsRoute(eventModel: eventModel))},
           child: Stack(
             children: <Widget>[
-
-              // BACKGROUND IMAGE
-              Image.asset("assets/images/eventcardbackground2.jpg",
-              height: 172,
-              width: double.infinity,
-              fit: BoxFit.cover,
+              CachedNetworkImage(
+                imageUrl: eventModel.rsvp.image,
+                height: 172,
+                imageBuilder: (context, imageProvider) => Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                placeholder: (context, url) =>
+                    Center(child: AppProgressIndicator()),
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
 
               // OVERLAY AND TEXT
@@ -60,7 +66,8 @@ final String?  title;
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     SizedBox(height: 50),
-                    Text(title ?? "",
+                    Text(
+                      eventModel.rsvp.title ?? "",
                       style: TextStyle(
                         fontWeight: FontWeight.w900,
                         fontSize: 15,
@@ -70,12 +77,15 @@ final String?  title;
                     SizedBox(height: 5),
                     Row(
                       children: [
-                        Icon(Icons.access_time,
+                        Icon(
+                          Icons.access_time,
                           color: Colors.white,
                           size: 15,
                         ),
                         SizedBox(width: 5),
-                        Text(date != null ? DateFormat('yyyy-MM-dd – kk:mm').format(date!) : "",
+                        Text(
+                          DateFormat('yyyy-MM-dd – kk:mm')
+                              .format(eventModel.rsvp.fullDate),
                           style: TextStyle(
                             fontSize: 13,
                             color: Colors.white,
@@ -86,97 +96,56 @@ final String?  title;
                   ],
                 ),
               ),
-
-              // TODO: Enable Icon to show only if the user is the owner of the event
               // MY INVITATIONS ICON (WAITING ICON)
-              Positioned(
-                top: 10,
-                left: 20,
-                child: Row(
-                  children: [
-                    Tooltip(
-                      message: 'You planted the seed! \nwaiting for it to bear fruit',
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5),
+              if (eventModel.isMine)
+                Positioned(
+                  top: 10,
+                  left: 20,
+                  child: Row(
+                    children: [
+                      Tooltip(
+                        message:
+                            'You planted the seed! \nwaiting for it to bear fruit',
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        textStyle: TextStyle(
+                          color: SimposiAppColors.simposiPink,
+                        ),
+                        child: Icon(
+                          Icons.self_improvement,
+                          color: SimposiAppColors.simposiLightGrey,
+                          size: 30,
+                        ),
                       ),
-                      textStyle: TextStyle(
-                        color: SimposiAppColors.simposiPink,
-                      ),
-                      child: Icon(Icons.self_improvement,
-                      color: SimposiAppColors.simposiLightGrey,
-                      size: 30,),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
 
               // RSVP INDICATOR
               Positioned(
                 bottom: 20,
                 right: 20,
-                child:
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Tooltip(
-                      message: 'People who said yes!',
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      textStyle: TextStyle(
-                        color: SimposiAppColors.simposiPink,
-                      ),
-                      child: Column(
-                        children: [
-                          // TODO: Enable IF ELSE statement on these dots for how many people have RSVPd (Pink or LightGrey)
-                          // TODO: Color from bottom to top as RSVPs come in
-                          Icon(Icons.circle,
-                            color: SimposiAppColors.simposiLightGrey,
-                            size: 10,
-                          ),
-                          SizedBox(height: 5),
-                          Icon(Icons.circle,
-                            color: SimposiAppColors.simposiLightGrey,
-                            size: 10,
-                          ),
-                          SizedBox(height: 5),
-                          Icon(Icons.circle,
-                            color: SimposiAppColors.simposiLightGrey,
-                            size: 10,
-                          ),
-                          SizedBox(height: 5),
-                          Icon(Icons.circle,
-                            color: SimposiAppColors.simposiLightGrey,
-                            size: 10,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                child: RsvpIndicator(
+                  acceptedCount: eventModel.rsvp.event.rsvpAccepted + 1,
                 ),
               ),
 
               // TODO: Trigger/Show Check In Button if Event is in Check In Status only
               // CHECK IN BUTTON
-              Positioned(
-                top: 5,
-                right: 10,
-                child: CheckInButton(),
-              ),
-
+              if (!eventModel.isMine)
+                Positioned(
+                  top: 5,
+                  right: 10,
+                  child: CheckInButton(),
+                ),
             ],
           ),
         ),
       ),
-
-
-
-
     );
   }
 }
-
 
 // TODO: Create InviteCard

@@ -6,15 +6,11 @@
 */
 
 import 'dart:ui';
+
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:simposi_app_v4/app_router.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
-import 'package:simposi_app_v4/profile/termsofuse.dart';
-import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import '../../global/theme/elements/simposiappbar.dart';
-import 'package:simposi_app_v4/global/theme/theme.dart';
-import '../../global/theme/elements/simposiicons.dart';
-
-
 
 class PrivacyTOUFooter extends StatelessWidget {
   final Color footerColor;
@@ -31,7 +27,7 @@ class PrivacyTOUFooter extends StatelessWidget {
           color: footerColor,
           buttonLabel: 'Privacy',
           footerButtonAlign: TextAlign.right,
-          nextPage: '/privacy',
+          nextPage: () => AutoRouter.of(context).push(PrivacyScreenRoute()),
         ),
         Container(
           padding: EdgeInsets.fromLTRB(0, 0, 12, 0),
@@ -45,11 +41,11 @@ class PrivacyTOUFooter extends StatelessWidget {
           color: footerColor,
           buttonLabel: 'Terms of Use',
           footerButtonAlign: TextAlign.left,
-          nextPage: '/termsofuse',
+          nextPage: ()=> AutoRouter.of(context)
+              .push(TermsOfUseRoute()),
         ),
         SizedBox(width: 15),
       ],
     );
   }
 }
-

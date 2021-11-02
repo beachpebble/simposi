@@ -6,12 +6,14 @@
 */
 
 import 'dart:ui';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposiappbar.dart';
 
+import '../app_router.dart';
 import 'eventwidgets/pickinvitationthumbnails.dart';
 
 
@@ -77,7 +79,8 @@ class CreateEvent7 extends StatelessWidget {
               BigGBSelectButton(
                 buttonLabel: 'Create Event',
                 buttonAction: () => {
-                  Navigator.of(context).pushReplacementNamed('/home'),
+                AutoRouter.of(context)
+                    .replace(SimposiHomeRoute())
                 },
               ),
             ],

@@ -6,11 +6,14 @@
 */
 
 import 'dart:ui';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
+
+import '../../app_router.dart';
 
 
 class ResetPassword extends StatefulWidget {
@@ -111,7 +114,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                                     if (isValid) {
                                       _formKey.currentState!.save();
                                       print('Password: ${password}');
-                                      Navigator.of(context).pushReplacementNamed('/home');
+                                      AutoRouter.of(context)
+                                          .replace(SimposiHomeRoute());
                                     }
                                   }
                               ),

@@ -6,35 +6,47 @@
 */
 
 import 'dart:ui';
-import 'package:flutter/material.dart';
-import 'package:simposi_app_v4/eventdetails/eventwidgets/eventappbars.dart';
-import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/eventdetails/eventwidgets/invitationcard.dart';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:simposi_app_v4/calendar/calendarwidgets/tags_cloud.dart';
+import 'package:simposi_app_v4/calendar/event_model.dart';
+import 'package:simposi_app_v4/eventdetails/eventwidgets/eventappbars.dart';
+import 'package:simposi_app_v4/eventdetails/eventwidgets/invitationcard.dart';
+import 'package:simposi_app_v4/global/theme/appcolors.dart';
+import 'package:simposi_app_v4/global/widgets/progress.dart';
 
 class EventDetails extends StatelessWidget {
+  final EventModel eventModel;
+
+  const EventDetails({Key? key, required this.eventModel}) : super(key: key);
+
   @override
   Widget build(BuildContext context) => Scaffold(
-    extendBodyBehindAppBar: true,
+        extendBodyBehindAppBar: true,
         // TODO: Replace Invitation App Bar with Event App Bar based on RSVP Status (note: menu options differ based on if user created the event)
         appBar: // InvitationAppBar(),
-      EventAppBar(), // add logic to change app bar based on status
+            EventAppBar(),
+        // add logic to change app bar based on status
         body: ListView(
           padding: const EdgeInsets.only(top: 0),
           shrinkWrap: true,
           children: [
             // TODO: Hide/Show this row/invitation card based on RSVP Status
-            Row(
-              children: [
-                //INVITATION CARD
-                InvitationCard(),
-              ],
-            ),
+            if (eventModel.isMine)
+              Row(
+                children: [
+                  //INVITATION CARD
+                  InvitationCard(
+                    eventModel: eventModel,
+                  ),
+                ],
+              ),
             Row(
               children: [
                 // EVENT IMAGE
                 Expanded(
-                  // TODO: Replace Image URL with Image from Event
                   child: ShaderMask(
                     shaderCallback: (rect) {
                       return const LinearGradient(
@@ -45,10 +57,20 @@ class EventDetails extends StatelessWidget {
                           Rect.fromLTRB(0, 200, rect.width, rect.height));
                     },
                     blendMode: BlendMode.dstIn,
-                    child: Image.asset(
-                      "assets/images/eventcardbackground2.jpg",
-                      fit: BoxFit.cover,
+                    child: CachedNetworkImage(
+                      imageUrl: eventModel.rsvp.image,
                       height: 438,
+                      imageBuilder: (context, imageProvider) => Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      placeholder: (context, url) =>
+                          Center(child: AppProgressIndicator()),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
                   ),
                 ),
@@ -66,9 +88,8 @@ class EventDetails extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // TODO: Pull Event Title from Event
                           Text(
-                            'Ditch Fashion Show',
+                            eventModel.rsvp.title,
                             style: const TextStyle(
                               fontSize: 21,
                               color: SimposiAppColors.simposiDarkGrey,
@@ -85,13 +106,16 @@ class EventDetails extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  // TODO: Pull Date variable from Event
                                   Text(
-                                    'Thursday, September 19',
-                                    style: Theme.of(context).textTheme.headline3,
+                                    DateFormat('EEEE, MMMM dd')
+                                        .format(eventModel.rsvp.fullDate),
+                                    style:
+                                        Theme.of(context).textTheme.headline3,
                                   ),
-                                  // TODO: Pull Time variable from Event
-                                  Text('6:00pm'),
+                                  Text(
+                                    DateFormat('hh:mm')
+                                        .format(eventModel.rsvp.fullDate),
+                                  ),
                                 ],
                               ),
                             ],
@@ -106,16 +130,14 @@ class EventDetails extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  // TODO: Pull Location Name from Event
                                   Text(
-                                    'Cobana Pool Bar',
+                                    eventModel.rsvp.event.locationName,
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w900,
                                       color: SimposiAppColors.simposiDarkGrey,
                                     ),
                                   ),
-                                  // TODO: Pull Location Address from Event
-                                  Text('11 Poulson St, Toronto, ON, M4A 2F1'),
+                                  Text(eventModel.addressRepresentaion),
                                 ],
                               ),
                             ],
@@ -138,7 +160,7 @@ class EventDetails extends StatelessWidget {
                                     ),
                                   ),
                                   // TODO: Pull Counts of RSVPs where Status = Accepted (I think we have a count field scoped for this so status might not be relevant)
-                                  Text('1 Women, 2 Men, 1 LGBTQ'),
+                                  Text('TODO: 1 Women, 2 Men, 1 LGBTQ'),
                                 ],
                               ),
                             ],
@@ -181,8 +203,7 @@ class EventDetails extends StatelessWidget {
                               color: SimposiAppColors.simposiDarkBlue,
                               size: 10),
                           const SizedBox(width: 10),
-                          // TODO: Display Event Settings for Gender
-                          Text('Women, Men, LGBTQ'),
+                          Text(eventModel.gendersString),
                         ],
                       ),
                       const SizedBox(height: 5),
@@ -192,8 +213,10 @@ class EventDetails extends StatelessWidget {
                               color: SimposiAppColors.simposiDarkBlue,
                               size: 10),
                           const SizedBox(width: 10),
-                          // TODO: Display Event Settings for Generations
-                          Text('Millennial, Gen X'),
+                          Text(
+                            eventModel.generationsString,
+                            maxLines: 5,
+                          ),
                         ],
                       ),
                       const SizedBox(height: 5),
@@ -203,8 +226,7 @@ class EventDetails extends StatelessWidget {
                               color: SimposiAppColors.simposiDarkBlue,
                               size: 10),
                           const SizedBox(width: 10),
-                          // TODO: Display Event Settings for Income
-                          Text('\$35k to \$50k, \$50k to \$75k'),
+                          Text(eventModel.earningsString),
                         ],
                       ),
                     ],
@@ -235,12 +257,11 @@ class EventDetails extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  // TODO: Display Event Description
-                  Text(
-                      'Artists, Designers, Companies from different countries will present their collections on the Social Impact concept in order to explain how the fashion industry could be a powerful engine for the current society along the exhibition spaces for the people who decide to advertise during the event, where, apart the visibility, the presence of Influencers, Journalists and Photographers will do effort to present Artists, Fashion designers and Brands.'),
+                  Text(eventModel.rsvp.event.description),
                   const SizedBox(height: 10),
-                  // TODO: Display tag cloud... same chip style as picker in grey without ability to click. Display only the tags on the event
-                  // TAG CLOUD
+                  TagsCloud(
+                    interests: eventModel.rsvp.event.wantToMeetInterests,
+                  ),
                   Container(),
                   // TODO: Display Map Location as square or rectangle. Click should request access to Google Maps or Apple Maps App
                   // MAP

@@ -7,6 +7,7 @@
 
 import 'dart:ui';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -21,6 +22,7 @@ import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
 
+import '../../../app_router.dart';
 import '../../../global/theme/elements/simposibuttons.dart';
 import '../../authenticationwidgets/privacytoufooter.dart';
 import 'signup1_create_account_cubit.dart';
@@ -62,186 +64,193 @@ class _SignUpForm1State extends State<SignUpForm1> {
   }
 
   @override
-  Widget build(BuildContext context) => KeyboardDismisser(
-        child: Scaffold(
-          backgroundColor: Colors.white,
-          body: LayoutBuilder(builder:
-              (BuildContext context, BoxConstraints viewportConstraints) {
-            return SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: viewportConstraints.maxHeight,
-                ),
-                child: IntrinsicHeight(
-                  child: BlocConsumer<Signup1CreateAccountCubit,
-                      Signup1CreateAccountState>(
-                    listener: (context, state) {
-                      if (state is Signup1CreateAccountReady) {
-                        Navigator.of(context).pushNamed('/signup2');
-                      } else if (state is Signup1CreateAccountError) {
-                        showErrorToast(handleError(state.error, context));
-                      }
-                    },
-                    builder: (context, state) {
-                      return Container(
-                        padding: EdgeInsets.all(40),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            // HEADER
-                            Container(
-                              height: 225,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    'Signup and start \n meeting new people.',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: SimposiAppColors.simposiDarkGrey,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 19,
-                                    ),
-                                  ),
-                                  SizedBox(height: 20),
-                                  // TODO: ENABLE IMAGE PICKER & ERROR MESSAGE IF NO IMAGE ON SUBMIT
-                                  //  PHOTO UPLOAD FIELD
-                                  ProfilePhotoPickButton(
-                                    imageSelectCallback: (val) {
-                                      print("selected image $val");
-                                      setState(() {
-                                        _filePath = val;
-                                      });
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            // CREATE ACCOUNT FORM
-                            Container(
-                              child: Form(
-                                key: _formKey,
+  Widget build(BuildContext context) =>
+      BlocProvider(
+        create: (context) => Signup1CreateAccountCubit(
+            registrationCubit: context.read(),
+            profileRepository: context.read()),
+        child:       KeyboardDismisser(
+          child: Scaffold(
+            backgroundColor: Colors.white,
+            body: LayoutBuilder(builder:
+                (BuildContext context, BoxConstraints viewportConstraints) {
+              return SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: viewportConstraints.maxHeight,
+                  ),
+                  child: IntrinsicHeight(
+                    child: BlocConsumer<Signup1CreateAccountCubit,
+                        Signup1CreateAccountState>(
+                      listener: (context, state) {
+                        if (state is Signup1CreateAccountReady) {
+                          AutoRouter.of(context)
+                              .push(SignUpForm2Route());
+                        } else if (state is Signup1CreateAccountError) {
+                          showErrorToast(handleError(state.error, context));
+                        }
+                      },
+                      builder: (context, state) {
+                        return Container(
+                          padding: EdgeInsets.all(40),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              // HEADER
+                              Container(
+                                height: 225,
                                 child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    SizedBox(height: 40),
-
-                                    // NAME FIELD
-                                    _nameField(),
-                                    SizedBox(height: 10),
-
-                                    // phone FIELD
-                                    PhoneField(
-                                      onSave: (value) =>
-                                          setState(() => _phone = value),
-                                      controller: _phoneController,
+                                    Text(
+                                      'Signup and start \n meeting new people.',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: SimposiAppColors.simposiDarkGrey,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 19,
+                                      ),
                                     ),
-                                    SizedBox(height: 10),
-
-                                    // email FIELD
-                                    // PASSWORD FIELD
-                                    PasswordField(
-                                        label: AppLocalizations.of(context)!
-                                            .signUpPassword,
-                                        controller: _passwordController,
-                                        validator: getValidator(
-                                            context, Validators.PASSWORD)),
-                                    SizedBox(height: 10),
-
-                                    // PASSWORD FIELD
-                                    PasswordField(
-                                        label: AppLocalizations.of(context)!
-                                            .signUpPassword,
-                                        controller: _passwordConfirmController,
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return AppLocalizations.of(context)!
-                                                .validatePasswordNotEmpty;
-                                          } else if (value !=
-                                              _passwordController.text) {
-                                            return AppLocalizations.of(context)!
-                                                .validatePasswordsDontMatch;
-                                          } else {
-                                            return null;
-                                          }
-                                        }),
-                                    SizedBox(height: 15),
-
-                                    // SUBMIT BUTTON
-                                    state is Signup1CreateAccountLoading
-                                        ? AppProgressIndicator()
-                                        : ContinueButton(
-                                            buttonLabel: 'Submit',
-                                            buttonAction: _nextEnabled()
-                                                ? () {
-                                                    if (_formKey.currentState!
-                                                        .validate()) {
-                                                      if (_filePath
-                                                              ?.isNotEmpty ==
-                                                          true) {
-                                                        _formKey.currentState!
-                                                            .save();
-                                                        context
-                                                            .read<
-                                                                Signup1CreateAccountCubit>()
-                                                            .firstStage(
-                                                                name:
-                                                                    _nameController
-                                                                        .text,
-                                                                password:
-                                                                    _passwordController
-                                                                        .text,
-                                                                file:
-                                                                    _filePath!,
-                                                                phone: _phone);
-                                                      } else {
-                                                        showErrorToast(
-                                                            "Add photo");
-                                                      }
-                                                    }
-                                                  }
-                                                : null),
-                                    SizedBox(height: 10),
-                                    // LOGIN BUTTON
-                                    SimposiTextButton(
-                                      buttonLabel: "Log In",
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w900,
-                                      onClick: () {
-                                        Navigator.of(context)
-                                            .pushReplacementNamed('/login');
+                                    SizedBox(height: 20),
+                                    // TODO: ENABLE IMAGE PICKER & ERROR MESSAGE IF NO IMAGE ON SUBMIT
+                                    //  PHOTO UPLOAD FIELD
+                                    ProfilePhotoPickButton(
+                                      imageSelectCallback: (val) {
+                                        print("selected image $val");
+                                        setState(() {
+                                          _filePath = val;
+                                        });
                                       },
                                     ),
                                   ],
                                 ),
                               ),
-                            ),
 
-                            // FOOTER
-                            Container(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  SizedBox(height: 30),
-                                  PrivacyTOUFooter(
-                                    footerColor:
-                                        SimposiAppColors.simposiLightText,
+                              // CREATE ACCOUNT FORM
+                              Container(
+                                child: Form(
+                                  key: _formKey,
+                                  child: Column(
+                                    children: [
+                                      SizedBox(height: 40),
+
+                                      // NAME FIELD
+                                      _nameField(),
+                                      SizedBox(height: 10),
+
+                                      // phone FIELD
+                                      PhoneField(
+                                        onSave: (value) =>
+                                            setState(() => _phone = value),
+                                        controller: _phoneController,
+                                      ),
+                                      SizedBox(height: 10),
+
+                                      // email FIELD
+                                      // PASSWORD FIELD
+                                      PasswordField(
+                                          label: AppLocalizations.of(context)!
+                                              .signUpPassword,
+                                          controller: _passwordController,
+                                          validator: getValidator(
+                                              context, Validators.PASSWORD)),
+                                      SizedBox(height: 10),
+
+                                      // PASSWORD FIELD
+                                      PasswordField(
+                                          label: AppLocalizations.of(context)!
+                                              .signUpPassword,
+                                          controller: _passwordConfirmController,
+                                          validator: (value) {
+                                            if (value == null || value.isEmpty) {
+                                              return AppLocalizations.of(context)!
+                                                  .validatePasswordNotEmpty;
+                                            } else if (value !=
+                                                _passwordController.text) {
+                                              return AppLocalizations.of(context)!
+                                                  .validatePasswordsDontMatch;
+                                            } else {
+                                              return null;
+                                            }
+                                          }),
+                                      SizedBox(height: 15),
+
+                                      // SUBMIT BUTTON
+                                      state is Signup1CreateAccountLoading
+                                          ? AppProgressIndicator()
+                                          : ContinueButton(
+                                          buttonLabel: 'Submit',
+                                          buttonAction: _nextEnabled()
+                                              ? () {
+                                            if (_formKey.currentState!
+                                                .validate()) {
+                                              if (_filePath
+                                                  ?.isNotEmpty ==
+                                                  true) {
+                                                _formKey.currentState!
+                                                    .save();
+                                                context
+                                                    .read<
+                                                    Signup1CreateAccountCubit>()
+                                                    .firstStage(
+                                                    name:
+                                                    _nameController
+                                                        .text,
+                                                    password:
+                                                    _passwordController
+                                                        .text,
+                                                    file:
+                                                    _filePath!,
+                                                    phone: _phone);
+                                              } else {
+                                                showErrorToast(
+                                                    "Add photo");
+                                              }
+                                            }
+                                          }
+                                              : null),
+                                      SizedBox(height: 10),
+                                      // LOGIN BUTTON
+                                      SimposiTextButton(
+                                        buttonLabel: "Log In",
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w900,
+                                        onClick: () {
+                                          AutoRouter.of(context).replace(LoginScreenRoute());
+                                        },
+                                      ),
+                                    ],
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
+
+                              // FOOTER
+                              Container(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    SizedBox(height: 30),
+                                    PrivacyTOUFooter(
+                                      footerColor:
+                                      SimposiAppColors.simposiLightText,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
-              ),
-            );
-          }),
+              );
+            }),
+          ),
         ),
       );
+
 
   // NAME FIELD
   Widget _nameField() => TextFormField(

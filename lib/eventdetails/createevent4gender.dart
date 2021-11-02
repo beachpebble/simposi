@@ -7,9 +7,11 @@
 
 import 'dart:ui';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:simposi_app_v4/app_router.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
@@ -35,10 +37,10 @@ class _SignUpForm2State extends CreateEventScreenState<CreateEvent4> {
     super.initState();
     _isLgbt = widget.editMode
         ? context.read<ProfileEditCubit>().profile.wantToMeetLgbt ?? false
-        : false;
+        : context.read<EventEditCubit>().lgbt;
     _selected = widget.editMode
         ? context.read<ProfileEditCubit>().profile.wantToMeetGender ?? {}
-        : {};
+        : context.read<EventEditCubit>().wantToMeetGender ?? {};
   }
 
   void _selectGender(Gender gender) {
@@ -159,8 +161,7 @@ class _SignUpForm2State extends CreateEventScreenState<CreateEvent4> {
   @override
   VoidCallback? continueAction() => _selected.isNotEmpty
       ? () {
-
-          Navigator.of(context).pushNamed('/createevent5');
+          AutoRouter.of(context).push(CreateEvent5GenerationsRoute());
         }
       : null;
 

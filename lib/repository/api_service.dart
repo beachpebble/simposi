@@ -26,6 +26,9 @@ class ApiService {
   static const String API_USER_EXISTS = "/api/v1/verification/check-phone";
   static const String API_USER_EDIT = "/api/v1/user/update-profile";
 
+  static const String API_NEW_EVENT = "/api/v1/event";
+  static const String RSVP_LIST = "/api/v1/rsvp";
+
   ApiService({required this.authRepository, this.baseUrl = TEST}) {
     _dio = Dio();
     _dio.options.baseUrl = baseUrl;

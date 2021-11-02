@@ -6,9 +6,11 @@
 */
 
 import 'dart:ui';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import '../../../app_router.dart';
 import '../theme.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 
@@ -50,7 +52,6 @@ class HeaderFormAppBar extends StatelessWidget with PreferredSizeWidget {
   final headerTitle;
   final popPage;
   final nextButtonLabel;
-  final nextPage;
 
   // Initiate Variables
   HeaderFormAppBar({
@@ -58,7 +59,6 @@ class HeaderFormAppBar extends StatelessWidget with PreferredSizeWidget {
     required this.headerTitle,
     required this.popPage,
     required this.nextButtonLabel,
-    required this.nextPage,
   })
       : preferredSize = Size.fromHeight(70),
         super(key: key);
@@ -100,7 +100,8 @@ class HeaderFormAppBar extends StatelessWidget with PreferredSizeWidget {
       actions: <Widget>[
         TextButton(
         onPressed: () => {
-          Navigator.of(context).pushNamed(nextPage),
+      AutoRouter.of(context)
+          .replace(SimposiHomeRoute())
         },
         child: Text(nextButtonLabel,
           style: TextStyle(

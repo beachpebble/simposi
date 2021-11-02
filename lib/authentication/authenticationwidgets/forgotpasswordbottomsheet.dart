@@ -6,13 +6,11 @@
 */
 
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
-import 'package:simposi_app_v4/global/theme/theme.dart';
-
-
 
 // FORGOT PASSWORD BOTTOM SHEET TRIGGER BUTTON (SPECIALIZED)
 class ForgotPasswordTextButton extends StatelessWidget {
@@ -56,7 +54,6 @@ class ForgotPasswordTextButton extends StatelessWidget {
   }
 }
 
-
 // FORGOT PASSWORD BOTTOM SHEET
 class ForgotPasswordForm extends StatefulWidget {
   @override
@@ -83,7 +80,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
 
   @override
   Widget build(BuildContext context) => KeyboardDismisser(
-    child: Container(
+        child: Container(
           color: Colors.black54,
           child: Container(
               padding: const EdgeInsets.all(20),
@@ -108,7 +105,8 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  const Text('Please enter your email\nto restore your password.'),
+                  const Text(
+                      'Please enter your email\nto restore your password.'),
                   SizedBox(height: 30),
 
                   // FORGOT PASSWORD FORM
@@ -124,22 +122,21 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                         BigGBSelectButton(
                             buttonLabel: 'Reset Password',
                             buttonAction: () {
-                              final isValid = _formKey.currentState!
-                                  .validate();
+                              final isValid = _formKey.currentState!.validate();
 
                               if (isValid) {
                                 _formKey.currentState!.save();
                                 print('Email: ${email}');
-                                Navigator.of(context).pushReplacementNamed('/createpassword');
+                                Navigator.of(context)
+                                    .pushReplacementNamed('/createpassword');
                               }
-                            }
-                        ),
+                            }),
                       ],
                     ),
                   ),
                   SizedBox(height: 20),
                   TextButton(
-                    // TODO: Enable Contact Support button to open the users native email app to support@simposi.com
+                      // TODO: Enable Contact Support button to open the users native email app to support@simposi.com
                       onPressed: () {},
                       child: const Text(
                         'Contact Support',
@@ -153,55 +150,50 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                 ],
               )),
         ),
-  );
-
+      );
 
   // EMAIL FIELD
   Widget _emailField() => TextFormField(
-    controller: _emailController,
-    keyboardType: TextInputType.emailAddress,
-    textInputAction: TextInputAction.next,
-    enableSuggestions: true,
-    autocorrect: true,
-    obscureText: false,
-    showCursor: true,
+        controller: _emailController,
+        keyboardType: TextInputType.emailAddress,
+        textInputAction: TextInputAction.next,
+        enableSuggestions: true,
+        autocorrect: true,
+        obscureText: false,
+        showCursor: true,
 
-    decoration: InputDecoration(
-      labelText: ' Email Address',
-
-      suffixIcon: _emailController.text.isEmpty
-          ? Container(width: 0)
-          : IconButton(
-              icon: const Icon(Icons.close,
-                  size: 20,
-                  color: SimposiAppColors.simposiLightGrey),
+        decoration: InputDecoration(
+          labelText: ' Email Address',
+          suffixIcon: _emailController.text.isEmpty
+              ? Container(width: 0)
+              : IconButton(
+                  icon: const Icon(Icons.close,
+                      size: 20, color: SimposiAppColors.simposiLightGrey),
                   onPressed: () => _emailController.clear(),
-            ),
+                ),
+        ),
 
-    ),
+        // EMAIL VALIDATION LOGIC
+        validator: (value) {
+          final pattern =
+              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
+          final regExp = RegExp(pattern);
 
-    // EMAIL VALIDATION LOGIC
-    validator: (value) {
-      final pattern = r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
-      final regExp = RegExp(pattern);
+          // IF Empty
+          if (value!.isEmpty) {
+            return 'Email Required';
+          }
+          // IF does not match RegEx pattern
+          if (!regExp.hasMatch(value)) {
+            return 'Enter a Valid Email';
+          }
+          // TODO: Add Validation for IF Account does not Exist, display Account does not exist message
+          else {
+            return null;
+          }
+        },
 
-      // IF Empty
-      if (value!.isEmpty) {
-        return 'Email Required';
-      }
-      // IF does not match RegEx pattern
-      if (!regExp.hasMatch(value)) {
-        return 'Enter a Valid Email';
-      }
-      // TODO: Add Validation for IF Account does not Exist, display Account does not exist message
-      else {
-        return null;
-      }
-    },
-
-    // OUTPUT ACTIONS
-    onSaved: (value) => setState(() => email = value!),
-  );
+        // OUTPUT ACTIONS
+        onSaved: (value) => setState(() => email = value!),
+      );
 }
-
-

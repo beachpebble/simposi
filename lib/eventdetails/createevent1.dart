@@ -7,6 +7,7 @@
 
 import 'dart:ui';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,9 +19,9 @@ import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/formfields.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/global/widgets/event_photo_pick.dart';
-import 'package:simposi_app_v4/global/widgets/profile_photo_pick_button.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 
+import '../app_router.dart';
 import 'cubit/event_edit_cubit.dart';
 
 class CreateEvent1 extends StatefulWidget {
@@ -216,7 +217,8 @@ class _CreateEvent1State extends State<CreateEvent1> {
                                                                 .text,
                                                         dateTime: _dateTime!,
                                                         file: _filePath!);
-                                                Navigator.of(context).pushNamed('/createevent2');
+                                                AutoRouter.of(context)
+                                                    .push(CreateEvent2Route());
                                               } else {
                                                 showErrorToast("Add photo");
                                               }

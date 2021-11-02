@@ -6,13 +6,13 @@ import 'package:simposi_app_v4/global/theme/appcolors.dart';
  */
 class SelectableChip extends StatefulWidget {
   final String title;
-  final Function(bool) onClick;
+  final Function(bool)? onClick;
   final bool selected;
 
   const SelectableChip(
       {Key? key,
         required this.title,
-        required this.onClick,
+        this.onClick,
         this.selected = false})
       : super(key: key);
 
@@ -41,7 +41,7 @@ class _SelectableChipState extends State<SelectableChip> {
         onSelected: (bool value) {
           setState(() {
             selected = value;
-            widget.onClick(value);
+            widget.onClick?.call(value);
           });
         },
       ),

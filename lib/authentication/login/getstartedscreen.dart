@@ -7,7 +7,9 @@
 
 import 'dart:ui';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:simposi_app_v4/app_router.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 
@@ -17,7 +19,6 @@ class GetStartedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: SimposiAppColors.simposiDarkBlue,
-
         body: Container(
           decoration: const BoxDecoration(
             image: const DecorationImage(
@@ -25,7 +26,6 @@ class GetStartedScreen extends StatelessWidget {
                 fit: BoxFit.contain,
                 alignment: Alignment.topLeft),
           ),
-
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -34,7 +34,8 @@ class GetStartedScreen extends StatelessWidget {
                     height: 100,
                     padding: const EdgeInsets.only(top: 40),
                     child: LoginForwardTextButton(
-                      onClick: () => Navigator.of(context).pushNamed('/login'),
+                      onClick: () =>
+                          AutoRouter.of(context).push(LoginScreenRoute()),
                     )),
 
                 // BODY
@@ -77,9 +78,8 @@ class GetStartedScreen extends StatelessWidget {
                       Row(
                         children: [
                           GetStartedButton(
-                            onClick: () =>
-                                Navigator.of(context).pushNamed('/signup1'),
-                          ),
+                              onClick: () => AutoRouter.of(context)
+                                  .push(SignUpForm1Route())),
                         ],
                       ),
                     ],

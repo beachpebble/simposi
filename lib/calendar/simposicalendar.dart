@@ -7,10 +7,12 @@
 
 import 'dart:ui';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:simposi_app_v4/app_router.dart';
 import 'package:simposi_app_v4/calendar/week_calendar/utils.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/counterbubble.dart';
@@ -29,7 +31,8 @@ class SimposiCalendar extends StatefulWidget {
 
 class _SimposiCalendarState extends State<SimposiCalendar> {
   late final ItemScrollController _itemScrollController;
-  late final ItemPositionsListener _itemPositionsListener ;
+  late final ItemPositionsListener _itemPositionsListener;
+
   CalendarController? _calendarPageController;
   int _firstScrollItemIndex = 0;
   int _lastScrollItemIndex = 0;
@@ -38,8 +41,7 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
   void initState() {
     super.initState();
     _itemScrollController = ItemScrollController();
-    _itemPositionsListener =
-    ItemPositionsListener.create();
+    _itemPositionsListener = ItemPositionsListener.create();
     _itemPositionsListener.itemPositions.addListener(() {
       List<ItemPosition> items =
           _itemPositionsListener.itemPositions.value.toList();
@@ -83,12 +85,22 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
           children: [
             TextButton(
               child: Text(
-                'Meet Now',
+                'Refresh',
                 style: TextStyle(fontSize: 17),
               ),
               onPressed: () => {
-                Navigator.of(context).pushNamed('/createevent1'),
+                context.read<CalendarBloc>().add(Reload(
+                    DateTime.now().subtract(Duration(days: 90)),
+                    DateTime.now().add(Duration(days: 90))))
               },
+            ),
+            TextButton(
+              child: Text(
+                'Meet Now',
+                style: TextStyle(fontSize: 17),
+              ),
+              onPressed: () =>
+                  {AutoRouter.of(context).push(CreateEvent1Route())},
             ),
             SizedBox(width: 10),
           ],
@@ -121,8 +133,10 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
                   defaultBuilder: defaultBuilder,
                   eventChecker: (day) {
                     if (state is CalendarLoaded) {
+                      print("@@@ ${state.events.length}");
+                      print("@@@222  ${day.toUtc()}");
                       bool d = state.events
-                          .map((e) => e.date.toUtc())
+                          .map((e) => e.normalizedDate.toUtc())
                           .toList()
                           .contains(day.toUtc());
                       return d;
@@ -175,7 +189,7 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
               } else if (state is CalendarLoaded &&
                   state.loadBy == LoadBy.LIST) {
                 if (state.difWeeks != 0) {
-                  int cur = _calendarPageController?.getPage()?.toInt() ?? 0;
+                  int cur = _calendarPageController?.getPage().toInt() ?? 0;
                   _calendarPageController?.animateToPage(cur + state.difWeeks,
                       callback: false);
                 }
@@ -193,16 +207,20 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
             builder: (context, state) {
               if (state is CalendarLoading) {
                 return Expanded(
-                  child: AppProgressIndicator(),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        AppProgressIndicator(),
+                      ],
+                    ),
+                  ),
                 );
               } else if (state is CalendarLoaded) {
                 return Expanded(
                   child: ScrollablePositionedList.builder(
                     itemCount: state.events.length,
                     itemBuilder: (context, index) {
-                      return EventCard(
-                          date: state.events[index].date,
-                          title: state.events[index].title);
+                      return EventCard(eventModel: state.events[index]);
                     },
                     initialScrollIndex: state.scrollPos,
                     itemScrollController: _itemScrollController,

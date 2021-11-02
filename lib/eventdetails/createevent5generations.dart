@@ -7,6 +7,7 @@
 
 import 'dart:ui';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -17,6 +18,7 @@ import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/model/generation.dart';
 import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
 
+import '../app_router.dart';
 import 'create_event_screen.dart';
 import 'cubit/event_edit_cubit.dart';
 
@@ -48,10 +50,9 @@ class _CreateEvent5GenerationsState
   @override
   void initState() {
     super.initState();
-    //TODO new cubit
     _selected = widget.editMode
         ? context.read<ProfileEditCubit>().profile.wantToMeetGenerations ?? {}
-        : null ?? {};
+        : context.read<EventEditCubit>().wantToMeetGenerations ?? {};
   }
 
   @override
@@ -132,7 +133,7 @@ class _CreateEvent5GenerationsState
   @override
   VoidCallback? continueAction() => _selected.isNotEmpty
       ? () {
-          Navigator.of(context).pushNamed('/createevent6');
+          AutoRouter.of(context).push(CreateEvent6Route());
         }
       : null;
 

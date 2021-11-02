@@ -7,8 +7,10 @@
 
 import 'dart:ui';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simposi_app_v4/app_router.dart';
 import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
 import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
@@ -157,7 +159,7 @@ class _SignUpForm4State extends RegistrationProfileScreenState<SignUpForm4> {
   VoidCallback? continueAction() => _selected.isEmpty
       ? null
       : () {
-          Navigator.of(context).pushNamed('/signup5activities');
+          AutoRouter.of(context).push(SignUpForm5Route());
         };
 
   @override

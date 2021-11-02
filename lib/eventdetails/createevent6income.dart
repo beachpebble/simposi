@@ -7,9 +7,11 @@
 
 import 'dart:ui';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:simposi_app_v4/app_router.dart';
 import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
@@ -45,7 +47,6 @@ class _SignUpForm4State extends CreateEventScreenState<CreateEvent6> {
     if (!widget.editMode) {
       context.read<EventEditCubit>().stage6Earnings(earnings: _selected);
     }
-
   }
 
   void _selectAll() {
@@ -68,7 +69,7 @@ class _SignUpForm4State extends CreateEventScreenState<CreateEvent6> {
     super.initState();
     _selected = widget.editMode
         ? context.read<ProfileEditCubit>().profile.wantToMeetEarnings ?? {}
-        : {};
+        : context.read<EventEditCubit>().wantToMeetEarnings ?? {};
   }
 
   @override
@@ -164,34 +165,34 @@ class _SignUpForm4State extends CreateEventScreenState<CreateEvent6> {
         );
       }));
 
-
   @override
   Widget registrationNextButton() {
     return BlocConsumer<EventEditCubit, EventEditState>(
-  listener: (context, state) {
-    if (state is EventEditSuccess) {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-          '/home', ModalRoute.withName('start'),
-        );
-    } else if (state is EventEditError) {
-      showErrorToast(handleError(state.error, context));
-    }
-  },
-  builder: (context, state) {
-    return state is EventEditLoading ? AppProgressIndicator() : ContinueButton(
-        buttonLabel: "Save",
-        buttonAction: (){
-          context.read<EventEditCubit>().send();
-    });
-  },
-);
+      listener: (context, state) {
+        if (state is EventEditSuccess) {
+          AutoRouter.of(context)
+              .replace(SimposiHomeRoute());
+        } else if (state is EventEditError) {
+          showErrorToast(handleError(state.error, context));
+        }
+      },
+      builder: (context, state) {
+        return state is EventEditLoading
+            ? AppProgressIndicator()
+            : ContinueButton(
+                buttonLabel: "Save",
+                buttonAction: () {
+                  context.read<EventEditCubit>().sendCreate();
+                });
+      },
+    );
   }
-  
+
   @override
   VoidCallback? continueAction() => _selected.isEmpty
       ? null
       : () {
-          Navigator.of(context).pushNamed('/signup5activities');
+          AutoRouter.of(context).push(SignUpForm5Route());
         };
 
   @override

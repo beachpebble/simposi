@@ -53,6 +53,6 @@ void main() {
         BlocProvider(
             create: (context) =>
                 ProfileEditCubit(profileRepository: context.read())),
-        BlocProvider(create: (context) => CalendarBloc(context.read())),
+        BlocProvider(create: (context) => CalendarBloc(context.read(), context.read())),
       ], child: SimposiApp())));
 }

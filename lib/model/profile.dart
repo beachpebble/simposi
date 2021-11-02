@@ -128,16 +128,6 @@ class Profile extends Equatable {
             : null;
     ;
 
-    print("$parsedUserId + "
-        "$parsedUserName + "
-        "$parsedGenderId + "
-        "$parsedLatitude + "
-        "$parsedLongitude + "
-        "$parsedLongitude + "
-        "$parsedPhone + "
-        "$parsedDistance + "
-        "$parsedProfilePhoto + "
-        "$generations + ");
     if (parsedUserId == null ||
         parsedUserName == null ||
         parsedGenderId == null ||

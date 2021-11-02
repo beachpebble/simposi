@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/model/earning.dart';
+import 'package:simposi_app_v4/model/event.dart';
 import 'package:simposi_app_v4/model/gender.dart';
 import 'package:simposi_app_v4/model/generation.dart';
 import 'package:simposi_app_v4/model/interest.dart';
@@ -10,12 +10,13 @@ import 'package:simposi_app_v4/repository/calendar_repository.dart';
 part 'event_edit_state.dart';
 
 class EventEditCubit extends Cubit<EventEditState> {
-
-  EventEditCubit({required this.calendarRepository}) : super(EventEditInitial());
+  EventEditCubit({required this.calendarRepository})
+      : super(EventEditInitial());
 
   final CalendarRepository calendarRepository;
 
   String? photo;
+  String? photoUrl;
   String? title;
   String? description;
   DateTime? dateTime;
@@ -26,22 +27,25 @@ class EventEditCubit extends Cubit<EventEditState> {
   bool lgbt = false;
   double? latitude;
   double? longitude;
-  String?  city;
-  String?  address;
+  String? city;
+  String? address;
 
-  stage1({required String title, required String file, required String description, required DateTime dateTime}) {
+  stage1(
+      {required String title,
+      required String file,
+      required String description,
+      required DateTime dateTime}) {
     this.photo = file;
     this.title = title;
     this.description = description;
     this.dateTime = dateTime.toUtc();
   }
 
-  void stage2SetLocation({
-    required double latitude,
-    required double longitude,
-    required String city,
-    required String address
-  }) {
+  void stage2SetLocation(
+      {required double latitude,
+      required double longitude,
+      required String city,
+      required String address}) {
     this.latitude = latitude;
     this.longitude = longitude;
     this.city = city;
@@ -78,10 +82,8 @@ class EventEditCubit extends Cubit<EventEditState> {
     this.wantToMeetEarnings = earnings;
   }
 
-  Future<void> send() async {
+  Future<void> sendCreate() async {
     emit(EventEditLoading());
-
-    await Future.delayed(Duration(seconds: 2));
     try {
       await calendarRepository.sendEvent(
         title: title!,
@@ -98,10 +100,43 @@ class EventEditCubit extends Cubit<EventEditState> {
         wantToMeetGenerations: wantToMeetGenerations!,
         isLgbt: lgbt,
       );
-
+      reset();
       emit(EventEditSuccess());
     } catch (e) {
       emit(EventEditError(e));
     }
+  }
+
+  void reset() {
+    photo = null;
+    title = null;
+    description = null;
+    dateTime = null;
+    wantToMeetGender = null;
+    wantToMeetEarnings = null;
+    wantToMeetInterests = null;
+    wantToMeetGenerations = null;
+    lgbt = false;
+    latitude = null;
+    longitude = null;
+    city = null;
+    address = null;
+  }
+
+  void initEdit(Event event) {
+    photoUrl = event.image.url;
+    title = event.title;
+    description = event.description;
+    dateTime = event.datetime;
+    wantToMeetGender = null;
+    wantToMeetEarnings = null;
+    wantToMeetInterests = null;
+    wantToMeetGenerations = null;
+    lgbt = event.isLgbt;
+    latitude = double.tryParse(event.latitude);
+    longitude = double.tryParse(event.longitude);
+    city = event.locationCity;
+    ;
+    address = event.locationAddress;
   }
 }

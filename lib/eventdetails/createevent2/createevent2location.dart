@@ -8,6 +8,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,14 +21,27 @@ import 'package:simposi_app_v4/global/widgets/progress.dart';
 import 'package:simposi_app_v4/utils/location.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 
+import '../../app_router.dart';
 import 'createevent2_location_cubit.dart';
 
-class CreateEvent2 extends StatefulWidget {
+class CreateEvent2 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+        create: (context) =>
+    CreateEvent2LocationCubit(editEventCubit: context.read())
+      ..refreshInitial(),
+    child: _CreateEvent2View());
+  }
+
+}
+
+class _CreateEvent2View extends StatefulWidget {
   @override
   _CreateEvent2State createState() => _CreateEvent2State();
 }
 
-class _CreateEvent2State extends State<CreateEvent2> {
+class _CreateEvent2State extends State<_CreateEvent2View> {
   double progress = 0.32;
   final _placeSearchController = TextEditingController();
   Completer<GoogleMapController> _controller = Completer();
@@ -62,7 +76,8 @@ class _CreateEvent2State extends State<CreateEvent2> {
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
       appBar: BasicFormAppBar(),
-      body: BlocBuilder<CreateEvent2LocationCubit, CreateEvent2LocationState>(
+      body: BlocBuilder<CreateEvent2LocationCubit,
+          CreateEvent2LocationState>(
         builder: (context, state) {
           return Column(
             children: [
@@ -99,12 +114,12 @@ class _CreateEvent2State extends State<CreateEvent2> {
                   child: state.selectedLocation == null
                       ? Center(child: AppProgressIndicator())
                       : Stack(
-                          children: [
-                            _googleMap(state),
-                            if (state.searchResults.isNotEmpty)
-                              _searchResult(state)
-                          ],
-                        ),
+                    children: [
+                      _googleMap(state),
+                      if (state.searchResults.isNotEmpty)
+                        _searchResult(state)
+                    ],
+                  ),
                 ),
               ),
 
@@ -126,8 +141,9 @@ class _CreateEvent2State extends State<CreateEvent2> {
                       child: ContinueButton(
                           buttonAction: state.selectedLocation != null
                               ? () {
-                            Navigator.of(context).pushNamed('/createevent3');
-                                }
+                            AutoRouter.of(context)
+                                .push(CreateEvent3ActivitiesRoute());
+                          }
                               : null),
                     ),
                   ],
@@ -137,7 +153,6 @@ class _CreateEvent2State extends State<CreateEvent2> {
           );
         },
       ));
-
 
   Widget _searchBar() {
     return TextField(
@@ -175,7 +190,7 @@ class _CreateEvent2State extends State<CreateEvent2> {
                         .read<CreateEvent2LocationCubit>()
                         .selectLocation(loc);
                   },
-                  );
+                );
         });
   }
 
