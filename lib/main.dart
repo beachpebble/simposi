@@ -53,6 +53,8 @@ void main() {
         BlocProvider(
             create: (context) =>
                 ProfileEditCubit(profileRepository: context.read())),
-        BlocProvider(create: (context) => CalendarBloc(context.read(), context.read())),
+        BlocProvider(create: (context) => CalendarBloc(context.read(), context.read(), context.read())..add(Reload(
+            DateTime.now().subtract(Duration(days: 90)),
+            DateTime.now().add(Duration(days: 90))))),
       ], child: SimposiApp())));
 }

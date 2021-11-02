@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/repository/calendar_repository.dart';
 import 'package:simposi_app_v4/repository/profile_repository.dart';
 import 'package:simposi_app_v4/utils/date_utils.dart';
@@ -18,8 +21,9 @@ EventTransformer<CalendarEvent> debounce<CalendarEvent>(Duration duration) {
 
 class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
   List<EventModel> _loadedEvents = [];
+  late StreamSubscription todosSubscription;
 
-  CalendarBloc(CalendarRepository calendarRepository,
+  CalendarBloc(AuthenticationBloc authBloc, CalendarRepository calendarRepository,
       ProfileRepository profileRepository)
       : _calendarRepository = calendarRepository,
         _profileRepository = profileRepository,
@@ -29,6 +33,16 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
             0,
             LoadBy.INITIAL,
             0)) {
+    todosSubscription = authBloc.stream.listen((state) {
+      if (state is NotAuthenticated) {
+        _loadedEvents.clear();
+      } else  if (state is Authenticated) {
+        add(Reload(
+            DateTime.now().subtract(Duration(days: 90)),
+            DateTime.now().add(Duration(days: 90))));
+      }
+    });
+
     on<WeekSelected>((event, emit) {
       _calendarScrolled(event, emit);
     }, transformer: debounce(const Duration(milliseconds: 200)));
@@ -52,6 +66,12 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
 
       emit(CalendarLoaded(weekStart, _loadedEvents, 0, LoadBy.INITIAL, 0));
     });
+  }
+
+  @override
+  Future<void> close() {
+    todosSubscription?.cancel();
+    return super.close();
   }
 
   _calendarScrolled(WeekSelected event, Emitter<CalendarState> emit) {
@@ -110,97 +130,7 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
   DateTime weekStart = DateUtils.dateOnly(DateTime.now())
       .subtract(Duration(days: DateTime.now().weekday));
 
-  // static List<Rsvp> _loadedEvents = [
-  //   Rsvp(
-  //       id: 1,
-  //       title: "New super event2",
-  //       date: normalizeDate(DateTime.now().subtract(Duration(days: 15)))),
-  //   Rsvp(
-  //       id: 1,
-  //       title: "New super event2",
-  //       date: normalizeDate(DateTime.now().subtract(Duration(days: 15)))),
-  //   Rsvp(
-  //       id: 1,
-  //       title: "New super event2",
-  //       date: normalizeDate(DateTime.now().subtract(Duration(days: 15)))),
-  //   Rsvp(
-  //       id: 1,
-  //       title: "New super event2",
-  //       date: normalizeDate(DateTime.now().subtract(Duration(days: 8)))),
-  //   Rsvp(
-  //       id: 0, title: "New super event", date: normalizeDate(DateTime.now())),
-  //   Rsvp(
-  //       id: 2,
-  //       title: "New super event3",
-  //       date: normalizeDate(DateTime.now().add(Duration(days: 1)))),
-  //   Rsvp(
-  //       id: 3,
-  //       title: "New super event4",
-  //       date: normalizeDate(DateTime.now().add(Duration(days: 2)))),
-  //   Rsvp(
-  //       id: 6,
-  //       title: "New super event5",
-  //       date: normalizeDate(DateTime.now().add(Duration(days: 5)))),
-  //   Rsvp(
-  //       id: 7,
-  //       title: "New super event6",
-  //       date: normalizeDate(DateTime.now().add(Duration(days: 8)))),
-  //   Rsvp(
-  //       id: 7,
-  //       title: "New super event6",
-  //       date: normalizeDate(DateTime.now().add(Duration(days: 10)))),
-  //   Rsvp(
-  //       id: 7,
-  //       title: "New super event6",
-  //       date: normalizeDate(DateTime.now().add(Duration(days: 20)))),
-  //   Rsvp(
-  //       id: 7,
-  //       title: "New super event6",
-  //       date: normalizeDate(DateTime.now().add(Duration(days: 20)))),
-  //   Rsvp(
-  //       id: 7,
-  //       title: "New super event6",
-  //       date: normalizeDate(DateTime.now().add(Duration(days: 20)))),
-  //   Rsvp(
-  //       id: 7,
-  //       title: "New super event6",
-  //       date: normalizeDate(DateTime.now().add(Duration(days: 20)))),
-  //   Rsvp(
-  //       id: 10,
-  //       title: "New super eventsdsd6",
-  //       date: normalizeDate(DateTime.now().add(Duration(days: 40)))),
-  //   Rsvp(
-  //       id: 10,
-  //       title: "New super eventsdsd6",
-  //       date: normalizeDate(DateTime.now().add(Duration(days: 41)))),
-  //   Rsvp(
-  //       id: 10,
-  //       title: "New super eventsdsdsdsd6",
-  //       date: normalizeDate(DateTime.now().add(Duration(days: 41)))),
-  //   Rsvp(
-  //       id: 10,
-  //       title: "New super eventdsdssdsd6",
-  //       date: normalizeDate(DateTime.now().add(Duration(days: 41)))),
-  //   Rsvp(
-  //       id: 10,
-  //       title: "New super eventdsdssdsd6",
-  //       date: normalizeDate(DateTime.now().add(Duration(days: 50)))),
-  //   Rsvp(
-  //       id: 10,
-  //       title: "New super eventdsdssdsd6",
-  //       date: normalizeDate(DateTime.now().add(Duration(days: 51)))),
-  //   Rsvp(
-  //       id: 10,
-  //       title: "New super eventdsdssdsd6",
-  //       date: normalizeDate(DateTime.now().add(Duration(days: 60)))),
-  //   Rsvp(
-  //       id: 10,
-  //       title: "New super eventdsdssdsd6",
-  //       date: normalizeDate(DateTime.now().add(Duration(days: 67)))),
-  // ].toList()
-  //   ..sort((e1, e2) {
-  //     return e1.date.compareTo(e2.date);
-  //   });
+
   CalendarRepository _calendarRepository;
   ProfileRepository _profileRepository;
 }

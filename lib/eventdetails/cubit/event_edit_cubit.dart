@@ -15,6 +15,7 @@ class EventEditCubit extends Cubit<EventEditState> {
 
   final CalendarRepository calendarRepository;
 
+  int? id;
   String? photo;
   String? photoUrl;
   String? title;
@@ -30,9 +31,12 @@ class EventEditCubit extends Cubit<EventEditState> {
   String? city;
   String? address;
 
+  bool editMode = false;
+
   stage1(
       {required String title,
-      required String file,
+      required String? file,
+      required String? url,
       required String description,
       required DateTime dateTime}) {
     this.photo = file;
@@ -46,6 +50,7 @@ class EventEditCubit extends Cubit<EventEditState> {
       required double longitude,
       required String city,
       required String address}) {
+    print("WTF");
     this.latitude = latitude;
     this.longitude = longitude;
     this.city = city;
@@ -82,6 +87,14 @@ class EventEditCubit extends Cubit<EventEditState> {
     this.wantToMeetEarnings = earnings;
   }
 
+  Future<void> complete() {
+    if (editMode) {
+      return sendEdit();
+    } else {
+      return sendCreate();
+    }
+  }
+
   Future<void> sendCreate() async {
     emit(EventEditLoading());
     try {
@@ -107,8 +120,36 @@ class EventEditCubit extends Cubit<EventEditState> {
     }
   }
 
+  Future<void> sendEdit() async {
+    emit(EventEditLoading());
+    try {
+      await calendarRepository.editEvent(
+        id: id!,
+        title: title!,
+        image: photo,
+        date: dateTime!,
+        description: description!,
+        latitude: latitude!.toString(),
+        longitude: longitude!.toString(),
+        address: address?.toString() ?? "",
+        city: city?.toString() ?? "",
+        wantToMeetGender: wantToMeetGender!,
+        wantToMeetEarnings: wantToMeetEarnings!,
+        wantToMeetInterests: wantToMeetInterests!,
+        wantToMeetGenerations: wantToMeetGenerations!,
+        isLgbt: lgbt,
+      );
+      reset();
+      emit(EventEditSuccess());
+    } catch (e) {
+      emit(EventEditError(e));
+    }
+  }
+
   void reset() {
+    id = null;
     photo = null;
+    photoUrl = null;
     title = null;
     description = null;
     dateTime = null;
@@ -123,20 +164,25 @@ class EventEditCubit extends Cubit<EventEditState> {
     address = null;
   }
 
+  void initCreate() {
+    reset();
+  }
+
   void initEdit(Event event) {
+    id = event.id;
+    editMode = true;
     photoUrl = event.image.url;
     title = event.title;
     description = event.description;
     dateTime = event.datetime;
-    wantToMeetGender = null;
-    wantToMeetEarnings = null;
-    wantToMeetInterests = null;
-    wantToMeetGenerations = null;
+    wantToMeetGender = event.wantToMeetGenders.toSet();
+    wantToMeetEarnings = event.wantToMeetEarnings.toSet();
+    wantToMeetInterests = event.wantToMeetInterests.toSet();
+    wantToMeetGenerations = event.wantToMeetGenerations.toSet();
     lgbt = event.isLgbt;
     latitude = double.tryParse(event.latitude);
     longitude = double.tryParse(event.longitude);
     city = event.locationCity;
-    ;
     address = event.locationAddress;
   }
 }

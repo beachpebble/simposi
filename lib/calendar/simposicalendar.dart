@@ -14,6 +14,7 @@ import 'package:intl/intl.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:simposi_app_v4/app_router.dart';
 import 'package:simposi_app_v4/calendar/week_calendar/utils.dart';
+import 'package:simposi_app_v4/eventdetails/cubit/event_edit_cubit.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/counterbubble.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposiappbar.dart';
@@ -85,7 +86,7 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
           children: [
             TextButton(
               child: Text(
-                'Refresh',
+                'TODO Refresh',
                 style: TextStyle(fontSize: 17),
               ),
               onPressed: () => {
@@ -99,8 +100,10 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
                 'Meet Now',
                 style: TextStyle(fontSize: 17),
               ),
-              onPressed: () =>
-                  {AutoRouter.of(context).push(CreateEvent1Route())},
+              onPressed: () {
+                context.read<EventEditCubit>().initCreate();
+                AutoRouter.of(context).push(CreateEvent1Route());
+              },
             ),
             SizedBox(width: 10),
           ],
@@ -133,8 +136,6 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
                   defaultBuilder: defaultBuilder,
                   eventChecker: (day) {
                     if (state is CalendarLoaded) {
-                      print("@@@ ${state.events.length}");
-                      print("@@@222  ${day.toUtc()}");
                       bool d = state.events
                           .map((e) => e.normalizedDate.toUtc())
                           .toList()
@@ -178,8 +179,6 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
             },
             listener: (context, state) {
               if (state is CalendarLoaded && state.loadBy == LoadBy.CALENDAR) {
-                print(
-                    "@@@ ${state.scrollPos}  $_firstScrollItemIndex $_lastScrollItemIndex");
                 if (state.scrollPos != _firstScrollItemIndex) {
                   _itemScrollController.scrollTo(
                       index: state.scrollPos,

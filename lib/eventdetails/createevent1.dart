@@ -34,6 +34,7 @@ class CreateEvent1 extends StatefulWidget {
 class _CreateEvent1State extends State<CreateEvent1> {
   final _formKey = GlobalKey<FormState>();
   String? _filePath;
+  String? _fileUrl;
   DateTime? _dateTime;
   DateTime? _dateTimeValue;
   late final TextEditingController _dateController;
@@ -43,16 +44,27 @@ class _CreateEvent1State extends State<CreateEvent1> {
   @override
   void initState() {
     super.initState();
-    _dateTimeValue = DateTime.now().add(Duration(hours: 2));
-    _dateController = TextEditingController()..addListener(() {setState(() {
-
-    });});
-    _titleController = TextEditingController()..addListener(() {setState(() {
-
-    });});;
-    _descriptionController = TextEditingController()..addListener(() {setState(() {
-
-    });});;
+    _fileUrl = context.read<EventEditCubit>().photoUrl;
+    _dateTime = context.read<EventEditCubit>().dateTime ??  DateTime.now().add(Duration(hours: 2));
+    _dateTimeValue = context.read<EventEditCubit>().dateTime ??
+        _dateTime;
+    _dateController = TextEditingController(text: DateFormat('yyyy-MM-dd – kk:mm')
+        .format(_dateTimeValue!))
+      ..addListener(() {
+        setState(() {});
+      });
+    _titleController =
+        TextEditingController(text: context.read<EventEditCubit>().title ?? "")
+          ..addListener(() {
+            setState(() {});
+          });
+    ;
+    _descriptionController =
+        TextEditingController(text: context.read<EventEditCubit>().description)
+          ..addListener(() {
+            setState(() {});
+          });
+    ;
   }
 
   @override
@@ -101,6 +113,7 @@ class _CreateEvent1State extends State<CreateEvent1> {
                               ),
                               const SizedBox(height: 20),
                               EventPhotoPick(
+                                initialImage: context.read<EventEditCubit>().photoUrl,
                                 imageSelectCallback: (val) {
                                   print("selected image $val");
                                   setState(() {
@@ -156,7 +169,6 @@ class _CreateEvent1State extends State<CreateEvent1> {
                                         cancelButton:
                                             CupertinoActionSheetAction(
                                           child: Text('Save'),
-
                                           onPressed: () {
                                             _dateTime = _dateTimeValue;
                                             _dateController.text =
@@ -201,11 +213,10 @@ class _CreateEvent1State extends State<CreateEvent1> {
                                     buttonLabel: 'Submit',
                                     buttonAction: _nextEnabled()
                                         ? () {
-
                                             if (_formKey.currentState!
                                                 .validate()) {
                                               if (_filePath?.isNotEmpty ==
-                                                  true) {
+                                                  true || _fileUrl?.isNotEmpty == true) {
                                                 _formKey.currentState!.save();
                                                 context
                                                     .read<EventEditCubit>()
@@ -216,7 +227,7 @@ class _CreateEvent1State extends State<CreateEvent1> {
                                                             _descriptionController
                                                                 .text,
                                                         dateTime: _dateTime!,
-                                                        file: _filePath!);
+                                                        file: _filePath, url: _fileUrl);
                                                 AutoRouter.of(context)
                                                     .push(CreateEvent2Route());
                                               } else {

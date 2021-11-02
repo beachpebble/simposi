@@ -53,7 +53,7 @@ class _CreateEvent2State extends State<_CreateEvent2View> {
     determinePosition()
         .then((value) => context
             .read<CreateEvent2LocationCubit>()
-            .selectLocation(LatLng(value.latitude, value.longitude)))
+            .selectInitialLocation(LatLng(value.latitude, value.longitude)))
         .catchError((e) {
       showErrorToast("There is no location permission");
       context.read<CreateEvent2LocationCubit>().noPermission();
@@ -128,7 +128,6 @@ class _CreateEvent2State extends State<_CreateEvent2View> {
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 40),
                 child: Column(
                   children: [
-                    // TODO: Remove Range Slider. It does not apply to events.
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
@@ -243,19 +242,6 @@ class _CreateEvent2State extends State<_CreateEvent2View> {
     );
   }
 
-  Set<Circle> _getCircle(LatLng? location, double range) => location == null
-      ? {}
-      : Set.from([
-          Circle(
-            strokeColor: SimposiAppColors.simposiLightBlue,
-            strokeWidth: 1,
-            fillColor: SimposiAppColors.simposiLightBlue.withOpacity(0.5),
-            circleId: CircleId("myplace"),
-            center: location,
-            radius: range * 1000,
-          )
-        ]);
-
   Set<Marker> _getMarkers(LatLng? location) => location == null
       ? {}
       : Set.from([
@@ -270,8 +256,4 @@ class _CreateEvent2State extends State<_CreateEvent2View> {
               }))
         ]);
 
-  static bool get localeIsImperial {
-    final String defaultLocale = Platform.localeName;
-    return defaultLocale.endsWith("US");
-  }
 }

@@ -182,7 +182,7 @@ class _SignUpForm4State extends CreateEventScreenState<CreateEvent6> {
             : ContinueButton(
                 buttonLabel: "Save",
                 buttonAction: () {
-                  context.read<EventEditCubit>().sendCreate();
+                  context.read<EventEditCubit>().complete();
                 });
       },
     );

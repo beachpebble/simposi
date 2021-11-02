@@ -40,6 +40,13 @@ class CreateEvent2LocationCubit extends Cubit<CreateEvent2LocationState> {
     }
   }
 
+  Future<void> selectInitialLocation(LatLng location) async {
+    print("selectInitialLocation  $location");
+    if (state.selectedLocation == null) {
+      selectLocation(location);
+    }
+  }
+
 //TODO make smarter
   Future<void> selectLocation(LatLng location) async {
     emit(state.copyWith(selectedLocation: location, searchResults: [], ));

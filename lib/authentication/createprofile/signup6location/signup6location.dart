@@ -60,7 +60,6 @@ class _SignUpForm6State extends State<_SignUpForm6View> {
             .read<Signup6LocationCubit>()
             .selectInitialLocation(LatLng(value.latitude, value.longitude)))
         .catchError((e) {
-      print("@@@ $e");
       showErrorToast("There is no location permission !!!  $e");
       context.read<Signup6LocationCubit>().noPermission();
     });

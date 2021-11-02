@@ -12,16 +12,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
+import 'package:simposi_app_v4/calendar/event_model.dart';
+import 'package:simposi_app_v4/eventdetails/cubit/event_edit_cubit.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../app_router.dart';
 
 class EventAppBar extends StatelessWidget with PreferredSizeWidget {
   // Variables
   final Size preferredSize;
+  final EventModel eventModel;
 
   // Initiate Variables
-  EventAppBar({Key, key})
+  EventAppBar({Key, key, required this.eventModel})
       : preferredSize = const Size.fromHeight(60),
         super(key: key);
 
@@ -64,29 +68,8 @@ class EventAppBar extends StatelessWidget with PreferredSizeWidget {
         // TODO: If user is just getting an invite, they can only edit their respose to the invite and not the event.
         // MENU BUTTON
         FocusedMenuHolder(
-          menuItems: [
-            FocusedMenuItem(
-              // TODO: Enable Cancel RSVP Button
-              title: const Text(
-                'Cancel RSVP',
-                style: TextStyle(
-                  color: SimposiAppColors.simposiDarkBlue,
-                ),
-              ),
-              onPressed: () =>
-                  Navigator.of(context).restorablePush(_dialogBuilder),
-            ),
-            FocusedMenuItem(
-              // TODO: Enable Report Social Button
-              title: const Text(
-                'Report Social',
-                style: TextStyle(
-                  color: SimposiAppColors.simposiDarkBlue,
-                ),
-              ),
-              onPressed: () => Navigator.of(context).pushNamed('/reportevent'),
-            ),
-          ],
+          menuItems: eventModel.isMine ? creatorMenu(context) : usualMenu(
+              context),
           blurBackgroundColor: Colors.black45,
           openWithTap: true,
           onPressed: () {},
@@ -98,9 +81,62 @@ class EventAppBar extends StatelessWidget with PreferredSizeWidget {
     );
   }
 
+  List<FocusedMenuItem> creatorMenu(BuildContext context) =>
+      [
+        FocusedMenuItem(
+          // TODO: Enable Cancel RSVP Button
+          title: const Text(
+            'Edit Event',
+            style: TextStyle(
+              color: SimposiAppColors.simposiDarkBlue,
+            ),
+          ),
+          onPressed: () {
+            context.read<EventEditCubit>().initEdit(eventModel.rsvp.event);
+            AutoRouter.of(context)
+                .push(CreateEvent1Route());
+          },
+        ),
+        FocusedMenuItem(
+          // TODO: Enable Report Social Button
+          title: const Text(
+            'Cancel Event',
+            style: TextStyle(
+              color: SimposiAppColors.simposiDarkBlue,
+            ),
+          ),
+          onPressed: () => Navigator.of(context).pushNamed('/reportevent'),
+        ),
+      ];
+
+  List<FocusedMenuItem> usualMenu(BuildContext context) =>
+      [
+        FocusedMenuItem(
+          // TODO: Enable Cancel RSVP Button
+          title: const Text(
+            'Cancel RSVP',
+            style: TextStyle(
+              color: SimposiAppColors.simposiDarkBlue,
+            ),
+          ),
+          onPressed: () =>
+              Navigator.of(context).restorablePush(_dialogBuilder),
+        ),
+        FocusedMenuItem(
+          // TODO: Enable Report Social Button
+          title: const Text(
+            'Report Social',
+            style: TextStyle(
+              color: SimposiAppColors.simposiDarkBlue,
+            ),
+          ),
+          onPressed: () => Navigator.of(context).pushNamed('/reportevent'),
+        ),
+      ];
+
   // DIALOGUE
-  static Route<Object?> _dialogBuilder(
-      BuildContext context, Object? arguments) {
+  static Route<Object?> _dialogBuilder(BuildContext context,
+      Object? arguments) {
     return CupertinoDialogRoute<void>(
       context: context,
       builder: (BuildContext context) {

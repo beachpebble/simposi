@@ -47,7 +47,6 @@ class _InvitationSettingsState extends State<InvitationSettings> {
                           onTap: () {
                             AutoRouter.of(context)
                                 .push(SignUpForm2Route(editMode: true));
-                            Navigator.of(context).pushNamed('/signup2edit');
                           },
                         ),
                         SimposiMenuCard(

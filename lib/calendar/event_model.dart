@@ -28,6 +28,9 @@ class EventModel extends Equatable {
     return values.join(", ");
   }
 
+  double? get latitude =>double.parse(rsvp.event.latitude);
+  double? get longitude =>double.parse(rsvp.event.longitude);
+
   @override
   List<Object?> get props => [normalizedDate, rsvp, isMine];
 }
