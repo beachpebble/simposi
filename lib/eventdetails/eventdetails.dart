@@ -55,7 +55,6 @@ class _EventDetailsState extends State<EventDetails> {
         padding: const EdgeInsets.only(top: 0),
         shrinkWrap: true,
         children: [
-          // TODO: Hide/Show this row/invitation card based on RSVP Status
           if (widget.eventModel.isMine)
             Row(
               children: [
@@ -218,33 +217,48 @@ class _EventDetailsState extends State<EventDetails> {
                 const SizedBox(height: 20),
                 Column(
                   children: [
+                    //TODO make common view
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Icon(Icons.circle,
-                            color: SimposiAppColors.simposiDarkBlue, size: 10),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4.0),
+                          child: const Icon(Icons.circle,
+                              color: SimposiAppColors.simposiDarkBlue, size: 10),
+                        ),
                         const SizedBox(width: 10),
-                        Text(widget.eventModel.gendersString),
+                        Flexible(child: Text(widget.eventModel.gendersString)),
                       ],
                     ),
                     const SizedBox(height: 5),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Icon(Icons.circle,
-                            color: SimposiAppColors.simposiDarkBlue, size: 10),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4.0),
+                          child: const Icon(Icons.circle,
+                              color: SimposiAppColors.simposiDarkBlue, size: 10),
+                        ),
                         const SizedBox(width: 10),
-                        Text(
-                          widget.eventModel.generationsString,
-                          maxLines: 5,
+                        Flexible(
+                          child: Text(
+                            widget.eventModel.generationsString,
+                            maxLines: 5,
+                          ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 5),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Icon(Icons.circle,
-                            color: SimposiAppColors.simposiDarkBlue, size: 10),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4.0),
+                          child: const Icon(Icons.circle,
+                              color: SimposiAppColors.simposiDarkBlue, size: 10),
+                        ),
                         const SizedBox(width: 10),
-                        Text(widget.eventModel.earningsString),
+                        Flexible(child: Text(widget.eventModel.earningsString)),
                       ],
                     ),
                   ],

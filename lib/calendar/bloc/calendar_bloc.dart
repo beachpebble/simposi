@@ -70,7 +70,7 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
 
   @override
   Future<void> close() {
-    todosSubscription?.cancel();
+    todosSubscription.cancel();
     return super.close();
   }
 

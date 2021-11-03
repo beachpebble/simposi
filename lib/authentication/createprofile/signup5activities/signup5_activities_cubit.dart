@@ -21,7 +21,7 @@ class Signup5ActivitiesCubit extends Cubit<Signup5ActivitiesState> {
             filtered: interests,
             editMode: editMode,
             selected: editMode
-                ? profileEditCubit.profile.interests
+                ? profileEditCubit.profile.interests.toSet()
                 : registrationCubit.interests ?? {})) {
     profileEditSubscription = profileEditCubit.stream.listen((state) {
       if (state is ProfileEditLoading) {

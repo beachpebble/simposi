@@ -36,10 +36,10 @@ class _SignUpForm2State extends CreateEventScreenState<CreateEvent4> {
   void initState() {
     super.initState();
     _isLgbt = widget.editMode
-        ? context.read<ProfileEditCubit>().profile.wantToMeetLgbt ?? false
+        ? context.read<ProfileEditCubit>().profile.userMeta?.wantToMeetLgbt ?? false
         : context.read<EventEditCubit>().lgbt;
     _selected = widget.editMode
-        ? context.read<ProfileEditCubit>().profile.wantToMeetGender ?? {}
+        ? context.read<ProfileEditCubit>().profile.userMeta?.wantToMeetGender?.toSet() ?? {}
         : context.read<EventEditCubit>().wantToMeetGender ?? {};
   }
 
@@ -166,7 +166,7 @@ class _SignUpForm2State extends CreateEventScreenState<CreateEvent4> {
       : null;
 
   @override
-  VoidCallback? saveAction() => _selected != null
+  VoidCallback? saveAction() => _selected.isNotEmpty
       ? () {
           context
               .read<ProfileEditCubit>()

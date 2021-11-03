@@ -72,11 +72,11 @@ class _EventPhotoPickState extends State<EventPhotoPick> {
               ))
           : CachedNetworkImage(
               imageUrl: widget.initialImage!,
-              width: 100,
-              height: 100,
+        width: MediaQuery.of(context).size.width - 100,
+              height: 150,
               imageBuilder: (context, imageProvider) => Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50.0),
+                  borderRadius: BorderRadius.circular(25.0),
                   image: DecorationImage(
                     image: imageProvider,
                     fit: BoxFit.cover,

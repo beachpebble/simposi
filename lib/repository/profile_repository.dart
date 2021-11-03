@@ -11,6 +11,7 @@ import 'package:simposi_app_v4/model/generation.dart';
 import 'package:simposi_app_v4/model/interest.dart';
 import 'package:simposi_app_v4/model/master_data.dart';
 import 'package:simposi_app_v4/model/profile.dart';
+import 'package:simposi_app_v4/model/user_meta.dart';
 
 import 'api_service.dart';
 
@@ -22,7 +23,7 @@ class ProfileRepository {
   late Profile profile;
   final LocalStorage storage = new LocalStorage('profile_storage');
 
-  Future<void> setProfile(Map data) async {
+  Future<void> setProfile(Map<String, dynamic> data) async {
     await storage.setItem("profile", data);
     profile = Profile.fromJson(data);
   }
@@ -228,8 +229,16 @@ class ProfileRepository {
     return updateProfileFields(data);
   }
 
-  Future updateWantToMeetGenerations({required List<int> generations}) async {
-    Map<String, Object> data = {"want_to_meet_generations": generations};
+  Future updateWantToMeetGenerations({required List<Generation> generations}) async {
+    UserMeta meta ;
+    if (profile.userMeta == null) {
+      meta = UserMeta(wantToMeetGender: [], wantToMeetGenerations: generations, wantToMeetEarnings: [], wantToMeetLgbt: false, wantToMeetInterests: []);
+    } else {
+      meta = profile.userMeta!.copy(wantToMeetGenerations :  generations);
+    }
+    Map<String, Object> data = {
+      "meta_data": meta.toJson(),
+    };
     return updateProfileFields(data);
   }
 
@@ -255,16 +264,29 @@ class ProfileRepository {
     return updateProfileFields(data);
   }
 
-  Future updateWantToMeetIncome({required List<int> earnings}) async {
-    Map<String, Object> data = {"want_to_meet_earnings": earnings};
+  Future updateWantToMeetIncome({required List<Earning> earnings}) async {
+    UserMeta meta ;
+    if (profile.userMeta == null) {
+      meta = UserMeta(wantToMeetGender: [], wantToMeetGenerations: [], wantToMeetEarnings: earnings, wantToMeetLgbt: false, wantToMeetInterests: []);
+    } else {
+      meta = profile.userMeta!.copy(wantToMeetEarnings:  earnings);
+    }
+    Map<String, Object> data = {
+      "meta_data": meta.toJson(),
+    };
     return updateProfileFields(data);
   }
 
   Future updateWantToMeetGender(
-      {required List<String> gender, required bool lgbt}) async {
+      {required List<Gender> gender, required bool lgbt}) async {
+    UserMeta meta ;
+    if (profile.userMeta == null) {
+      meta = UserMeta(wantToMeetGender: gender, wantToMeetGenerations: [], wantToMeetEarnings: [], wantToMeetLgbt: false, wantToMeetInterests: []);
+    } else {
+      meta = profile.userMeta!.copy(wantToMeetGender:  gender, lgbt: lgbt);
+    }
     Map<String, Object> data = {
-      "want_to_meet_gender": gender,
-      "is_lgbtq": lgbt,
+      "meta_data": meta.toJson(),
     };
     return updateProfileFields(data);
   }
@@ -275,7 +297,7 @@ class ProfileRepository {
       data: data,
       auth: true,
     );
-    Map? user = response.data["data"]?["user"];
+    Map<String, dynamic>? user = response.data["data"]?["user"];
     if (user != null) {
       await setProfile(user);
     } else {

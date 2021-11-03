@@ -58,7 +58,7 @@ class _SignUpForm4State extends RegistrationProfileScreenState<SignUpForm4> {
   void initState() {
     super.initState();
     _selected = widget.editMode
-        ? context.read<ProfileEditCubit>().profile.earnings
+        ? context.read<ProfileEditCubit>().profile.earnings.toSet()
         : context.read<RegistrationCubit>().earnings ?? {};
   }
 

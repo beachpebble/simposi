@@ -21,7 +21,7 @@ class LoginCubit extends Cubit<LoginState> {
       var response = await profileRepository.login(login, password);
       Map data = response['data'];
       if (data.containsKey('user') && data['user'] != null) {
-        Map user = data['user'];
+        Map<String, dynamic> user = data['user'];
         if (data.containsKey('token') &&
             data['token'] != null &&
             user.containsKey('verified') &&

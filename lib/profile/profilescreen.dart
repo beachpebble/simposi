@@ -47,7 +47,7 @@ class ProfileScreen extends StatelessWidget {
             Expanded(
               child: Container(
                   child: CachedNetworkImage(
-                imageUrl: context.read<ProfileEditCubit>().profile.profilePhoto,
+                imageUrl: context.read<ProfileEditCubit>().profile.profilePhoto.url,
                 width: 100,
                 height: 100,
                 imageBuilder: (context, imageProvider) => Container(

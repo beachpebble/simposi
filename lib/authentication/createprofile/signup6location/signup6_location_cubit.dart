@@ -17,9 +17,9 @@ class Signup6LocationCubit extends Cubit<Signup6LocationState> {
       bool editMode = false})
       : super(editMode
             ? Signup6LocationState.initial(
-                profileEditCubit.profile.range,
-                profileEditCubit.profile.latitude,
-                profileEditCubit.profile.longitude,
+                double.parse(profileEditCubit.profile.range),
+      double.parse(profileEditCubit.profile.latitude),
+          double.parse(profileEditCubit.profile.longitude),
                 editMode)
             : Signup6LocationState.initial(
                 registrationCubit.range,

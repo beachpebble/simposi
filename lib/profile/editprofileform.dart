@@ -92,7 +92,7 @@ class _EditProfileState extends State<EditProfile> {
                           initialImage: context
                               .read<ProfileEditCubit>()
                               .profile
-                              .profilePhoto,
+                              .profilePhoto.url,
                           imageSelectCallback: (val) {
                             print("selected image $val");
                             _filePath = val;

@@ -68,7 +68,7 @@ class _SignUpForm4State extends CreateEventScreenState<CreateEvent6> {
   void initState() {
     super.initState();
     _selected = widget.editMode
-        ? context.read<ProfileEditCubit>().profile.wantToMeetEarnings ?? {}
+        ? context.read<ProfileEditCubit>().profile.userMeta?.wantToMeetEarnings?.toSet() ?? {}
         : context.read<EventEditCubit>().wantToMeetEarnings ?? {};
   }
 
@@ -201,7 +201,7 @@ class _SignUpForm4State extends CreateEventScreenState<CreateEvent6> {
   @override
   VoidCallback? saveAction() => _selected.isNotEmpty
       ? () {
-          context.read<ProfileEditCubit>().income(_selected);
+          context.read<ProfileEditCubit>().wantToMeetIncome(_selected.toList());
         }
       : null;
 }

@@ -117,22 +117,22 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
     }
   }
 
-  Future<void> wantToMeetGeneration(Set<Generation> generations) async {
+  Future<void> wantToMeetGeneration(List<Generation> generations) async {
     emit(ProfileEditLoading());
     try {
       await profileRepository.updateWantToMeetGenerations(
-          generations: generations.map((e) => e.id).toList());
+          generations: generations);
       emit(ProfileEditSuccess());
     } catch (e) {
       emit(ProfileEditError(e));
     }
   }
 
-  Future<void> wantToMeetIncome(Set<Earning> earnings) async {
+  Future<void> wantToMeetIncome(List<Earning> earnings) async {
     emit(ProfileEditLoading());
     try {
-      await profileRepository.updateProfileIncome(
-          earnings: earnings.map((e) => e.id).toList());
+      await profileRepository.updateWantToMeetIncome(
+          earnings: earnings);
       emit(ProfileEditSuccess());
     } catch (e) {
       emit(ProfileEditError(e));
@@ -142,7 +142,7 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
   Future<void> wantToMeetGender(List<Gender> gender, bool isLgbt) async {
     emit(ProfileEditLoading());
     try {
-      await profileRepository.updateWantToMeetGender(gender: gender.map((e) => e.id).toList(), lgbt: isLgbt);
+      await profileRepository.updateWantToMeetGender(gender: gender.toList(), lgbt: isLgbt);
       emit(ProfileEditSuccess());
     } catch (e) {
       emit(ProfileEditError(e));

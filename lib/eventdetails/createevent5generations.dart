@@ -51,7 +51,7 @@ class _CreateEvent5GenerationsState
   void initState() {
     super.initState();
     _selected = widget.editMode
-        ? context.read<ProfileEditCubit>().profile.wantToMeetGenerations ?? {}
+        ? context.read<ProfileEditCubit>().profile.userMeta?.wantToMeetGenerations?.toSet() ?? {}
         : context.read<EventEditCubit>().wantToMeetGenerations ?? {};
   }
 
@@ -140,7 +140,7 @@ class _CreateEvent5GenerationsState
   @override
   VoidCallback? saveAction() => _selected.isNotEmpty
       ? () {
-          context.read<ProfileEditCubit>().wantToMeetGeneration(_selected);
+          context.read<ProfileEditCubit>().wantToMeetGeneration(_selected.toList());
         }
       : null;
 
