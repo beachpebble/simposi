@@ -7,23 +7,15 @@ enum GenderType {
 
 class Gender extends Equatable{
   final GenderType gender;
-  final String id;
+  final int id;
 
   Gender(this.gender, this.id);
 
-  static Gender Male = Gender(GenderType.MALE, "1");
-  static Gender Female = Gender(GenderType.FEMALE, "2");
-
-  static Gender? fromId(String id) {
-    switch (id) {
-      case "1": return Male;
-      case "2": return Female;
-      default: null;
-    }
-  }
+  static Gender Male = Gender(GenderType.MALE, 1);
+  static Gender Female = Gender(GenderType.FEMALE, 2);
 
   factory Gender.fromJson(Map<String, dynamic> json){
-    return json['id'] == "1" ?  Gender.Male  :  Gender.Female;
+    return json['id'] == 1 ?  Gender.Male  :  Gender.Female;
   }
 
   Map<String, dynamic> toJson() {

@@ -95,21 +95,6 @@ flutter:
     - assets/images/
     - assets/fonts/
     - assets/json/
-    - assets/images/backgroundcalendar.png
-    - assets/images/backgroundcompass.png
-    - assets/images/backgroundbell.png
-    - assets/images/profileplaceholder.png
-    - assets/images/logosquare.png
-    - assets/json/map_style.json
-    - assets/images/eventcardbackground3.jpeg
-    - assets/images/eventdetailsbackground.png
-    - assets/images/airbaloon@3x.png
-    - assets/images/ratingheart1.png
-    - assets/images/ratinglike.png
-    - assets/images/ratingneutral.png
-    - assets/images/ratingmeh.png
-    - assets/images/ratinghate.png
-    - assets/images/invitationcard.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

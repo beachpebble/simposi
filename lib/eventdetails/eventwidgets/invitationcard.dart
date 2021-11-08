@@ -10,16 +10,20 @@ import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:simposi_app_v4/bloc/rsvp_action/rsvp_action_bloc.dart';
 import 'package:simposi_app_v4/calendar/event_model.dart';
 import 'package:simposi_app_v4/eventdetails/eventwidgets/datetimepicker.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/progress.dart';
+import 'package:simposi_app_v4/model/errors.dart';
+import 'package:simposi_app_v4/utils/toast_utils.dart';
 
 import '../../app_router.dart';
 
 class InvitationCard extends StatelessWidget {
-
   final EventModel eventModel;
 
   const InvitationCard({Key? key, required this.eventModel}) : super(key: key);
@@ -56,7 +60,7 @@ class InvitationCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                 eventModel.addressRepresentaion,
+                  eventModel.addressRepresentaion,
                   style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w900,
@@ -68,51 +72,76 @@ class InvitationCard extends StatelessWidget {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 50),
+                child: BlocConsumer<RsvpActionBloc, RsvpActionState>(
+                  listener: (context, state) {
+                    if (state is RsvpActionSuccess)
+                      AutoRouter.of(context).replace(SimposiHomeRoute());
+                    else if (state is RsvpActionError) {
+                      showErrorToast(handleError(state.error, context));
+                    }
+                  },
+                  builder: (context, state) {
+                    return state is RsvpActionLoading
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              AppProgressIndicator(),
+                            ],
+                          )
+                        : Column(
+                            children: [
+                              const SizedBox(height: 50),
 
-                    // TODO: Enable RSVP Button to show confirmation dialogue, update status on RSVP to accepted when user clicks
-                    // RSVP BUTTON
-                    BigGBSelectButton(
-                      buttonLabel: 'RSVP ${DateFormat('MMM dd, yyyy').format(eventModel.rsvp.fullDate)}',
-                      buttonAction: () => {
-                        Navigator.of(context).restorablePush(_dialogBuilder),
-                      },
-                      // TODO: Trigger RSVP Actions AND popup confirm RSVP AND redirect back to Calendar
-                    ),
-                    const SizedBox(height: 10),
+                              // TODO: Enable RSVP Button to show confirmation dialogue, update status on RSVP to accepted when user clicks
+                              // RSVP BUTTON
+                              ContinueButton(
+                                buttonLabel:
+                                    'RSVP ${DateFormat('MMM dd, yyyy').format(eventModel.rsvp.fullDate)}',
+                                buttonAction: () => {
+                                  AutoRouter.of(context).pushNativeRoute(
+                                      _dialogBuilder(context, null))
+                                  // Navigator.of(context)
+                                  //     .restorablePush(_dialogBuilder),
+                                },
+                              ),
+                              const SizedBox(height: 10),
 
-                    // TODO: Enabled Propose New Time Button
-                    // PROPOSE NEW TIME BUTTON
-                    BigGBSelectButton(
-                      buttonLabel: 'Propose New Time',
-                      buttonAction: () => showSheet(
-                        context,
-                        // TODO: Enable this to set the variable and write it into the form field
-                        onClicked: () =>
-                            {Navigator.of(context).pushNamed('/eventdetails')},
-                        child: Container(
-                            height: 300, child: SimposiDateTimePicker()),
-                      ),
-                    ),
+                              // TODO: Enabled Propose New Time Button
+                              // PROPOSE NEW TIME BUTTON
+                              BigGBSelectButton(
+                                buttonLabel: 'Propose New Time',
+                                buttonAction: () => showSheet(
+                                  context,
+                                  // TODO: Enable this to set the variable and write it into the form field
+                                  onClicked: () => {
+                                    Navigator.of(context)
+                                        .pushNamed('/eventdetails')
+                                  },
+                                  child: Container(
+                                      height: 300,
+                                      child: SimposiDateTimePicker()),
+                                ),
+                              ),
 
-                    // DECLINE BUTTON
-                    const SizedBox(height: 10),
-                    TextButton(
-                      // TODO: Set status on RSVP to decline so that the RSVP no longer appears on the calendar
-                      onPressed: () =>
-                          {AutoRouter.of(context).replace(SimposiHomeRoute())},
-                      // TODO: Enable Decline button to set RSVP status to declined which should remove the RSVP from the users calendar and updates counts etc.
-                      child: const Text(
-                        'Decline',
-                        style: TextStyle(
-                          color: SimposiAppColors.simposiLightText,
-                        ),
-                      ),
-                      style: const ButtonStyle(),
-                    ),
-                  ],
+                              // DECLINE BUTTON
+                              const SizedBox(height: 10),
+                              TextButton(
+                                onPressed: () => {
+                                  context
+                                      .read<RsvpActionBloc>()
+                                      .add(RsvpActionDeclined(eventModel.rsvp))
+                                },
+                                child: const Text(
+                                  'Decline',
+                                  style: TextStyle(
+                                    color: SimposiAppColors.simposiLightText,
+                                  ),
+                                ),
+                                style: const ButtonStyle(),
+                              ),
+                            ],
+                          );
+                  },
                 ),
               ),
             ),
@@ -130,8 +159,7 @@ class InvitationCard extends StatelessWidget {
       );
 
   // DIALOGUE
-  static Route<Object?> _dialogBuilder(
-      BuildContext context, Object? arguments) {
+  Route<Object?> _dialogBuilder(BuildContext context, Object? arguments) {
     return CupertinoDialogRoute<void>(
       context: context,
       builder: (BuildContext context) {
@@ -145,7 +173,12 @@ class InvitationCard extends StatelessWidget {
                 onPressed: () {}),
             CupertinoDialogAction(
               child: Text('Done'),
-              onPressed: () => AutoRouter.of(context).push(SimposiHomeRoute()),
+              onPressed: () {
+                context
+                    .read<RsvpActionBloc>()
+                    .add(RsvpActionAccepted(eventModel.rsvp));
+                AutoRouter.of(context).pop();
+              },
             ),
           ],
         );

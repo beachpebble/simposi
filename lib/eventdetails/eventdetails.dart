@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/staticmap.dart';
 import 'package:intl/intl.dart';
+import 'package:simposi_app_v4/bloc/rsvp_action/rsvp_action_bloc.dart';
 import 'package:simposi_app_v4/calendar/calendarwidgets/tags_cloud.dart';
 import 'package:simposi_app_v4/calendar/event_model.dart';
 import 'package:simposi_app_v4/eventdetails/eventwidgets/eventappbars.dart';
@@ -21,6 +22,7 @@ import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/widgets/progress.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EventDetails extends StatefulWidget {
   final EventModel eventModel;
@@ -41,6 +43,7 @@ class _EventDetailsState extends State<EventDetails> {
       await Future.delayed(Duration(milliseconds: 400));
       _initCompleter.complete();
     });
+    context.read<RsvpActionBloc>().add(RsvpActionOpened(widget.eventModel.rsvp));
   }
 
   @override
@@ -55,7 +58,7 @@ class _EventDetailsState extends State<EventDetails> {
         padding: const EdgeInsets.only(top: 0),
         shrinkWrap: true,
         children: [
-          if (widget.eventModel.isMine)
+          if (!widget.eventModel.isMine)
             Row(
               children: [
                 //INVITATION CARD

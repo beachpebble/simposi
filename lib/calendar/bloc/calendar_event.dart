@@ -2,6 +2,9 @@ part of 'calendar_bloc.dart';
 
 abstract class CalendarEvent extends Equatable {
   const CalendarEvent();
+
+  @override
+  List<Object?> get props => [];
 }
 
 class WeekSelected extends CalendarEvent {
@@ -22,11 +25,24 @@ class ListScrolled extends CalendarEvent {
   List<Object?> get props => [index];
 }
 
-class Reload extends CalendarEvent {
-  final DateTime from, to;
+class EventsUpdated extends CalendarEvent {
+  final List<EventModel> events;
 
-  Reload(this.from, this.to);
+  EventsUpdated(this.events);
 
   @override
-  List<Object?> get props => [from, to];
+  List<Object?> get props => [events];
+}
+
+class EventsLoading extends CalendarEvent {
+  const EventsLoading();
+}
+
+class EventsError extends CalendarEvent {
+  final dynamic error;
+
+  EventsError(this.error);
+
+  @override
+  List<Object?> get props => [error];
 }

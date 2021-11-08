@@ -164,6 +164,7 @@ class _SignUpForm2State extends RegistrationProfileScreenState<SignUpForm2> {
   @override
   VoidCallback? saveAction() => _selected != null
       ? () {
+    print("selected $_selected");
           context.read<ProfileEditCubit>().indentifyAs(_selected!, _isLgbt);
         }
       : null;

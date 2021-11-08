@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:simposi_app_v4/app_router.dart';
+import 'package:simposi_app_v4/bloc/rsvp/rsvp_bloc.dart';
 import 'package:simposi_app_v4/calendar/week_calendar/utils.dart';
 import 'package:simposi_app_v4/eventdetails/cubit/event_edit_cubit.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
@@ -90,7 +91,7 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
                 style: TextStyle(fontSize: 17),
               ),
               onPressed: () => {
-                context.read<CalendarBloc>().add(Reload(
+                context.read<RsvpBloc>().add(RefreshRequested(
                     DateTime.now().subtract(Duration(days: 90)),
                     DateTime.now().add(Duration(days: 90))))
               },

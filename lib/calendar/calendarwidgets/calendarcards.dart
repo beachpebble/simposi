@@ -128,13 +128,13 @@ class EventCard extends StatelessWidget {
                 bottom: 20,
                 right: 20,
                 child: RsvpIndicator(
-                  acceptedCount: eventModel.rsvp.event.rsvpAccepted + 1,
+                  acceptedCount: eventModel.rsvp.event.rsvpAccepted,
                 ),
               ),
 
               // TODO: Trigger/Show Check In Button if Event is in Check In Status only
               // CHECK IN BUTTON
-              if (!eventModel.isMine)
+              if (eventModel.showCheckIn)
                 Positioned(
                   top: 5,
                   right: 10,

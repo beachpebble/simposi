@@ -7,10 +7,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simposi_app_v4/app_constants.dart';
 import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
 import 'package:simposi_app_v4/bloc/bloc_observer.dart';
+import 'package:simposi_app_v4/bloc/rsvp/rsvp_bloc.dart';
 
 import 'bloc/auth/authentication_bloc.dart';
+import 'bloc/rsvp_action/rsvp_action_bloc.dart';
 import 'calendar/bloc/calendar_bloc.dart';
 import 'eventdetails/cubit/event_edit_cubit.dart';
 import 'profile/bloc/profile_edit_cubit.dart';
@@ -53,8 +56,10 @@ void main() {
         BlocProvider(
             create: (context) =>
                 ProfileEditCubit(profileRepository: context.read())),
-        BlocProvider(create: (context) => CalendarBloc(context.read(), context.read(), context.read())..add(Reload(
-            DateTime.now().subtract(Duration(days: 90)),
-            DateTime.now().add(Duration(days: 90))))),
+        BlocProvider(create: (context) => RsvpBloc(context.read(), context.read(), context.read())..add(RefreshRequested(
+            DateTime.now().subtract(Duration(days: AppConstants.CALENDAR_DAYS_INTERVAL)),
+            DateTime.now().add(Duration(days: AppConstants.CALENDAR_DAYS_INTERVAL))))),
+        BlocProvider(create: (context) => CalendarBloc(context.read())),
+        BlocProvider(create: (context) => RsvpActionBloc(rsvpBloc: context.read(), calendarRepository: context.read())),
       ], child: SimposiApp())));
 }

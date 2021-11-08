@@ -25,6 +25,7 @@ class ApiService {
   static const String API_REGISTER = "/api/v1/register";
   static const String API_USER_EXISTS = "/api/v1/verification/check-phone";
   static const String API_USER_EDIT = "/api/v1/user/update-profile";
+  static const String API_RSVP_STATUS = "/api/v1/rsvp/status/change";
 
   static const String API_NEW_EVENT = "/api/v1/event";
   static const String RSVP_LIST = "/api/v1/rsvp";
@@ -51,7 +52,6 @@ class ApiService {
     required Map<String, Object> data,
     auth: true,
     String? customToken,
-    bool lang = true
   }) async {
     var options = await _prepareRequest(path, auth);
     if (customToken != null && auth == false)

@@ -7,6 +7,7 @@ import 'package:simposi_app_v4/model/gender.dart';
 import 'package:simposi_app_v4/model/generation.dart';
 import 'package:simposi_app_v4/model/interest.dart';
 import 'package:simposi_app_v4/model/rsvp.dart';
+import 'package:simposi_app_v4/model/rsvp_status.dart';
 
 import 'api_service.dart';
 
@@ -157,4 +158,63 @@ class CalendarRepository {
     return response.data;
   }
 
+  Future<Rsvp> openRsvp(int id) async {
+    Response response = await _apiService.post(
+        ApiService.API_RSVP_STATUS,
+        data: {
+          'id': id,
+          'modify_status_to': RsvpStatus.OPENED_ID
+        },
+        auth: true);
+    Map? data = response.data;
+    Map<String, dynamic>? rsvpMap = data?['data']?['rsvp'];
+    if (rsvpMap != null) {
+      return Rsvp.fromJson(rsvpMap);
+    } else {
+      throw ApiException(
+          errorType: LocalizedErrorType.OTHER, message: "Unexpected response");
+    }
+  }
+
+  Future<Rsvp> acceptRsvp(int id) async {
+    Response response = await _apiService.post(
+        ApiService.API_RSVP_STATUS,
+        data: {
+          'id': id,
+          'modify_status_to': RsvpStatus.ACCEPTED_ID
+        },
+        auth: true);
+    Map? data = response.data;
+    Map<String, dynamic>? rsvpMap = data?['data']?['rsvp'];
+    if (rsvpMap != null) {
+      return Rsvp.fromJson(rsvpMap);
+    } else {
+      throw ApiException(
+          errorType: LocalizedErrorType.OTHER, message: "Unexpected response");
+    }
+  }
+
+  Future<Rsvp> declineRsvp(int id) async {
+    Response response = await _apiService.post(
+        ApiService.API_RSVP_STATUS,
+        data: {
+          'id': id,
+          'modify_status_to': RsvpStatus.DECLINED_ID
+        },
+        auth: true);
+    Map? data = response.data;
+    Map<String, dynamic>? rsvpMap = data?['data']?['rsvp'];
+    if (rsvpMap != null) {
+      return Rsvp.fromJson(rsvpMap);
+    } else {
+      throw ApiException(
+          errorType: LocalizedErrorType.OTHER, message: "Unexpected response");
+    }
+  }
+
+  Future checkInEvent(int id) async {
+    await Future.delayed(Duration(milliseconds: 2000));
+    // call _apiservice method
+
+  }
 }

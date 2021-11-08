@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:simposi_app_v4/model/gender.dart';
 import 'package:simposi_app_v4/model/rsvp.dart';
+import 'package:simposi_app_v4/model/rsvp_status.dart';
 
 class EventModel extends Equatable {
   final DateTime normalizedDate;
@@ -30,6 +31,10 @@ class EventModel extends Equatable {
 
   double? get latitude =>double.parse(rsvp.event.latitude);
   double? get longitude =>double.parse(rsvp.event.longitude);
+
+  bool get showInvite => !isMine && [RsvpStatus.INVITED, RsvpStatus.OPENED].contains(rsvp.status.title);
+  bool get showGoing => [RsvpStatus.ACCEPTED].contains(rsvp.status.title);
+  bool get showCheckIn => [RsvpStatus.ACCEPTED].contains(rsvp.status.title);
 
   @override
   List<Object?> get props => [normalizedDate, rsvp, isMine];

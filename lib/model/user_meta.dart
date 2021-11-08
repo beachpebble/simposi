@@ -40,7 +40,7 @@ class UserMeta extends Equatable {
       wantToMeetGenerations: wantToMeetGenerations?? this.wantToMeetGenerations,
       wantToMeetEarnings: wantToMeetEarnings?? this.wantToMeetEarnings,
       wantToMeetInterests: wantToMeetInterests?? this.wantToMeetInterests,
-      wantToMeetLgbt: lgbt?? false
+      wantToMeetLgbt: lgbt?? this.wantToMeetLgbt
     );
   }
 }

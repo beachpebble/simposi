@@ -4,9 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
-import 'package:simposi_app_v4/repository/calendar_repository.dart';
-import 'package:simposi_app_v4/repository/profile_repository.dart';
+import 'package:simposi_app_v4/bloc/rsvp/rsvp_bloc.dart';
 import 'package:simposi_app_v4/utils/date_utils.dart';
 
 import '../event_model.dart';
@@ -23,23 +21,23 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
   List<EventModel> _loadedEvents = [];
   late StreamSubscription todosSubscription;
 
-  CalendarBloc(AuthenticationBloc authBloc, CalendarRepository calendarRepository,
-      ProfileRepository profileRepository)
-      : _calendarRepository = calendarRepository,
-        _profileRepository = profileRepository,
-        super(CalendarLoaded(
+  CalendarBloc(RsvpBloc rsvpBloc)
+      : super(CalendarLoaded(
             SimposiDateUtils.weekStart(DateUtils.dateOnly(DateTime.now())),
-            [],
+            rsvpBloc.state is RsvpLoaded
+                ? (rsvpBloc.state as RsvpLoaded).rsvps
+                : [],
             0,
             LoadBy.INITIAL,
             0)) {
-    todosSubscription = authBloc.stream.listen((state) {
-      if (state is NotAuthenticated) {
-        _loadedEvents.clear();
-      } else  if (state is Authenticated) {
-        add(Reload(
-            DateTime.now().subtract(Duration(days: 90)),
-            DateTime.now().add(Duration(days: 90))));
+    todosSubscription = rsvpBloc.stream.listen((state) {
+      if (state is RsvpLoaded) {
+        _loadedEvents = state.rsvps;
+        add(EventsUpdated(_loadedEvents));
+      } else if (state is RsvpLoading) {
+        add(EventsLoading());
+      } else if (state is RsvpError) {
+        add(EventsError(state.error));
       }
     });
 
@@ -51,20 +49,12 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
       _listScrolled(event, emit);
     }, transformer: debounce(const Duration(milliseconds: 300)));
 
-    on<Reload>((event, emit) async {
-      emit(CalendarLoading());
-      var rsvps = await _calendarRepository.getAllevents(event.from, event.to);
-      _loadedEvents = rsvps
-          .map((e) => EventModel(
-              rsvp: e,
-              normalizedDate: e.date,
-              isMine: e.event.userId == _profileRepository.profile.userId))
-          .toList()
-        ..sort((e1, e2) {
-          return e1.normalizedDate.compareTo(e2.normalizedDate);
-        });
-
+    on<EventsUpdated>((event, emit) async {
       emit(CalendarLoaded(weekStart, _loadedEvents, 0, LoadBy.INITIAL, 0));
+    });
+
+    on<EventsLoading>((event, emit) async {
+      emit(CalendarLoading());
     });
   }
 
@@ -129,10 +119,6 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
 
   DateTime weekStart = DateUtils.dateOnly(DateTime.now())
       .subtract(Duration(days: DateTime.now().weekday));
-
-
-  CalendarRepository _calendarRepository;
-  ProfileRepository _profileRepository;
 }
 
 enum LoadBy { CALENDAR, LIST, INITIAL }
