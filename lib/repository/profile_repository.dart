@@ -3,22 +3,24 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:localstorage/localstorage.dart';
+import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/model/earning.dart';
 import 'package:simposi_app_v4/model/emergency_contact.dart';
 import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/model/gender.dart';
 import 'package:simposi_app_v4/model/generation.dart';
-import 'package:simposi_app_v4/model/interest.dart';
-import 'package:simposi_app_v4/model/master_data.dart';
 import 'package:simposi_app_v4/model/profile.dart';
 import 'package:simposi_app_v4/model/user_meta.dart';
 
 import 'api_service.dart';
 
 class ProfileRepository {
+  final AuthApiService _authApiService;
   final ApiService _apiService;
 
-  ProfileRepository(this._apiService);
+  ProfileRepository(this._apiService, this._authApiService) {
+
+  }
 
   late Profile profile;
   final LocalStorage storage = new LocalStorage('profile_storage');
@@ -41,35 +43,31 @@ class ProfileRepository {
     //TODO take this value from FCM
     params["device_token"] = "1234567";
     params["device_type"] = Platform.isAndroid ? 1 : 2;
-    Response response = await (await _apiService.post(ApiService.API_LOGIN,
-        data: params, auth: false));
+    Response response =
+        await (await _apiService.dio.post(Api.API_LOGIN, data: params));
     return response.data;
   }
 
   Future changePassword(String password, String token) async {
-    await _apiService.post(ApiService.API_CHANGE_PASSWORD,
-        data: {
-          'password': password,
-        },
-        auth: false,
-        customToken: token);
+    await _authApiService.dio.post(Api.API_CHANGE_PASSWORD, data: {
+      'password': password,
+    });
   }
 
   Future<String?> acceptCode(String phone, String code) async {
-    Response response = await _apiService.post(ApiService.API_ACCEPT_CODE,
-        data: {
-          'code': code,
-          'phone': phone,
-        },
-        auth: false);
+    Response response = await _apiService.dio.post(Api.API_ACCEPT_CODE, data: {
+      'code': code,
+      'phone': phone,
+    });
     Map data = response.data;
 
     if (data["data"]?["token"] != null) {
       String token = data["data"]?["token"];
       return token;
     } else {
-      throw ApiException(
-          errorType: LocalizedErrorType.OTHER, message: "Unexpected response");
+      throw ParseException(
+          errorType: LocalizedErrorType.PARSE_ERROR,
+          message: "Unexpected response");
     }
   }
 
@@ -82,51 +80,17 @@ class ProfileRepository {
         contentType: MediaType("image", "jpeg"),
       ),
     });
-    Response response = await _apiService.postMulti(
-        ApiService.API_UPLOAD_AVATAR,
-        data: formData,
-        lang: false,
-        auth: false);
+    Response response =
+        await _apiService.dio.post(Api.API_UPLOAD_AVATAR, data: formData);
     Map? data = response.data;
     String? name = data?["data"]?['name'];
     if (name != null) {
       return name;
     } else {
-      throw ApiException(
-          errorType: LocalizedErrorType.OTHER, message: "Unexpected response");
+      throw ParseException(
+          errorType: LocalizedErrorType.PARSE_ERROR,
+          message: "Unexpected response");
     }
-  }
-
-  //TODO make a local cache for this data
-  Future<MasterData> getMasterData() async {
-    Response response =
-        await _apiService.get(ApiService.API_MASTER_DATA, auth: false);
-    Map? data = response.data['data'];
-    List<Interest> interestList = [];
-    if (data != null &&
-        data.containsKey('whatYouLike') &&
-        data['whatYouLike'] is List) {
-      List il = data['whatYouLike'];
-      interestList = (il.map((e) => Interest.fromJson(e)).toList());
-    }
-    List<Generation> generationList = [];
-    if (data != null &&
-        data.containsKey('generationsIdentity') &&
-        data['generationsIdentity'] is List) {
-      List il = data['generationsIdentity'];
-      generationList = (il.map((e) => Generation.fromJson(e)).toList());
-    }
-    List<Earning> earninigList = [];
-    if (data != null &&
-        data.containsKey('whoEarn') &&
-        data['whoEarn'] is List) {
-      List il = data['whoEarn'];
-      earninigList = (il.map((e) => Earning.fromJson(e)).toList());
-      earninigList.sort((first, second) {
-        return first.sortId.compareTo(second.sortId);
-      });
-    }
-    return MasterData({}..addAll(interestList), generationList, earninigList);
   }
 
   // Returns 200 if user doesnt exist
@@ -136,12 +100,13 @@ class ProfileRepository {
     Map<String, Object> data = {
       "phone": phone,
     };
-    Response<Map> response = await _apiService.post(ApiService.API_USER_EXISTS,
-        auth: false, data: data);
+    Response<Map> response =
+        await _apiService.dio.post(Api.API_USER_EXISTS, data: data);
     bool? isPhoneUsed = response.data?['data']?['isPhoneUsed'];
     if (isPhoneUsed == null) {
-      throw ApiException(
-          errorType: LocalizedErrorType.OTHER, message: "Unexpected response");
+      throw ParseException(
+          errorType: LocalizedErrorType.PARSE_ERROR,
+          message: "Unexpected response");
     } else {
       return isPhoneUsed;
     }
@@ -176,13 +141,13 @@ class ProfileRepository {
       "who_earns": earning,
       "what_you_likes": likes,
     };
-    Response response = await _apiService.post(ApiService.API_REGISTER,
-        auth: false, data: data);
+    Response response =
+        await _apiService.dio.post(Api.API_REGISTER, data: data);
     return response.data;
   }
 
   Future requestConfirmationCode(String phone) async {
-    await _apiService.get(ApiService.API_ACCEPT_CODE+"/"+phone, auth: false);
+    await _apiService.dio.get(Api.API_ACCEPT_CODE + "/" + phone);
   }
 
   Future updateProfile({
@@ -215,8 +180,7 @@ class ProfileRepository {
     return updateProfileFields(data);
   }
 
-  Future updateEmergencyContact(
-      {required EmergencyContact contact}) async {
+  Future updateEmergencyContact({required EmergencyContact contact}) async {
     Map<String, Object> data = {
       "emergency_contact_name": contact.name,
       "emergency_contact_phone": contact.phone,
@@ -229,12 +193,18 @@ class ProfileRepository {
     return updateProfileFields(data);
   }
 
-  Future updateWantToMeetGenerations({required List<Generation> generations}) async {
-    UserMeta meta ;
+  Future updateWantToMeetGenerations(
+      {required List<Generation> generations}) async {
+    UserMeta meta;
     if (profile.userMeta == null) {
-      meta = UserMeta(wantToMeetGender: [], wantToMeetGenerations: generations, wantToMeetEarnings: [], wantToMeetLgbt: false, wantToMeetInterests: []);
+      meta = UserMeta(
+          wantToMeetGender: [],
+          wantToMeetGenerations: generations,
+          wantToMeetEarnings: [],
+          wantToMeetLgbt: false,
+          wantToMeetInterests: []);
     } else {
-      meta = profile.userMeta!.copy(wantToMeetGenerations :  generations);
+      meta = profile.userMeta!.copy(wantToMeetGenerations: generations);
     }
     Map<String, Object> data = {
       "meta_data": meta.toJson(),
@@ -265,11 +235,16 @@ class ProfileRepository {
   }
 
   Future updateWantToMeetIncome({required List<Earning> earnings}) async {
-    UserMeta meta ;
+    UserMeta meta;
     if (profile.userMeta == null) {
-      meta = UserMeta(wantToMeetGender: [], wantToMeetGenerations: [], wantToMeetEarnings: earnings, wantToMeetLgbt: false, wantToMeetInterests: []);
+      meta = UserMeta(
+          wantToMeetGender: [],
+          wantToMeetGenerations: [],
+          wantToMeetEarnings: earnings,
+          wantToMeetLgbt: false,
+          wantToMeetInterests: []);
     } else {
-      meta = profile.userMeta!.copy(wantToMeetEarnings:  earnings);
+      meta = profile.userMeta!.copy(wantToMeetEarnings: earnings);
     }
     Map<String, Object> data = {
       "meta_data": meta.toJson(),
@@ -279,11 +254,16 @@ class ProfileRepository {
 
   Future updateWantToMeetGender(
       {required List<Gender> gender, required bool lgbt}) async {
-    UserMeta meta ;
+    UserMeta meta;
     if (profile.userMeta == null) {
-      meta = UserMeta(wantToMeetGender: gender, wantToMeetGenerations: [], wantToMeetEarnings: [], wantToMeetLgbt: false, wantToMeetInterests: []);
+      meta = UserMeta(
+          wantToMeetGender: gender,
+          wantToMeetGenerations: [],
+          wantToMeetEarnings: [],
+          wantToMeetLgbt: false,
+          wantToMeetInterests: []);
     } else {
-      meta = profile.userMeta!.copy(wantToMeetGender:  gender, lgbt: lgbt);
+      meta = profile.userMeta!.copy(wantToMeetGender: gender, lgbt: lgbt);
     }
     Map<String, Object> data = {
       "meta_data": meta.toJson(),
@@ -292,17 +272,15 @@ class ProfileRepository {
   }
 
   Future updateProfileFields(Map<String, Object> data) async {
-    Response response = await _apiService.put(
-      ApiService.API_USER_EDIT,
-      data: data,
-      auth: true,
-    );
+    Response response =
+        await _authApiService.dio.put(Api.API_USER_EDIT, data: data);
     Map<String, dynamic>? user = response.data["data"]?["user"];
     if (user != null) {
       await setProfile(user);
     } else {
-      throw ApiException(
-          errorType: LocalizedErrorType.OTHER, message: "Unexpected response");
+      throw ParseException(
+          errorType: LocalizedErrorType.PARSE_ERROR,
+          message: "Unexpected response");
     }
   }
 }

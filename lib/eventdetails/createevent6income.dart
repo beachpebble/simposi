@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:simposi_app_v4/app_router.dart';
+import 'package:simposi_app_v4/bloc/app_setup/app_setup_cubit.dart';
 import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
@@ -52,11 +53,11 @@ class _SignUpForm4State extends CreateEventScreenState<CreateEvent6> {
   void _selectAll() {
     setState(() {
       if (_selected.length ==
-          context.read<AuthenticationBloc>().masterData.earnings.length)
+          context.read<AppSetupCubit>().masterData.earnings.length)
         _selected.clear();
       else
         _selected
-            .addAll(context.read<AuthenticationBloc>().masterData.earnings);
+            .addAll(context.read<AppSetupCubit>().masterData.earnings);
     });
 
     if (!widget.editMode) {
@@ -114,7 +115,7 @@ class _SignUpForm4State extends CreateEventScreenState<CreateEvent6> {
                     child: ListView.separated(
                       shrinkWrap: true,
                       itemCount: context
-                          .read<AuthenticationBloc>()
+                          .read<AppSetupCubit>()
                           .masterData
                           .earnings
                           .length,
@@ -123,7 +124,7 @@ class _SignUpForm4State extends CreateEventScreenState<CreateEvent6> {
                       },
                       itemBuilder: (context, index) {
                         Earning earning = context
-                            .read<AuthenticationBloc>()
+                            .read<AppSetupCubit>()
                             .masterData
                             .earnings[index];
                         return BigGBSelectButton(
@@ -149,7 +150,7 @@ class _SignUpForm4State extends CreateEventScreenState<CreateEvent6> {
                       buttonLabel: 'Select All',
                       isSelected: _selected.length ==
                           context
-                              .read<AuthenticationBloc>()
+                              .read<AppSetupCubit>()
                               .masterData
                               .earnings
                               .length,

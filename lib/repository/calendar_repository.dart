@@ -12,13 +12,13 @@ import 'package:simposi_app_v4/model/rsvp_status.dart';
 import 'api_service.dart';
 
 class CalendarRepository {
-  final ApiService _apiService;
+  final AuthApiService _apiService;
 
   CalendarRepository(this._apiService);
 
   Future<List<Rsvp>> getAllevents(DateTime from, DateTime to)  async {
     Response response =
-        await _apiService.post(ApiService.RSVP_LIST, auth: true, data:{
+        await _apiService.dio.post(Api.RSVP_LIST, data:{
           'dataFrom': DateFormat('yyyy-MM-dd hh:mm:ss').format(from),
           'dataTo': DateFormat('yyyy-MM-dd hh:mm:ss').format(to),
         });
@@ -28,8 +28,8 @@ class CalendarRepository {
       List<Rsvp> rsvps =  rsvpsMap.map((e) => Rsvp.fromJson(e)).toList();
       return rsvps;
     } else {
-      throw ApiException(
-          errorType: LocalizedErrorType.OTHER, message: "Unexpected response empty data");
+      throw ParseException(
+          errorType: LocalizedErrorType.PARSE_ERROR, message: "Unexpected response empty data");
     }
   }
 
@@ -57,11 +57,9 @@ class CalendarRepository {
         contentType: MediaType("image", "jpeg"),
       ),
     });
-    Response response = await _apiService.postMulti(
-        ApiService.API_UPLOAD_AVATAR,
-        data: formData,
-        lang: false,
-        auth: false);
+    Response response = await _apiService.dio.post(
+        Api.API_UPLOAD_AVATAR,
+        data: formData);
     Map? data = response.data;
     String? imgName = data?["data"]?['name'];
     if (imgName != null) {
@@ -84,14 +82,14 @@ class CalendarRepository {
         "what_you_likes": wantToMeetInterests.map((e) => e.id).toList(),
         "who_earns": wantToMeetEarnings.map((e) => e.id).toList(),
       };
-      Response response = await _apiService.post(ApiService.API_NEW_EVENT,
-          auth: true, data: data);
+      Response response = await _apiService.dio.post(Api.API_NEW_EVENT,
+          data: data);
       return response.data;
 
 
     } else {
-      throw ApiException(
-          errorType: LocalizedErrorType.OTHER, message: "Unexpected response on image load");
+      throw ParseException(
+          errorType: LocalizedErrorType.PARSE_ERROR, message: "Unexpected response on image load");
     }
 
   }
@@ -123,11 +121,9 @@ class CalendarRepository {
           contentType: MediaType("image", "jpeg"),
         ),
       });
-      Response response = await _apiService.postMulti(
-          ApiService.API_UPLOAD_AVATAR,
-          data: formData,
-          lang: false,
-          auth: false);
+      Response response = await _apiService.dio.post(
+          Api.API_UPLOAD_AVATAR,
+          data: formData);
       Map? data = response.data;
       imgName = data?["data"]?['name'];
     }
@@ -153,62 +149,59 @@ class CalendarRepository {
     if (imgName != null) {
       data['image'] = imgName;
     }
-    Response response = await _apiService.put(ApiService.API_NEW_EVENT,
-        auth: true, data: data);
+    Response response = await _apiService.dio.put(Api.API_NEW_EVENT,
+        data: data);
     return response.data;
   }
 
   Future<Rsvp> openRsvp(int id) async {
-    Response response = await _apiService.post(
-        ApiService.API_RSVP_STATUS,
+    Response response = await _apiService.dio.post(
+        Api.API_RSVP_STATUS,
         data: {
           'id': id,
           'modify_status_to': RsvpStatus.OPENED_ID
-        },
-        auth: true);
+        });
     Map? data = response.data;
     Map<String, dynamic>? rsvpMap = data?['data']?['rsvp'];
     if (rsvpMap != null) {
       return Rsvp.fromJson(rsvpMap);
     } else {
-      throw ApiException(
-          errorType: LocalizedErrorType.OTHER, message: "Unexpected response");
+      throw ParseException(
+          errorType: LocalizedErrorType.PARSE_ERROR, message: "Unexpected response");
     }
   }
 
   Future<Rsvp> acceptRsvp(int id) async {
-    Response response = await _apiService.post(
-        ApiService.API_RSVP_STATUS,
+    Response response = await _apiService.dio.post(
+        Api.API_RSVP_STATUS,
         data: {
           'id': id,
           'modify_status_to': RsvpStatus.ACCEPTED_ID
-        },
-        auth: true);
+        });
     Map? data = response.data;
     Map<String, dynamic>? rsvpMap = data?['data']?['rsvp'];
     if (rsvpMap != null) {
       return Rsvp.fromJson(rsvpMap);
     } else {
-      throw ApiException(
-          errorType: LocalizedErrorType.OTHER, message: "Unexpected response");
+      throw ParseException(
+          errorType: LocalizedErrorType.PARSE_ERROR, message: "Unexpected response");
     }
   }
 
   Future<Rsvp> declineRsvp(int id) async {
-    Response response = await _apiService.post(
-        ApiService.API_RSVP_STATUS,
+    Response response = await _apiService.dio.post(
+        Api.API_RSVP_STATUS,
         data: {
           'id': id,
           'modify_status_to': RsvpStatus.DECLINED_ID
-        },
-        auth: true);
+        });
     Map? data = response.data;
     Map<String, dynamic>? rsvpMap = data?['data']?['rsvp'];
     if (rsvpMap != null) {
       return Rsvp.fromJson(rsvpMap);
     } else {
-      throw ApiException(
-          errorType: LocalizedErrorType.OTHER, message: "Unexpected response");
+      throw ParseException(
+          errorType: LocalizedErrorType.PARSE_ERROR, message: "Unexpected response");
     }
   }
 

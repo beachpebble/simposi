@@ -54,7 +54,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) => BlocProvider(
         create: (context) => ChangePasswordCubit(
-            profileRepository: context.read(), authRepository: context.read()),
+            profileRepository: context.read(), authenticationBloc: context.read()),
         child: KeyboardDismisser(
           child: Scaffold(
             backgroundColor: Colors.white,

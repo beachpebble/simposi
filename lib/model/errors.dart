@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
 enum LocalizedErrorType {
-  PARSE_JWT_ERROR,
   PARSE_ERROR,
   AUTH,
   SERVER_ERROR,
@@ -39,28 +38,6 @@ class ParseException implements Exception {
 }
 
 /**
-    Errors from API layer, like serverside status errors like missing parameters,
-    or some server exceptions, so everything when response from server is received
-    but contains status with error code
-    !!! Not errors from network layers when http ststus code is not 200/201
-    see @ServerException
- */
-class ApiException implements Exception {
-  final String message;
-  final LocalizedErrorType errorType;
-
-  ApiException({required this.errorType, this.message = ""});
-
-  @override
-  String toString() {
-    if (message.isNotEmpty)
-      return message;
-    else
-      return "Unknown API exception";
-  }
-}
-
-/**
     Errors from network layer in cases when http code is not 200*
  */
 class ServerException implements Exception {
@@ -80,7 +57,7 @@ class ServerException implements Exception {
 }
 
 
-class AuthException extends ApiException {
+class AuthException extends ServerException {
   AuthException({String message = ""})
       : super(errorType: LocalizedErrorType.AUTH, message: message);
 }
@@ -89,8 +66,8 @@ class AuthException extends ApiException {
 String handleError(dynamic exception, BuildContext context) {
   if (exception is AuthException) {
       return "Auth error ${exception.message}";
-  } else if (exception is ApiException) {
-    return "Api error ${exception.message}";
+  } else if (exception is ServerException) {
+    return "Server error ${exception.message}";
   } else if (exception is DioError) {
     return getDioException(exception, context);
   } else if (exception is ParseException) {

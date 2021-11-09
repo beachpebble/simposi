@@ -11,6 +11,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:simposi_app_v4/bloc/app_setup/app_setup_cubit.dart';
 import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
@@ -93,7 +94,7 @@ class _CreateEvent5GenerationsState
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: context
-                      .read<AuthenticationBloc>()
+                      .read<AppSetupCubit>()
                       .masterData
                       .generations
                       .length,
@@ -103,17 +104,17 @@ class _CreateEvent5GenerationsState
                   itemBuilder: (context, index) {
                     return BigGBSelectButton(
                         buttonLabel: context
-                            .read<AuthenticationBloc>()
+                            .read<AppSetupCubit>()
                             .masterData
                             .generations[index]
                             .title,
                         isSelected: _selected.contains(context
-                            .read<AuthenticationBloc>()
+                            .read<AppSetupCubit>()
                             .masterData
                             .generations[index]),
                         buttonAction: () {
                           _selectGeneration(context
-                              .read<AuthenticationBloc>()
+                              .read<AppSetupCubit>()
                               .masterData
                               .generations[index]);
                         });

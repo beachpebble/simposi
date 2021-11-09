@@ -14,7 +14,7 @@ abstract class AppCubit<State> extends Cubit<State> with ErrorHandle {
     if (exception is AuthException) {
       authenticationBloc.add(LoggedOut());
       return LocalizedErrorType.AUTH;
-    } else if (exception is ApiException) {
+    } else if (exception is ServerException) {
       return exception.errorType;
     } else if (exception is DioError) {
       return handleDioException(exception);
@@ -26,7 +26,7 @@ abstract class AppCubit<State> extends Cubit<State> with ErrorHandle {
 
 mixin ErrorHandle {
   String getErrorMessage(dynamic error) {
-    if (error is ApiException) {
+    if (error is ServerException) {
       return error.message;
     } else if (error is Exception) {
       return error.toString();

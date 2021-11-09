@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup5activities/selectable_chip.dart';
+import 'package:simposi_app_v4/bloc/app_setup/app_setup_cubit.dart';
 import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
@@ -31,7 +32,7 @@ class SignUpForm5 extends StatelessWidget {
   @override
   Widget build(BuildContext context) => BlocProvider(
         create: (context) => Signup5ActivitiesCubit(
-            context.read<AuthenticationBloc>().masterData.interests,
+            context.read<AppSetupCubit>().masterData.interests,
             context.read(),
             context.read(),
             editMode: editMode),

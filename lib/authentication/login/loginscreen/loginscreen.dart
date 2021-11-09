@@ -124,10 +124,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                       showErrorToast(
                                           handleError(state.error, context));
                                     } else if (state is LoginUnconfirmed) {
-                                      Navigator.of(context).pushNamed(
-                                          '/signup8',
-                                          arguments: ValidateParameters(
-                                              phone));
+
+
+                                      AutoRouter.of(context).push( SignUpForm8Route(
+                                          validateParameters:
+                                          ValidateParameters(phone)));
+                                      // Navigator.of(context).pushNamed(
+                                      //     '/signup8',
+                                      //     arguments: ValidateParameters(
+                                      //         phone));
                                     }
                                   },
                                   builder: (context, state) {

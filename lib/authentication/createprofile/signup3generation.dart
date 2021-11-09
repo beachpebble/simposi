@@ -12,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/app_router.dart';
+import 'package:simposi_app_v4/bloc/app_setup/app_setup_cubit.dart';
 import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
@@ -49,7 +50,7 @@ class _SignUpForm3State extends RegistrationProfileScreenState<SignUpForm3> {
 
   @override
   Widget build(BuildContext context) {
-    print("gen   ${context.read<AuthenticationBloc>().masterData.generations}");
+    print("gen   ${context.read<AppSetupCubit>().masterData.generations}");
     return Scaffold(
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
@@ -87,7 +88,7 @@ class _SignUpForm3State extends RegistrationProfileScreenState<SignUpForm3> {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: context
-                      .read<AuthenticationBloc>()
+                      .read<AppSetupCubit>()
                       .masterData
                       .generations
                       .length,
@@ -97,19 +98,19 @@ class _SignUpForm3State extends RegistrationProfileScreenState<SignUpForm3> {
                   itemBuilder: (context, index) {
                     return BigGBSelectButton(
                         buttonLabel: context
-                            .read<AuthenticationBloc>()
+                            .read<AppSetupCubit>()
                             .masterData
                             .generations[index]
                             .title,
                         isSelected: context
-                                .read<AuthenticationBloc>()
+                                .read<AppSetupCubit>()
                                 .masterData
                                 .generations[index]
                                 .id ==
                             _selected,
                         buttonAction: () {
                           _selectGeneration(context
-                              .read<AuthenticationBloc>()
+                              .read<AppSetupCubit>()
                               .masterData
                               .generations[index]);
                         });

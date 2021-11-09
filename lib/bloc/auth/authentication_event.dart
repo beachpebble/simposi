@@ -13,8 +13,15 @@ class SaveAuthEvent extends AuthenticationEvent {
   final String token;
 
   SaveAuthEvent(this.token);
+
+
+  @override
+  List<Object> get props => [token];
 }
 
 class LogOut extends AuthenticationEvent {}
+
+class Auth401 extends AuthenticationEvent {}
+
 
 class LoggedOut extends AuthenticationEvent {}

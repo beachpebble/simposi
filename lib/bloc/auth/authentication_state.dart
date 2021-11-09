@@ -11,6 +11,10 @@ class AuthenticationLoading extends AuthenticationState {}
 
 class Authenticated extends AuthenticationState {}
 
-class NotAuthenticated extends AuthenticationState {}
+class NotAuthenticated extends AuthenticationState {
+  final bool loginScreen;
+
+  NotAuthenticated({this.loginScreen = false});
+}
 
 class AuthenticatedError extends AuthenticationState {}

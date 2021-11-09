@@ -182,4 +182,4 @@ class Profile extends Equatable {
   // }
 }
 
-Gender _genderFromJson(String json) => json == "1" ? Gender.Male : Gender.Female;
+Gender _genderFromJson(int json) => json == 1 ? Gender.Male : Gender.Female;
