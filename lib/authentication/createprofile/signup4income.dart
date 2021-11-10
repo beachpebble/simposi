@@ -13,12 +13,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/app_router.dart';
 import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
 import 'package:simposi_app_v4/bloc/app_setup/app_setup_cubit.dart';
-import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
+import 'package:simposi_app_v4/bloc/profile/profile_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/model/earning.dart';
-import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
 
 import 'registration_profile_screen.dart';
 
@@ -50,8 +49,7 @@ class _SignUpForm4State extends RegistrationProfileScreenState<SignUpForm4> {
           context.read<AppSetupCubit>().masterData.earnings.length)
         _selected.clear();
       else
-        _selected
-            .addAll(context.read<AppSetupCubit>().masterData.earnings);
+        _selected.addAll(context.read<AppSetupCubit>().masterData.earnings);
     });
   }
 
@@ -59,7 +57,10 @@ class _SignUpForm4State extends RegistrationProfileScreenState<SignUpForm4> {
   void initState() {
     super.initState();
     _selected = widget.editMode
-        ? context.read<ProfileEditCubit>().profile.earnings.toSet()
+        ? (context.read<ProfileBloc>().state as ProfileLoaded)
+            .userProfile
+            .earnings
+            .toSet()
         : context.read<RegistrationCubit>().earnings ?? {};
   }
 
@@ -169,7 +170,7 @@ class _SignUpForm4State extends RegistrationProfileScreenState<SignUpForm4> {
   @override
   VoidCallback? saveAction() => _selected.isNotEmpty
       ? () {
-          context.read<ProfileEditCubit>().income(_selected);
+          context.read<ProfileBloc>().add(ProfileUpdateIncome(_selected));
         }
       : null;
 }

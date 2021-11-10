@@ -6,27 +6,27 @@ import 'package:equatable/equatable.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
-import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
+import 'package:simposi_app_v4/bloc/profile/profile_bloc.dart';
 
 part 'signup6_location_state.dart';
 
 class Signup6LocationCubit extends Cubit<Signup6LocationState> {
   Signup6LocationCubit(
       {required this.registrationCubit,
-      required this.profileEditCubit,
+      required this.profileBloc,
       bool editMode = false})
       : super(editMode
             ? Signup6LocationState.initial(
-                double.parse(profileEditCubit.profile.range),
-      double.parse(profileEditCubit.profile.latitude),
-          double.parse(profileEditCubit.profile.longitude),
+                double.parse((profileBloc.state as ProfileLoaded).userProfile.range),
+      double.parse((profileBloc.state as ProfileLoaded).userProfile.latitude),
+          double.parse((profileBloc.state as ProfileLoaded).userProfile.longitude),
                 editMode)
             : Signup6LocationState.initial(
                 registrationCubit.range,
                 registrationCubit.latitude,
                 registrationCubit.longitude,
                 editMode)) {
-    profileEditSubscription = profileEditCubit.stream.listen((state) {
+    profileEditSubscription = profileBloc.stream.listen((state) {
       if (state is ProfileEditLoading) {
         emit(Signup6LocationStateLoading(state: this.state));
       } else if (state is ProfileEditSuccess) {
@@ -40,7 +40,7 @@ class Signup6LocationCubit extends Cubit<Signup6LocationState> {
   }
 
   final RegistrationCubit registrationCubit;
-  final ProfileEditCubit profileEditCubit;
+  final ProfileBloc profileBloc;
   late StreamSubscription profileEditSubscription;
 
   //TODO move keys to one place
@@ -72,7 +72,7 @@ class Signup6LocationCubit extends Cubit<Signup6LocationState> {
 
   Future<void> save() async {
     if (state.editMode) {
-      profileEditCubit.location(state.selectedLocation!.latitude, state.selectedLocation!.longitude, state.rangeKm);
+      profileBloc.add(ProfileUpdateLocation(state.selectedLocation!.latitude, state.selectedLocation!.longitude, state.rangeKm));
     }
   }
 

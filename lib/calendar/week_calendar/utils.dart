@@ -38,9 +38,5 @@ class CalendarController {
     return pageController.page?.round() ?? 0;
   }
 
-  void dispose(){
-    pageController.dispose();
-    dispose();
-  }
 }
 

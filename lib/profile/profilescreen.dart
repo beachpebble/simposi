@@ -11,34 +11,64 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simposi_app_v4/bloc/profile/profile_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/global/widgets/progress.dart';
+import 'package:simposi_app_v4/model/profile.dart';
 
 import '../app_router.dart';
 import '../global/theme/elements/simposiappbar.dart';
-import 'bloc/profile_edit_cubit.dart';
 
 class ProfileScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ProfileBloc, ProfileState>(
+      builder: (context, state) {
+        if (state is ProfileLoaded) {
+          return ProfileScreenView(profile: state.userProfile);
+        } else if (state is ProfileLoadError) {
+          return Scaffold(
+              //TODO wrap
+              body: Text("Profile not loaded"));
+        } else {
+          return Scaffold(
+              body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AppProgressIndicator(),
+            ],
+          ));
+        }
+      },
+    );
+  }
+}
+
+class ProfileScreenView extends StatelessWidget {
+  final Profile profile;
+
+  const ProfileScreenView({Key? key, required this.profile}) : super(key: key);
+
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: SimposiAppBar(
           // TODO: Insert username and city variables
-          simposiTitle: context.read<ProfileEditCubit>().profile.userName,
+          simposiTitle: profile.userName,
           simposiSubTitle: Text(
-            context.read<ProfileEditCubit>().profile.userPhone,
+            profile.userPhone,
             style: const TextStyle(
               color: SimposiAppColors.simposiLightText,
               fontSize: 13,
             ),
           ),
           simposiAction: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
-            child: IconButton(
-                icon: const Icon(Icons.settings_outlined,
-                    color: SimposiAppColors.simposiLightText, size: 30),
-                onPressed: () => AutoRouter.of(context).push(ProfileMenuRoute())
-            )),
+              padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
+              child: IconButton(
+                  icon: const Icon(Icons.settings_outlined,
+                      color: SimposiAppColors.simposiLightText, size: 30),
+                  onPressed: () =>
+                      AutoRouter.of(context).push(ProfileMenuRoute()))),
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -47,7 +77,7 @@ class ProfileScreen extends StatelessWidget {
             Expanded(
               child: Container(
                   child: CachedNetworkImage(
-                imageUrl: context.read<ProfileEditCubit>().profile.profilePhoto.url,
+                imageUrl: profile.profilePhoto.url,
                 width: 100,
                 height: 100,
                 imageBuilder: (context, imageProvider) => Container(
@@ -158,8 +188,8 @@ class ProfileScreen extends StatelessWidget {
                   SizedBox(height: 10),
                   // TODO: Update transition to draw bottom sheet instead of screen
                   SubscribeButton(
-                    onClick: () =>  AutoRouter.of(context)
-                        .push(SimposiSubscribeRoute()),
+                    onClick: () =>
+                        AutoRouter.of(context).push(SimposiSubscribeRoute()),
                   ),
                   SizedBox(height: 10),
                   Text(

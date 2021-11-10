@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simposi_app_v4/bloc/profile/profile_bloc.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/global/widgets/progress.dart';
 import 'package:simposi_app_v4/model/errors.dart';
-import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 
 abstract class CreateEventScreen extends StatefulWidget {
@@ -39,7 +39,7 @@ abstract class CreateEventScreenState<T>
   }
 
   Widget profileEditNextButton() {
-    return BlocConsumer<ProfileEditCubit, ProfileEditState>(
+    return BlocConsumer<ProfileBloc, ProfileState>(
       listener: (context, state) {
         if (state is ProfileEditSuccess) {
           Navigator.of(context).pop();

@@ -17,8 +17,9 @@ import 'api_service.dart';
 class ProfileRepository {
   final AuthApiService _authApiService;
   final ApiService _apiService;
+  final AuthenticationBloc _bloc;
 
-  ProfileRepository(this._apiService, this._authApiService) {
+  ProfileRepository(this._apiService, this._authApiService, this._bloc) {
 
   }
 
@@ -26,13 +27,21 @@ class ProfileRepository {
   final LocalStorage storage = new LocalStorage('profile_storage');
 
   Future<void> setProfile(Map<String, dynamic> data) async {
+    print("Save!!!!!1 $data");
+    await storage.ready;
     await storage.setItem("profile", data);
+    var data1 = await storage.getItem("profile");
+    print("Save!!!!!2   $data1");
     profile = Profile.fromJson(data);
   }
 
-  Future<void> refreshProfile() async {
+  Future<Profile> refreshProfile() async {
+    print("Reload!!!!!1");
+    await storage.ready;
     var data = await storage.getItem("profile");
+    print("Reload!!!!!2   $data");
     profile = Profile.fromJson(data);
+    return profile;
   }
 
   Future<Map> login(String login, String password) async {
@@ -150,7 +159,7 @@ class ProfileRepository {
     await _apiService.dio.get(Api.API_ACCEPT_CODE + "/" + phone);
   }
 
-  Future updateProfile({
+  Future<Profile> updateProfile({
     String? name,
     String? phone,
     String? filepath,
@@ -171,7 +180,7 @@ class ProfileRepository {
     return updateProfileFields(data);
   }
 
-  Future updateProfileGender(
+  Future<Profile> updateProfileGender(
       {required Gender gender, required bool lgbt}) async {
     Map<String, Object> data = {
       "gender": gender.id,
@@ -180,7 +189,7 @@ class ProfileRepository {
     return updateProfileFields(data);
   }
 
-  Future updateEmergencyContact({required EmergencyContact contact}) async {
+  Future<Profile> updateEmergencyContact({required EmergencyContact contact}) async {
     Map<String, Object> data = {
       "emergency_contact_name": contact.name,
       "emergency_contact_phone": contact.phone,
@@ -188,12 +197,12 @@ class ProfileRepository {
     return updateProfileFields(data);
   }
 
-  Future updateProfileGenerations({required int generation}) async {
+  Future<Profile> updateProfileGenerations({required int generation}) async {
     Map<String, Object> data = {"generations_identity_id": generation};
     return updateProfileFields(data);
   }
 
-  Future updateWantToMeetGenerations(
+  Future<Profile> updateWantToMeetGenerations(
       {required List<Generation> generations}) async {
     UserMeta meta;
     if (profile.userMeta == null) {
@@ -212,12 +221,12 @@ class ProfileRepository {
     return updateProfileFields(data);
   }
 
-  Future updateProfileInterests({required List<int> interests}) async {
+  Future<Profile> updateProfileInterests({required List<int> interests}) async {
     Map<String, Object> data = {"what_you_likes": interests};
     return updateProfileFields(data);
   }
 
-  Future updateProfileLocation(
+  Future<Profile> updateProfileLocation(
       {required double latitude,
       required double longitude,
       required double range}) async {
@@ -229,12 +238,12 @@ class ProfileRepository {
     return updateProfileFields(data);
   }
 
-  Future updateProfileIncome({required List<int> earnings}) async {
+  Future<Profile> updateProfileIncome({required List<int> earnings}) async {
     Map<String, Object> data = {"who_earns": earnings};
     return updateProfileFields(data);
   }
 
-  Future updateWantToMeetIncome({required List<Earning> earnings}) async {
+  Future<Profile> updateWantToMeetIncome({required List<Earning> earnings}) async {
     UserMeta meta;
     if (profile.userMeta == null) {
       meta = UserMeta(
@@ -252,7 +261,7 @@ class ProfileRepository {
     return updateProfileFields(data);
   }
 
-  Future updateWantToMeetGender(
+  Future<Profile> updateWantToMeetGender(
       {required List<Gender> gender, required bool lgbt}) async {
     UserMeta meta;
     if (profile.userMeta == null) {
@@ -271,12 +280,13 @@ class ProfileRepository {
     return updateProfileFields(data);
   }
 
-  Future updateProfileFields(Map<String, Object> data) async {
+  Future<Profile> updateProfileFields(Map<String, Object> data) async {
     Response response =
         await _authApiService.dio.put(Api.API_USER_EDIT, data: data);
     Map<String, dynamic>? user = response.data["data"]?["user"];
     if (user != null) {
       await setProfile(user);
+      return Profile.fromJson(user);
     } else {
       throw ParseException(
           errorType: LocalizedErrorType.PARSE_ERROR,

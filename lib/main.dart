@@ -10,15 +10,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/app_constants.dart';
 import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
 import 'package:simposi_app_v4/bloc/bloc_observer.dart';
-import 'package:simposi_app_v4/bloc/profile/profile_bloc.dart';
 import 'package:simposi_app_v4/bloc/rsvp/rsvp_bloc.dart';
 
 import 'bloc/app_setup/app_setup_cubit.dart';
 import 'bloc/auth/authentication_bloc.dart';
+import 'bloc/profile/profile_bloc.dart';
 import 'bloc/rsvp_action/rsvp_action_bloc.dart';
 import 'calendar/bloc/calendar_bloc.dart';
 import 'eventdetails/cubit/event_edit_cubit.dart';
-import 'profile/bloc/profile_edit_cubit.dart';
 import 'repository/api_service.dart';
 import 'repository/calendar_repository.dart';
 import 'repository/profile_repository.dart';
@@ -44,7 +43,7 @@ void main() {
             ),
             RepositoryProvider(
               create: (context) =>
-                  ProfileRepository(context.read(), context.read()),
+                  ProfileRepository(context.read(), context.read(), context.read()),
             ),
             RepositoryProvider(
               create: (context) => CalendarRepository(context.read()),
@@ -52,8 +51,9 @@ void main() {
           ],
           child: MultiBlocProvider(providers: [
             BlocProvider(
+
                 create: (context) => ProfileBloc(
-                      context.read(),
+                      context.read<AuthenticationBloc>(),
                       context.read(),
                     )..add(ProfileReload())),
             BlocProvider(
@@ -62,9 +62,6 @@ void main() {
             BlocProvider(
                 create: (context) =>
                     EventEditCubit(calendarRepository: context.read())),
-            BlocProvider(
-                create: (context) =>
-                    ProfileEditCubit(profileRepository: context.read())),
             BlocProvider(
                 create: (context) => RsvpBloc(
                     context.read(), context.read(), context.read())

@@ -13,14 +13,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:simposi_app_v4/app_router.dart';
 import 'package:simposi_app_v4/bloc/app_setup/app_setup_cubit.dart';
-import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
+import 'package:simposi_app_v4/bloc/profile/profile_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/global/widgets/progress.dart';
 import 'package:simposi_app_v4/model/earning.dart';
 import 'package:simposi_app_v4/model/errors.dart';
-import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
+import 'package:simposi_app_v4/repository/profile_repository.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 
 import 'create_event_screen.dart';
@@ -56,8 +56,7 @@ class _SignUpForm4State extends CreateEventScreenState<CreateEvent6> {
           context.read<AppSetupCubit>().masterData.earnings.length)
         _selected.clear();
       else
-        _selected
-            .addAll(context.read<AppSetupCubit>().masterData.earnings);
+        _selected.addAll(context.read<AppSetupCubit>().masterData.earnings);
     });
 
     if (!widget.editMode) {
@@ -69,7 +68,13 @@ class _SignUpForm4State extends CreateEventScreenState<CreateEvent6> {
   void initState() {
     super.initState();
     _selected = widget.editMode
-        ? context.read<ProfileEditCubit>().profile.userMeta?.wantToMeetEarnings?.toSet() ?? {}
+        ? context
+                .read<ProfileRepository>()
+                .profile
+                .userMeta
+                ?.wantToMeetEarnings
+                ?.toSet() ??
+            {}
         : context.read<EventEditCubit>().wantToMeetEarnings ?? {};
   }
 
@@ -171,8 +176,7 @@ class _SignUpForm4State extends CreateEventScreenState<CreateEvent6> {
     return BlocConsumer<EventEditCubit, EventEditState>(
       listener: (context, state) {
         if (state is EventEditSuccess) {
-          AutoRouter.of(context)
-              .replace(SimposiHomeRoute());
+          AutoRouter.of(context).replace(SimposiHomeRoute());
         } else if (state is EventEditError) {
           showErrorToast(handleError(state.error, context));
         }
@@ -202,7 +206,9 @@ class _SignUpForm4State extends CreateEventScreenState<CreateEvent6> {
   @override
   VoidCallback? saveAction() => _selected.isNotEmpty
       ? () {
-          context.read<ProfileEditCubit>().wantToMeetIncome(_selected.toList());
+          context
+              .read<ProfileBloc>()
+              .add(ProfileUpdateWantToMeetIncome(_selected.toList()));
         }
       : null;
 }

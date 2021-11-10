@@ -10,13 +10,14 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
+import 'package:simposi_app_v4/bloc/profile/profile_bloc.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/formfields.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/global/widgets/profile_photo_pick_button.dart';
 import 'package:simposi_app_v4/global/widgets/progress.dart';
 import 'package:simposi_app_v4/model/errors.dart';
-import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
+import 'package:simposi_app_v4/repository/profile_repository.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
 
@@ -37,16 +38,16 @@ class _EditProfileState extends State<EditProfile> {
   @override
   void initState() {
     super.initState();
-    _nameController.text = context.read<ProfileEditCubit>().profile.userName;
-    _phoneController.text = context.read<ProfileEditCubit>().profile.userPhone;
+    _nameController.text = context.read<ProfileRepository>().profile.userName;
+    _phoneController.text = context.read<ProfileRepository>().profile.userPhone;
     _facebookController.text =
-        context.read<ProfileEditCubit>().profile.facebook ?? "";
+        context.read<ProfileRepository>().profile.facebook ?? "";
     _instagramController.text =
-        context.read<ProfileEditCubit>().profile.instagram ?? "";
+        context.read<ProfileRepository>().profile.instagram ?? "";
     _linkedinController.text =
-        context.read<ProfileEditCubit>().profile.linkedin ?? "";
+        context.read<ProfileRepository>().profile.linkedin ?? "";
 
-    _phoneController.text = context.read<ProfileEditCubit>().profile.userPhone;
+    _phoneController.text = context.read<ProfileRepository>().profile.userPhone;
     _nameController.addListener(() => setState(() {}));
     _phoneController.addListener(() => setState(() {}));
     _facebookController.addListener(() => setState(() {}));
@@ -90,9 +91,10 @@ class _EditProfileState extends State<EditProfile> {
                         //  PHOTO UPLOAD FIELD
                         ProfilePhotoPickButton(
                           initialImage: context
-                              .read<ProfileEditCubit>()
+                              .read<ProfileRepository>()
                               .profile
-                              .profilePhoto.url,
+                              .profilePhoto
+                              .url,
                           imageSelectCallback: (val) {
                             print("selected image $val");
                             _filePath = val;
@@ -209,7 +211,7 @@ class _EditProfileState extends State<EditProfile> {
                   // FOOTER
                   Container(
                     child: SafeArea(
-                      child: BlocConsumer<ProfileEditCubit, ProfileEditState>(
+                      child: BlocConsumer<ProfileBloc, ProfileState>(
                         listener: (context, state) {
                           if (state is ProfileEditError) {
                             showErrorToast(handleError(state.error, context));
@@ -225,16 +227,17 @@ class _EditProfileState extends State<EditProfile> {
                                   buttonLabel: 'Save',
                                   buttonAction: () {
                                     if (_formKey.currentState!.validate()) {
-                                      context
-                                          .read<ProfileEditCubit>()
-                                          .updateMainFields(
+                                      context.read<ProfileBloc>().add(
+                                          ProfileUpdateMainFields(
                                               name: _nameController.text,
                                               phone: _phoneController.text,
-                                              facebook: _facebookController.text,
+                                              facebook:
+                                                  _facebookController.text,
                                               instagram:
                                                   _instagramController.text,
-                                              linkedin: _linkedinController.text,
-                                              filePath: _filePath);
+                                              linkedin:
+                                                  _linkedinController.text,
+                                              filePath: _filePath));
                                     }
                                   });
                         },

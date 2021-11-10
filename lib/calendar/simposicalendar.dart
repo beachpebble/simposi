@@ -58,12 +58,6 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
   }
 
   @override
-  void dispose() {
-    _calendarPageController?.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: SimposiAppBar(

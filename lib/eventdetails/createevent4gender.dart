@@ -12,11 +12,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:simposi_app_v4/app_router.dart';
+import 'package:simposi_app_v4/bloc/profile/profile_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/model/gender.dart';
-import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
+import 'package:simposi_app_v4/repository/profile_repository.dart';
 
 import 'create_event_screen.dart';
 import 'cubit/event_edit_cubit.dart';
@@ -36,10 +37,10 @@ class _SignUpForm2State extends CreateEventScreenState<CreateEvent4> {
   void initState() {
     super.initState();
     _isLgbt = widget.editMode
-        ? context.read<ProfileEditCubit>().profile.userMeta?.wantToMeetLgbt ?? false
+        ? context.read<ProfileRepository>().profile.userMeta?.wantToMeetLgbt ?? false
         : context.read<EventEditCubit>().lgbt;
     _selected = widget.editMode
-        ? context.read<ProfileEditCubit>().profile.userMeta?.wantToMeetGender?.toSet() ?? {}
+        ? context.read<ProfileRepository>().profile.userMeta?.wantToMeetGender?.toSet() ?? {}
         : context.read<EventEditCubit>().wantToMeetGender ?? {};
   }
 
@@ -169,8 +170,7 @@ class _SignUpForm2State extends CreateEventScreenState<CreateEvent4> {
   VoidCallback? saveAction() => _selected.isNotEmpty
       ? () {
           context
-              .read<ProfileEditCubit>()
-              .wantToMeetGender(_selected.toList(), _isLgbt);
+              .read<ProfileBloc>().add(ProfileUpdateWantToMeetGender(gender: _selected.toList(), isLgbt: _isLgbt));
         }
       : null;
 

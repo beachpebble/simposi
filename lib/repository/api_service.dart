@@ -1,12 +1,8 @@
-import 'dart:async';
-
 import 'package:cookie_jar/cookie_jar.dart';
-import 'package:dio/dio.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
-import 'package:simposi_app_v4/model/errors.dart';
 
 class Api {
   static const String TEST = "https://simposi-dev.uastar.space";
@@ -62,7 +58,6 @@ class AuthApiService {
   AuthApiService(
       {required AuthenticationBloc authenticationBloc, this.baseUrl = Api.TEST})
       : _authenticationBloc = authenticationBloc {
-
     _authenticationBloc.stream.listen((state) {
       if (state is Authenticated) {
         _dio.options.headers = {

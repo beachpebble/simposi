@@ -35,6 +35,7 @@ class SignUpForm5 extends StatelessWidget {
             context.read<AppSetupCubit>().masterData.interests,
             context.read(),
             context.read(),
+            context.read(),
             editMode: editMode),
         child: Scaffold(
             backgroundColor: Colors.white,

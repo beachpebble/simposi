@@ -84,12 +84,6 @@ class _WeekCalendarBaseState extends State<WeekCalendarBase>
     }
   }
 
-  @override
-  void dispose() {
-    _calendarController.dispose();
-    super.dispose();
-  }
-
   bool get _canScrollHorizontally => true;
 
   void _updatePage() {

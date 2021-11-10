@@ -13,12 +13,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/app_router.dart';
 import 'package:simposi_app_v4/bloc/app_setup/app_setup_cubit.dart';
-import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
+import 'package:simposi_app_v4/bloc/profile/profile_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/model/generation.dart';
-import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
 
 import 'cubit/registration_cubit.dart';
 import 'registration_profile_screen.dart';
@@ -44,7 +43,9 @@ class _SignUpForm3State extends RegistrationProfileScreenState<SignUpForm3> {
   void initState() {
     super.initState();
     _selected = widget.editMode
-        ? context.read<ProfileEditCubit>().profile.generationId
+        ? (context.read<ProfileBloc>().state as ProfileLoaded)
+            .userProfile
+            .generationId
         : context.read<RegistrationCubit>().generation;
   }
 
@@ -137,7 +138,9 @@ class _SignUpForm3State extends RegistrationProfileScreenState<SignUpForm3> {
   @override
   VoidCallback? saveAction() => _selected != null
       ? () {
-          context.read<ProfileEditCubit>().generation(_selected!);
+          context
+              .read<ProfileBloc>()
+              .add(ProfileUpdateGeneration(generation: _selected!));
         }
       : null;
 

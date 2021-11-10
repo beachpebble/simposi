@@ -12,12 +12,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:simposi_app_v4/bloc/app_setup/app_setup_cubit.dart';
-import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
+import 'package:simposi_app_v4/bloc/profile/profile_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/model/generation.dart';
-import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
+import 'package:simposi_app_v4/repository/profile_repository.dart';
 
 import '../app_router.dart';
 import 'create_event_screen.dart';
@@ -52,7 +52,13 @@ class _CreateEvent5GenerationsState
   void initState() {
     super.initState();
     _selected = widget.editMode
-        ? context.read<ProfileEditCubit>().profile.userMeta?.wantToMeetGenerations?.toSet() ?? {}
+        ? context
+                .read<ProfileRepository>()
+                .profile
+                .userMeta
+                ?.wantToMeetGenerations
+                ?.toSet() ??
+            {}
         : context.read<EventEditCubit>().wantToMeetGenerations ?? {};
   }
 
@@ -141,7 +147,9 @@ class _CreateEvent5GenerationsState
   @override
   VoidCallback? saveAction() => _selected.isNotEmpty
       ? () {
-          context.read<ProfileEditCubit>().wantToMeetGeneration(_selected.toList());
+          context
+              .read<ProfileBloc>()
+              .add(ProfileUpdateWantToMeetGeneration(_selected.toList()));
         }
       : null;
 

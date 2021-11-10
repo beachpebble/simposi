@@ -35,7 +35,7 @@ class SignUpForm6 extends StatelessWidget {
     return BlocProvider(
         create: (context) => Signup6LocationCubit(
             registrationCubit: context.read(),
-            profileEditCubit: context.read(),
+            profileBloc: context.read(),
             editMode: editMode),
         child: _SignUpForm6View());
   }

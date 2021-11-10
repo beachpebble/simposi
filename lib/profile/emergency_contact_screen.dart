@@ -9,16 +9,17 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simposi_app_v4/bloc/profile/profile_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/global/widgets/phone_field.dart';
 import 'package:simposi_app_v4/global/widgets/progress.dart';
 import 'package:simposi_app_v4/model/errors.dart';
+import 'package:simposi_app_v4/repository/profile_repository.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
 
-import 'bloc/profile_edit_cubit.dart';
 
 class EmergencyContact extends StatefulWidget {
   // Set Variables
@@ -39,7 +40,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
     super.initState();
     _eContactNameController = TextEditingController(
         text:
-            context.read<ProfileEditCubit>().profile.emergencyContactName ?? "")
+            context.read<ProfileRepository>().profile.emergencyContactName ?? "")
       ..addListener(() => setState(() {}));
     _eContactPhoneController = TextEditingController()
       ..addListener(() => setState(() {}));
@@ -105,7 +106,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
                           // PASSWORD FIELD
                           PhoneField(
                             initialPhone: context
-                                    .read<ProfileEditCubit>()
+                                    .read<ProfileRepository>()
                                     .profile
                                     .emergencyContactPhone ??
                                 "",
@@ -114,7 +115,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
                             controller: _eContactPhoneController,
                           ),
                           SizedBox(height: 10),
-                          BlocConsumer<ProfileEditCubit, ProfileEditState>(
+                          BlocConsumer<ProfileBloc, ProfileState>(
                             listener: (context, state) {
                               if (state is ProfileEditError) {
                                 showErrorToast(
@@ -139,10 +140,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
                                                 _formKey.currentState!.save();
 
                                                 context
-                                                    .read<ProfileEditCubit>()
-                                                    .emergencyContact(
-                                                        eContactName,
-                                                        eContactPhone);
+                                                    .read<ProfileBloc>().add(ProfileUpdateEmergencyContact(name: eContactPhone, phone:  eContactPhone));
                                               }
                                             }
                                           : null);

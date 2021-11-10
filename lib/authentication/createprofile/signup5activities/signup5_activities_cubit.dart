@@ -3,27 +3,29 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
+import 'package:simposi_app_v4/bloc/profile/profile_bloc.dart';
 import 'package:simposi_app_v4/model/interest.dart';
-import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
+import 'package:simposi_app_v4/repository/profile_repository.dart';
 
 part 'signup5_activities_state.dart';
 
 class Signup5ActivitiesCubit extends Cubit<Signup5ActivitiesState> {
   final RegistrationCubit registrationCubit;
-  final ProfileEditCubit profileEditCubit;
+  final ProfileBloc profileBloc;
+  final ProfileRepository profileRepository;
   late StreamSubscription profileEditSubscription;
 
   Signup5ActivitiesCubit(
-      this.interests, this.registrationCubit, this.profileEditCubit,
+      this.interests, this.registrationCubit, this.profileBloc,this.profileRepository,
       {bool editMode = false})
       : super(Signup5ActivitiesState(
             interests: interests,
             filtered: interests,
             editMode: editMode,
             selected: editMode
-                ? profileEditCubit.profile.interests.toSet()
+                ? profileRepository.profile.interests.toSet()
                 : registrationCubit.interests ?? {})) {
-    profileEditSubscription = profileEditCubit.stream.listen((state) {
+    profileEditSubscription = profileBloc.stream.listen((state) {
       if (state is ProfileEditLoading) {
         emit(Signup5ActivitiesStatLoading(state: this.state));
       } else if (state is ProfileEditSuccess) {
@@ -66,7 +68,7 @@ class Signup5ActivitiesCubit extends Cubit<Signup5ActivitiesState> {
 
   Future<void> savePressed() async {
     if (state.editMode) {
-      profileEditCubit.interests(state.selected);
+      profileBloc.add(ProfileUpdateInterests(interests: state.selected));
     }
   }
 

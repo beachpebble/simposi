@@ -12,11 +12,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/app_router.dart';
 import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
+import 'package:simposi_app_v4/bloc/profile/profile_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/model/gender.dart';
-import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
 
 import 'registration_profile_screen.dart';
 
@@ -35,10 +35,14 @@ class _SignUpForm2State extends RegistrationProfileScreenState<SignUpForm2> {
   void initState() {
     super.initState();
     _isLgbt = widget.editMode
-        ? context.read<ProfileEditCubit>().profile.isLgbt
+        ? (context.read<ProfileBloc>().state as ProfileLoaded)
+            .userProfile
+            .isLgbt
         : context.read<RegistrationCubit>().lgbt;
     _selected = widget.editMode
-        ? context.read<ProfileEditCubit>().profile.gender
+        ? (context.read<ProfileBloc>().state as ProfileLoaded)
+            .userProfile
+            .gender
         : context.read<RegistrationCubit>().gender;
   }
 
@@ -164,8 +168,9 @@ class _SignUpForm2State extends RegistrationProfileScreenState<SignUpForm2> {
   @override
   VoidCallback? saveAction() => _selected != null
       ? () {
-    print("selected $_selected");
-          context.read<ProfileEditCubit>().indentifyAs(_selected!, _isLgbt);
+          print("selected $_selected");
+          context.read<ProfileBloc>().add(
+              ProfileUpdateIndentifyAs(gender: _selected!, isLgbt: _isLgbt));
         }
       : null;
 
