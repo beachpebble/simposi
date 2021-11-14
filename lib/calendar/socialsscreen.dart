@@ -5,12 +5,8 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 
 import '../app_router.dart';
 import '../global/theme/elements/simposiappbar.dart';
@@ -24,15 +20,11 @@ class SocialsScreen extends StatelessWidget {
           simposiTitle: 'Socials',
           simposiSubTitle: Text('Month'),
           simposiAction: TextButton(
-            child: Text('Meet Now',
-              style: TextStyle(
-                  fontSize: 17
-              ),
+            child: Text(
+              'Meet Now',
+              style: TextStyle(fontSize: 17),
             ),
-            onPressed: () => {
-              AutoRouter.of(context)
-                  .push(CreateEvent1Route())
-            },
+            onPressed: () => {AutoRouter.of(context).push(CreateEvent1Route())},
           ),
         ),
         body: Column(

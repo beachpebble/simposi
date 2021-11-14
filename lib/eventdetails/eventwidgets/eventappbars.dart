@@ -10,13 +10,19 @@ import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
+import 'package:simposi_app_v4/bloc/rsvp_action/rsvp_action_bloc.dart';
 import 'package:simposi_app_v4/calendar/event_model.dart';
 import 'package:simposi_app_v4/eventdetails/cubit/event_edit_cubit.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
+import 'package:simposi_app_v4/global/widgets/progress.dart';
+import 'package:simposi_app_v4/model/errors.dart';
+import 'package:simposi_app_v4/model/rsvp.dart';
+import 'package:simposi_app_v4/utils/toast_utils.dart';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../app_router.dart';
 
 class EventAppBar extends StatelessWidget with PreferredSizeWidget {
@@ -63,13 +69,10 @@ class EventAppBar extends StatelessWidget with PreferredSizeWidget {
               color: SimposiAppColors.simposiLightText),
           onPressed: () {},
         ),
-
-        // TODO: HIDE/SHOW menu options OR swap the menu based on if user created the event. If user created event, then they can edit it or cancel it.
-        // TODO: If user is just getting an invite, they can only edit their respose to the invite and not the event.
         // MENU BUTTON
         FocusedMenuHolder(
-          menuItems: eventModel.isMine ? creatorMenu(context) : usualMenu(
-              context),
+          menuItems:
+              eventModel.isMine ? creatorMenu(context) : usualMenu(context),
           blurBackgroundColor: Colors.black45,
           openWithTap: true,
           onPressed: () {},
@@ -81,26 +84,46 @@ class EventAppBar extends StatelessWidget with PreferredSizeWidget {
     );
   }
 
-  List<FocusedMenuItem> creatorMenu(BuildContext context) =>
-      [
+  List<FocusedMenuItem> creatorMenu(BuildContext context) => [
         FocusedMenuItem(
-          // TODO: Enable Cancel RSVP Button
-          title: const Text(
-            'Edit Event',
+          title: Text(
+            AppLocalizations.of(context)!.eventDetailsMenuEditEvent,
             style: TextStyle(
               color: SimposiAppColors.simposiDarkBlue,
             ),
           ),
           onPressed: () {
             context.read<EventEditCubit>().initEdit(eventModel.rsvp.event);
-            AutoRouter.of(context)
-                .push(CreateEvent1Route());
+            AutoRouter.of(context).push(CreateEvent1Route());
           },
         ),
         FocusedMenuItem(
+          title: Text(
+            AppLocalizations.of(context)!.eventDetailsMenuCancelEvent,
+            style: TextStyle(
+              color: SimposiAppColors.simposiDarkBlue,
+            ),
+          ),
+          onPressed: () => AutoRouter.of(context)
+              .pushNativeRoute(dialogBuilder(context, eventModel.rsvp, true)),
+        ),
+      ];
+
+  List<FocusedMenuItem> usualMenu(BuildContext context) => [
+        FocusedMenuItem(
+          title: Text(
+            AppLocalizations.of(context)!.eventDetailsMenuCancelRsvp,
+            style: TextStyle(
+              color: SimposiAppColors.simposiDarkBlue,
+            ),
+          ),
+          onPressed: () => AutoRouter.of(context)
+              .pushNativeRoute(dialogBuilder(context, eventModel.rsvp)),
+        ),
+        FocusedMenuItem(
           // TODO: Enable Report Social Button
-          title: const Text(
-            'Cancel Event',
+          title: Text(
+            AppLocalizations.of(context)!.eventDetailsMenuReport,
             style: TextStyle(
               color: SimposiAppColors.simposiDarkBlue,
             ),
@@ -109,104 +132,55 @@ class EventAppBar extends StatelessWidget with PreferredSizeWidget {
         ),
       ];
 
-  List<FocusedMenuItem> usualMenu(BuildContext context) =>
-      [
-        FocusedMenuItem(
-          // TODO: Enable Cancel RSVP Button
-          title: const Text(
-            'Cancel RSVP',
-            style: TextStyle(
-              color: SimposiAppColors.simposiDarkBlue,
-            ),
-          ),
-          onPressed: () =>
-              Navigator.of(context).restorablePush(_dialogBuilder),
-        ),
-        FocusedMenuItem(
-          // TODO: Enable Report Social Button
-          title: const Text(
-            'Report Social',
-            style: TextStyle(
-              color: SimposiAppColors.simposiDarkBlue,
-            ),
-          ),
-          onPressed: () => Navigator.of(context).pushNamed('/reportevent'),
-        ),
-      ];
-
-  // DIALOGUE
-  static Route<Object?> _dialogBuilder(BuildContext context,
-      Object? arguments) {
-    return CupertinoDialogRoute<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return CupertinoAlertDialog(
-          title: Text('Confirm Cancellation'),
-          content: Text(
-              'Are you sure you want to cancel your RSVP to this activity?'),
-          actions: <Widget>[
-            CupertinoDialogAction(
-              child: Text('Cancel'),
-              onPressed: () =>
-                  Navigator.of(context, rootNavigator: true).pop('Cancel'),
-            ),
-            // TODO: Enable cancel button to update status of RSVP to Cancelled, this should remove event from calendar
-            CupertinoDialogAction(
-                child: Text('Confirm'),
-                onPressed: () =>
-                    AutoRouter.of(context).push(SimposiHomeRoute())),
-          ],
-        );
-      },
-    );
-  }
+// DIALOGUE
 }
 
-class InvitationAppBar extends StatelessWidget with PreferredSizeWidget {
-  // Variables
-  final Size preferredSize;
-
-  // Initiate Variables
-  InvitationAppBar({Key, key})
-      : preferredSize = Size.fromHeight(60),
-        super(key: key);
-
-  // Screen
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      centerTitle: false,
-      elevation: 0.0,
-      backgroundColor: Colors.transparent,
-      foregroundColor: Colors.transparent,
-      leading: Builder(
-        builder: (BuildContext context) {
-          // CLOSE BUTTON
-          return IconButton(
-            alignment: Alignment.center,
-            icon: const Icon(Icons.close,
-                color: SimposiAppColors.simposiLightText),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          );
+Route<Object?> dialogBuilder(BuildContext context, Rsvp rsvp,
+    [bool isCreator = false]) {
+  return CupertinoDialogRoute<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return BlocConsumer<RsvpActionBloc, RsvpActionState>(
+        listener: (context, state) {
+          if (state is RsvpActionSuccess) {
+            AutoRouter.of(context).popUntilRouteWithName('SimposiHomeRoute');
+          } else if (state is RsvpActionError) {
+            showErrorToast(handleError(state.error, context));
+            AutoRouter.of(context).pop();
+          }
         },
-      ),
-      actions: [
-        // SHARE BUTTON
-        IconButton(
-          alignment: Alignment.center,
-          visualDensity: VisualDensity(
-            horizontal: -2.0,
-          ),
-          padding: const EdgeInsets.all(0),
-          // TODO: Enable share button to send deep link to event (discover card) opens bottom sheet so user can select method to share copy url, email, sms, whatsapp, messenger, etc
-          icon: const Icon(Icons.ios_share,
-              color: SimposiAppColors.simposiLightText),
-          onPressed: () {},
-        ),
-        const SizedBox(width: 20),
-      ],
-    );
-  }
+        builder: (context, state) {
+          return (state is RsvpActionLoading)
+              ? CupertinoAlertDialog(
+                  content: Column(
+                  children: [
+                    AppProgressIndicator(),
+                  ],
+                ))
+              : CupertinoAlertDialog(
+                  title: Text(
+                      AppLocalizations.of(context)!.cancelEventDialogTitle),
+                  content: Text(isCreator
+                      ? AppLocalizations.of(context)!.cancelEventCreatorText
+                      : AppLocalizations.of(context)!.cancelEventUserText),
+                  actions: <Widget>[
+                    CupertinoDialogAction(
+                        child: Text(
+                            AppLocalizations.of(context)!.cancelEventCancel),
+                        onPressed: () => AutoRouter.of(context).pop()),
+                    CupertinoDialogAction(
+                        child: Text(
+                            AppLocalizations.of(context)!.cancelEventConfirm),
+                        onPressed: () {
+                          context
+                              .read<RsvpActionBloc>()
+                              .add(RsvpActionCanceled(rsvp));
+                        }),
+                  ],
+                );
+        },
+      );
+    },
+  );
 }
+

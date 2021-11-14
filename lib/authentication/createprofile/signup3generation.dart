@@ -80,44 +80,38 @@ class _SignUpForm3State extends RegistrationProfileScreenState<SignUpForm3> {
           ),
 
           Expanded(
-            child: Container(
+            child: ListView.separated(
               padding: const EdgeInsets.fromLTRB(40, 10, 40, 20),
-              child: MediaQuery.removePadding(
-                removeTop: true,
-                context: context,
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: context
-                      .read<AppSetupCubit>()
-                      .masterData
-                      .generations
-                      .length,
-                  separatorBuilder: (context, index) {
-                    return const SizedBox(height: 10);
-                  },
-                  itemBuilder: (context, index) {
-                    return BigGBSelectButton(
-                        buttonLabel: context
-                            .read<AppSetupCubit>()
-                            .masterData
-                            .generations[index]
-                            .title,
-                        isSelected: context
-                                .read<AppSetupCubit>()
-                                .masterData
-                                .generations[index]
-                                .id ==
-                            _selected,
-                        buttonAction: () {
-                          _selectGeneration(context
-                              .read<AppSetupCubit>()
-                              .masterData
-                              .generations[index]);
-                        });
-                  },
-                ),
-              ),
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: context
+                  .read<AppSetupCubit>()
+                  .masterData
+                  .generations
+                  .length,
+              separatorBuilder: (context, index) {
+                return const SizedBox(height: 10);
+              },
+              itemBuilder: (context, index) {
+                return BigGBSelectButton(
+                    buttonLabel: context
+                        .read<AppSetupCubit>()
+                        .masterData
+                        .generations[index]
+                        .title,
+                    isSelected: context
+                        .read<AppSetupCubit>()
+                        .masterData
+                        .generations[index]
+                        .id ==
+                        _selected,
+                    buttonAction: () {
+                      _selectGeneration(context
+                          .read<AppSetupCubit>()
+                          .masterData
+                          .generations[index]);
+                    });
+              },
             ),
           ),
 

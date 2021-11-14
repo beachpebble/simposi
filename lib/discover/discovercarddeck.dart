@@ -6,11 +6,9 @@
 */
 
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposiappbar.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
-
 
 class DiscoverCardDeck extends StatefulWidget {
   @override
@@ -37,7 +35,8 @@ class _DiscoverCardDeckState extends State<DiscoverCardDeck> {
                     begin: Alignment.center,
                     end: Alignment.bottomCenter,
                     colors: [Colors.white, Colors.transparent],
-                  ).createShader(Rect.fromLTRB(0, 100, rect.width, rect.height));
+                  ).createShader(
+                      Rect.fromLTRB(0, 100, rect.width, rect.height));
                 },
                 blendMode: BlendMode.dstIn,
                 child: ClipRRect(
@@ -52,25 +51,27 @@ class _DiscoverCardDeckState extends State<DiscoverCardDeck> {
           ),
 
           Positioned(
-            bottom:30,
+            bottom: 30,
             left: 20,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Ditch Fashion Show',
+              children: [
+                Text(
+                  'Ditch Fashion Show',
                   style: TextStyle(
                     fontSize: 21,
                     fontWeight: FontWeight.w900,
                     color: SimposiAppColors.simposiDarkGrey,
-                  ),),
-                  Text('Event Time',
-                    style: TextStyle(
-                      fontSize: 13,
-                    ),
                   ),
-
-                ],
-              ),
+                ),
+                Text(
+                  'Event Time',
+                  style: TextStyle(
+                    fontSize: 13,
+                  ),
+                ),
+              ],
+            ),
           ),
 
 // Insert RSVP Counter HERE
@@ -78,8 +79,7 @@ class _DiscoverCardDeckState extends State<DiscoverCardDeck> {
           Positioned(
             top: 20,
             right: 20,
-            child:
-            Stack(
+            child: Stack(
               alignment: Alignment.center,
               children: [
                 Tooltip(
@@ -95,22 +95,26 @@ class _DiscoverCardDeckState extends State<DiscoverCardDeck> {
                     children: [
                       // TODO: Enable IF ELSE statement on these dots for how many people have RSVPd (Pink or LightGrey)
                       // TODO: Color from bottom to top as RSVPs come in
-                      Icon(Icons.circle,
+                      Icon(
+                        Icons.circle,
                         color: SimposiAppColors.simposiLightGrey,
                         size: 10,
                       ),
                       SizedBox(height: 5),
-                      Icon(Icons.circle,
+                      Icon(
+                        Icons.circle,
                         color: SimposiAppColors.simposiLightGrey,
                         size: 10,
                       ),
                       SizedBox(height: 5),
-                      Icon(Icons.circle,
+                      Icon(
+                        Icons.circle,
                         color: SimposiAppColors.simposiLightGrey,
                         size: 10,
                       ),
                       SizedBox(height: 5),
-                      Icon(Icons.circle,
+                      Icon(
+                        Icons.circle,
                         color: SimposiAppColors.simposiLightGrey,
                         size: 10,
                       ),
@@ -120,8 +124,6 @@ class _DiscoverCardDeckState extends State<DiscoverCardDeck> {
               ],
             ),
           ),
-
-
         ],
       ),
     );

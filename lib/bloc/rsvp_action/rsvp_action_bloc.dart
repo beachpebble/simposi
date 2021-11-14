@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:simposi_app_v4/bloc/rsvp/rsvp_bloc.dart';
@@ -7,24 +5,26 @@ import 'package:simposi_app_v4/model/rsvp.dart';
 import 'package:simposi_app_v4/model/rsvp_status.dart';
 import 'package:simposi_app_v4/repository/calendar_repository.dart';
 
-import '../../app_constants.dart';
-
 part 'rsvp_action_event.dart';
+
 part 'rsvp_action_state.dart';
 
 class RsvpActionBloc extends Bloc<RsvpActionEvent, RsvpActionState> {
   CalendarRepository _calendarRepository;
   RsvpBloc _rsvpBloc;
 
-  RsvpActionBloc({required RsvpBloc rsvpBloc, required CalendarRepository calendarRepository})
-      : _rsvpBloc = rsvpBloc, _calendarRepository = calendarRepository, super(RsvpActionInitial()) {
-
+  RsvpActionBloc(
+      {required RsvpBloc rsvpBloc,
+      required CalendarRepository calendarRepository})
+      : _rsvpBloc = rsvpBloc,
+        _calendarRepository = calendarRepository,
+        super(RsvpActionInitial()) {
     on<RsvpActionOpened>((event, emit) async {
-      if (event.rsvp.status.title == RsvpStatus.INVITED && false) {
+      if (event.rsvp.status.title == RsvpStatus.INVITED) {
         try {
-          await _calendarRepository.openRsvp(event.rsvp.id);
-          emit(RsvpActionSuccess());
-          _rsvpBloc..add(RsvpOpened(event.rsvp));
+          Rsvp updated = await _calendarRepository.openRsvp(event.rsvp.id);
+          emit(RsvpActionSuccess(true));
+          _rsvpBloc..add(RsvpOpened(updated));
         } on Exception catch (e) {
           emit(RsvpActionError(e));
         }
@@ -32,29 +32,41 @@ class RsvpActionBloc extends Bloc<RsvpActionEvent, RsvpActionState> {
     });
 
     on<RsvpActionAccepted>((event, emit) async {
-      if (event.rsvp.status.title == RsvpStatus.INVITED) {
+      if (event.rsvp.status.title == RsvpStatus.INVITED || event.rsvp.status.title == RsvpStatus.OPENED) {
         emit(RsvpActionLoading());
         try {
-          await _calendarRepository.acceptRsvp(event.rsvp.id);
+          Rsvp updated = await _calendarRepository.acceptRsvp(event.rsvp.id);
           emit(RsvpActionSuccess());
-          _rsvpBloc..add(RsvpAccepted(event.rsvp));
+          _rsvpBloc.add(RsvpAccepted(updated));
         } on Exception catch (e) {
           emit(RsvpActionError(e));
         }
       }
     });
 
-
     on<RsvpActionDeclined>((event, emit) async {
-      if (event.rsvp.status.title == RsvpStatus.INVITED) {
+      if (event.rsvp.status.title == RsvpStatus.INVITED || event.rsvp.status.title == RsvpStatus.ACCEPTED) {
         emit(RsvpActionLoading());
+        await Future.delayed(Duration(seconds: 3));
         try {
-          await _calendarRepository.declineRsvp(event.rsvp.id);
+          Rsvp updated = await _calendarRepository.declineRsvp(event.rsvp.id);
           emit(RsvpActionSuccess());
-          _rsvpBloc..add(RsvpDeclined(event.rsvp));
+          _rsvpBloc.add(RsvpDeclined(updated));
         } on Exception catch (e) {
           emit(RsvpActionError(e));
         }
+      }
+    });
+
+    on<RsvpActionCanceled>((event, emit) async {
+      emit(RsvpActionLoading());
+      await Future.delayed(Duration(seconds: 5));
+      try {
+        Rsvp updated = await _calendarRepository.cancelRsvp(event.rsvp.id);
+        emit(RsvpActionSuccess());
+        _rsvpBloc.add(RsvpCanceled(updated));
+      } on Exception catch (e) {
+        emit(RsvpActionError(e));
       }
     });
   }

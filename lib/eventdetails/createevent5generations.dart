@@ -57,7 +57,7 @@ class _CreateEvent5GenerationsState
                 .profile
                 .userMeta
                 ?.wantToMeetGenerations
-                ?.toSet() ??
+                .toSet() ??
             {}
         : context.read<EventEditCubit>().wantToMeetGenerations ?? {};
   }

@@ -205,6 +205,23 @@ class CalendarRepository {
     }
   }
 
+  Future<Rsvp> cancelRsvp(int id) async {
+    Response response = await _apiService.dio.post(
+        Api.API_RSVP_STATUS,
+        data: {
+          'id': id,
+          'modify_status_to': RsvpStatus.CANCELED_ID
+        });
+    Map? data = response.data;
+    Map<String, dynamic>? rsvpMap = data?['data']?['rsvp'];
+    if (rsvpMap != null) {
+      return Rsvp.fromJson(rsvpMap);
+    } else {
+      throw ParseException(
+          errorType: LocalizedErrorType.PARSE_ERROR, message: "Unexpected response");
+    }
+  }
+
   Future checkInEvent(int id) async {
     await Future.delayed(Duration(milliseconds: 2000));
     // call _apiservice method

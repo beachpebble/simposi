@@ -10,8 +10,8 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_webservice/staticmap.dart';
 import 'package:intl/intl.dart';
 import 'package:simposi_app_v4/bloc/rsvp_action/rsvp_action_bloc.dart';
 import 'package:simposi_app_v4/calendar/calendarwidgets/tags_cloud.dart';
@@ -22,7 +22,6 @@ import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/widgets/progress.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EventDetails extends StatefulWidget {
   final EventModel eventModel;
@@ -43,14 +42,15 @@ class _EventDetailsState extends State<EventDetails> {
       await Future.delayed(Duration(milliseconds: 400));
       _initCompleter.complete();
     });
-    context.read<RsvpActionBloc>().add(RsvpActionOpened(widget.eventModel.rsvp));
+    context
+        .read<RsvpActionBloc>()
+        .add(RsvpActionOpened(widget.eventModel.rsvp));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      // TODO: Replace Invitation App Bar with Event App Bar based on RSVP Status (note: menu options differ based on if user created the event)
       appBar: // InvitationAppBar(),
           EventAppBar(eventModel: widget.eventModel),
       // add logic to change app bar based on status
@@ -58,7 +58,7 @@ class _EventDetailsState extends State<EventDetails> {
         padding: const EdgeInsets.only(top: 0),
         shrinkWrap: true,
         children: [
-          if (!widget.eventModel.isMine)
+          if (widget.eventModel.showInvite)
             Row(
               children: [
                 //INVITATION CARD
@@ -69,7 +69,6 @@ class _EventDetailsState extends State<EventDetails> {
             ),
           Row(
             children: [
-              // EVENT IMAGE
               Expanded(
                 child: ShaderMask(
                   shaderCallback: (rect) {
@@ -227,7 +226,8 @@ class _EventDetailsState extends State<EventDetails> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 4.0),
                           child: const Icon(Icons.circle,
-                              color: SimposiAppColors.simposiDarkBlue, size: 10),
+                              color: SimposiAppColors.simposiDarkBlue,
+                              size: 10),
                         ),
                         const SizedBox(width: 10),
                         Flexible(child: Text(widget.eventModel.gendersString)),
@@ -240,7 +240,8 @@ class _EventDetailsState extends State<EventDetails> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 4.0),
                           child: const Icon(Icons.circle,
-                              color: SimposiAppColors.simposiDarkBlue, size: 10),
+                              color: SimposiAppColors.simposiDarkBlue,
+                              size: 10),
                         ),
                         const SizedBox(width: 10),
                         Flexible(
@@ -258,7 +259,8 @@ class _EventDetailsState extends State<EventDetails> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 4.0),
                           child: const Icon(Icons.circle,
-                              color: SimposiAppColors.simposiDarkBlue, size: 10),
+                              color: SimposiAppColors.simposiDarkBlue,
+                              size: 10),
                         ),
                         const SizedBox(width: 10),
                         Flexible(child: Text(widget.eventModel.earningsString)),
@@ -333,7 +335,7 @@ class _EventDetailsState extends State<EventDetails> {
                       if (await canLaunch(mapSchema)) {
                         await launch(mapSchema);
                       } else {
-                        showErrorToast("Cant loaunch Maps app");
+                        showErrorToast("Cant launch Maps app");
                       }
                     },
                     markers: _getMarkers(loc),

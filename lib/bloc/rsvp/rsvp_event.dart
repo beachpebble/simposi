@@ -40,3 +40,12 @@ class RsvpDeclined extends RsvpEvent {
   @override
   List<Object?> get props => [rsvp];
 }
+
+class RsvpCanceled extends RsvpEvent {
+  final Rsvp rsvp;
+
+  RsvpCanceled(this.rsvp);
+
+  @override
+  List<Object?> get props => [rsvp];
+}

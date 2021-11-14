@@ -40,7 +40,7 @@ class _SignUpForm2State extends CreateEventScreenState<CreateEvent4> {
         ? context.read<ProfileRepository>().profile.userMeta?.wantToMeetLgbt ?? false
         : context.read<EventEditCubit>().lgbt;
     _selected = widget.editMode
-        ? context.read<ProfileRepository>().profile.userMeta?.wantToMeetGender?.toSet() ?? {}
+        ? context.read<ProfileRepository>().profile.userMeta?.wantToMeetGender.toSet() ?? {}
         : context.read<EventEditCubit>().wantToMeetGender ?? {};
   }
 

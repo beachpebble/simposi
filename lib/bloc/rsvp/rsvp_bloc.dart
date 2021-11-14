@@ -41,18 +41,7 @@ class RsvpBloc extends Bloc<RsvpEvent, RsvpState> {
       if (authBloc.state is Authenticated) {
         emit(RsvpLoading());
         try {
-          var rsvps =
-              await _calendarRepository.getAllevents(event.from, event.to);
-          _loadedEvents = rsvps
-              .map((e) => EventModel(
-                  rsvp: e,
-                  normalizedDate: e.date,
-                  isMine: e.event.userId != _profileRepository.profile.userId))
-              .toList()
-            ..sort((e1, e2) {
-              return e1.normalizedDate.compareTo(e2.normalizedDate);
-            });
-
+          _loadedEvents = await _getRsvps(event.from, event.to);
           emit(RsvpLoaded(_loadedEvents));
         } on Exception catch (e) {
           emit(RsvpError(e));
@@ -62,9 +51,58 @@ class RsvpBloc extends Bloc<RsvpEvent, RsvpState> {
 
     on<RsvpOpened>((event, emit) async {
       List<EventModel> loadedEvents = []..addAll(_loadedEvents);
-      _loadedEvents = _loadedEvents;
-      //_loadedEvents.where((element) => element.rsvp.id == event.rsvp.id).first.rsvp.status =
+      loadedEvents.removeWhere((element) => element.rsvp.id == event.rsvp.id);
+      var tmp  = EventModel(
+          rsvp: event.rsvp,
+          normalizedDate: event.rsvp.date,
+          myId: _profileRepository.profile.userId);
+      loadedEvents.add(tmp);
+      loadedEvents.sort((e1, e2) {
+        return e1.normalizedDate.compareTo(e2.normalizedDate);
+      });
+      _loadedEvents = loadedEvents;
+      emit(RsvpLoaded(_loadedEvents));
     });
+    on<RsvpAccepted>((event, emit) async {
+      List<EventModel> loadedEvents = []..addAll(_loadedEvents);
+      var tmp  = EventModel(
+          rsvp: event.rsvp,
+          normalizedDate: event.rsvp.date,
+          myId: _profileRepository.profile.userId);
+      loadedEvents.removeWhere((element) => element.rsvp.id == event.rsvp.id);
+      loadedEvents.add(tmp);
+      loadedEvents.sort((e1, e2) {
+        return e1.normalizedDate.compareTo(e2.normalizedDate);
+      });
+      _loadedEvents = loadedEvents;
+      emit(RsvpLoaded(_loadedEvents));
+    });
+    on<RsvpDeclined>((event, emit) async {
+      List<EventModel> loadedEvents = []..addAll(_loadedEvents);
+      loadedEvents.removeWhere((element) => element.rsvp.id == event.rsvp.id);
+      _loadedEvents = loadedEvents;
+      emit(RsvpLoaded(_loadedEvents));
+    });
+    on<RsvpCanceled>((event, emit) async {
+      List<EventModel> loadedEvents = []..addAll(_loadedEvents);
+      loadedEvents.removeWhere((element) => element.rsvp.id == event.rsvp.id);
+      _loadedEvents = loadedEvents;
+      emit(RsvpLoaded(_loadedEvents));
+    });
+  }
+
+  Future<List<EventModel>> _getRsvps(DateTime from, DateTime to) async {
+    var rsvps =
+        await _calendarRepository.getAllevents(from, to);
+    return rsvps.where((element) => element.status.id != RsvpStatus.CANCELED_ID && element.status.id != RsvpStatus.DECLINED_ID)
+        .map((e) => EventModel(
+        rsvp: e,
+        normalizedDate: e.date,
+        myId: _profileRepository.profile.userId))
+        .toList()
+      ..sort((e1, e2) {
+        return e1.normalizedDate.compareTo(e2.normalizedDate);
+      });
   }
 
   @override

@@ -10,6 +10,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/bloc/profile/profile_bloc.dart';
+import 'package:simposi_app_v4/bloc/rsvp/rsvp_bloc.dart';
 import 'package:simposi_app_v4/global/theme/elements/counterbubble.dart';
 
 import '../../../calendar/simposicalendar.dart';
@@ -38,7 +39,8 @@ class _SimposiHomeState extends State<SimposiHome> {
   ];
 
   @override
-  Widget build(BuildContext context) => BlocBuilder<ProfileBloc, ProfileState>(
+  Widget build(BuildContext context) =>
+      BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
           return Scaffold(
             backgroundColor: SimposiAppColors.greyBackground,
@@ -70,22 +72,27 @@ class _SimposiHomeState extends State<SimposiHome> {
               ),
               items: [
                 BottomNavigationBarItem(
-                  icon: Stack(children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
-                      alignment: Alignment.center,
-                      child: Icon(SimposiNav.calendar),
-                    ),
-                    Container(
-                      child: Positioned(
-                        right: 25,
-                        child: SimposiCounterBubble(
-                          count:
-                              '2', // TODO: Enable Counter for RSVPs where status = invited, hide if 0
+                  icon: BlocBuilder<RsvpBloc, RsvpState>(
+                    builder: (context, state) {
+                      return Stack(children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
+                          alignment: Alignment.center,
+                          child: Icon(SimposiNav.calendar),
                         ),
-                      ),
-                    ),
-                  ]),
+                        if (state is RsvpLoaded && state.invited > 0)
+                        Container(
+                          child: Positioned(
+                            right: 25,
+                            child: SimposiCounterBubble(
+                              count:
+                              state.invited.toString(),
+                            ),
+                          ),
+                        ),
+                      ]);
+                    },
+                  ),
                   label: 'Socials',
                 ),
                 BottomNavigationBarItem(
@@ -96,15 +103,16 @@ class _SimposiHomeState extends State<SimposiHome> {
                         alignment: Alignment.center,
                         child: Icon(SimposiNav.carddeck),
                       ),
-                      Container(
-                        child: Positioned(
-                          right: 25,
-                          child: SimposiCounterBubble(
-                            count:
-                                '134', // TODO: Enable counter for Discover Cards, hide if 0
-                          ),
-                        ),
-                      ),
+
+                      // Container(
+                      //   child: Positioned(
+                      //     right: 25,
+                      //     child: SimposiCounterBubble(
+                      //       count:
+                      //       '134', // TODO: Enable counter for Discover Cards, hide if 0
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                   label: 'Discover',
@@ -117,15 +125,15 @@ class _SimposiHomeState extends State<SimposiHome> {
                         alignment: Alignment.center,
                         child: Icon(SimposiNav.alerts),
                       ),
-                      Container(
-                        child: Positioned(
-                          right: 25,
-                          child: SimposiCounterBubble(
-                            count:
-                                '1', // TODO: Enable counter for unread alert messages, hide if 0
-                          ),
-                        ),
-                      ),
+                      // Container(
+                      //   child: Positioned(
+                      //     right: 25,
+                      //     child: SimposiCounterBubble(
+                      //       count:
+                      //       '1', // TODO: Enable counter for unread alert messages, hide if 0
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                   label: 'Alerts',

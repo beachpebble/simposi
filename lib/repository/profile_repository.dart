@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:localstorage/localstorage.dart';
-import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/model/earning.dart';
 import 'package:simposi_app_v4/model/emergency_contact.dart';
 import 'package:simposi_app_v4/model/errors.dart';
@@ -17,11 +16,8 @@ import 'api_service.dart';
 class ProfileRepository {
   final AuthApiService _authApiService;
   final ApiService _apiService;
-  final AuthenticationBloc _bloc;
 
-  ProfileRepository(this._apiService, this._authApiService, this._bloc) {
-
-  }
+  ProfileRepository(this._apiService, this._authApiService) {}
 
   late Profile profile;
   final LocalStorage storage = new LocalStorage('profile_storage');
@@ -189,7 +185,8 @@ class ProfileRepository {
     return updateProfileFields(data);
   }
 
-  Future<Profile> updateEmergencyContact({required EmergencyContact contact}) async {
+  Future<Profile> updateEmergencyContact(
+      {required EmergencyContact contact}) async {
     Map<String, Object> data = {
       "emergency_contact_name": contact.name,
       "emergency_contact_phone": contact.phone,
@@ -243,7 +240,8 @@ class ProfileRepository {
     return updateProfileFields(data);
   }
 
-  Future<Profile> updateWantToMeetIncome({required List<Earning> earnings}) async {
+  Future<Profile> updateWantToMeetIncome(
+      {required List<Earning> earnings}) async {
     UserMeta meta;
     if (profile.userMeta == null) {
       meta = UserMeta(

@@ -6,11 +6,9 @@
 */
 
 import 'dart:ui';
-import 'package:flutter/material.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposihome.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
-import 'package:simposi_app_v4/global/theme/appcolors.dart';
 
+import 'package:flutter/material.dart';
+import 'package:simposi_app_v4/global/theme/appcolors.dart';
 
 class SimposiAppBar extends StatelessWidget with PreferredSizeWidget {
   // Set Variables
@@ -19,12 +17,12 @@ class SimposiAppBar extends StatelessWidget with PreferredSizeWidget {
   final simposiSubTitle;
   final simposiAction;
 
-  SimposiAppBar({
-    required this.simposiTitle,
-    this.simposiSubTitle,
-    required this.simposiAction,
-    Key, key
-  })
+  SimposiAppBar(
+      {required this.simposiTitle,
+      this.simposiSubTitle,
+      required this.simposiAction,
+      Key,
+      key})
       : preferredSize = Size.fromHeight(70),
         super(key: key);
 
@@ -34,39 +32,36 @@ class SimposiAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      centerTitle: false,
-      elevation: 0.0,
-      toolbarHeight: 75,
-      backgroundColor: Colors.white,
-      foregroundColor: SimposiAppColors.simposiDarkGrey,
-      title: Container(
-        height: 68,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Text(
-              simposiTitle,
-              style: TextStyle(
-                color: SimposiAppColors.simposiDarkGrey,
-                fontWeight: FontWeight.w800,
-                fontSize: 30,
+        centerTitle: false,
+        elevation: 0.0,
+        toolbarHeight: 75,
+        backgroundColor: Colors.white,
+        foregroundColor: SimposiAppColors.simposiDarkGrey,
+        title: Container(
+          height: 68,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                simposiTitle,
+                style: TextStyle(
+                  color: SimposiAppColors.simposiDarkGrey,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 30,
+                ),
               ),
-            ),
-            //TODO: Ensure Title stays in same place if SubTitle does not exist
-            Column(
-              children: [
-                if (simposiSubTitle != null)
-                  simposiSubTitle,
-                SizedBox(height: 5),
-              ],
-            )
-          ],
+              //TODO: Ensure Title stays in same place if SubTitle does not exist
+              Column(
+                children: [
+                  if (simposiSubTitle != null) simposiSubTitle,
+                  SizedBox(height: 5),
+                ],
+              )
+            ],
+          ),
         ),
-      ),
-      automaticallyImplyLeading: false,
-      actions: [simposiAction]
-    );
+        automaticallyImplyLeading: false,
+        actions: [simposiAction]);
   }
 }
-

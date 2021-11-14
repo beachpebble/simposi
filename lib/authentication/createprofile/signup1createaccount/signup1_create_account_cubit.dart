@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
-import 'package:simposi_app_v4/model/master_data.dart';
 import 'package:simposi_app_v4/repository/profile_repository.dart';
 
 part 'signup1_create_account_state.dart';

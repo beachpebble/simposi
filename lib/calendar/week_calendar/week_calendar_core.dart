@@ -40,7 +40,7 @@ class WeekCalendarCore extends StatelessWidget {
     this.dowDecoration,
     this.rowDecoration,
     this.scrollPhysics,
-  })  : assert(!dowVisible || (dowHeight != null && dowBuilder != null)),
+  })  : assert(!dowVisible || (dowHeight != null)),
         super(key: key);
 
   @override

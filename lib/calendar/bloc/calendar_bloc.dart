@@ -19,7 +19,7 @@ EventTransformer<CalendarEvent> debounce<CalendarEvent>(Duration duration) {
 
 class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
   List<EventModel> _loadedEvents = [];
-  late StreamSubscription todosSubscription;
+  late StreamSubscription _subscription;
 
   CalendarBloc(RsvpBloc rsvpBloc)
       : super(CalendarLoaded(
@@ -30,7 +30,7 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
             0,
             LoadBy.INITIAL,
             0)) {
-    todosSubscription = rsvpBloc.stream.listen((state) {
+    _subscription = rsvpBloc.stream.listen((state) {
       if (state is RsvpLoaded) {
         _loadedEvents = state.rsvps;
         add(EventsUpdated(_loadedEvents));
@@ -60,7 +60,7 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
 
   @override
   Future<void> close() {
-    todosSubscription.cancel();
+    _subscription.cancel();
     return super.close();
   }
 

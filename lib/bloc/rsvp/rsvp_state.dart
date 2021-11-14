@@ -7,8 +7,15 @@ abstract class RsvpState extends Equatable {
 class RsvpLoaded extends RsvpState {
 
   final List<EventModel> rsvps;
+  final int invited;
+  final int accepted;
 
-  RsvpLoaded(this.rsvps);
+  RsvpLoaded(this.rsvps) :
+    invited = (rsvps.where((element) => element.rsvp.status.id == RsvpStatus.INVITED_ID)).length,
+    accepted = (rsvps.where((element) => element.rsvp.status.id == RsvpStatus.ACCEPTED_ID)).length;
+
+
+
 
   @override
   List<Object> get props => [rsvps];

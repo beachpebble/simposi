@@ -6,8 +6,10 @@
 */
 
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:simposi_app_v4/app_router.dart';
 import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
@@ -128,7 +130,8 @@ class ProfileMenu extends StatelessWidget {
                       ),
                       menuCardLabel: 'Sign Out',
                       onTap: () {
-                        context.read<AuthenticationBloc>().add(LogOut());
+                        AutoRouter.of(context)
+                            .pushNativeRoute(_logoutDialog(context));
                       },
                     ),
                   ]),
@@ -160,4 +163,29 @@ class ProfileMenu extends StatelessWidget {
           ],
         ),
       );
+
+  Route<Object?> _logoutDialog(BuildContext context) {
+    return CupertinoDialogRoute<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          title: Text(AppLocalizations.of(context)!.logoutDialogTitle),
+          content: Text(AppLocalizations.of(context)!.logoutDialogContent),
+          actions: <Widget>[
+            CupertinoDialogAction(
+                child: Text(AppLocalizations.of(context)!.logoutDialogYes),
+                onPressed: () {
+                  context.read<AuthenticationBloc>().add(LogOut());
+                }),
+            CupertinoDialogAction(
+              child: Text(AppLocalizations.of(context)!.logoutDialogNo),
+              onPressed: () {
+                AutoRouter.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

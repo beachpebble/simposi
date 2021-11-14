@@ -18,6 +18,7 @@ import 'authentication/login/getstartedscreen.dart';
 import 'authentication/login/loginscreen/loginscreen.dart';
 import 'authentication/login/reset_password_complete/reset_password_screen.dart';
 import 'authentication/login/splash_screen.dart';
+import 'checkin/groupfinder.dart';
 import 'eventdetails/createevent1.dart';
 import 'eventdetails/createevent2/createevent2location.dart';
 import 'eventdetails/createevent4gender.dart';
@@ -86,6 +87,10 @@ part 'app_router.gr.dart';
 
     //EVENT STUFF
     AutoRoute(page: EventDetails),
+
+    //ON EVENT
+    AutoRoute(page: GroupFinder),
+
   ],
 )
 class AppRouter extends _$AppRouter{}

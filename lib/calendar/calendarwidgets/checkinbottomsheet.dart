@@ -6,15 +6,22 @@
 */
 
 import 'dart:ui';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:simposi_app_v4/eventdetails/eventwidgets/eventappbars.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/global/theme/theme.dart';
+import 'package:simposi_app_v4/model/rsvp.dart';
+
+import '../../app_router.dart';
 
 
-// TODO: Trigger Check In Bottom Sheet from Check In Notification (Banner/Lockscreen) - so they land on Socials with Bottom Sheet open
 // BOTTOM SHEET TRIGGER BUTTON (SPECIALIZED)
 class CheckInButton extends StatelessWidget {
+  final Rsvp rsvp;
+
+  const CheckInButton({Key? key, required this.rsvp}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -28,7 +35,7 @@ class CheckInButton extends StatelessWidget {
         showModalBottomSheet<void>(
           context: context,
           builder: (BuildContext context) {
-            return CheckInPopup();
+            return CheckInPopup(rsvp: rsvp);
           },
         );
       },
@@ -45,6 +52,9 @@ class CheckInButton extends StatelessWidget {
 
 // CHECK IN BOTTOM SHEET
 class CheckInPopup extends StatefulWidget {
+  final Rsvp rsvp;
+
+  const CheckInPopup({Key? key, required this.rsvp}) : super(key: key);
   @override
   _CheckInPopupState createState() => _CheckInPopupState();
 }
@@ -91,11 +101,14 @@ class _CheckInPopupState extends State<CheckInPopup> {
           SizedBox(height: 20),
 
           // BUTTONS
-          BigCheckInButton(),
+          BigCheckInButton(onClick: () => AutoRouter.of(context).push(GroupFinderRoute())),
           SizedBox(height: 10),
           BigButton(
             buttonLabel: 'Cancel RSVP',
-            buttonAction: null,
+            buttonAction: (){
+              AutoRouter.of(context)
+                  .pushNativeRoute(dialogBuilder(context, widget.rsvp, false));
+            },
             buttonColor: SimposiAppColors.simposiLightGrey,
             textColor: SimposiAppColors.simposiDarkGrey,
           ),

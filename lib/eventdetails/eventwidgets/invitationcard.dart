@@ -74,7 +74,7 @@ class InvitationCard extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: BlocConsumer<RsvpActionBloc, RsvpActionState>(
                   listener: (context, state) {
-                    if (state is RsvpActionSuccess)
+                    if (state is RsvpActionSuccess && !state.dontCloseAfterAction)
                       AutoRouter.of(context).replace(SimposiHomeRoute());
                     else if (state is RsvpActionError) {
                       showErrorToast(handleError(state.error, context));

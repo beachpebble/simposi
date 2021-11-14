@@ -43,7 +43,7 @@ void main() {
             ),
             RepositoryProvider(
               create: (context) =>
-                  ProfileRepository(context.read(), context.read(), context.read()),
+                  ProfileRepository(context.read(), context.read()),
             ),
             RepositoryProvider(
               create: (context) => CalendarRepository(context.read()),

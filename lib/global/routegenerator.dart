@@ -7,36 +7,14 @@
 
 // Global
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/affinityindex/affinityratingcards.dart';
 import 'package:simposi_app_v4/affinityindex/reportuser.dart';
-import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
-import 'package:simposi_app_v4/calendar/simposicalendar.dart'; // Home/Socials
-// Check In
-import 'package:simposi_app_v4/checkin/firsttoarrivemodal.dart';
 import 'package:simposi_app_v4/checkin/groupfinder.dart';
 import 'package:simposi_app_v4/checkin/groupfinderchat.dart';
 
 // Discover
 import 'package:simposi_app_v4/discover/discoverscreen.dart';
-import 'package:simposi_app_v4/eventdetails/create_event3/createevent3_activities.dart';
-import 'package:simposi_app_v4/eventdetails/create_event3/createevent_activities_cubit.dart';
-
-// Create Event
-import 'package:simposi_app_v4/eventdetails/createevent1.dart';
-import 'package:simposi_app_v4/eventdetails/createevent2/createevent2_location_cubit.dart';
-import 'package:simposi_app_v4/eventdetails/createevent2/createevent2location.dart';
-import 'package:simposi_app_v4/eventdetails/createevent4gender.dart';
-import 'package:simposi_app_v4/eventdetails/createevent5generations.dart';
-import 'package:simposi_app_v4/eventdetails/createevent6income.dart';
-import 'package:simposi_app_v4/eventdetails/createevent7pickinvitation.dart';
-import 'package:simposi_app_v4/eventdetails/eventdetails.dart';
-import 'package:simposi_app_v4/eventdetails/eventwidgets/cancelrsvp.dart';
-import 'package:simposi_app_v4/eventdetails/eventwidgets/invitationcard.dart';
-import 'package:simposi_app_v4/eventdetails/eventwidgets/proposenewtime.dart';
 import 'package:simposi_app_v4/eventdetails/reportevent.dart';
-import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/notifications/adminalert.dart';
 
 // Alerts & Notifications

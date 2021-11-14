@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'dart:developer' as developer;
 
 import 'errors.dart';
 
@@ -36,10 +35,12 @@ class NetworkResponseError extends NetworkResponse {
       if (error.containsKey('message')) {
         return NetworkResponseError(error['message'], json['status']);
       } else {
-        throw ParseException(message: "ResponseError doesn't contain mandatory fields");
+        throw ParseException(
+            message: "ResponseError doesn't contain mandatory fields");
       }
     } else {
-      throw ParseException(message: "ResponseError doesn't contain mandatory fields");
+      throw ParseException(
+          message: "ResponseError doesn't contain mandatory fields");
     }
   }
 }

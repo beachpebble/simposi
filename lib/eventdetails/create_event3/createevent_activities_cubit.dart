@@ -38,8 +38,8 @@ class CreateEventActivitiesCubit extends Cubit<CreateEventActivitiesState> {
         element.title.toLowerCase().contains(search.toLowerCase())));
 
     //clean selected not in filter
-    Set<Interest> newSelected = {}..removeWhere((element) =>
-        !element.title.toLowerCase().contains(search.toLowerCase()));
+    // Set<Interest> newSelected = {}..removeWhere((element) =>
+    //     !element.title.toLowerCase().contains(search.toLowerCase()));
 
     emit(state.copyWith(filtered: newFiltered));
   }

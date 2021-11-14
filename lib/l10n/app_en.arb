@@ -26,5 +26,21 @@
   "validateEmailNotValid": "Email Not Valid",
   "validateUrlNotValid": "URL Not Valid",
 
-  "wantToMeetTitle": "Who do you want to meet ?"
+  "wantToMeetTitle": "Who do you want to meet ?",
+
+  "logoutDialogTitle": "Logout",
+  "logoutDialogContent": "Do you want to logout?",
+  "logoutDialogYes": "Yes",
+  "logoutDialogNo": "No",
+
+  "eventDetailsMenuCancelRsvp": "Cancel RSVP",
+  "eventDetailsMenuCancelEvent": "Cancel Event",
+  "eventDetailsMenuEditEvent": "Edit Event",
+  "eventDetailsMenuReport": "Report Social",
+
+  "cancelEventDialogTitle": "Confirm Cancellation",
+  "cancelEventCreatorText": "This will cancel the event and notify all participants. This action can not be undone. Are you sure you want to cancel?",
+  "cancelEventUserText": "Are you sure you want to cancel your RSVP to this activity?",
+  "cancelEventCancel": "Cancel",
+  "cancelEventConfirm": "Confirm"
 }

@@ -11,10 +11,10 @@ class EventModel extends Equatable {
   EventModel({
     required this.normalizedDate,
     required this.rsvp,
-    required this.isMine,
-  });
+    required int myId,
+  }): isMine = rsvp.event.userId != myId;
 
-  String get addressRepresentaion => "${rsvp.event.locationAddress}, ${rsvp.event.locationCity}";
+      String get addressRepresentaion => "${rsvp.event.locationAddress}, ${rsvp.event.locationCity}";
 
   String get generationsString => rsvp.event.wantToMeetGenerations.map((e) => e.title).join(", ");
   String get earningsString => rsvp.event.wantToMeetEarnings.map((e) => e.title).join(", ");
@@ -34,8 +34,13 @@ class EventModel extends Equatable {
 
   bool get showInvite => !isMine && [RsvpStatus.INVITED, RsvpStatus.OPENED].contains(rsvp.status.title);
   bool get showGoing => [RsvpStatus.ACCEPTED].contains(rsvp.status.title);
-  bool get showCheckIn => [RsvpStatus.ACCEPTED].contains(rsvp.status.title);
+  bool get showCheckIn => [RsvpStatus.ACCEPTED].contains(rsvp.status.title) || isMine;
 
   @override
   List<Object?> get props => [normalizedDate, rsvp, isMine];
+
+  @override
+  bool get stringify {
+    return false;
+  }
 }

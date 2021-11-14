@@ -34,8 +34,6 @@ class CreateEvent6 extends CreateEventScreen {
 }
 
 class _SignUpForm4State extends CreateEventScreenState<CreateEvent6> {
-  // double progress = 0.56;
-
   Set<Earning> _selected = {};
 
   void _selectEarning(Earning earning) {
@@ -73,7 +71,7 @@ class _SignUpForm4State extends CreateEventScreenState<CreateEvent6> {
                 .profile
                 .userMeta
                 ?.wantToMeetEarnings
-                ?.toSet() ??
+                .toSet() ??
             {}
         : context.read<EventEditCubit>().wantToMeetEarnings ?? {};
   }
@@ -110,38 +108,24 @@ class _SignUpForm4State extends CreateEventScreenState<CreateEvent6> {
 
             // Body
             Expanded(
-              child: Container(
+              child: ListView.separated(
                 padding: const EdgeInsets.fromLTRB(40, 10, 40, 20),
-                child: Expanded(
-                  child: MediaQuery.removePadding(
-                    removeTop: true,
-                    context: context,
-                    // TODO: Convert to Single Select instead of multiselect
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      itemCount: context
-                          .read<AppSetupCubit>()
-                          .masterData
-                          .earnings
-                          .length,
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(height: 10);
-                      },
-                      itemBuilder: (context, index) {
-                        Earning earning = context
-                            .read<AppSetupCubit>()
-                            .masterData
-                            .earnings[index];
-                        return BigGBSelectButton(
-                            buttonLabel: earning.title,
-                            isSelected: _selected.contains(earning),
-                            buttonAction: () {
-                              _selectEarning(earning);
-                            });
-                      },
-                    ),
-                  ),
-                ),
+                shrinkWrap: true,
+                itemCount:
+                    context.read<AppSetupCubit>().masterData.earnings.length,
+                separatorBuilder: (context, index) {
+                  return const SizedBox(height: 10);
+                },
+                itemBuilder: (context, index) {
+                  Earning earning =
+                      context.read<AppSetupCubit>().masterData.earnings[index];
+                  return BigGBSelectButton(
+                      buttonLabel: earning.title,
+                      isSelected: _selected.contains(earning),
+                      buttonAction: () {
+                        _selectEarning(earning);
+                      });
+                },
               ),
             ),
 

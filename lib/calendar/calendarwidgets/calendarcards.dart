@@ -36,7 +36,10 @@ class EventCard extends StatelessWidget {
       child: Container(
         // CLICK CARD ACTION
         child: InkWell(
-          onTap: () => {AutoRouter.of(context).push(EventDetailsRoute(eventModel: eventModel))},
+          onTap: () => {
+            AutoRouter.of(context)
+                .push(EventDetailsRoute(eventModel: eventModel))
+          },
           child: Stack(
             children: <Widget>[
               CachedNetworkImage(
@@ -128,7 +131,7 @@ class EventCard extends StatelessWidget {
                 bottom: 20,
                 right: 20,
                 child: RsvpIndicator(
-                  acceptedCount: eventModel.rsvp.event.rsvpAccepted,
+                  acceptedCount: eventModel.rsvp.event.rsvpAccepted+1,
                 ),
               ),
 
@@ -138,7 +141,9 @@ class EventCard extends StatelessWidget {
                 Positioned(
                   top: 5,
                   right: 10,
-                  child: CheckInButton(),
+                  child: CheckInButton(
+                    rsvp: eventModel.rsvp,
+                  ),
                 ),
             ],
           ),
