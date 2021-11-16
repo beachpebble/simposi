@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup8validate/signup8_validate_cubit.dart';
 import 'package:simposi_app_v4/calendar/event_model.dart';
 import 'package:simposi_app_v4/eventdetails/create_event3/createevent3_activities.dart';
+import 'package:simposi_app_v4/model/event.dart';
 import 'package:simposi_app_v4/profile/profilescreen.dart';
 
 import 'authentication/createprofile/signup1createaccount/signup1createaccount.dart';

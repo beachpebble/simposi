@@ -45,7 +45,7 @@ class RsvpActionBloc extends Bloc<RsvpActionEvent, RsvpActionState> {
     });
 
     on<RsvpActionDeclined>((event, emit) async {
-      if (event.rsvp.status.title == RsvpStatus.INVITED || event.rsvp.status.title == RsvpStatus.ACCEPTED) {
+      if (event.rsvp.status.title == RsvpStatus.INVITED || event.rsvp.status.title == RsvpStatus.OPENED) {
         emit(RsvpActionLoading());
         await Future.delayed(Duration(seconds: 3));
         try {

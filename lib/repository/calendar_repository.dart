@@ -5,6 +5,7 @@ import 'package:simposi_app_v4/model/earning.dart';
 import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/model/gender.dart';
 import 'package:simposi_app_v4/model/generation.dart';
+import 'package:simposi_app_v4/model/group_finder_user.dart';
 import 'package:simposi_app_v4/model/interest.dart';
 import 'package:simposi_app_v4/model/rsvp.dart';
 import 'package:simposi_app_v4/model/rsvp_status.dart';
@@ -222,9 +223,29 @@ class CalendarRepository {
     }
   }
 
-  Future checkInEvent(int id) async {
+  Future<List<GroupFinderUser>> refreshLocator(int id) async {
     await Future.delayed(Duration(milliseconds: 2000));
-    // call _apiservice method
 
+    // Response response = await _apiService.dio.post(
+    //     Api.API_REFRESH_LOCATOR,
+    //     data: {
+    //       'id': id,
+    //     });
+    // Map? data = response.data;
+    // List<dynamic>? userMap = data?['data']?['users'];
+    // if (userMap != null) {
+    //   return userMap.map((e) => GroupFinderUser.fromJson(e)).toList();
+    // } else {
+    //   throw ParseException(
+    //       errorType: LocalizedErrorType.PARSE_ERROR, message: "Unexpected response");
+    // }
+
+    List<GroupFinderUser> list = [
+      GroupFinderUser(name: "Roman", imageUrl:  "https://st2.depositphotos.com/1006318/5909/v/950/depositphotos_59095529-stock-illustration-profile-icon-male-avatar.jpg", latitude: 37.785839, longitude: -122.406410 ),
+      GroupFinderUser(name: "Petr", imageUrl:  "https://html5css.ru/howto/img_avatar2.png", latitude: 37.785697, longitude: -122.406417 ),
+      GroupFinderUser(name: "Anna", imageUrl:  "https://image.freepik.com/free-vector/portrait-of-an-african-american-woman-in-profile-avatar-of-young-black-girl_102172-418.jpg", latitude: 37.785834, longitude: -122.406480 )
+    ];
+
+    return list;
   }
 }

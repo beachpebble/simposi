@@ -32,7 +32,7 @@ class EventModel extends Equatable {
   double? get latitude =>double.parse(rsvp.event.latitude);
   double? get longitude =>double.parse(rsvp.event.longitude);
 
-  bool get showInvite => !isMine && [RsvpStatus.INVITED, RsvpStatus.OPENED].contains(rsvp.status.title);
+  bool get showInvite => !isMine && [RsvpStatus.INVITED_ID, RsvpStatus.OPENED_ID].contains(rsvp.status.id);
   bool get showGoing => [RsvpStatus.ACCEPTED].contains(rsvp.status.title);
   bool get showCheckIn => [RsvpStatus.ACCEPTED].contains(rsvp.status.title) || isMine;
 

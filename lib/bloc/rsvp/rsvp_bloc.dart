@@ -57,9 +57,7 @@ class RsvpBloc extends Bloc<RsvpEvent, RsvpState> {
           normalizedDate: event.rsvp.date,
           myId: _profileRepository.profile.userId);
       loadedEvents.add(tmp);
-      loadedEvents.sort((e1, e2) {
-        return e1.normalizedDate.compareTo(e2.normalizedDate);
-      });
+      loadedEvents.sort(dateComparator);
       _loadedEvents = loadedEvents;
       emit(RsvpLoaded(_loadedEvents));
     });
@@ -71,9 +69,7 @@ class RsvpBloc extends Bloc<RsvpEvent, RsvpState> {
           myId: _profileRepository.profile.userId);
       loadedEvents.removeWhere((element) => element.rsvp.id == event.rsvp.id);
       loadedEvents.add(tmp);
-      loadedEvents.sort((e1, e2) {
-        return e1.normalizedDate.compareTo(e2.normalizedDate);
-      });
+      loadedEvents.sort(dateComparator);
       _loadedEvents = loadedEvents;
       emit(RsvpLoaded(_loadedEvents));
     });
@@ -100,10 +96,14 @@ class RsvpBloc extends Bloc<RsvpEvent, RsvpState> {
         normalizedDate: e.date,
         myId: _profileRepository.profile.userId))
         .toList()
-      ..sort((e1, e2) {
-        return e1.normalizedDate.compareTo(e2.normalizedDate);
-      });
+      ..sort(dateComparator);
   }
+
+  int Function(EventModel a, EventModel b) dateComparator = (EventModel a, EventModel b) {
+    int ams = a.rsvp.event.datetime.millisecondsSinceEpoch;
+    int bms = b.rsvp.event.datetime.millisecondsSinceEpoch;
+    return ams.compareTo(bms);
+  };
 
   @override
   Future<void> close() {

@@ -131,7 +131,7 @@ class EventCard extends StatelessWidget {
                 bottom: 20,
                 right: 20,
                 child: RsvpIndicator(
-                  acceptedCount: eventModel.rsvp.event.rsvpAccepted+1,
+                  acceptedCount: eventModel.rsvp.event.rsvpAccepted,
                 ),
               ),
 

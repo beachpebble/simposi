@@ -101,7 +101,7 @@ class _CheckInPopupState extends State<CheckInPopup> {
           SizedBox(height: 20),
 
           // BUTTONS
-          BigCheckInButton(onClick: () => AutoRouter.of(context).push(GroupFinderRoute())),
+          BigCheckInButton(onClick: () => AutoRouter.of(context).push(GroupFinderRoute(event: widget.rsvp.event))),
           SizedBox(height: 10),
           BigButton(
             buttonLabel: 'Cancel RSVP',

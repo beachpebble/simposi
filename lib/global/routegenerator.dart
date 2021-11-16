@@ -46,10 +46,10 @@ class RouteGenerator {
       // Check In
       // case '/firsttoarrive':
       //   return MaterialPageRoute(builder: (_) => FirstToArrive());
-      case '/groupfinder':
-        return MaterialPageRoute(builder: (_) => GroupFinder());
-      case '/groupfinderchat':
-        return MaterialPageRoute(builder: (_) => GroupFinderChat());
+      // case '/groupfinder':
+      //   return MaterialPageRoute(builder: (_) => GroupFinder());
+      // case '/groupfinderchat':
+      //   return MaterialPageRoute(builder: (_) => GroupFinderChat());
       case '/affinityrating':
         return MaterialPageRoute(builder: (_) => AffinityRatingCards());
       case '/reportuser':
