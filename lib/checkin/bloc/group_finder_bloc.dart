@@ -7,14 +7,16 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:simposi_app_v4/model/group_finder_user.dart';
 import 'package:simposi_app_v4/repository/calendar_repository.dart';
+import 'package:simposi_app_v4/utils/location.dart';
 
 part 'group_finder_event.dart';
 
 part 'group_finder_state.dart';
 
 class GroupFinderBloc extends Bloc<GroupFinderEvent, GroupFinderState> {
-  late StreamSubscription locationSubscription;
-  late StreamSubscription listSubscription;
+  StreamSubscription? locationSubscription;
+  StreamSubscription? locationStateSubscription;
+  StreamSubscription? listSubscription;
   final CalendarRepository _calendarRepository;
   final int eventId;
   Position? _currentPosition;
@@ -26,16 +28,6 @@ class GroupFinderBloc extends Bloc<GroupFinderEvent, GroupFinderState> {
       {required CalendarRepository calendarRepository, required this.eventId})
       : _calendarRepository = calendarRepository,
         super(GroupFinderLoaded(null, [], 0.0)) {
-    locationSubscription =
-        Geolocator.getPositionStream().listen((Position position) {
-      add(GroupFinderMyLocationChanged(position));
-    });
-
-    listSubscription =
-        _getPeriodicStream().listen((List<GroupFinderUser> list) {
-      add(GroupFinderUserListUpdated(list));
-    });
-
     on<GroupFinderUserSelect>((event, emit) {
       if (state is GroupFinderLoaded) {
         emit(GroupFinderLoaded(
@@ -86,6 +78,54 @@ class GroupFinderBloc extends Bloc<GroupFinderEvent, GroupFinderState> {
         }
       }
     });
+
+    on<GroupFinderLocationDisabled>((event, emit) {
+      emit(GroupFinderLocationError());
+    });
+    on<GroupFinderErrorEvent>((event, emit) {
+      emit(GroupFinderError(event.error));
+    });
+
+    on<GroupFinderPermissionLost>((event, emit) {
+      emit(GroupFinderNoPermissions());
+    });
+    on<GroupFinderPermissionRefresh>((event, emit) async {
+      try {
+        await checkPermissions();
+        locationSubscription?.cancel();
+        locationSubscription =
+            Geolocator.getPositionStream().listen((Position position) {
+          add(GroupFinderMyLocationChanged(position));
+        });
+
+        locationStateSubscription?.cancel();
+        locationStateSubscription =
+            Geolocator.getServiceStatusStream().listen((ServiceStatus status) {
+          if (status == ServiceStatus.enabled &&
+              state is GroupFinderLocationDisabled) {
+            add(GroupFinderLocationEnabled());
+          } else if (status == ServiceStatus.disabled) {
+            add(GroupFinderLocationDisabled());
+          }
+        }, onError: (v) {
+          add(GroupFinderErrorEvent(v));
+        });
+
+        listSubscription?.cancel();
+        listSubscription =
+            _getPeriodicStream().listen((List<GroupFinderUser> list) {
+          add(GroupFinderUserListUpdated(list));
+        }, onError: (v) {
+          add(GroupFinderErrorEvent(v));
+        });
+
+        _calendarRepository
+            .refreshLocator(eventId)
+            .then((value) => add(GroupFinderUserListUpdated(value)));
+      } catch (e) {
+        add(GroupFinderPermissionLost());
+      }
+    });
   }
 
   Stream<List<GroupFinderUser>> _getPeriodicStream() async* {
@@ -98,9 +138,9 @@ class GroupFinderBloc extends Bloc<GroupFinderEvent, GroupFinderState> {
 
   @override
   Future<void> close() {
-    print("!!! close");
-    locationSubscription.cancel();
-    listSubscription.cancel();
+    locationSubscription?.cancel();
+    listSubscription?.cancel();
+    locationStateSubscription?.cancel();
     return super.close();
   }
 }

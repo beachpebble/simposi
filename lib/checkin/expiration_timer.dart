@@ -22,14 +22,14 @@ class _ExpirationTimerState extends State<ExpirationTimer> {
       oneSec,
       (Timer timer) {
         DateTime now = DateTime.now().toUtc();
-        Duration dif = widget.eventDate.toUtc().difference(now);
+        Duration dif = widget.eventDate.add(Duration(hours: 1)).toUtc().difference(now);
         int inMin = dif.inMinutes;
         int hours = inMin ~/ 60;
         int minutes = inMin - 60 * hours;
         if (hours < 0 || minutes < 0) {
-          time = "Expired";
+          time = "--:--";
         } else {
-          time = "$hours : $minutes";
+          time = "${hours.toString().padLeft(2, "0")}:${minutes.toString().padLeft(2, "0")} m";
         }
 
         if (hours == 0 && minutes == 0) {

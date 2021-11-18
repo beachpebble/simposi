@@ -17,6 +17,9 @@ class Api {
   static const String API_USER_EDIT = "/api/v1/user/update-profile";
   static const String API_RSVP_STATUS = "/api/v1/rsvp/status/change";
   static const String API_REFRESH_LOCATOR = "/api/v1/refreshlocator";
+  static const String API_CHECKIN = "/api/v1/checkin";
+  static const String API_STATUS = "/api/v1/event/status";
+  static const String API_EVENT = "/api/v1/event";
 
   static const String API_NEW_EVENT = "/api/v1/event";
   static const String RSVP_LIST = "/api/v1/rsvp";

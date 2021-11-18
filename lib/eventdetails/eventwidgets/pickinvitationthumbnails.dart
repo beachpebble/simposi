@@ -8,7 +8,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/calendar/calendarwidgets/checkinbottomsheet.dart';
+import 'package:simposi_app_v4/calendar/checkin/checkinbottomsheet.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 
 // TODO: Create & Insert Variables for Invitation Thumbnails

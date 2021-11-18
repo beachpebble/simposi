@@ -18,6 +18,19 @@ class ProfileLoaded extends ProfileState {
   List<Object> get props => [userProfile];
 }
 
+class ProfileOnEvent extends ProfileLoaded {
+  ProfileOnEvent(Profile userProfile, this.event) : super(userProfile);
+
+  final Event event;
+
+  @override
+  List<Object> get props => [userProfile, event];
+}
+
+class ProfileOnSurvey extends ProfileLoaded {
+  ProfileOnSurvey(Profile userProfile) : super(userProfile);
+}
+
 class ProfileEditLoading extends ProfileLoaded {
   ProfileEditLoading(Profile userProfile) : super(userProfile);
 }

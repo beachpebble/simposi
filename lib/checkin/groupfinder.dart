@@ -9,9 +9,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:simposi_app_v4/checkin/bloc/group_finder_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposiappbar.dart';
+import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/model/event.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 
@@ -19,7 +21,6 @@ import 'expiration_timer.dart';
 import 'group_locator.dart';
 
 class GroupFinder extends StatelessWidget {
-
   final Event event;
 
   const GroupFinder({Key? key, required this.event}) : super(key: key);
@@ -27,11 +28,15 @@ class GroupFinder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => GroupFinderBloc(calendarRepository: context.read(), eventId: 1),
+      create: (context) =>
+          GroupFinderBloc(calendarRepository: context.read(), eventId: 1)
+            ..add(GroupFinderPermissionRefresh()),
       child: Scaffold(
         appBar: SimposiAppBar(
           simposiTitle: AppLocalizations.of(context)!.groupFinderTitle,
-          simposiSubTitle:ExpirationTimer(eventDate: event.datetime,),
+          simposiSubTitle: ExpirationTimer(
+            eventDate: event.datetime,
+          ),
           simposiAction: Row(
             children: [
               TextButton(
@@ -54,34 +59,45 @@ class GroupFinder extends StatelessWidget {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  state.userSelected != null ?
-                  Expanded(child:             CachedNetworkImage(
-                    imageUrl: state.userSelected!.user.imageUrl,
-                    imageBuilder: (context, imageProvider) => Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: imageProvider,
-                          fit: BoxFit.cover,
+                  state.userSelected != null
+                      ? Expanded(
+                          child: CachedNetworkImage(
+                          imageUrl: state.userSelected!.user.imageUrl,
+                          imageBuilder: (context, imageProvider) => Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          placeholder: (context, url) => SizedBox(
+                              height: 25, child: CircularProgressIndicator()),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
+                        ))
+                      : Expanded(
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.person,
+                                  size: 100,
+                                  color: SimposiAppColors.simposiDarkGrey
+                                      .withOpacity(0.5),
+                                ),
+                                Text(
+                                  AppLocalizations.of(context)!
+                                      .groupFinderSelectSomeoneExtended,
+                                  style: TextStyle().copyWith(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w600),
+                                )
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    placeholder: (context, url) =>
-                        SizedBox(height: 25, child: CircularProgressIndicator()),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
-                  )
-                  ) : Expanded(
-                    child: Center(child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.person,
-                          size: 100,
-                          color: SimposiAppColors.simposiDarkGrey.withOpacity(0.5),
-                        ),
-                        Text(AppLocalizations.of(context)!.groupFinderSelectSomeoneExtended, style: TextStyle().copyWith(fontSize: 11, fontWeight: FontWeight.w600),)
-                      ],
-                    ),),
-                  ),
                   Container(
                     color: SimposiAppColors.simposiLightGrey,
                     child: Row(
@@ -94,15 +110,56 @@ class GroupFinder extends StatelessWidget {
                       ],
                     ),
                   ),
-                  GroupLocator(users: (state).users, userSelected: state.userSelected, stargAngle: state.startAngle,)
+                  GroupLocator(
+                    users: (state).users,
+                    userSelected: state.userSelected,
+                    stargAngle: state.startAngle,
+                  )
                 ],
               );
-            } else {
+            } else if (state is GroupFinderLocationError) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text("Error loading data")
+                  Text(
+                      "Location is disabled, Reenable location in device settings")
                 ],
+              );
+            } else if (state is GroupFinderError) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Text(handleError(state.error, context))],
+                ),
+              );
+            } else if (state is GroupFinderNoPermissions) {
+              return Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("No Location permission"),
+                    TextButton(
+                        onPressed: () {
+                          Geolocator.openAppSettings();
+                        },
+                        child: Text("Open settings")),
+                    TextButton(
+                        onPressed: () {
+                          context
+                              .read<GroupFinderBloc>()
+                              .add(GroupFinderPermissionRefresh());
+                        },
+                        child: Text("Reload"))
+                  ],
+                ),
+              );
+            } else {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Text("Unknown error")],
+                ),
               );
             }
           },

@@ -17,6 +17,7 @@ import 'bloc/auth/authentication_bloc.dart';
 import 'bloc/profile/profile_bloc.dart';
 import 'bloc/rsvp_action/rsvp_action_bloc.dart';
 import 'calendar/bloc/calendar_bloc.dart';
+import 'calendar/checkin/bloc/check_in_bloc.dart';
 import 'eventdetails/cubit/event_edit_cubit.dart';
 import 'repository/api_service.dart';
 import 'repository/calendar_repository.dart';
@@ -51,9 +52,9 @@ void main() {
           ],
           child: MultiBlocProvider(providers: [
             BlocProvider(
-
                 create: (context) => ProfileBloc(
                       context.read<AuthenticationBloc>(),
+                      context.read(),
                       context.read(),
                     )..add(ProfileReload())),
             BlocProvider(
@@ -75,6 +76,9 @@ void main() {
                 create: (context) => RsvpActionBloc(
                     rsvpBloc: context.read(),
                     calendarRepository: context.read())),
+            BlocProvider(
+                create: (context) =>
+                    CheckInBloc(calendarRepository: context.read())),
           ], child: SimposiApp())),
     ),
   ));

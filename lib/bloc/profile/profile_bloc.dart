@@ -5,11 +5,14 @@ import 'package:equatable/equatable.dart';
 import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/model/earning.dart';
 import 'package:simposi_app_v4/model/emergency_contact.dart';
+import 'package:simposi_app_v4/model/event.dart';
 import 'package:simposi_app_v4/model/gender.dart';
 import 'package:simposi_app_v4/model/generation.dart';
 import 'package:simposi_app_v4/model/interest.dart';
 import 'package:simposi_app_v4/model/master_data.dart';
 import 'package:simposi_app_v4/model/profile.dart';
+import 'package:simposi_app_v4/model/profile_status.dart';
+import 'package:simposi_app_v4/repository/calendar_repository.dart';
 import 'package:simposi_app_v4/repository/profile_repository.dart';
 
 part 'profile_event.dart';
@@ -19,12 +22,13 @@ part 'profile_state.dart';
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   late StreamSubscription authSubscription;
   final ProfileRepository _profileRepository;
+  final CalendarRepository _calendarRepository;
   late MasterData masterData;
 
   Profile? _currentProfile;
 
-  ProfileBloc(AuthenticationBloc authBloc, ProfileRepository profileRepository)
-      : _profileRepository = profileRepository,
+  ProfileBloc(AuthenticationBloc authBloc, ProfileRepository profileRepository, CalendarRepository calendarRepository)
+      : _profileRepository = profileRepository, _calendarRepository = calendarRepository,
         super(ProfileNotLoaded()) {
     if (authBloc.state is Authenticated) {
       add(ProfileReload());
@@ -41,7 +45,15 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         emit(ProfileLoading());
         try {
           _currentProfile = await _profileRepository.refreshProfile();
-          emit(ProfileLoaded(_currentProfile!));
+
+          ProfileStatus profileStatus = await _profileRepository.refreshStatus();
+          if (profileStatus.isOnEvent) {
+            Event event = await _calendarRepository.getEvent(profileStatus.eventId!);
+            emit(ProfileOnEvent(_currentProfile!, event));
+          } else {
+            emit(ProfileLoaded(_currentProfile!));
+          }
+
         } catch (e) {
           emit(ProfileLoadError(e));
         }

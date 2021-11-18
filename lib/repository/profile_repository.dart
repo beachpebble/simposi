@@ -9,6 +9,7 @@ import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/model/gender.dart';
 import 'package:simposi_app_v4/model/generation.dart';
 import 'package:simposi_app_v4/model/profile.dart';
+import 'package:simposi_app_v4/model/profile_status.dart';
 import 'package:simposi_app_v4/model/user_meta.dart';
 
 import 'api_service.dart';
@@ -40,14 +41,27 @@ class ProfileRepository {
     return profile;
   }
 
+  Future<ProfileStatus> refreshStatus() async {
+    Response response = await _apiService.dio.get(Api.API_STATUS);
+    Map data = response.data;
+
+    if (data["data"] != null) {
+      ProfileStatus profileStatus = ProfileStatus.fromJson(data["data"]);
+      return profileStatus;
+    } else {
+      throw ParseException(
+          errorType: LocalizedErrorType.PARSE_ERROR,
+          message: "Unexpected response");
+    }
+  }
+
   Future<Map> login(String login, String password) async {
     Map<String, Object> params = {
       'phone': login,
       'password': password,
     };
     //TODO take this value from FCM
-    params["device_token"] = "1234567";
-    params["device_type"] = Platform.isAndroid ? 1 : 2;
+    //params["device_token"] = "1234567";
     Response response =
         await (await _apiService.dio.post(Api.API_LOGIN, data: params));
     return response.data;

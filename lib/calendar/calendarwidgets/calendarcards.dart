@@ -12,7 +12,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simposi_app_v4/app_router.dart';
-import 'package:simposi_app_v4/calendar/calendarwidgets/checkinbottomsheet.dart';
+import 'package:simposi_app_v4/calendar/checkin/checkinbottomsheet.dart';
 import 'package:simposi_app_v4/calendar/event_model.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/widgets/progress.dart';

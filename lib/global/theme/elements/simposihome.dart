@@ -7,11 +7,14 @@
 
 import 'dart:ui';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simposi_app_v4/app_router.dart';
 import 'package:simposi_app_v4/bloc/profile/profile_bloc.dart';
 import 'package:simposi_app_v4/bloc/rsvp/rsvp_bloc.dart';
 import 'package:simposi_app_v4/global/theme/elements/counterbubble.dart';
+import 'package:simposi_app_v4/model/event.dart';
 
 import '../../../calendar/simposicalendar.dart';
 import '../../../discover/discoverscreen.dart';
@@ -40,7 +43,17 @@ class _SimposiHomeState extends State<SimposiHome> {
 
   @override
   Widget build(BuildContext context) =>
-      BlocBuilder<ProfileBloc, ProfileState>(
+      BlocConsumer<ProfileBloc, ProfileState>(
+        listener: (context, state) {
+          if (state is ProfileOnEvent) {
+            AutoRouter.of(context).replaceAll([
+            GroupFinderRoute(event: state.event)]);
+          } else if (state is ProfileLoaded) {
+          AutoRouter.of(context).replaceAll([
+          SimposiHomeRoute()
+          ]);
+          }
+        },
         builder: (context, state) {
           return Scaffold(
             backgroundColor: SimposiAppColors.greyBackground,
@@ -81,15 +94,14 @@ class _SimposiHomeState extends State<SimposiHome> {
                           child: Icon(SimposiNav.calendar),
                         ),
                         if (state is RsvpLoaded && state.invited > 0)
-                        Container(
-                          child: Positioned(
-                            right: 25,
-                            child: SimposiCounterBubble(
-                              count:
-                              state.invited.toString(),
+                          Container(
+                            child: Positioned(
+                              right: 25,
+                              child: SimposiCounterBubble(
+                                count: state.invited.toString(),
+                              ),
                             ),
                           ),
-                        ),
                       ]);
                     },
                   ),

@@ -12,7 +12,7 @@ class EventModel extends Equatable {
     required this.normalizedDate,
     required this.rsvp,
     required int myId,
-  }): isMine = rsvp.event.userId != myId;
+  }): isMine = rsvp.event.userId == myId;
 
       String get addressRepresentaion => "${rsvp.event.locationAddress}, ${rsvp.event.locationCity}";
 

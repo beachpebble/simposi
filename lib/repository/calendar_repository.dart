@@ -3,6 +3,7 @@ import 'package:http_parser/http_parser.dart';
 import 'package:intl/intl.dart';
 import 'package:simposi_app_v4/model/earning.dart';
 import 'package:simposi_app_v4/model/errors.dart';
+import 'package:simposi_app_v4/model/event.dart';
 import 'package:simposi_app_v4/model/gender.dart';
 import 'package:simposi_app_v4/model/generation.dart';
 import 'package:simposi_app_v4/model/group_finder_user.dart';
@@ -221,6 +222,39 @@ class CalendarRepository {
       throw ParseException(
           errorType: LocalizedErrorType.PARSE_ERROR, message: "Unexpected response");
     }
+  }
+
+  Future<Event> getEvent(int id) async {
+    Response response = await _apiService.dio.get(
+        Api.API_EVENT + "/$id",
+       );
+    Map? data = response.data;
+    Map<String, dynamic>? eventMap = data?['data']?['event'];
+    if (eventMap != null) {
+      return Event.fromJson(eventMap);
+    } else {
+      throw ParseException(
+          errorType: LocalizedErrorType.PARSE_ERROR, message: "Unexpected response");
+    }
+  }
+
+  Future checkIn(int id, double latitude, double longtude) async {
+    // Response response = await _apiService.dio.post(
+    //     Api.API_RSVP_STATUS,
+    //     data: {
+    //       'id': id,
+    //     });
+    // Map? data = response.data;
+    // Map<String, dynamic>? rsvpMap = data?['data']?['rsvp'];
+    // if (rsvpMap != null) {
+    //   return Rsvp.fromJson(rsvpMap);
+    // } else {
+    //   throw ParseException(
+    //       errorType: LocalizedErrorType.PARSE_ERROR, message: "Unexpected response");
+
+    // }
+
+    await Future.delayed(Duration(milliseconds: 2000));
   }
 
   Future<List<GroupFinderUser>> refreshLocator(int id) async {

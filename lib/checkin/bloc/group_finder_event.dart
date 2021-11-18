@@ -33,3 +33,21 @@ class GroupFinderUserSelect extends GroupFinderEvent {
   @override
   List<Object?> get props => [user];
 }
+
+class GroupFinderLocationEnabled extends GroupFinderEvent {
+}
+
+class GroupFinderLocationDisabled extends GroupFinderEvent {
+}
+class GroupFinderPermissionLost extends GroupFinderEvent {
+}class GroupFinderPermissionRefresh extends GroupFinderEvent {
+}
+
+class GroupFinderErrorEvent extends GroupFinderEvent {
+  final dynamic error;
+
+  GroupFinderErrorEvent(this.error);
+
+  @override
+  List<Object> get props => [error];
+}

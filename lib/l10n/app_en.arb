@@ -64,5 +64,15 @@
   "groupFinder12m": "1-2m",
   "groupFinder210m": "2-10m",
   "groupFinder1030m": "10-30m",
-  "groupFinderSelectSomeone": "Select Someone"
+  "groupFinderSelectSomeone": "Select Someone",
+
+  "checkInPermissionDialogTitle": "Location permission",
+  "checkInPermissionDialogContent": "To continue check in location permission is needed. you can set it up on application permission settings.",
+  "checkInPermissionDialogSettings": "Open App Settings",
+  "checkInPermissionDialogCancel": "Cancel",
+  "checkInCancelRsvp": "Cancel RSVP",
+  "checkInCancelText1": "First to Arrive",
+  "checkInCancelText2": "Ditch Fashion Show",
+  "checkInCancelText3": "First to arrive picks the meeting spot.",
+  "checkInCancelText4": "Find a good location to wait and then use \nthe button below to set the meeting \\nlocation and check in."
 }

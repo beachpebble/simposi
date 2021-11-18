@@ -28,7 +28,7 @@ class CreateEvent2LocationCubit extends Cubit<CreateEvent2LocationState> {
 
 
   Future<void> refreshInitial() async {
-    if (state.selectedLocation == null) {
+    if (state.selectedLocation != null) {
       List<Placemark> placemarks = await placemarkFromCoordinates(state.selectedLocation!.latitude, state.selectedLocation!.longitude);
       if (placemarks.isNotEmpty) {
         Placemark place = placemarks.first;

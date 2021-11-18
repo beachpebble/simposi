@@ -18,6 +18,22 @@ class GroupFinderLoaded extends GroupFinderState {
   List<Object?> get props => [userSelected, users, startAngle];
 }
 
+class GroupFinderError extends GroupFinderState {
+  final dynamic error;
+
+  GroupFinderError(this.error);
+
+  @override
+  List<Object> get props => [error];
+}
+
+class GroupFinderLocationError extends GroupFinderState {
+}
+
+class GroupFinderNoPermissions extends GroupFinderState {
+}
+
+
 class GroupUserWithRange extends Equatable {
   final GroupFinderUser user;
   final double range;
