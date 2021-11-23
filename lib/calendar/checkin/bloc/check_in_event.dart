@@ -8,11 +8,10 @@ abstract class CheckInEvent extends Equatable {
 
 
 class CheckInEventSend extends CheckInEvent {
-  final Event event;
-  //final Position position;
+  final Rsvp rsvp;
 
-  CheckInEventSend(this.event);
+  CheckInEventSend(this.rsvp);
 
   @override
-  List<Object?> get props => [event];
+  List<Object?> get props => [rsvp];
 }

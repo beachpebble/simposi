@@ -6,19 +6,21 @@ part 'group_finder_user.g.dart';
 @JsonSerializable(ignoreUnannotated: true)
 class GroupFinderUser extends Equatable {
 
+  @JsonKey(name: 'id', required: true, disallowNullValue: true)
+  final int id;
   @JsonKey(name: 'name', required: true, disallowNullValue: true)
   final String name;
-  @JsonKey(name: 'imageUrl', required: true, disallowNullValue: true)
+  @JsonKey(name: 'photo', required: true, disallowNullValue: true)
   final String imageUrl;
   @JsonKey(name: 'longitude', required: true, disallowNullValue: true)
   final double longitude;
   @JsonKey(name: 'latitude', required: true, disallowNullValue: true)
   final double latitude;
 
-  GroupFinderUser({required this.name, required this.imageUrl, required this.longitude, required this.latitude});
+  GroupFinderUser( {required this.id, required this.name, required this.imageUrl, required this.longitude, required this.latitude});
 
   @override
-  List<Object?> get props => [name, imageUrl, longitude, latitude];
+  List<Object?> get props => [id, name, imageUrl, longitude, latitude];
 
   @override
   bool get stringify => true;

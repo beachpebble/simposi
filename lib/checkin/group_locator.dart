@@ -10,21 +10,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 
 class GroupLocator extends StatelessWidget {
-  GroupLocator({Key? key, required this.users, this.userSelected, required this.stargAngle}) : super(key: key);
+  GroupLocator({Key? key, required this.users, this.userSelected, required this.startAngle}) : super(key: key);
 
   final List<GroupUserWithRange> users;
   final GroupUserWithRange? userSelected;
 
   final int margin = 70;
   final int textHeight = 16;
-  final double stargAngle;
+  final double startAngle;
 
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double radiusFull = (width - margin) / 2;
-    var angleI = stargAngle;
+    var angleI = startAngle;
 
     return SizedBox(
       width: width,
@@ -43,7 +43,18 @@ class GroupLocator extends StatelessWidget {
                 bottom: margin/2 +radiusFull*2/3-textHeight,
                 child: _circleText(AppLocalizations.of(context)!.groupFinder12m)),
             Positioned(
-                child: userSelected != null ? _centeredUser(userSelected!) : Text(AppLocalizations.of(context)!.groupFinderSelectSomeone, style: TextStyle().copyWith(fontSize: 11, fontWeight: FontWeight.w600),)),
+                child:
+                Container(
+                  width: 50,
+                  height: 50,
+                  child: Center(child: Text(AppLocalizations.of(context)!.groupFinderMe, style: TextStyle().copyWith(fontSize: 11, fontWeight: FontWeight.w600),)),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25.0),
+                    border: Border.all(color: SimposiAppColors.simposiLightBlue),
+
+                  ),
+                )
+                 ),
 
             Stack(
               alignment: Alignment.center,
@@ -66,15 +77,15 @@ left: radius2 + radius - radius*sin(angle) + margin/2 - 25,
     );
   }
 
-  Widget _centeredUser(GroupUserWithRange user) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-      Text(userSelected!.user.name, style: TextStyle().copyWith(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black),),
-      Text("~${userSelected!.range}m", style: TextStyle().copyWith(fontSize: 14, fontWeight: FontWeight.w600, color: SimposiAppColors.simposiPink),),
-    ],);
-  }
+  // Widget _centeredUser(GroupUserWithRange user) {
+  //   return Column(
+  //     mainAxisAlignment: MainAxisAlignment.center,
+  //     crossAxisAlignment: CrossAxisAlignment.center,
+  //     children: [
+  //     Text(userSelected!.user.name, style: TextStyle().copyWith(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black),),
+  //     Text("~${userSelected!.range}m", style: TextStyle().copyWith(fontSize: 14, fontWeight: FontWeight.w600, color: SimposiAppColors.simposiPink),),
+  //   ],);
+  // }
 
   double _getRadius(Range range, double radius) {
     switch (range) {
@@ -116,7 +127,6 @@ class CirclesPainter extends CustomPainter {
         textAlign: TextAlign.center,
         textDirection: TextDirection.ltr
     )..layout(maxWidth: 50);
-    //textPainter.paint(canvas, Offset(center.width-30, center.height + ((size.width - margin) / 2)));
 
     paint.color = Colors.lightBlue.withOpacity(0.3);
     canvas.drawCircle(Offset(center.width, center.height),

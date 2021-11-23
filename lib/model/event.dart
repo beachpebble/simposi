@@ -15,7 +15,7 @@ class Event extends Equatable {
   final int id;
   @JsonKey(name: 'title', required: true, disallowNullValue: true)
   final String title;
-  @JsonKey(name: 'datetime', required: true, disallowNullValue: true)
+  @JsonKey(name: 'datetime', required: true, disallowNullValue: true, fromJson: _dateFromJson)
   final DateTime datetime;
 
   @JsonKey(name: 'description', required: true, disallowNullValue: true)
@@ -100,4 +100,7 @@ class Event extends Equatable {
   factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
 
   Map<String, dynamic> toJson() => _$EventToJson(this);
+
+
 }
+DateTime _dateFromJson(String json) => DateTime.parse(json+"Z");

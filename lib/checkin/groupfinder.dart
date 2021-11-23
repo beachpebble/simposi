@@ -28,14 +28,16 @@ class GroupFinder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          GroupFinderBloc(calendarRepository: context.read(), eventId: 1)
-            ..add(GroupFinderPermissionRefresh()),
+      create: (context) => GroupFinderBloc(
+          calendarRepository: context.read(),
+          profileRepository: context.read(),
+          eventId: 1)
+        ..add(GroupFinderPermissionRefresh()),
       child: Scaffold(
         appBar: SimposiAppBar(
           simposiTitle: AppLocalizations.of(context)!.groupFinderTitle,
           simposiSubTitle: ExpirationTimer(
-            eventDate: event.datetime,
+            eventDate: event.datetime.toLocal(),
           ),
           simposiAction: Row(
             children: [
@@ -110,10 +112,12 @@ class GroupFinder extends StatelessWidget {
                       ],
                     ),
                   ),
-                  GroupLocator(
-                    users: (state).users,
-                    userSelected: state.userSelected,
-                    stargAngle: state.startAngle,
+                  SafeArea(
+                    child: GroupLocator(
+                      users: (state).users,
+                      userSelected: state.userSelected,
+                      startAngle: state.startAngle,
+                    ),
                   )
                 ],
               );

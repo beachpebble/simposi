@@ -16,8 +16,8 @@ class Rsvp extends Equatable {
   @JsonKey(name: 'status', required: true, disallowNullValue: true)
   final RsvpStatus status;
 
-  get fullDate => event.datetime;
-  get date => normalizeDate(event.datetime.toUtc());
+  get fullDate => event.datetime.toLocal();
+  get date => normalizeDate(event.datetime);
   get title => event.title;
   get image => event.image.url;
 

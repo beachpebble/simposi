@@ -131,13 +131,13 @@ class _CheckInPopupState extends State<CheckInPopup> {
                       : Column(
                           children: [
                             BigCheckInButton(
-                                onClick: () => context.read<CheckInBloc>().add(CheckInEventSend(widget.rsvp.event))),
+                                onClick: () => context.read<CheckInBloc>().add(CheckInEventSend(widget.rsvp))),
                             SizedBox(height: 10),
                             BigButton(
                               buttonLabel: AppLocalizations.of(context)!.checkInCancelRsvp,
                               buttonAction: () {
                                 AutoRouter.of(context).pushNativeRoute(
-                                    dialogBuilder(context, widget.rsvp, false));
+                                    cancelEventDialog(context, widget.rsvp, false));
                               },
                               buttonColor: SimposiAppColors.simposiLightGrey,
                               textColor: SimposiAppColors.simposiDarkGrey,

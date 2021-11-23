@@ -47,7 +47,6 @@ class RsvpActionBloc extends Bloc<RsvpActionEvent, RsvpActionState> {
     on<RsvpActionDeclined>((event, emit) async {
       if (event.rsvp.status.title == RsvpStatus.INVITED || event.rsvp.status.title == RsvpStatus.OPENED) {
         emit(RsvpActionLoading());
-        await Future.delayed(Duration(seconds: 3));
         try {
           Rsvp updated = await _calendarRepository.declineRsvp(event.rsvp.id);
           emit(RsvpActionSuccess());
@@ -60,11 +59,21 @@ class RsvpActionBloc extends Bloc<RsvpActionEvent, RsvpActionState> {
 
     on<RsvpActionCanceled>((event, emit) async {
       emit(RsvpActionLoading());
-      await Future.delayed(Duration(seconds: 5));
       try {
         Rsvp updated = await _calendarRepository.cancelRsvp(event.rsvp.id);
         emit(RsvpActionSuccess());
         _rsvpBloc.add(RsvpCanceled(updated));
+      } on Exception catch (e) {
+        emit(RsvpActionError(e));
+      }
+    });
+
+    on<EventActionCanceled>((event, emit) async {
+      emit(RsvpActionLoading());
+      try {
+        await _calendarRepository.cancelEvent(event.rsvp.event.id);
+        emit(RsvpActionSuccess());
+        _rsvpBloc.add(RsvpCanceled(event.rsvp));
       } on Exception catch (e) {
         emit(RsvpActionError(e));
       }

@@ -6,9 +6,9 @@ import 'package:simposi_app_v4/global/theme/appcolors.dart';
 
 class GroupUserBubble extends StatelessWidget {
   final GroupUserWithRange user;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
-  const GroupUserBubble({Key? key, required this.user, required this.onTap})
+  const GroupUserBubble({Key? key, required this.user, this.onTap})
       : super(key: key);
 
   @override

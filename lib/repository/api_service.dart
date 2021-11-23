@@ -17,9 +17,11 @@ class Api {
   static const String API_USER_EDIT = "/api/v1/user/update-profile";
   static const String API_RSVP_STATUS = "/api/v1/rsvp/status/change";
   static const String API_REFRESH_LOCATOR = "/api/v1/refreshlocator";
-  static const String API_CHECKIN = "/api/v1/checkin";
-  static const String API_STATUS = "/api/v1/event/status";
+  static const String API_CHECKIN = "/api/v1/event/check-in";
+  static const String API_GROUP_FINDER = "/api/v1/event/group-finder";
+  static const String API_STATUS = "/api/v1/user/event/status";
   static const String API_EVENT = "/api/v1/event";
+  static const String API_EVENT_CANCEL = "/api/v1/event/cancel";
 
   static const String API_NEW_EVENT = "/api/v1/event";
   static const String RSVP_LIST = "/api/v1/rsvp";
@@ -76,6 +78,7 @@ class AuthApiService {
     _dio.options.receiveTimeout = 10000;
     _dio.options.contentType = Headers.jsonContentType;
     _dio.options.followRedirects = false;
+    _dio.options.headers = {'accept': 'application/json'};
     _dio.options.headers = {
       'accept': 'application/json',
       'Authorization': 'Bearer ${_authenticationBloc.token}'

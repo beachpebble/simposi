@@ -174,7 +174,7 @@ class EventEditCubit extends Cubit<EventEditState> {
     photoUrl = event.image.url;
     title = event.title;
     description = event.description;
-    dateTime = event.datetime;
+    dateTime = event.datetime.toLocal();
     wantToMeetGender = event.wantToMeetGenders.toSet();
     wantToMeetEarnings = event.wantToMeetEarnings.toSet();
     wantToMeetInterests = event.wantToMeetInterests.toSet();

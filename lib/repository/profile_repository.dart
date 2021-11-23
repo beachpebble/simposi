@@ -42,7 +42,7 @@ class ProfileRepository {
   }
 
   Future<ProfileStatus> refreshStatus() async {
-    Response response = await _apiService.dio.get(Api.API_STATUS);
+    Response response = await _authApiService.dio.get(Api.API_STATUS);
     Map data = response.data;
 
     if (data["data"] != null) {

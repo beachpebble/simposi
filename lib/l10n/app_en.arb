@@ -39,10 +39,15 @@
   "eventDetailsMenuReport": "Report Social",
 
   "cancelEventDialogTitle": "Confirm Cancellation",
-  "cancelEventCreatorText": "This will cancel the event and notify all participants. This action can not be undone. Are you sure you want to cancel?",
+  "cancelEventText": "This will cancel the event and notify all participants. This action can not be undone. Are you sure you want to cancel?",
   "cancelEventUserText": "Are you sure you want to cancel your RSVP to this activity?",
   "cancelEventCancel": "Cancel",
   "cancelEventConfirm": "Confirm",
+
+  "cancelRsvpDialogTitle": "Confirm Cancellation",
+  "cancelRsvpText": "Are you sure you want to cancel your RSVP to this activity?",
+  "cancelRsvpCancel": "Cancel",
+  "cancelRsvpConfirm": "Confirm",
 
 
   "groupFinderTitle": "Group Finder",
@@ -64,7 +69,7 @@
   "groupFinder12m": "1-2m",
   "groupFinder210m": "2-10m",
   "groupFinder1030m": "10-30m",
-  "groupFinderSelectSomeone": "Select Someone",
+  "groupFinderMe": "Me",
 
   "checkInPermissionDialogTitle": "Location permission",
   "checkInPermissionDialogContent": "To continue check in location permission is needed. you can set it up on application permission settings.",

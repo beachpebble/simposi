@@ -105,8 +105,18 @@ class EventAppBar extends StatelessWidget with PreferredSizeWidget {
             ),
           ),
           onPressed: () => AutoRouter.of(context)
-              .pushNativeRoute(dialogBuilder(context, eventModel.rsvp, true)),
+              .pushNativeRoute(cancelEventDialog(context, eventModel.rsvp, true)),
         ),
+    FocusedMenuItem(
+      title: Text(
+        AppLocalizations.of(context)!.eventDetailsMenuCancelRsvp,
+        style: TextStyle(
+          color: SimposiAppColors.simposiDarkBlue,
+        ),
+      ),
+      onPressed: () => AutoRouter.of(context)
+          .pushNativeRoute(cancelRsvpDialog(context, eventModel.rsvp)),
+    ),
       ];
 
   List<FocusedMenuItem> usualMenu(BuildContext context) => [
@@ -118,7 +128,7 @@ class EventAppBar extends StatelessWidget with PreferredSizeWidget {
             ),
           ),
           onPressed: () => AutoRouter.of(context)
-              .pushNativeRoute(dialogBuilder(context, eventModel.rsvp)),
+              .pushNativeRoute(cancelRsvpDialog(context, eventModel.rsvp)),
         ),
         FocusedMenuItem(
           // TODO: Enable Report Social Button
@@ -135,7 +145,54 @@ class EventAppBar extends StatelessWidget with PreferredSizeWidget {
 // DIALOGUE
 }
 
-Route<Object?> dialogBuilder(BuildContext context, Rsvp rsvp,
+Route<Object?> cancelRsvpDialog(BuildContext context, Rsvp rsvp) {
+  return CupertinoDialogRoute<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return BlocConsumer<RsvpActionBloc, RsvpActionState>(
+        listener: (context, state) {
+          if (state is RsvpActionSuccess) {
+            AutoRouter.of(context).popUntilRouteWithName('SimposiHomeRoute');
+          } else if (state is RsvpActionError) {
+            showErrorToast(handleError(state.error, context));
+            AutoRouter.of(context).pop();
+          }
+        },
+        builder: (context, state) {
+          return (state is RsvpActionLoading)
+              ? CupertinoAlertDialog(
+              content: Column(
+                children: [
+                  AppProgressIndicator(),
+                ],
+              ))
+              : CupertinoAlertDialog(
+            title: Text(
+                AppLocalizations.of(context)!.cancelRsvpDialogTitle),
+            content: Text(AppLocalizations.of(context)!.cancelRsvpText),
+            actions: <Widget>[
+              CupertinoDialogAction(
+                  child: Text(
+                      AppLocalizations.of(context)!.cancelRsvpCancel),
+                  onPressed: () => AutoRouter.of(context).pop()),
+              CupertinoDialogAction(
+                  child: Text(
+                      AppLocalizations.of(context)!.cancelRsvpConfirm),
+                  onPressed: () {
+                    context
+                        .read<RsvpActionBloc>()
+                        .add(RsvpActionCanceled(rsvp));
+                  }),
+            ],
+          );
+        },
+      );
+    },
+  );
+}
+
+
+Route<Object?> cancelEventDialog(BuildContext context, Rsvp rsvp,
     [bool isCreator = false]) {
   return CupertinoDialogRoute<void>(
     context: context,
@@ -160,9 +217,8 @@ Route<Object?> dialogBuilder(BuildContext context, Rsvp rsvp,
               : CupertinoAlertDialog(
                   title: Text(
                       AppLocalizations.of(context)!.cancelEventDialogTitle),
-                  content: Text(isCreator
-                      ? AppLocalizations.of(context)!.cancelEventCreatorText
-                      : AppLocalizations.of(context)!.cancelEventUserText),
+                  content: Text(
+                       AppLocalizations.of(context)!.cancelEventText),
                   actions: <Widget>[
                     CupertinoDialogAction(
                         child: Text(
@@ -174,7 +230,7 @@ Route<Object?> dialogBuilder(BuildContext context, Rsvp rsvp,
                         onPressed: () {
                           context
                               .read<RsvpActionBloc>()
-                              .add(RsvpActionCanceled(rsvp));
+                              .add(EventActionCanceled(rsvp));
                         }),
                   ],
                 );
