@@ -7,21 +7,53 @@
 
 import 'dart:ui';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
+import 'package:simposi_app_v4/bloc/survey/survey_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
+import 'package:simposi_app_v4/model/survey.dart';
+import 'package:simposi_app_v4/model/survey_required.dart';
 
-// TODO: 1. Enable this form to Send a Message to Support,
-// TODO: 2. record the user rating against the user record and
-// TODO: 3. return user to Affinity Cards if more users to rate OR to HOME if this is the last user to rate.
-class ReportUser extends StatelessWidget {
+class ReportUser extends StatefulWidget {
+  final SurveyRequired surveyRequired;
+
+  const ReportUser({Key? key, required this.surveyRequired}) : super(key: key);
+
+  @override
+  State<ReportUser> createState() => _ReportUserState();
+}
+
+class _ReportUserState extends State<ReportUser> {
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: Colors.white,
         appBar: HeaderFormAppBar(
           headerTitle: 'Report User',
-          popPage: '/affinityrating',
           nextButtonLabel: 'Submit ',
+          onNext: () {
+            context.read<SurveyBloc>().add(SurveySendEvent(Survey(
+                userId: widget.surveyRequired.id,
+                eventId: widget.surveyRequired.eventId,
+                rate: 0,
+                reportText: _controller.text)));
+            AutoRouter.of(context).pop();
+          },
         ),
         body: Container(
           padding: EdgeInsets.all(20),
@@ -38,6 +70,7 @@ class ReportUser extends StatelessWidget {
               ),
               TextField(
                 maxLines: 25,
+                controller: _controller,
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   color: SimposiAppColors.simposiLightText,

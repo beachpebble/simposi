@@ -127,7 +127,7 @@ class CalendarRepository {
       'id': id,
       "title": title,
       "description": description,
-      "datetime": DateFormat('yyyy-MM-dd hh:mm:ss').format(date),
+      "datetime": DateFormat('yyyy-MM-dd HH:mm:ss').format(date.toUtc()),
       "latitude": latitude,
       "longitude": longitude,
       "location_name": address,
@@ -241,7 +241,7 @@ class CalendarRepository {
     });
 
     Map? data = response.data;
-    List<dynamic>? grpUsers = data?['data']?['rsvp'];
+    List<dynamic>? grpUsers = data?['data']?['users'];
     if (grpUsers != null) {
       List<GroupFinderUser> users =
           grpUsers.map((e) => GroupFinderUser.fromJson(e)).toList();
@@ -253,45 +253,45 @@ class CalendarRepository {
     }
   }
 
-  Future<List<GroupFinderUser>> refreshLocator(int id) async {
-    await Future.delayed(Duration(milliseconds: 2000));
-    // Response response = await _apiService.dio.post(
-    //     Api.API_REFRESH_LOCATOR,
-    //     data: {
-    //       'id': id,
-    //     });
-    // Map? data = response.data;
-    // List<dynamic>? userMap = data?['data']?['users'];
-    // if (userMap != null) {
-    //   return userMap.map((e) => GroupFinderUser.fromJson(e)).toList();
-    // } else {
-    //   throw ParseException(
-    //       errorType: LocalizedErrorType.PARSE_ERROR, message: "Unexpected response");
-    // }
-
-    List<GroupFinderUser> list = [
-      GroupFinderUser(
-          id: 1,
-          name: "Roman",
-          imageUrl:
-              "https://st2.depositphotos.com/1006318/5909/v/950/depositphotos_59095529-stock-illustration-profile-icon-male-avatar.jpg",
-          latitude: 37.785839,
-          longitude: -122.406410),
-      GroupFinderUser(
-          id: 2,
-          name: "Petr",
-          imageUrl: "https://html5css.ru/howto/img_avatar2.png",
-          latitude: 37.785697,
-          longitude: -122.406417),
-      GroupFinderUser(
-          id: 3,
-          name: "Anna",
-          imageUrl:
-              "https://image.freepik.com/free-vector/portrait-of-an-african-american-woman-in-profile-avatar-of-young-black-girl_102172-418.jpg",
-          latitude: 37.785834,
-          longitude: -122.406480)
-    ];
-
-    return list;
-  }
+  // Future<List<GroupFinderUser>> refreshLocator(int id) async {
+  //   await Future.delayed(Duration(milliseconds: 2000));
+  //   // Response response = await _apiService.dio.post(
+  //   //     Api.API_REFRESH_LOCATOR,
+  //   //     data: {
+  //   //       'id': id,
+  //   //     });
+  //   // Map? data = response.data;
+  //   // List<dynamic>? userMap = data?['data']?['users'];
+  //   // if (userMap != null) {
+  //   //   return userMap.map((e) => GroupFinderUser.fromJson(e)).toList();
+  //   // } else {
+  //   //   throw ParseException(
+  //   //       errorType: LocalizedErrorType.PARSE_ERROR, message: "Unexpected response");
+  //   // }
+  //
+  //   List<GroupFinderUser> list = [
+  //     GroupFinderUser(
+  //         id: 1,
+  //         name: "Roman",
+  //         imageUrl:
+  //             "https://st2.depositphotos.com/1006318/5909/v/950/depositphotos_59095529-stock-illustration-profile-icon-male-avatar.jpg",
+  //         latitude: "37.785839",
+  //         longitude: "-122.406410"),
+  //     GroupFinderUser(
+  //         id: 1,
+  //         name: "Petr",
+  //         imageUrl: "https://html5css.ru/howto/img_avatar2.png",
+  //         latitude: "37.785697",
+  //         longitude: "-122.406417"),
+  //     GroupFinderUser(
+  //         id: 1,
+  //         name: "Anna",
+  //         imageUrl:
+  //             "https://image.freepik.com/free-vector/portrait-of-an-african-american-woman-in-profile-avatar-of-young-black-girl_102172-418.jpg",
+  //         latitude: "37.785834",
+  //         longitude: "-122.406480")
+  //   ];
+  //
+  //   return list;
+  // }
 }

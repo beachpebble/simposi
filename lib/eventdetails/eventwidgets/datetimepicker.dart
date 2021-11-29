@@ -26,7 +26,7 @@ class _SimposiDateTimePickerState extends State<SimposiDateTimePicker> {
           child: CupertinoDatePicker(
               initialDateTime: widget.initial?? DateTime.now().add(Duration(hours: 1)),
               mode: CupertinoDatePickerMode.dateAndTime,
-              minimumDate: DateTime.now(),//.add(Duration(hours: 1)),
+              minimumDate: DateTime.now().subtract(Duration(days: 1)),//.add(Duration(hours: 1)),
               maximumDate: DateTime.now().add(Duration(days: 90)),
               onDateTimeChanged: (dateTime) =>
                   setState(() => widget.callback?.call(dateTime))),

@@ -50,12 +50,12 @@ class RouteGenerator {
       //   return MaterialPageRoute(builder: (_) => GroupFinder());
       // case '/groupfinderchat':
       //   return MaterialPageRoute(builder: (_) => GroupFinderChat());
-      case '/affinityrating':
-        return MaterialPageRoute(builder: (_) => AffinityRatingCards());
-      case '/reportuser':
-        return MaterialPageRoute(builder: (_) => ReportUser());
-      case '/connect':
-        return MaterialPageRoute(builder: (_) => YouLikeEachOther());
+      // case '/affinityrating':
+      //   return MaterialPageRoute(builder: (_) => AffinityRatingCard());
+      // case '/reportuser':
+      //   return MaterialPageRoute(builder: (_) => ReportUser());
+      // case '/connect':
+      //   return MaterialPageRoute(builder: (_) => YouLikeEachOther());
 
       // Create Event
       // case '/createevent1':

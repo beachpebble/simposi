@@ -11,9 +11,12 @@ import 'package:simposi_app_v4/app_constants.dart';
 import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
 import 'package:simposi_app_v4/bloc/bloc_observer.dart';
 import 'package:simposi_app_v4/bloc/rsvp/rsvp_bloc.dart';
+import 'package:simposi_app_v4/bloc/survey/survey_bloc.dart';
+import 'package:simposi_app_v4/repository/survey_repository.dart';
 
 import 'bloc/app_setup/app_setup_cubit.dart';
 import 'bloc/auth/authentication_bloc.dart';
+import 'bloc/navigator/navigation_bloc.dart';
 import 'bloc/profile/profile_bloc.dart';
 import 'bloc/rsvp_action/rsvp_action_bloc.dart';
 import 'calendar/bloc/calendar_bloc.dart';
@@ -49,6 +52,9 @@ void main() {
             RepositoryProvider(
               create: (context) => CalendarRepository(context.read()),
             ),
+            RepositoryProvider(
+              create: (context) => SurveyRepository(context.read()),
+            ),
           ],
           child: MultiBlocProvider(providers: [
             BlocProvider(
@@ -79,6 +85,12 @@ void main() {
             BlocProvider(
                 create: (context) =>
                     CheckInBloc(calendarRepository: context.read())),
+            BlocProvider(
+                create: (context) =>
+                    SurveyBloc(profileBloc: context.read(), surveyRepository: context.read(), )),
+            BlocProvider(
+                create: (context) =>
+                    NavigationBloc(context.read(), context.read(), context.read())),
           ], child: SimposiApp())),
     ),
   ));

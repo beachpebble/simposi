@@ -13,9 +13,9 @@ class GroupFinderUser extends Equatable {
   @JsonKey(name: 'photo', required: true, disallowNullValue: true)
   final String imageUrl;
   @JsonKey(name: 'longitude', required: true, disallowNullValue: true)
-  final double longitude;
+  final String longitude;
   @JsonKey(name: 'latitude', required: true, disallowNullValue: true)
-  final double latitude;
+  final String latitude;
 
   GroupFinderUser( {required this.id, required this.name, required this.imageUrl, required this.longitude, required this.latitude});
 

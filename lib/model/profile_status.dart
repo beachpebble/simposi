@@ -10,9 +10,9 @@ class ProfileStatus extends Equatable {
   @JsonKey(name: 'checked_in_event_id', required: true)
   final int? eventId;
   @JsonKey(name: 'checked_in_event_date', required: true)
-  final DateTime eventDate;
-  @JsonKey(name: 'required_survey_by_event', required: true)
-  final List<int> surveyIds;
+  final DateTime? eventDate;
+  @JsonKey(name: 'required_survey_by_events', required: true)
+  final List<int>? surveyIds;
 
   bool get isOnEvent => eventId != null && eventId! > 0;
 

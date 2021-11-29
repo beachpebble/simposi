@@ -77,7 +77,7 @@ class GroupFinderBloc extends Bloc<GroupFinderEvent, GroupFinderState> {
                   LengthUnit.Meter,
                   new LatLng(
                       _currentPosition!.latitude, _currentPosition!.longitude),
-                  new LatLng(e.user.latitude, e.user.longitude))))
+                  new LatLng(double.parse(e.user.latitude), double.parse(e.user.longitude)))))
           .toList();
       if (state is GroupFinderLoaded) {
         emit(GroupFinderLoaded(
@@ -102,7 +102,7 @@ class GroupFinderBloc extends Bloc<GroupFinderEvent, GroupFinderState> {
                   LengthUnit.Meter,
                   new LatLng(
                       _currentPosition!.latitude, _currentPosition!.longitude),
-                  new LatLng(e.latitude, e.longitude))))
+                  new LatLng(double.parse(e.latitude), double.parse(e.longitude)))))
           .toList();
       if (state is GroupFinderLoaded) {
         emit(GroupFinderLoaded(
@@ -138,25 +138,28 @@ class GroupFinderBloc extends Bloc<GroupFinderEvent, GroupFinderState> {
 
       listSubscription?.cancel();
       listSubscription =
-          _getPeriodicStream().listen((List<GroupFinderUser> list) {
+          _getPeriodicStream().listen((List<GroupFinderUser>? list) {
+            if (list!= null)
         add(GroupFinderUserListUpdated(list));
       }, onError: (v) {
         add(GroupFinderErrorEvent(v));
       });
 
+      if (_currentPosition != null)
       _calendarRepository
-          .refreshLocator(eventId)
+          .groupFinder(eventId: eventId, latitude: _currentPosition!.latitude.toString(), longitude: _currentPosition!.longitude.toString())
           .then((value) => add(GroupFinderUserListUpdated(value)));
     } catch (e) {
       add(GroupFinderPermissionLost());
     }
   }
 
-  Stream<List<GroupFinderUser>> _getPeriodicStream() async* {
+  Stream<List<GroupFinderUser>?> _getPeriodicStream() async* {
     yield* Stream.periodic(Duration(seconds: 10), (_) {
-      return _calendarRepository.refreshLocator(eventId);
+      if (_currentPosition!= null)
+      return _calendarRepository.groupFinder(eventId: eventId, latitude: _currentPosition!.latitude.toString(), longitude: _currentPosition!.longitude.toString());
     }).asyncMap(
-      (value) async => await value,
+      (value) async =>  value,
     );
   }
 

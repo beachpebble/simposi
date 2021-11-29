@@ -22,6 +22,7 @@ class Api {
   static const String API_STATUS = "/api/v1/user/event/status";
   static const String API_EVENT = "/api/v1/event";
   static const String API_EVENT_CANCEL = "/api/v1/event/cancel";
+  static const String API_GET_SURVEY_REQUESTS = "/api/v1/sur/blabla";
 
   static const String API_NEW_EVENT = "/api/v1/event";
   static const String RSVP_LIST = "/api/v1/rsvp";

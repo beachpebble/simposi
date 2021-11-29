@@ -6,6 +6,9 @@ import 'package:simposi_app_v4/eventdetails/create_event3/createevent3_activitie
 import 'package:simposi_app_v4/model/event.dart';
 import 'package:simposi_app_v4/profile/profilescreen.dart';
 
+import 'affinityindex/affinityratingcards.dart';
+import 'affinityindex/reportuser.dart';
+import 'affinityindex/survey_screen.dart';
 import 'authentication/createprofile/signup1createaccount/signup1createaccount.dart';
 import 'authentication/createprofile/signup2gender.dart';
 import 'authentication/createprofile/signup3generation.dart';
@@ -28,6 +31,7 @@ import 'eventdetails/createevent6income.dart';
 import 'eventdetails/createevent7pickinvitation.dart';
 import 'eventdetails/eventdetails.dart';
 import 'global/theme/elements/simposihome.dart';
+import 'notifications/youlikeeachother.dart';
 import 'profile/accountmenu.dart';
 import 'profile/editprofileform.dart';
 import 'profile/emergency_contact_screen.dart';
@@ -38,6 +42,7 @@ import 'profile/subscriptionpurchase.dart';
 import 'profile/termsofuse.dart';
 import 'profile/whoami_menu.dart';
 import 'profile/whoiwanttomeet_menu.dart';
+import 'model/survey_required.dart';
 
 part 'app_router.gr.dart';
 
@@ -91,7 +96,9 @@ part 'app_router.gr.dart';
 
     //ON EVENT
     AutoRoute(page: GroupFinder),
-
+    AutoRoute(page: SurveyScreen),
+    AutoRoute(page: YouLikeEachOther),
+    AutoRoute(page: ReportUser),
   ],
 )
-class AppRouter extends _$AppRouter{}
+class AppRouter extends _$AppRouter {}

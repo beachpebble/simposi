@@ -43,20 +43,18 @@ class BasicFormAppBar extends StatelessWidget with PreferredSizeWidget {
   }
 }
 
-// TITLE AND TWO TEXT BUTTONS BACK AND NEXT
 class HeaderFormAppBar extends StatelessWidget with PreferredSizeWidget {
   // Variables
   final Size preferredSize;
   final headerTitle;
-  final popPage;
   final nextButtonLabel;
+  final VoidCallback onNext;
 
   // Initiate Variables
   HeaderFormAppBar({
     Key? key,
     required this.headerTitle,
-    required this.popPage,
-    required this.nextButtonLabel,
+    required this.nextButtonLabel, required this.onNext,
   })  : preferredSize = Size.fromHeight(70),
         super(key: key);
 
@@ -81,8 +79,8 @@ class HeaderFormAppBar extends StatelessWidget with PreferredSizeWidget {
         child: Builder(
           builder: (BuildContext context) {
             return TextButton(
-              onPressed: () => {
-                Navigator.of(context).pop(popPage),
+              onPressed: () {
+              AutoRouter.of(context).pop();
               },
               child: Text(
                 'Cancel',
@@ -97,9 +95,9 @@ class HeaderFormAppBar extends StatelessWidget with PreferredSizeWidget {
       ),
       actions: <Widget>[
         TextButton(
-          onPressed: () => {AutoRouter.of(context).replace(SimposiHomeRoute())},
+          onPressed: onNext,
           child: Text(
-            nextButtonLabel,
+            "Submit",
             style: TextStyle(
               fontSize: 17,
               color: SimposiAppColors.simposiDarkBlue,

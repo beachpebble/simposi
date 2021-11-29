@@ -12,7 +12,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:simposi_app_v4/eventdetails/eventwidgets/datetimepicker.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
@@ -48,7 +47,7 @@ class _CreateEvent1State extends State<CreateEvent1> {
     _dateTime = context.read<EventEditCubit>().dateTime ??  DateTime.now().add(Duration(hours: 2));
     _dateTimeValue = context.read<EventEditCubit>().dateTime ??
         _dateTime;
-    _dateController = TextEditingController(text: DateFormat('yyyy-MM-dd – kk:mm')
+    _dateController = TextEditingController(text: DateFormat('yyyy-MM-dd – hh:mm a')
         .format(_dateTimeValue!))
       ..addListener(() {
         setState(() {});
@@ -171,7 +170,7 @@ class _CreateEvent1State extends State<CreateEvent1> {
                                         onPressed: () {
                                           _dateTime = _dateTimeValue;
                                           _dateController.text =
-                                              DateFormat('yyyy-MM-dd – kk:mm')
+                                              DateFormat('yyyy-MM-dd – hh:mm a')
                                                   .format(_dateTime!);
                                           Navigator.of(context).pop();
                                         },

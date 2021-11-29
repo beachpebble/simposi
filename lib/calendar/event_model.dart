@@ -34,7 +34,13 @@ class EventModel extends Equatable {
 
   bool get showInvite => !isMine && [RsvpStatus.INVITED_ID, RsvpStatus.OPENED_ID].contains(rsvp.status.id);
   bool get showGoing => [RsvpStatus.ACCEPTED].contains(rsvp.status.title);
-  bool get showCheckIn => [RsvpStatus.ACCEPTED].contains(rsvp.status.title) || isMine;
+  bool get showCheckIn => ([RsvpStatus.ACCEPTED].contains(rsvp.status.title) || isMine) && isTimeReady();
+
+  bool isTimeReady() {
+    var now = DateTime.now().toUtc();
+    Duration dif = rsvp.event.datetime.difference(now);
+    return dif <= Duration(minutes: 15);
+  }
 
   @override
   List<Object?> get props => [normalizedDate, rsvp, isMine];

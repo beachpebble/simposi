@@ -47,6 +47,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           _currentProfile = await _profileRepository.refreshProfile();
 
           ProfileStatus profileStatus = await _profileRepository.refreshStatus();
+          print("!!!---------   ${profileStatus.isOnEvent}");
           if (profileStatus.isOnEvent) {
             Event event = await _calendarRepository.getEvent(profileStatus.eventId!);
             emit(ProfileOnEvent(_currentProfile!, event));

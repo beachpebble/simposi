@@ -43,123 +43,109 @@ class _SimposiHomeState extends State<SimposiHome> {
 
   @override
   Widget build(BuildContext context) =>
-      BlocConsumer<ProfileBloc, ProfileState>(
-        listener: (context, state) {
-          if (state is ProfileOnEvent) {
-            AutoRouter.of(context).replaceAll([
-            GroupFinderRoute(event: state.event)]);
-          } else if (state is ProfileLoaded) {
-          AutoRouter.of(context).replaceAll([
-          SimposiHomeRoute()
-          ]);
-          }
-        },
-        builder: (context, state) {
-          return Scaffold(
-            backgroundColor: SimposiAppColors.greyBackground,
+      Scaffold(
+        backgroundColor: SimposiAppColors.greyBackground,
 
-            // Call Pages (w/Header)
-            body: _simposiPages[simposiNavTab],
+        // Call Pages (w/Header)
+        body: _simposiPages[simposiNavTab],
 
-            // Bottom Navigation Bar (Home)
-            bottomNavigationBar: BottomNavigationBar(
-              backgroundColor: Colors.white,
-              elevation: 0,
-              type: BottomNavigationBarType.fixed,
-              currentIndex: simposiNavTab,
-              onTap: (index) {
-                setState(() {
-                  simposiNavTab = index;
-                });
-              },
-              selectedItemColor: SimposiAppColors.simposiDarkGrey,
-              unselectedLabelStyle: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w800,
-                color: SimposiAppColors.simposiLightText,
-              ),
-              selectedLabelStyle: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w800,
-                color: SimposiAppColors.simposiDarkGrey,
-              ),
-              items: [
-                BottomNavigationBarItem(
-                  icon: BlocBuilder<RsvpBloc, RsvpState>(
-                    builder: (context, state) {
-                      return Stack(children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
-                          alignment: Alignment.center,
-                          child: Icon(SimposiNav.calendar),
-                        ),
-                        if (state is RsvpLoaded && state.invited > 0)
-                          Container(
-                            child: Positioned(
-                              right: 25,
-                              child: SimposiCounterBubble(
-                                count: state.invited.toString(),
-                              ),
-                            ),
+        // Bottom Navigation Bar (Home)
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          type: BottomNavigationBarType.fixed,
+          currentIndex: simposiNavTab,
+          onTap: (index) {
+            setState(() {
+              simposiNavTab = index;
+            });
+          },
+          selectedItemColor: SimposiAppColors.simposiDarkGrey,
+          unselectedLabelStyle: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w800,
+            color: SimposiAppColors.simposiLightText,
+          ),
+          selectedLabelStyle: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w800,
+            color: SimposiAppColors.simposiDarkGrey,
+          ),
+          items: [
+            BottomNavigationBarItem(
+              icon: BlocBuilder<RsvpBloc, RsvpState>(
+                builder: (context, state) {
+                  return Stack(children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
+                      alignment: Alignment.center,
+                      child: Icon(SimposiNav.calendar),
+                    ),
+                    if (state is RsvpLoaded && state.invited > 0)
+                      Container(
+                        child: Positioned(
+                          right: 25,
+                          child: SimposiCounterBubble(
+                            count: state.invited.toString(),
                           ),
-                      ]);
-                    },
-                  ),
-                  label: 'Socials',
-                ),
-                BottomNavigationBarItem(
-                  icon: Stack(
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
-                        alignment: Alignment.center,
-                        child: Icon(SimposiNav.carddeck),
+                        ),
                       ),
-
-                      // Container(
-                      //   child: Positioned(
-                      //     right: 25,
-                      //     child: SimposiCounterBubble(
-                      //       count:
-                      //       '134', // TODO: Enable counter for Discover Cards, hide if 0
-                      //     ),
-                      //   ),
-                      // ),
-                    ],
-                  ),
-                  label: 'Discover',
-                ),
-                BottomNavigationBarItem(
-                  icon: Stack(
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
-                        alignment: Alignment.center,
-                        child: Icon(SimposiNav.alerts),
-                      ),
-                      // Container(
-                      //   child: Positioned(
-                      //     right: 25,
-                      //     child: SimposiCounterBubble(
-                      //       count:
-                      //       '1', // TODO: Enable counter for unread alert messages, hide if 0
-                      //     ),
-                      //   ),
-                      // ),
-                    ],
-                  ),
-                  label: 'Alerts',
-                ),
-                BottomNavigationBarItem(
-                  icon: Container(
-                    padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
-                    child: Icon(SimposiNav.profile),
-                  ),
-                  label: 'Profile',
-                ),
-              ],
+                  ]);
+                },
+              ),
+              label: 'Socials',
             ),
-          );
-        },
+            BottomNavigationBarItem(
+              icon: Stack(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
+                    alignment: Alignment.center,
+                    child: Icon(SimposiNav.carddeck),
+                  ),
+
+                  // Container(
+                  //   child: Positioned(
+                  //     right: 25,
+                  //     child: SimposiCounterBubble(
+                  //       count:
+                  //       '134', // TODO: Enable counter for Discover Cards, hide if 0
+                  //     ),
+                  //   ),
+                  // ),
+                ],
+              ),
+              label: 'Discover',
+            ),
+            BottomNavigationBarItem(
+              icon: Stack(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
+                    alignment: Alignment.center,
+                    child: Icon(SimposiNav.alerts),
+                  ),
+                  // Container(
+                  //   child: Positioned(
+                  //     right: 25,
+                  //     child: SimposiCounterBubble(
+                  //       count:
+                  //       '1', // TODO: Enable counter for unread alert messages, hide if 0
+                  //     ),
+                  //   ),
+                  // ),
+                ],
+              ),
+              label: 'Alerts',
+            ),
+            BottomNavigationBarItem(
+              icon: Container(
+                padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
+                child: Icon(SimposiNav.profile),
+              ),
+              label: 'Profile',
+            ),
+          ],
+        ),
       );
 }
