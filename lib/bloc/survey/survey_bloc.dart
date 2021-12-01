@@ -22,19 +22,44 @@ class SurveyBloc extends Bloc<SurveyEvent, SurveyState> {
         this._profileBloc = profileBloc,
         super(SurveyInitial()) {
     on<SurveyEvent>((event, emit) async {
-      if (state is SurveyRefreshEvent) {
-        emit(SurveyListLoading());
-        _required = await _surveyRepository.getAllSurveyRequests();
-        SurveyRequired current  = _required.first;
-        //_required.remove(current);
-        emit(SurveyProcess(current));
-      } else if (state is SurveySendEvent) {
-        emit(SurveyListLoading());
-        _required = await _surveyRepository.getAllSurveyRequests();
-        SurveyRequired current  = _required.first;
-        _required.remove(current);
-        emit(SurveyProcess(current));
+      if (event is SurveyRefreshEvent) {
+        await _surveyRefresh(event, emit);
+      } else if (event is SurveySendEvent) {
+        await _surveySend(event, emit);
       }
     });
+  }
+
+  _surveyRefresh(SurveyRefreshEvent event, Emitter<SurveyState> emit) async {
+    try {
+      emit(SurveyListLoading());
+      _required = await _surveyRepository.getAllSurveyRequests();
+      if (_required.isNotEmpty) {
+        SurveyRequired current  = _required.first;
+        emit(SurveyProcess(current));
+      } else {
+        _profileBloc.add(ProfileReload());
+      }
+
+    } on Exception catch (e) {
+      emit(SurveyError(e));
+    }
+  }
+
+  _surveySend(SurveySendEvent event, Emitter<SurveyState> emit) async {
+    try {
+      emit(SurveyListLoading());
+      await _surveyRepository.submitSurvey(event.survey);
+      SurveyRequired current  = _required.first;
+      _required.remove(current);
+      if (_required.isNotEmpty) {
+        SurveyRequired newCurrent  = _required.first;
+        emit(SurveyProcess(newCurrent));
+      } else {
+        _profileBloc.add(ProfileReload());
+      }
+    } on Exception catch (e) {
+      emit(SurveyError(e));
+    }
   }
 }

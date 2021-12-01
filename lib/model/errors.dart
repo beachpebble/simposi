@@ -83,7 +83,7 @@ String handleError(dynamic exception, BuildContext context) {
 String getDioException(DioError dioError, BuildContext context) {
   switch (dioError.type) {
     case DioErrorType.response:
-      return "Server error: ${_getDioResponseError(dioError)}";
+      return "Server error: ${getDioResponseError(dioError)}";
       case DioErrorType.cancel:
       return "Request cancelled";
     case DioErrorType.connectTimeout:
@@ -103,7 +103,7 @@ String getDioException(DioError dioError, BuildContext context) {
   }
 }
 
-String _getDioResponseError(DioError dioError) {
+String getDioResponseError(DioError dioError) {
   if (dioError.type == DioErrorType.response && dioError.response != null) {
     Response response = dioError.response!;
     try {

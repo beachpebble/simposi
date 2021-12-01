@@ -24,21 +24,30 @@ class ProfileRepository {
   final LocalStorage storage = new LocalStorage('profile_storage');
 
   Future<void> setProfile(Map<String, dynamic> data) async {
-    print("Save!!!!!1 $data");
     await storage.ready;
     await storage.setItem("profile", data);
-    var data1 = await storage.getItem("profile");
-    print("Save!!!!!2   $data1");
     profile = Profile.fromJson(data);
   }
 
   Future<Profile> refreshProfile() async {
-    print("Reload!!!!!1");
     await storage.ready;
     var data = await storage.getItem("profile");
-    print("Reload!!!!!2   $data");
     profile = Profile.fromJson(data);
     return profile;
+  }
+
+  Future updateFbToken(String newToken) async {
+    await storage.ready;
+    String? oldFbToken = await storage.getItem("fbToken");
+    if (oldFbToken != null && oldFbToken == newToken) {
+      print("Fb token was not changed");
+    } else {
+      print("Fb token was changed. Set new one. ");
+      await _authApiService.dio.post(Api.API_UPDATE_FB_TOKEN, data: {
+        'device_token': newToken,
+      });
+      await storage.setItem("fbToken", newToken);
+    }
   }
 
   Future<ProfileStatus> refreshStatus() async {
@@ -56,12 +65,14 @@ class ProfileRepository {
   }
 
   Future<Map> login(String login, String password) async {
+    await storage.ready;
+    String? fbToken = await storage.getItem("fbToken");
     Map<String, Object> params = {
       'phone': login,
       'password': password,
     };
-    //TODO take this value from FCM
-    //params["device_token"] = "1234567";
+    if (fbToken != null && fbToken.isNotEmpty)
+      params["device_token"] = fbToken;
     Response response =
         await (await _apiService.dio.post(Api.API_LOGIN, data: params));
     return response.data;

@@ -33,6 +33,8 @@ class GroupFinder extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => GroupFinderBloc(
+        profileBloc: context.read(),
+          rsvpBloc: context.read(),
           calendarRepository: context.read(),
           profileRepository: context.read(),
           eventId: event.id)

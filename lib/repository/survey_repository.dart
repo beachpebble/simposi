@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:simposi_app_v4/model/errors.dart';
+import 'package:simposi_app_v4/model/survey.dart';
 import 'package:simposi_app_v4/model/survey_required.dart';
 
 import 'api_service.dart';
@@ -10,7 +11,7 @@ class SurveyRepository {
   SurveyRepository(this._apiService);
 
   Future<List<SurveyRequired>> getAllSurveyRequests() async {
-    Response response = await _apiService.dio.post(Api.API_GET_SURVEY_REQUESTS);
+    Response response = await _apiService.dio.get(Api.API_GET_SURVEY_REQUESTS);
     Map? data = response.data["data"];
     if (data != null) {
       List surveysMap = data['surveys'];
@@ -21,5 +22,9 @@ class SurveyRepository {
           errorType: LocalizedErrorType.PARSE_ERROR,
           message: "Unexpected response empty data surveys");
     }
+  }
+
+  Future submitSurvey(Survey survey) async {
+    await _apiService.dio.post(Api.API_SEND_SURVEY);
   }
 }

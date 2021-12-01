@@ -2,13 +2,19 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:simposi_app_v4/bloc/profile/profile_bloc.dart';
+import 'package:simposi_app_v4/bloc/rsvp/rsvp_bloc.dart';
+import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/model/group_finder_user.dart';
 import 'package:simposi_app_v4/repository/calendar_repository.dart';
 import 'package:simposi_app_v4/repository/profile_repository.dart';
 import 'package:simposi_app_v4/utils/location.dart';
+
+import '../../app_constants.dart';
 
 part 'group_finder_event.dart';
 
@@ -20,18 +26,24 @@ class GroupFinderBloc extends Bloc<GroupFinderEvent, GroupFinderState> {
   StreamSubscription? listSubscription;
   final CalendarRepository _calendarRepository;
   final ProfileRepository _profileRepository;
+  final ProfileBloc _profileBloc;
+  final RsvpBloc _rsvpBloc;
   final int eventId;
   Position? _currentPosition;
   final Distance distance = new Distance();
   double _startAngle = 0.0;
   var rng = new Random();
 
-  GroupFinderBloc(
-      {required CalendarRepository calendarRepository,
-      required ProfileRepository profileRepository,
-      required this.eventId})
-      : _calendarRepository = calendarRepository,
+  GroupFinderBloc({
+    required RsvpBloc rsvpBloc,
+    required CalendarRepository calendarRepository,
+    required ProfileRepository profileRepository,
+    required this.eventId,
+    required ProfileBloc profileBloc,
+  })  : _calendarRepository = calendarRepository,
         _profileRepository = profileRepository,
+        _profileBloc = profileBloc,
+        _rsvpBloc = rsvpBloc,
         super(GroupFinderLoaded(null, [], 0.0)) {
     on<GroupFinderUserSelect>((event, emit) {
       _userSelect(event, emit);
@@ -77,7 +89,8 @@ class GroupFinderBloc extends Bloc<GroupFinderEvent, GroupFinderState> {
                   LengthUnit.Meter,
                   new LatLng(
                       _currentPosition!.latitude, _currentPosition!.longitude),
-                  new LatLng(double.parse(e.user.latitude), double.parse(e.user.longitude)))))
+                  new LatLng(double.parse(e.user.latitude),
+                      double.parse(e.user.longitude)))))
           .toList();
       if (state is GroupFinderLoaded) {
         emit(GroupFinderLoaded(
@@ -102,7 +115,8 @@ class GroupFinderBloc extends Bloc<GroupFinderEvent, GroupFinderState> {
                   LengthUnit.Meter,
                   new LatLng(
                       _currentPosition!.latitude, _currentPosition!.longitude),
-                  new LatLng(double.parse(e.latitude), double.parse(e.longitude)))))
+                  new LatLng(
+                      double.parse(e.latitude), double.parse(e.longitude)))))
           .toList();
       if (state is GroupFinderLoaded) {
         emit(GroupFinderLoaded(
@@ -133,33 +147,54 @@ class GroupFinderBloc extends Bloc<GroupFinderEvent, GroupFinderState> {
           add(GroupFinderLocationDisabled());
         }
       }, onError: (v) {
+        _checkEventNotChecked(v);
         add(GroupFinderErrorEvent(v));
       });
 
       listSubscription?.cancel();
       listSubscription =
           _getPeriodicStream().listen((List<GroupFinderUser>? list) {
-            if (list!= null)
-        add(GroupFinderUserListUpdated(list));
+        if (list != null) add(GroupFinderUserListUpdated(list));
       }, onError: (v) {
+        _checkEventNotChecked(v);
         add(GroupFinderErrorEvent(v));
       });
 
       if (_currentPosition != null)
-      _calendarRepository
-          .groupFinder(eventId: eventId, latitude: _currentPosition!.latitude.toString(), longitude: _currentPosition!.longitude.toString())
-          .then((value) => add(GroupFinderUserListUpdated(value)));
+        _calendarRepository
+            .groupFinder(
+                eventId: eventId,
+                latitude: _currentPosition!.latitude.toString(),
+                longitude: _currentPosition!.longitude.toString())
+            .then((value) => add(GroupFinderUserListUpdated(value)));
     } catch (e) {
       add(GroupFinderPermissionLost());
     }
   }
 
+  void _checkEventNotChecked(Exception v) {
+    if (v is DioError && v.type == DioErrorType.response) {
+      if (v.response?.statusCode == 422 &&
+          getDioResponseError(v) == 'User not checked-in on this Event') {
+        _profileBloc.add(ProfileReload());
+        _rsvpBloc.add(RefreshRequested(
+            DateTime.now().subtract(
+                Duration(days: AppConstants.CALENDAR_DAYS_INTERVAL)),
+            DateTime.now().add(Duration(
+                days: AppConstants.CALENDAR_DAYS_INTERVAL))));
+      }
+    }
+  }
+
   Stream<List<GroupFinderUser>?> _getPeriodicStream() async* {
     yield* Stream.periodic(Duration(seconds: 10), (_) {
-      if (_currentPosition!= null)
-      return _calendarRepository.groupFinder(eventId: eventId, latitude: _currentPosition!.latitude.toString(), longitude: _currentPosition!.longitude.toString());
+      if (_currentPosition != null)
+        return _calendarRepository.groupFinder(
+            eventId: eventId,
+            latitude: _currentPosition!.latitude.toString(),
+            longitude: _currentPosition!.longitude.toString());
     }).asyncMap(
-      (value) async =>  value,
+      (value) async => value,
     );
   }
 

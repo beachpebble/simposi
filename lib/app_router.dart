@@ -6,7 +6,6 @@ import 'package:simposi_app_v4/eventdetails/create_event3/createevent3_activitie
 import 'package:simposi_app_v4/model/event.dart';
 import 'package:simposi_app_v4/profile/profilescreen.dart';
 
-import 'affinityindex/affinityratingcards.dart';
 import 'affinityindex/reportuser.dart';
 import 'affinityindex/survey_screen.dart';
 import 'authentication/createprofile/signup1createaccount/signup1createaccount.dart';

@@ -30,7 +30,7 @@ class ProfileScreen extends StatelessWidget {
         } else if (state is ProfileLoadError) {
           return Scaffold(
               //TODO wrap
-              body: Text("Profile not loaded"));
+              body: Center(child: Text("Profile not loaded")));
         } else {
           return Scaffold(
               body: Column(

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
+import 'package:simposi_app_v4/bloc/fcm/fcm_bloc.dart';
 import 'package:simposi_app_v4/model/earning.dart';
 import 'package:simposi_app_v4/model/emergency_contact.dart';
 import 'package:simposi_app_v4/model/event.dart';
@@ -21,14 +22,17 @@ part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   late StreamSubscription authSubscription;
+  late StreamSubscription fbSubscription;
   final ProfileRepository _profileRepository;
   final CalendarRepository _calendarRepository;
   late MasterData masterData;
 
   Profile? _currentProfile;
 
-  ProfileBloc(AuthenticationBloc authBloc, ProfileRepository profileRepository, CalendarRepository calendarRepository)
-      : _profileRepository = profileRepository, _calendarRepository = calendarRepository,
+  ProfileBloc(AuthenticationBloc authBloc, ProfileRepository profileRepository,
+      CalendarRepository calendarRepository, FcmBloc fcmBloc)
+      : _profileRepository = profileRepository,
+        _calendarRepository = calendarRepository,
         super(ProfileNotLoaded()) {
     if (authBloc.state is Authenticated) {
       add(ProfileReload());
@@ -36,7 +40,16 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     authSubscription = authBloc.stream.listen((state) {
       if (state is NotAuthenticated) {
       } else if (state is Authenticated) {
+        if (fcmBloc.token != null) {
+          _profileRepository.updateFbToken(fcmBloc.token!);
+        }
         add(ProfileReload());
+      }
+    });
+
+    fbSubscription = fcmBloc.stream.listen((state) {
+      if (state is FcmTokenUpdated && authBloc.state is Authenticated) {
+        _profileRepository.updateFbToken(state.token);
       }
     });
 
@@ -46,15 +59,17 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         try {
           _currentProfile = await _profileRepository.refreshProfile();
 
-          ProfileStatus profileStatus = await _profileRepository.refreshStatus();
-          print("!!!---------   ${profileStatus.isOnEvent}");
+          ProfileStatus profileStatus =
+              await _profileRepository.refreshStatus();
           if (profileStatus.isOnEvent) {
-            Event event = await _calendarRepository.getEvent(profileStatus.eventId!);
+            Event event =
+                await _calendarRepository.getEvent(profileStatus.eventId!);
             emit(ProfileOnEvent(_currentProfile!, event));
+          } else if (profileStatus.surveyNeed) {
+            emit(ProfileOnSurvey(_currentProfile!));
           } else {
             emit(ProfileLoaded(_currentProfile!));
           }
-
         } catch (e) {
           emit(ProfileLoadError(e));
         }
@@ -166,7 +181,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       if (authBloc.state is Authenticated && _currentProfile != null) {
         emit(ProfileEditLoading(_currentProfile!));
         try {
-          _currentProfile =  await profileRepository.updateEmergencyContact(contact: EmergencyContact(event.name, event.phone));
+          _currentProfile = await profileRepository.updateEmergencyContact(
+              contact: EmergencyContact(event.name, event.phone));
           emit(ProfileEditSuccess(_currentProfile!));
         } catch (e) {
           emit(ProfileEditError(_currentProfile!, e));
@@ -178,7 +194,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       if (authBloc.state is Authenticated && _currentProfile != null) {
         emit(ProfileEditLoading(_currentProfile!));
         try {
-          _currentProfile =  await profileRepository.updateWantToMeetGenerations(
+          _currentProfile = await profileRepository.updateWantToMeetGenerations(
               generations: event.generations);
           emit(ProfileEditSuccess(_currentProfile!));
         } catch (e) {
@@ -191,7 +207,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       if (authBloc.state is Authenticated && _currentProfile != null) {
         emit(ProfileEditLoading(_currentProfile!));
         try {
-          _currentProfile =  await profileRepository.updateWantToMeetIncome(
+          _currentProfile = await profileRepository.updateWantToMeetIncome(
               earnings: event.earnings);
           emit(ProfileEditSuccess(_currentProfile!));
         } catch (e) {
@@ -204,7 +220,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       if (authBloc.state is Authenticated && _currentProfile != null) {
         emit(ProfileEditLoading(_currentProfile!));
         try {
-          _currentProfile = await profileRepository.updateWantToMeetGender(gender: event.gender.toList(), lgbt: event.isLgbt);
+          _currentProfile = await profileRepository.updateWantToMeetGender(
+              gender: event.gender.toList(), lgbt: event.isLgbt);
           emit(ProfileEditSuccess(_currentProfile!));
         } catch (e) {
           emit(ProfileEditError(_currentProfile!, e));

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
+import 'package:simposi_app_v4/bloc/fcm/fcm_bloc.dart';
 import 'package:simposi_app_v4/calendar/event_model.dart';
 import 'package:simposi_app_v4/model/rsvp.dart';
 import 'package:simposi_app_v4/model/rsvp_status.dart';
@@ -20,8 +21,9 @@ class RsvpBloc extends Bloc<RsvpEvent, RsvpState> {
   ProfileRepository _profileRepository;
   List<EventModel> _loadedEvents = [];
   late StreamSubscription authSubscription;
+  late StreamSubscription fcmSubscription;
 
-  RsvpBloc(AuthenticationBloc authBloc, CalendarRepository calendarRepository,
+  RsvpBloc(AuthenticationBloc authBloc, FcmBloc fcmBloc, CalendarRepository calendarRepository,
       ProfileRepository profileRepository)
       : _calendarRepository = calendarRepository,
         _profileRepository = profileRepository,
@@ -35,6 +37,16 @@ class RsvpBloc extends Bloc<RsvpEvent, RsvpState> {
                 .subtract(Duration(days: AppConstants.CALENDAR_DAYS_INTERVAL)),
             DateTime.now()
                 .add(Duration(days: AppConstants.CALENDAR_DAYS_INTERVAL))));
+      }
+    });
+
+    fcmSubscription = fcmBloc.stream.listen((state) {
+      if (state is NewRsvpReceived) {
+        add(RefreshRequested(
+        DateTime.now().subtract(
+  Duration(days: AppConstants.CALENDAR_DAYS_INTERVAL)),
+  DateTime.now().add(Duration(
+  days: AppConstants.CALENDAR_DAYS_INTERVAL))));
       }
     });
     on<RefreshRequested>((event, emit) async {
@@ -108,6 +120,7 @@ class RsvpBloc extends Bloc<RsvpEvent, RsvpState> {
   @override
   Future<void> close() {
     authSubscription.cancel();
+    fcmSubscription.cancel();
     return super.close();
   }
 }

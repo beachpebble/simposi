@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:meta/meta.dart';
 import 'package:simposi_app_v4/model/earning.dart';
 import 'package:simposi_app_v4/model/generation.dart';
@@ -21,6 +22,7 @@ class AppSetupCubit extends Cubit<AppSetupState> {
     emit(AppSetupLoading());
     try {
       _masterData = await _getMasterData();
+      await Firebase.initializeApp();
       emit(AppSetupLoaded());
     } catch (e) {
       print("!!!! $e");

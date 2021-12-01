@@ -16,6 +16,7 @@ import 'package:simposi_app_v4/repository/survey_repository.dart';
 
 import 'bloc/app_setup/app_setup_cubit.dart';
 import 'bloc/auth/authentication_bloc.dart';
+import 'bloc/fcm/fcm_bloc.dart';
 import 'bloc/navigator/navigation_bloc.dart';
 import 'bloc/profile/profile_bloc.dart';
 import 'bloc/rsvp_action/rsvp_action_bloc.dart';
@@ -28,6 +29,7 @@ import 'repository/profile_repository.dart';
 import 'simposi_app.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = SimpleBlocObserver();
 
   runApp(RepositoryProvider(
@@ -58,8 +60,11 @@ void main() {
           ],
           child: MultiBlocProvider(providers: [
             BlocProvider(
+                lazy: false, create: (context) => FcmBloc(context.read())),
+            BlocProvider(
                 create: (context) => ProfileBloc(
                       context.read<AuthenticationBloc>(),
+                      context.read(),
                       context.read(),
                       context.read(),
                     )..add(ProfileReload())),
@@ -71,7 +76,7 @@ void main() {
                     EventEditCubit(calendarRepository: context.read())),
             BlocProvider(
                 create: (context) => RsvpBloc(
-                    context.read(), context.read(), context.read())
+                    context.read(), context.read(), context.read(), context.read())
                   ..add(RefreshRequested(
                       DateTime.now().subtract(
                           Duration(days: AppConstants.CALENDAR_DAYS_INTERVAL)),
@@ -86,11 +91,13 @@ void main() {
                 create: (context) =>
                     CheckInBloc(calendarRepository: context.read())),
             BlocProvider(
-                create: (context) =>
-                    SurveyBloc(profileBloc: context.read(), surveyRepository: context.read(), )),
+                create: (context) => SurveyBloc(
+                      profileBloc: context.read(),
+                      surveyRepository: context.read(),
+                    )),
             BlocProvider(
-                create: (context) =>
-                    NavigationBloc(context.read(), context.read(), context.read())),
+                create: (context) => NavigationBloc(
+                    context.read(), context.read(), context.read())),
           ], child: SimposiApp())),
     ),
   ));

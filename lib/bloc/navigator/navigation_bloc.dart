@@ -24,10 +24,14 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
         _surveyBloc = surveyBloc,
         super(NavigationInitial()) {
     authSubscription = authBloc.stream.listen((state) {
+      print("!----- authSubscription  $state");
       if (state is NotAuthenticated) {
+        print("!----- authSubscription  1");
         if (state.loginScreen) {
+          print("!----- authSubscription  2");
           add(GotLogin());
         } else {
+          print("!----- authSubscription  3");
           add(GotNotAuthenticated());
         }
 
@@ -59,14 +63,17 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
         emit(NavigationOnEvent(event.event));
       } else if (event is GotProfileLoaded) {
         emit(NavigationMain());
-      }else if (event is GotOnSurvey) {
+      } else if (event is GotOnSurvey) {
         emit(NavigationSurveyNeed());
+      } else if (event is GotLogin) {
+        emit(NavigationLogin());
       }
     });
   }
 
   @override
   Future<void> close() {
+    print("!----- Nav close");
     authSubscription.cancel();
     profileSubscription.cancel();
     return super.close();

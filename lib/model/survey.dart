@@ -6,16 +6,16 @@ part 'survey.g.dart';
 @JsonSerializable(ignoreUnannotated: true)
 class Survey extends Equatable {
 
-  @JsonKey(name: 'userId', required: true, disallowNullValue: true)
+  @JsonKey(name: 'user_id', required: true, disallowNullValue: true)
   final int userId;
 
-  @JsonKey(name: 'eventId', required: true, disallowNullValue: true)
+  @JsonKey(name: 'event_id', required: true, disallowNullValue: true)
   final int eventId;
 
   @JsonKey(name: 'rate', required: true, disallowNullValue: true)
   final int rate;
 
-  @JsonKey(name: 'reportText', required: true, disallowNullValue: true)
+  @JsonKey(name: 'text', required: true, disallowNullValue: true)
   final String? reportText;
 
   Survey({required this.userId, required this.eventId, required this.rate, this.reportText});

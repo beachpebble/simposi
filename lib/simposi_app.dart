@@ -40,7 +40,8 @@ class _SimposiAppState extends State<SimposiApp> {
                   } else if (state is NavigationMain) {
                     _appRouter.replace(SimposiHomeRoute());
                   } else if (state is NavigationNotAuth) {
-                    _appRouter.replace(GetStartedScreenRoute());
+                    _appRouter.replaceAll(
+                        [GetStartedScreenRoute()]);
                   } else if (state is NavigationOnEvent) {
                     _appRouter
                         .replaceAll([GroupFinderRoute(event: state.event)]);
@@ -52,7 +53,7 @@ class _SimposiAppState extends State<SimposiApp> {
 
                   // if (state is NotAuthenticated) {
                   //   if (state.loginScreen) {
-                  //     //TODO create notification about logout
+                  //     //TODO create fcm about logout
                   //     _appRouter.replaceAll(
                   //         [GetStartedScreenRoute(), LoginScreenRoute()]);
                   //   } else {
