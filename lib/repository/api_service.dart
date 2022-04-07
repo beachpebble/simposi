@@ -5,7 +5,8 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 
 class Api {
-  static const String TEST = "https://simposi-dev.uastar.space";
+  static const String TEST =
+      "https://phplaravel-742854-2530276.cloudwaysapps.com";
 
   static const String API_LOGIN = "/api/v1/login";
   static const String API_CHANGE_PASSWORD = "/api/v1/forgot-password";

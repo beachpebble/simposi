@@ -210,7 +210,7 @@ class _SignUpForm7State extends State<SignUpForm7> {
                           buttonLabel: 'Finish',
                           buttonAction: _isFinishEnabled()
                               ? () =>
-                                  {context.read<RegistrationCubit>().finish()}
+                                  context.read<RegistrationCubit>().finish()
                               : null,
                         ),
                       ),

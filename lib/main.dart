@@ -30,7 +30,7 @@ import 'simposi_app.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  Bloc.observer = SimpleBlocObserver();
+  final observer = SimpleBlocObserver();
 
   runApp(RepositoryProvider(
     create: (context) => ApiService(),
@@ -75,8 +75,8 @@ void main() {
                 create: (context) =>
                     EventEditCubit(calendarRepository: context.read())),
             BlocProvider(
-                create: (context) => RsvpBloc(
-                    context.read(), context.read(), context.read(), context.read())
+                create: (context) => RsvpBloc(context.read(), context.read(),
+                    context.read(), context.read())
                   ..add(RefreshRequested(
                       DateTime.now().subtract(
                           Duration(days: AppConstants.CALENDAR_DAYS_INTERVAL)),

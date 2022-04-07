@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:simposi_app_v4/model/earning.dart';
@@ -108,18 +107,18 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         password: password!,
         latitude: latitude!.toString(),
         longitude: longitude!.toString(),
-        distance: range?.toString() ?? "1",
+        distance: range?.round().toString() ?? "1",
         gender: gender!.id.toString(),
         isLgbt: lgbt,
         //TODO clean this
         generation: generation!,
-        earning: earnings!.map((e) => e.id).toList(),
-        likes: interests!.map((e) => e.id).toList(),
+        earning: earnings?.map((e) => e.id).toList() ?? [],
+        likes: interests?.map((e) => e.id).toList() ?? [],
       );
 
       if (data.containsKey("data")) {
         await profileRepository.setProfile(data['data']['user']);
-        emit(RegistrationWaitCode( phone!));
+        emit(RegistrationWaitCode(phone!));
         reset();
       } else {
         emit(RegistrationError(ServerException(
