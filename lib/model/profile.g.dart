@@ -44,8 +44,8 @@ Profile _$ProfileFromJson(Map<String, dynamic> json) {
     userName: json['name'] as String,
     userPhone: json['phone'] as String,
     profilePhoto: Image.fromJson(json['profile_photo'] as Map<String, dynamic>),
-    isLgbt: json['is_lgbtq'] as bool,
-    gender: _genderFromJson(json['gender'] as int),
+    isLgbt: _parseJsonIntToBool(json['is_lgbtq']),
+    gender: _genderFromJson(json['gender']),
     generationId: json['generations_identity_id'] as int,
     earnings: (json['who_earns'] as List<dynamic>)
         .map((e) => Earning.fromJson(e as Map<String, dynamic>))

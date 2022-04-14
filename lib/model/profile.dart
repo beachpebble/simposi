@@ -10,48 +10,131 @@ part 'profile.g.dart';
 
 @JsonSerializable(ignoreUnannotated: true)
 class Profile extends Equatable {
-  @JsonKey(name: 'id', required: true, disallowNullValue: true)
+  @JsonKey(
+    name: 'id',
+    required: true,
+    disallowNullValue: true,
+  )
   final int userId;
-  @JsonKey(name: 'name', required: true, disallowNullValue: true)
+
+  @JsonKey(
+    name: 'name',
+    required: true,
+    disallowNullValue: true,
+  )
   final String userName;
-  @JsonKey(name: 'phone', required: true, disallowNullValue: true)
+
+  @JsonKey(
+    name: 'phone',
+    required: true,
+    disallowNullValue: true,
+  )
   final String userPhone;
-  @JsonKey(name: 'facebook_url', required: false, disallowNullValue: false)
+
+  @JsonKey(
+    name: 'facebook_url',
+    required: false,
+    disallowNullValue: false,
+  )
   final String? facebook;
-  @JsonKey(name: 'instagram', required: false, disallowNullValue: false)
+
+  @JsonKey(
+    name: 'instagram',
+    required: false,
+    disallowNullValue: false,
+  )
   final String? instagram;
-  @JsonKey(name: 'linkedin_url', required: false, disallowNullValue: false)
+
+  @JsonKey(
+    name: 'linkedin_url',
+    required: false,
+    disallowNullValue: false,
+  )
   final String? linkedin;
-  @JsonKey(name: 'profile_photo', required: false, disallowNullValue: false)
+
+  @JsonKey(
+    name: 'profile_photo',
+    required: false,
+    disallowNullValue: false,
+  )
   final Image profilePhoto;
-  @JsonKey(name: 'is_lgbtq', required: true, disallowNullValue: true)
+
+  @JsonKey(
+    name: 'is_lgbtq',
+    required: true,
+    disallowNullValue: true,
+    fromJson: _parseJsonIntToBool,
+  )
   final bool isLgbt;
+
   @JsonKey(
       name: 'gender',
       required: true,
       disallowNullValue: true,
       fromJson: _genderFromJson)
   final Gender gender;
+
   @JsonKey(
-      name: 'generations_identity_id', required: true, disallowNullValue: true)
+    name: 'generations_identity_id',
+    required: true,
+    disallowNullValue: true,
+  )
   final int generationId;
-  @JsonKey(name: 'who_earns', required: true, disallowNullValue: true)
+
+  @JsonKey(
+    name: 'who_earns',
+    required: true,
+    disallowNullValue: true,
+  )
   final List<Earning> earnings;
-  @JsonKey(name: 'what_you_likes', required: true, disallowNullValue: true)
+
+  @JsonKey(
+    name: 'what_you_likes',
+    required: true,
+    disallowNullValue: true,
+  )
   final List<Interest> interests;
-  @JsonKey(name: 'latitude', required: true, disallowNullValue: true)
+
+  @JsonKey(
+    name: 'latitude',
+    required: true,
+    disallowNullValue: true,
+  )
   final String latitude;
-  @JsonKey(name: 'longitude', required: true, disallowNullValue: true)
+
+  @JsonKey(
+    name: 'longitude',
+    required: true,
+    disallowNullValue: true,
+  )
   final String longitude;
-  @JsonKey(name: 'distance', required: true, disallowNullValue: true)
+
+  @JsonKey(
+    name: 'distance',
+    required: true,
+    disallowNullValue: true,
+  )
   final String range;
+
   @JsonKey(
-      name: 'emergency_contact_name', required: true, disallowNullValue: false)
+    name: 'emergency_contact_name',
+    required: true,
+    disallowNullValue: false,
+  )
   final String? emergencyContactName;
+
   @JsonKey(
-      name: 'emergency_contact_phone', required: true, disallowNullValue: false)
+    name: 'emergency_contact_phone',
+    required: true,
+    disallowNullValue: false,
+  )
   final String? emergencyContactPhone;
-  @JsonKey(name: 'meta_data', required: true, disallowNullValue: false)
+
+  @JsonKey(
+    name: 'meta_data',
+    required: true,
+    disallowNullValue: false,
+  )
   final UserMeta? userMeta;
 
   Profile({
@@ -183,4 +266,28 @@ class Profile extends Equatable {
 // }
 }
 
-Gender _genderFromJson(int json) => json == 1 ? Gender.Male : Gender.Female;
+//CUSTOM PARSERS
+
+Gender _genderFromJson(jsonValue) {
+  late int value;
+
+  if (jsonValue is String) {
+    value = int.tryParse(jsonValue) ?? 1;
+  } else if (jsonValue is int) {
+    value = jsonValue;
+  }
+
+  return value == 1 ? Gender.Male : Gender.Female;
+}
+
+bool _parseJsonIntToBool(jsonValue) {
+  if (jsonValue is bool) {
+    return jsonValue;
+  }
+
+  if (jsonValue is num) {
+    return jsonValue == 1 ? true : false;
+  }
+
+  return false;
+}

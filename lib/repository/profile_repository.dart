@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:localstorage/localstorage.dart';
@@ -26,6 +24,7 @@ class ProfileRepository {
   Future<void> setProfile(Map<String, dynamic> data) async {
     await storage.ready;
     await storage.setItem("profile", data);
+
     profile = Profile.fromJson(data);
   }
 
@@ -71,8 +70,7 @@ class ProfileRepository {
       'phone': login,
       'password': password,
     };
-    if (fbToken != null && fbToken.isNotEmpty)
-      params["device_token"] = fbToken;
+    if (fbToken != null && fbToken.isNotEmpty) params["device_token"] = fbToken;
     Response response =
         await (await _apiService.dio.post(Api.API_LOGIN, data: params));
     return response.data;

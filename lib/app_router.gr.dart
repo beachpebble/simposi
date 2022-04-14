@@ -7,6 +7,8 @@
 // **************************************************************************
 // AutoRouteGenerator
 // **************************************************************************
+//
+// ignore_for_file: type=lint
 
 part of 'app_router.dart';
 
@@ -235,33 +237,38 @@ class _$AppRouter extends RootStackRouter {
       ];
 }
 
-/// generated route for [SplashScreen]
+/// generated route for
+/// [SplashScreen]
 class SplashScreenRoute extends PageRouteInfo<void> {
-  const SplashScreenRoute() : super(name, path: '/');
+  const SplashScreenRoute() : super(SplashScreenRoute.name, path: '/');
 
   static const String name = 'SplashScreenRoute';
 }
 
-/// generated route for [GetStartedScreen]
+/// generated route for
+/// [GetStartedScreen]
 class GetStartedScreenRoute extends PageRouteInfo<void> {
-  const GetStartedScreenRoute() : super(name, path: '/get-started-screen');
+  const GetStartedScreenRoute()
+      : super(GetStartedScreenRoute.name, path: '/get-started-screen');
 
   static const String name = 'GetStartedScreenRoute';
 }
 
-/// generated route for [ChangePasswordScreen]
+/// generated route for
+/// [ChangePasswordScreen]
 class ChangePasswordScreenRoute extends PageRouteInfo<void> {
   const ChangePasswordScreenRoute()
-      : super(name, path: '/change-password-screen');
+      : super(ChangePasswordScreenRoute.name, path: '/change-password-screen');
 
   static const String name = 'ChangePasswordScreenRoute';
 }
 
-/// generated route for [ResetPasswordScreen]
+/// generated route for
+/// [ResetPasswordScreen]
 class ResetPasswordScreenRoute
     extends PageRouteInfo<ResetPasswordScreenRouteArgs> {
   ResetPasswordScreenRoute({Key? key, required String phone})
-      : super(name,
+      : super(ResetPasswordScreenRoute.name,
             path: '/reset-password-screen',
             args: ResetPasswordScreenRouteArgs(key: key, phone: phone));
 
@@ -274,26 +281,36 @@ class ResetPasswordScreenRouteArgs {
   final Key? key;
 
   final String phone;
+
+  @override
+  String toString() {
+    return 'ResetPasswordScreenRouteArgs{key: $key, phone: $phone}';
+  }
 }
 
-/// generated route for [LoginScreen]
+/// generated route for
+/// [LoginScreen]
 class LoginScreenRoute extends PageRouteInfo<void> {
-  const LoginScreenRoute() : super(name, path: '/login-screen');
+  const LoginScreenRoute()
+      : super(LoginScreenRoute.name, path: '/login-screen');
 
   static const String name = 'LoginScreenRoute';
 }
 
-/// generated route for [SignUpForm1]
+/// generated route for
+/// [SignUpForm1]
 class SignUpForm1Route extends PageRouteInfo<void> {
-  const SignUpForm1Route() : super(name, path: '/sign-up-form1');
+  const SignUpForm1Route()
+      : super(SignUpForm1Route.name, path: '/sign-up-form1');
 
   static const String name = 'SignUpForm1Route';
 }
 
-/// generated route for [SignUpForm2]
+/// generated route for
+/// [SignUpForm2]
 class SignUpForm2Route extends PageRouteInfo<SignUpForm2RouteArgs> {
   SignUpForm2Route({bool editMode = false})
-      : super(name,
+      : super(SignUpForm2Route.name,
             path: '/sign-up-form2',
             args: SignUpForm2RouteArgs(editMode: editMode));
 
@@ -304,12 +321,18 @@ class SignUpForm2RouteArgs {
   const SignUpForm2RouteArgs({this.editMode = false});
 
   final bool editMode;
+
+  @override
+  String toString() {
+    return 'SignUpForm2RouteArgs{editMode: $editMode}';
+  }
 }
 
-/// generated route for [SignUpForm3]
+/// generated route for
+/// [SignUpForm3]
 class SignUpForm3Route extends PageRouteInfo<SignUpForm3RouteArgs> {
   SignUpForm3Route({bool editMode = false})
-      : super(name,
+      : super(SignUpForm3Route.name,
             path: '/sign-up-form3',
             args: SignUpForm3RouteArgs(editMode: editMode));
 
@@ -320,12 +343,18 @@ class SignUpForm3RouteArgs {
   const SignUpForm3RouteArgs({this.editMode = false});
 
   final bool editMode;
+
+  @override
+  String toString() {
+    return 'SignUpForm3RouteArgs{editMode: $editMode}';
+  }
 }
 
-/// generated route for [SignUpForm4]
+/// generated route for
+/// [SignUpForm4]
 class SignUpForm4Route extends PageRouteInfo<SignUpForm4RouteArgs> {
   SignUpForm4Route({bool editMode = false})
-      : super(name,
+      : super(SignUpForm4Route.name,
             path: '/sign-up-form4',
             args: SignUpForm4RouteArgs(editMode: editMode));
 
@@ -336,12 +365,18 @@ class SignUpForm4RouteArgs {
   const SignUpForm4RouteArgs({this.editMode = false});
 
   final bool editMode;
+
+  @override
+  String toString() {
+    return 'SignUpForm4RouteArgs{editMode: $editMode}';
+  }
 }
 
-/// generated route for [SignUpForm5]
+/// generated route for
+/// [SignUpForm5]
 class SignUpForm5Route extends PageRouteInfo<SignUpForm5RouteArgs> {
   SignUpForm5Route({Key? key, bool editMode = false})
-      : super(name,
+      : super(SignUpForm5Route.name,
             path: '/sign-up-form5',
             args: SignUpForm5RouteArgs(key: key, editMode: editMode));
 
@@ -354,12 +389,18 @@ class SignUpForm5RouteArgs {
   final Key? key;
 
   final bool editMode;
+
+  @override
+  String toString() {
+    return 'SignUpForm5RouteArgs{key: $key, editMode: $editMode}';
+  }
 }
 
-/// generated route for [SignUpForm6]
+/// generated route for
+/// [SignUpForm6]
 class SignUpForm6Route extends PageRouteInfo<SignUpForm6RouteArgs> {
   SignUpForm6Route({Key? key, bool editMode = false})
-      : super(name,
+      : super(SignUpForm6Route.name,
             path: '/sign-up-form6',
             args: SignUpForm6RouteArgs(key: key, editMode: editMode));
 
@@ -372,19 +413,27 @@ class SignUpForm6RouteArgs {
   final Key? key;
 
   final bool editMode;
+
+  @override
+  String toString() {
+    return 'SignUpForm6RouteArgs{key: $key, editMode: $editMode}';
+  }
 }
 
-/// generated route for [SignUpForm7]
+/// generated route for
+/// [SignUpForm7]
 class SignUpForm7Route extends PageRouteInfo<void> {
-  const SignUpForm7Route() : super(name, path: '/sign-up-form7');
+  const SignUpForm7Route()
+      : super(SignUpForm7Route.name, path: '/sign-up-form7');
 
   static const String name = 'SignUpForm7Route';
 }
 
-/// generated route for [SignUpForm8]
+/// generated route for
+/// [SignUpForm8]
 class SignUpForm8Route extends PageRouteInfo<SignUpForm8RouteArgs> {
   SignUpForm8Route({Key? key, required ValidateParameters validateParameters})
-      : super(name,
+      : super(SignUpForm8Route.name,
             path: '/sign-up-form8',
             args: SignUpForm8RouteArgs(
                 key: key, validateParameters: validateParameters));
@@ -398,119 +447,152 @@ class SignUpForm8RouteArgs {
   final Key? key;
 
   final ValidateParameters validateParameters;
+
+  @override
+  String toString() {
+    return 'SignUpForm8RouteArgs{key: $key, validateParameters: $validateParameters}';
+  }
 }
 
-/// generated route for [SimposiHome]
+/// generated route for
+/// [SimposiHome]
 class SimposiHomeRoute extends PageRouteInfo<void> {
-  const SimposiHomeRoute() : super(name, path: '/simposi-home');
+  const SimposiHomeRoute()
+      : super(SimposiHomeRoute.name, path: '/simposi-home');
 
   static const String name = 'SimposiHomeRoute';
 }
 
-/// generated route for [ProfileMenu]
+/// generated route for
+/// [ProfileMenu]
 class ProfileMenuRoute extends PageRouteInfo<void> {
-  const ProfileMenuRoute() : super(name, path: '/profile-menu');
+  const ProfileMenuRoute()
+      : super(ProfileMenuRoute.name, path: '/profile-menu');
 
   static const String name = 'ProfileMenuRoute';
 }
 
-/// generated route for [ProfileScreen]
+/// generated route for
+/// [ProfileScreen]
 class ProfileScreenRoute extends PageRouteInfo<void> {
-  const ProfileScreenRoute() : super(name, path: '/profile-screen');
+  const ProfileScreenRoute()
+      : super(ProfileScreenRoute.name, path: '/profile-screen');
 
   static const String name = 'ProfileScreenRoute';
 }
 
-/// generated route for [EventSettings]
+/// generated route for
+/// [EventSettings]
 class EventSettingsRoute extends PageRouteInfo<void> {
-  const EventSettingsRoute() : super(name, path: '/event-settings');
+  const EventSettingsRoute()
+      : super(EventSettingsRoute.name, path: '/event-settings');
 
   static const String name = 'EventSettingsRoute';
 }
 
-/// generated route for [InvitationSettings]
+/// generated route for
+/// [InvitationSettings]
 class InvitationSettingsRoute extends PageRouteInfo<void> {
-  const InvitationSettingsRoute() : super(name, path: '/invitation-settings');
+  const InvitationSettingsRoute()
+      : super(InvitationSettingsRoute.name, path: '/invitation-settings');
 
   static const String name = 'InvitationSettingsRoute';
 }
 
-/// generated route for [EmergencyContact]
+/// generated route for
+/// [EmergencyContact]
 class EmergencyContactRoute extends PageRouteInfo<void> {
-  const EmergencyContactRoute() : super(name, path: '/emergency-contact');
+  const EmergencyContactRoute()
+      : super(EmergencyContactRoute.name, path: '/emergency-contact');
 
   static const String name = 'EmergencyContactRoute';
 }
 
-/// generated route for [FAQScreen]
+/// generated route for
+/// [FAQScreen]
 class FAQScreenRoute extends PageRouteInfo<void> {
-  const FAQScreenRoute() : super(name, path: '/f-aq-screen');
+  const FAQScreenRoute() : super(FAQScreenRoute.name, path: '/f-aq-screen');
 
   static const String name = 'FAQScreenRoute';
 }
 
-/// generated route for [PrivacyScreen]
+/// generated route for
+/// [PrivacyScreen]
 class PrivacyScreenRoute extends PageRouteInfo<void> {
-  const PrivacyScreenRoute() : super(name, path: '/privacy-screen');
+  const PrivacyScreenRoute()
+      : super(PrivacyScreenRoute.name, path: '/privacy-screen');
 
   static const String name = 'PrivacyScreenRoute';
 }
 
-/// generated route for [TermsOfUse]
+/// generated route for
+/// [TermsOfUse]
 class TermsOfUseRoute extends PageRouteInfo<void> {
-  const TermsOfUseRoute() : super(name, path: '/terms-of-use');
+  const TermsOfUseRoute() : super(TermsOfUseRoute.name, path: '/terms-of-use');
 
   static const String name = 'TermsOfUseRoute';
 }
 
-/// generated route for [SubscriptionPurchase]
+/// generated route for
+/// [SubscriptionPurchase]
 class SubscriptionPurchaseRoute extends PageRouteInfo<void> {
   const SubscriptionPurchaseRoute()
-      : super(name, path: '/subscription-purchase');
+      : super(SubscriptionPurchaseRoute.name, path: '/subscription-purchase');
 
   static const String name = 'SubscriptionPurchaseRoute';
 }
 
-/// generated route for [SimposiSubscribe]
+/// generated route for
+/// [SimposiSubscribe]
 class SimposiSubscribeRoute extends PageRouteInfo<void> {
-  const SimposiSubscribeRoute() : super(name, path: '/simposi-subscribe');
+  const SimposiSubscribeRoute()
+      : super(SimposiSubscribeRoute.name, path: '/simposi-subscribe');
 
   static const String name = 'SimposiSubscribeRoute';
 }
 
-/// generated route for [EditProfile]
+/// generated route for
+/// [EditProfile]
 class EditProfileRoute extends PageRouteInfo<void> {
-  const EditProfileRoute() : super(name, path: '/edit-profile');
+  const EditProfileRoute()
+      : super(EditProfileRoute.name, path: '/edit-profile');
 
   static const String name = 'EditProfileRoute';
 }
 
-/// generated route for [CreateEvent1]
+/// generated route for
+/// [CreateEvent1]
 class CreateEvent1Route extends PageRouteInfo<void> {
-  const CreateEvent1Route() : super(name, path: '/create-event1');
+  const CreateEvent1Route()
+      : super(CreateEvent1Route.name, path: '/create-event1');
 
   static const String name = 'CreateEvent1Route';
 }
 
-/// generated route for [CreateEvent2]
+/// generated route for
+/// [CreateEvent2]
 class CreateEvent2Route extends PageRouteInfo<void> {
-  const CreateEvent2Route() : super(name, path: '/create-event2');
+  const CreateEvent2Route()
+      : super(CreateEvent2Route.name, path: '/create-event2');
 
   static const String name = 'CreateEvent2Route';
 }
 
-/// generated route for [CreateEvent3Activities]
+/// generated route for
+/// [CreateEvent3Activities]
 class CreateEvent3ActivitiesRoute extends PageRouteInfo<void> {
   const CreateEvent3ActivitiesRoute()
-      : super(name, path: '/create-event3-activities');
+      : super(CreateEvent3ActivitiesRoute.name,
+            path: '/create-event3-activities');
 
   static const String name = 'CreateEvent3ActivitiesRoute';
 }
 
-/// generated route for [CreateEvent4]
+/// generated route for
+/// [CreateEvent4]
 class CreateEvent4Route extends PageRouteInfo<CreateEvent4RouteArgs> {
   CreateEvent4Route({bool editMode = false})
-      : super(name,
+      : super(CreateEvent4Route.name,
             path: '/create-event4',
             args: CreateEvent4RouteArgs(editMode: editMode));
 
@@ -521,13 +603,19 @@ class CreateEvent4RouteArgs {
   const CreateEvent4RouteArgs({this.editMode = false});
 
   final bool editMode;
+
+  @override
+  String toString() {
+    return 'CreateEvent4RouteArgs{editMode: $editMode}';
+  }
 }
 
-/// generated route for [CreateEvent5Generations]
+/// generated route for
+/// [CreateEvent5Generations]
 class CreateEvent5GenerationsRoute
     extends PageRouteInfo<CreateEvent5GenerationsRouteArgs> {
   CreateEvent5GenerationsRoute({bool editMode = false})
-      : super(name,
+      : super(CreateEvent5GenerationsRoute.name,
             path: '/create-event5-generations',
             args: CreateEvent5GenerationsRouteArgs(editMode: editMode));
 
@@ -538,12 +626,18 @@ class CreateEvent5GenerationsRouteArgs {
   const CreateEvent5GenerationsRouteArgs({this.editMode = false});
 
   final bool editMode;
+
+  @override
+  String toString() {
+    return 'CreateEvent5GenerationsRouteArgs{editMode: $editMode}';
+  }
 }
 
-/// generated route for [CreateEvent6]
+/// generated route for
+/// [CreateEvent6]
 class CreateEvent6Route extends PageRouteInfo<CreateEvent6RouteArgs> {
   CreateEvent6Route({bool editMode = false})
-      : super(name,
+      : super(CreateEvent6Route.name,
             path: '/create-event6',
             args: CreateEvent6RouteArgs(editMode: editMode));
 
@@ -554,19 +648,27 @@ class CreateEvent6RouteArgs {
   const CreateEvent6RouteArgs({this.editMode = false});
 
   final bool editMode;
+
+  @override
+  String toString() {
+    return 'CreateEvent6RouteArgs{editMode: $editMode}';
+  }
 }
 
-/// generated route for [CreateEvent7]
+/// generated route for
+/// [CreateEvent7]
 class CreateEvent7Route extends PageRouteInfo<void> {
-  const CreateEvent7Route() : super(name, path: '/create-event7');
+  const CreateEvent7Route()
+      : super(CreateEvent7Route.name, path: '/create-event7');
 
   static const String name = 'CreateEvent7Route';
 }
 
-/// generated route for [EventDetails]
+/// generated route for
+/// [EventDetails]
 class EventDetailsRoute extends PageRouteInfo<EventDetailsRouteArgs> {
   EventDetailsRoute({Key? key, required EventModel eventModel})
-      : super(name,
+      : super(EventDetailsRoute.name,
             path: '/event-details',
             args: EventDetailsRouteArgs(key: key, eventModel: eventModel));
 
@@ -579,12 +681,18 @@ class EventDetailsRouteArgs {
   final Key? key;
 
   final EventModel eventModel;
+
+  @override
+  String toString() {
+    return 'EventDetailsRouteArgs{key: $key, eventModel: $eventModel}';
+  }
 }
 
-/// generated route for [GroupFinder]
+/// generated route for
+/// [GroupFinder]
 class GroupFinderRoute extends PageRouteInfo<GroupFinderRouteArgs> {
   GroupFinderRoute({Key? key, required Event event})
-      : super(name,
+      : super(GroupFinderRoute.name,
             path: '/group-finder',
             args: GroupFinderRouteArgs(key: key, event: event));
 
@@ -597,26 +705,36 @@ class GroupFinderRouteArgs {
   final Key? key;
 
   final Event event;
+
+  @override
+  String toString() {
+    return 'GroupFinderRouteArgs{key: $key, event: $event}';
+  }
 }
 
-/// generated route for [SurveyScreen]
+/// generated route for
+/// [SurveyScreen]
 class SurveyScreenRoute extends PageRouteInfo<void> {
-  const SurveyScreenRoute() : super(name, path: '/survey-screen');
+  const SurveyScreenRoute()
+      : super(SurveyScreenRoute.name, path: '/survey-screen');
 
   static const String name = 'SurveyScreenRoute';
 }
 
-/// generated route for [YouLikeEachOther]
+/// generated route for
+/// [YouLikeEachOther]
 class YouLikeEachOtherRoute extends PageRouteInfo<void> {
-  const YouLikeEachOtherRoute() : super(name, path: '/you-like-each-other');
+  const YouLikeEachOtherRoute()
+      : super(YouLikeEachOtherRoute.name, path: '/you-like-each-other');
 
   static const String name = 'YouLikeEachOtherRoute';
 }
 
-/// generated route for [ReportUser]
+/// generated route for
+/// [ReportUser]
 class ReportUserRoute extends PageRouteInfo<ReportUserRouteArgs> {
   ReportUserRoute({Key? key, required SurveyRequired surveyRequired})
-      : super(name,
+      : super(ReportUserRoute.name,
             path: '/report-user',
             args:
                 ReportUserRouteArgs(key: key, surveyRequired: surveyRequired));
@@ -630,4 +748,9 @@ class ReportUserRouteArgs {
   final Key? key;
 
   final SurveyRequired surveyRequired;
+
+  @override
+  String toString() {
+    return 'ReportUserRouteArgs{key: $key, surveyRequired: $surveyRequired}';
+  }
 }
