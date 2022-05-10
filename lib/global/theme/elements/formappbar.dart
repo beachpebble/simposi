@@ -5,14 +5,9 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
-
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-
-import '../../../app_router.dart';
 
 // JUST A BACK BUTTON APP BAR
 class BasicFormAppBar extends StatelessWidget with PreferredSizeWidget {
@@ -54,7 +49,8 @@ class HeaderFormAppBar extends StatelessWidget with PreferredSizeWidget {
   HeaderFormAppBar({
     Key? key,
     required this.headerTitle,
-    required this.nextButtonLabel, required this.onNext,
+    required this.nextButtonLabel,
+    required this.onNext,
   })  : preferredSize = Size.fromHeight(70),
         super(key: key);
 
@@ -80,7 +76,7 @@ class HeaderFormAppBar extends StatelessWidget with PreferredSizeWidget {
           builder: (BuildContext context) {
             return TextButton(
               onPressed: () {
-              AutoRouter.of(context).pop();
+                AutoRouter.of(context).pop();
               },
               child: Text(
                 'Cancel',

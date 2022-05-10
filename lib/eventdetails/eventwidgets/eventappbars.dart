@@ -5,8 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -104,19 +102,19 @@ class EventAppBar extends StatelessWidget with PreferredSizeWidget {
               color: SimposiAppColors.simposiDarkBlue,
             ),
           ),
+          onPressed: () => AutoRouter.of(context).pushNativeRoute(
+              cancelEventDialog(context, eventModel.rsvp, true)),
+        ),
+        FocusedMenuItem(
+          title: Text(
+            AppLocalizations.of(context)!.eventDetailsMenuCancelRsvp,
+            style: TextStyle(
+              color: SimposiAppColors.simposiDarkBlue,
+            ),
+          ),
           onPressed: () => AutoRouter.of(context)
-              .pushNativeRoute(cancelEventDialog(context, eventModel.rsvp, true)),
+              .pushNativeRoute(cancelRsvpDialog(context, eventModel.rsvp)),
         ),
-    FocusedMenuItem(
-      title: Text(
-        AppLocalizations.of(context)!.eventDetailsMenuCancelRsvp,
-        style: TextStyle(
-          color: SimposiAppColors.simposiDarkBlue,
-        ),
-      ),
-      onPressed: () => AutoRouter.of(context)
-          .pushNativeRoute(cancelRsvpDialog(context, eventModel.rsvp)),
-    ),
       ];
 
   List<FocusedMenuItem> usualMenu(BuildContext context) => [
@@ -161,36 +159,35 @@ Route<Object?> cancelRsvpDialog(BuildContext context, Rsvp rsvp) {
         builder: (context, state) {
           return (state is RsvpActionLoading)
               ? CupertinoAlertDialog(
-              content: Column(
-                children: [
-                  AppProgressIndicator(),
-                ],
-              ))
+                  content: Column(
+                  children: [
+                    AppProgressIndicator(),
+                  ],
+                ))
               : CupertinoAlertDialog(
-            title: Text(
-                AppLocalizations.of(context)!.cancelRsvpDialogTitle),
-            content: Text(AppLocalizations.of(context)!.cancelRsvpText),
-            actions: <Widget>[
-              CupertinoDialogAction(
-                  child: Text(
-                      AppLocalizations.of(context)!.cancelRsvpCancel),
-                  onPressed: () => AutoRouter.of(context).pop()),
-              CupertinoDialogAction(
-                  child: Text(
-                      AppLocalizations.of(context)!.cancelRsvpConfirm),
-                  onPressed: () {
-                    context
-                        .read<RsvpActionBloc>()
-                        .add(RsvpActionCanceled(rsvp));
-                  }),
-            ],
-          );
+                  title:
+                      Text(AppLocalizations.of(context)!.cancelRsvpDialogTitle),
+                  content: Text(AppLocalizations.of(context)!.cancelRsvpText),
+                  actions: <Widget>[
+                    CupertinoDialogAction(
+                        child: Text(
+                            AppLocalizations.of(context)!.cancelRsvpCancel),
+                        onPressed: () => AutoRouter.of(context).pop()),
+                    CupertinoDialogAction(
+                        child: Text(
+                            AppLocalizations.of(context)!.cancelRsvpConfirm),
+                        onPressed: () {
+                          context
+                              .read<RsvpActionBloc>()
+                              .add(RsvpActionCanceled(rsvp));
+                        }),
+                  ],
+                );
         },
       );
     },
   );
 }
-
 
 Route<Object?> cancelEventDialog(BuildContext context, Rsvp rsvp,
     [bool isCreator = false]) {
@@ -217,8 +214,7 @@ Route<Object?> cancelEventDialog(BuildContext context, Rsvp rsvp,
               : CupertinoAlertDialog(
                   title: Text(
                       AppLocalizations.of(context)!.cancelEventDialogTitle),
-                  content: Text(
-                       AppLocalizations.of(context)!.cancelEventText),
+                  content: Text(AppLocalizations.of(context)!.cancelEventText),
                   actions: <Widget>[
                     CupertinoDialogAction(
                         child: Text(
@@ -239,4 +235,3 @@ Route<Object?> cancelEventDialog(BuildContext context, Rsvp rsvp,
     },
   );
 }
-

@@ -5,7 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +19,6 @@ import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/counterbubble.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposiappbar.dart';
 import 'package:simposi_app_v4/global/widgets/progress.dart';
-import 'package:simposi_app_v4/model/rsvp.dart';
-import 'package:simposi_app_v4/model/rsvp.dart';
 import 'package:simposi_app_v4/utils/date_utils.dart';
 
 import 'bloc/calendar_bloc.dart';
@@ -47,7 +44,7 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
     _itemPositionsListener = ItemPositionsListener.create();
     _itemPositionsListener.itemPositions.addListener(() {
       List<ItemPosition> items =
-      _itemPositionsListener.itemPositions.value.toList();
+          _itemPositionsListener.itemPositions.value.toList();
       items.sort((s1, s2) {
         return s1.index.compareTo(s2.index);
       });
@@ -84,8 +81,7 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
                 'TODO Refresh',
                 style: TextStyle(fontSize: 17),
               ),
-              onPressed: () =>
-              {
+              onPressed: () => {
                 context.read<RsvpBloc>().add(RefreshRequested(
                     DateTime.now().subtract(Duration(days: 90)),
                     DateTime.now().add(Duration(days: 90))))
@@ -163,8 +159,9 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
                 BlocBuilder<RsvpBloc, RsvpState>(
                   builder: (context, state) {
                     return SimposiCounterBubble(
-                      count:
-                      state is RsvpLoaded ? state.accepted.toString() : '0', // TODO: Set Variable for Counter which displays RSVPs where status = Accepted or Created by ELSE display 0
+                      count: state is RsvpLoaded
+                          ? state.accepted.toString()
+                          : '0', // TODO: Set Variable for Counter which displays RSVPs where status = Accepted or Created by ELSE display 0
                     );
                   },
                 ),

@@ -5,16 +5,10 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
-
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simposi_app_v4/app_router.dart';
-import 'package:simposi_app_v4/bloc/profile/profile_bloc.dart';
 import 'package:simposi_app_v4/bloc/rsvp/rsvp_bloc.dart';
 import 'package:simposi_app_v4/global/theme/elements/counterbubble.dart';
-import 'package:simposi_app_v4/model/event.dart';
 
 import '../../../calendar/simposicalendar.dart';
 import '../../../discover/discoverscreen.dart';
@@ -42,8 +36,7 @@ class _SimposiHomeState extends State<SimposiHome> {
   ];
 
   @override
-  Widget build(BuildContext context) =>
-      Scaffold(
+  Widget build(BuildContext context) => Scaffold(
         backgroundColor: SimposiAppColors.greyBackground,
 
         // Call Pages (w/Header)

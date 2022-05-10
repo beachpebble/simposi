@@ -5,8 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,10 +35,17 @@ class _SignUpForm2State extends CreateEventScreenState<CreateEvent4> {
   void initState() {
     super.initState();
     _isLgbt = widget.editMode
-        ? context.read<ProfileRepository>().profile.userMeta?.wantToMeetLgbt ?? false
+        ? context.read<ProfileRepository>().profile.userMeta?.wantToMeetLgbt ??
+            false
         : context.read<EventEditCubit>().lgbt;
     _selected = widget.editMode
-        ? context.read<ProfileRepository>().profile.userMeta?.wantToMeetGender.toSet() ?? {}
+        ? context
+                .read<ProfileRepository>()
+                .profile
+                .userMeta
+                ?.wantToMeetGender
+                .toSet() ??
+            {}
         : context.read<EventEditCubit>().wantToMeetGender ?? {};
   }
 
@@ -169,8 +174,8 @@ class _SignUpForm2State extends CreateEventScreenState<CreateEvent4> {
   @override
   VoidCallback? saveAction() => _selected.isNotEmpty
       ? () {
-          context
-              .read<ProfileBloc>().add(ProfileUpdateWantToMeetGender(gender: _selected.toList(), isLgbt: _isLgbt));
+          context.read<ProfileBloc>().add(ProfileUpdateWantToMeetGender(
+              gender: _selected.toList(), isLgbt: _isLgbt));
         }
       : null;
 

@@ -7,16 +7,10 @@
 
 // Global
 import 'package:flutter/material.dart';
-import 'package:simposi_app_v4/affinityindex/affinityratingcards.dart';
-import 'package:simposi_app_v4/affinityindex/reportuser.dart';
-import 'package:simposi_app_v4/checkin/groupfinder.dart';
-import 'package:simposi_app_v4/checkin/groupfinderchat.dart';
-
 // Discover
 import 'package:simposi_app_v4/discover/discoverscreen.dart';
 import 'package:simposi_app_v4/eventdetails/reportevent.dart';
 import 'package:simposi_app_v4/notifications/adminalert.dart';
-
 // Alerts & Notifications
 import 'package:simposi_app_v4/notifications/alertsscreen.dart';
 import 'package:simposi_app_v4/notifications/newtimesuggestedalert.dart';
@@ -76,5 +70,6 @@ class RouteGenerator {
 
       // Default Error Message
     }
+    return null;
   }
 }

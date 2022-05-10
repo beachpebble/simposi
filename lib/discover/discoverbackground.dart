@@ -5,10 +5,8 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
-
 
 class SimposiDiscoverBackground extends StatelessWidget {
   @override
@@ -42,9 +40,7 @@ class SimposiDiscoverBackground extends StatelessWidget {
         SizedBox(height: 20.0),
 
         // TODO: Enable this to reset the Card Deck
-        SmallPinkButton(
-            buttonLabel: 'Reset',
-            nextPage: '/createevent'),
+        SmallPinkButton(buttonLabel: 'Reset', nextPage: '/createevent'),
       ],
     );
   }

@@ -5,7 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'appcolors.dart';
 
@@ -21,10 +20,8 @@ class SimposiThemes {
     // Simposi Color Scheme
       colorScheme: ColorScheme.light(
         primary: SimposiAppColors.simposiLightText,
-        primaryVariant: SimposiAppColors.simposiDarkGrey,
         onPrimary: Colors.white,
         secondary: SimposiAppColors.simposiDarkBlue,
-        secondaryVariant: SimposiAppColors.simposiFadedBlue,
         onSecondary: Colors.white,
         background: SimposiAppColors.greyBackground,
         onBackground: SimposiAppColors.simposiDarkGrey,

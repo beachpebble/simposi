@@ -5,14 +5,11 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'package:auto_route/annotations.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:simposi_app_v4/bloc/profile/profile_bloc.dart';
 import 'package:simposi_app_v4/checkin/bloc/group_finder_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposiappbar.dart';
@@ -20,7 +17,6 @@ import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/model/event.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 
-import '../app_router.dart';
 import 'expiration_timer.dart';
 import 'group_locator.dart';
 
@@ -33,7 +29,7 @@ class GroupFinder extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => GroupFinderBloc(
-        profileBloc: context.read(),
+          profileBloc: context.read(),
           rsvpBloc: context.read(),
           calendarRepository: context.read(),
           profileRepository: context.read(),
@@ -47,17 +43,16 @@ class GroupFinder extends StatelessWidget {
           ),
           simposiAction: Row(
             children: [
-
               TextButton(
                 child: Text(
                   'Info',
                   style: TextStyle(fontSize: 17),
                 ),
-                onPressed: () {showErrorToast("Not implemented yet");
+                onPressed: () {
+                  showErrorToast("Not implemented yet");
                   //context.read<ProfileBloc>().add(ProfileReload());
-    //AutoRouter.of(context).replace(AffinityRatingCardsRoute());
+                  //AutoRouter.of(context).replace(AffinityRatingCardsRoute());
                 },
-
               ),
               SizedBox(width: 10),
             ],
@@ -118,7 +113,7 @@ class GroupFinder extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(AppLocalizations.of(context)!
-                              .groupFinderArrived(state.users.length+1, '4')),
+                              .groupFinderArrived(state.users.length + 1, '4')),
                         )
                       ],
                     ),

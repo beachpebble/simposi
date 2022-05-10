@@ -5,9 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/bloc/survey/survey_bloc.dart';
@@ -18,10 +15,9 @@ import 'package:simposi_app_v4/model/survey_required.dart';
 import 'affinityratingcards.dart';
 
 class SurveyScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       body: SafeArea(
         child: BlocBuilder<SurveyBloc, SurveyState>(
           builder: (context, state) {
@@ -43,9 +39,9 @@ class SurveyScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text("Loading surveys"),
-        Row(children: [
-          AppProgressIndicator()
-        ],)
+        Row(
+          children: [AppProgressIndicator()],
+        )
       ],
     );
   }
@@ -54,11 +50,17 @@ class SurveyScreen extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("Error loading surveys", textAlign: TextAlign.center,),
-        Text(errorText, textAlign: TextAlign.center,),
-        Row(children: [
-          AppProgressIndicator()
-        ],)
+        Text(
+          "Error loading surveys",
+          textAlign: TextAlign.center,
+        ),
+        Text(
+          errorText,
+          textAlign: TextAlign.center,
+        ),
+        Row(
+          children: [AppProgressIndicator()],
+        )
       ],
     );
   }

@@ -5,8 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -44,11 +42,11 @@ class _CreateEvent1State extends State<CreateEvent1> {
   void initState() {
     super.initState();
     _fileUrl = context.read<EventEditCubit>().photoUrl;
-    _dateTime = context.read<EventEditCubit>().dateTime ??  DateTime.now().add(Duration(hours: 2));
-    _dateTimeValue = context.read<EventEditCubit>().dateTime ??
-        _dateTime;
-    _dateController = TextEditingController(text: DateFormat('yyyy-MM-dd – hh:mm a')
-        .format(_dateTimeValue!))
+    _dateTime = context.read<EventEditCubit>().dateTime ??
+        DateTime.now().add(Duration(hours: 2));
+    _dateTimeValue = context.read<EventEditCubit>().dateTime ?? _dateTime;
+    _dateController = TextEditingController(
+        text: DateFormat('yyyy-MM-dd – hh:mm a').format(_dateTimeValue!))
       ..addListener(() {
         setState(() {});
       });
@@ -76,83 +74,83 @@ class _CreateEvent1State extends State<CreateEvent1> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    backgroundColor: Colors.white,
-    extendBodyBehindAppBar: true,
-    appBar: BasicFormAppBar(),
-    body: LayoutBuilder(builder:
-        (BuildContext context, BoxConstraints viewportConstraints) {
-      return SingleChildScrollView(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            minHeight: viewportConstraints.maxHeight,
-          ),
-          child: IntrinsicHeight(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  // Header
-                  Container(
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 45),
-                        LinearProgressIndicator(
-                          value: CreateEvent1.progress,
-                          valueColor: AlwaysStoppedAnimation(
-                              SimposiAppColors.simposiDarkBlue),
-                          backgroundColor:
-                          SimposiAppColors.simposiFadedBlue,
+        backgroundColor: Colors.white,
+        extendBodyBehindAppBar: true,
+        appBar: BasicFormAppBar(),
+        body: LayoutBuilder(builder:
+            (BuildContext context, BoxConstraints viewportConstraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: viewportConstraints.maxHeight,
+              ),
+              child: IntrinsicHeight(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      // Header
+                      Container(
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 45),
+                            LinearProgressIndicator(
+                              value: CreateEvent1.progress,
+                              valueColor: AlwaysStoppedAnimation(
+                                  SimposiAppColors.simposiDarkBlue),
+                              backgroundColor:
+                                  SimposiAppColors.simposiFadedBlue,
+                            ),
+                            const SizedBox(height: 70),
+                            Text(
+                              'Post an activity \nand start meeting new people.',
+                              style: Theme.of(context).textTheme.headline3,
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 20),
+                            EventPhotoPick(
+                              initialImage:
+                                  context.read<EventEditCubit>().photoUrl,
+                              imageSelectCallback: (val) {
+                                print("selected image $val");
+                                setState(() {
+                                  _filePath = val;
+                                });
+                              },
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 70),
-                        Text(
-                          'Post an activity \nand start meeting new people.',
-                          style: Theme.of(context).textTheme.headline3,
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 20),
-                        EventPhotoPick(
-                          initialImage: context.read<EventEditCubit>().photoUrl,
-                          imageSelectCallback: (val) {
-                            print("selected image $val");
-                            setState(() {
-                              _filePath = val;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 10),
+                      ),
+                      const SizedBox(height: 10),
 
-                  // Body
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 40, vertical: 10),
-                      child: Column(
-                        children: [
-                          SimposiCounterField(
-                            inputType: TextInputType.text,
-                            fieldLabel: 'Title',
-                            counterLength: 60,
-                            fieldController: _titleController,
-                            validationLogic: (value) {
-                              if (value!.length < 4) {
-                                return 'Please enter a Title for your activity';
-                              } else {
-                                return null;
-                              }
-                            },
-                          ),
-                          const SizedBox(height: 10),
-                          GestureDetector(
-                            onTap: () {
-                              _dateTimeValue = _dateTime ??
-                                  DateTime.now().add(Duration(hours: 2));
-                              showCupertinoModalPopup(
-                                context: context,
-                                builder: (context) =>
-                                    CupertinoActionSheet(
+                      // Body
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 40, vertical: 10),
+                          child: Column(
+                            children: [
+                              SimposiCounterField(
+                                inputType: TextInputType.text,
+                                fieldLabel: 'Title',
+                                counterLength: 60,
+                                fieldController: _titleController,
+                                validationLogic: (value) {
+                                  if (value!.length < 4) {
+                                    return 'Please enter a Title for your activity';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              ),
+                              const SizedBox(height: 10),
+                              GestureDetector(
+                                onTap: () {
+                                  _dateTimeValue = _dateTime ??
+                                      DateTime.now().add(Duration(hours: 2));
+                                  showCupertinoModalPopup(
+                                    context: context,
+                                    builder: (context) => CupertinoActionSheet(
                                       actions: [
                                         Container(
                                             height: 300,
@@ -164,8 +162,7 @@ class _CreateEvent1State extends State<CreateEvent1> {
                                               },
                                             ))
                                       ],
-                                      cancelButton:
-                                      CupertinoActionSheetAction(
+                                      cancelButton: CupertinoActionSheetAction(
                                         child: Text('Save'),
                                         onPressed: () {
                                           _dateTime = _dateTimeValue;
@@ -176,76 +173,77 @@ class _CreateEvent1State extends State<CreateEvent1> {
                                         },
                                       ),
                                     ),
-                              );
-                            },
-                            child: AbsorbPointer(
-                              child: SimposiPlainField(
-                                inputType: TextInputType.datetime,
-                                fieldLabel: 'Date & Time',
-                                fieldController: _dateController,
+                                  );
+                                },
+                                child: AbsorbPointer(
+                                  child: SimposiPlainField(
+                                    inputType: TextInputType.datetime,
+                                    fieldLabel: 'Date & Time',
+                                    fieldController: _dateController,
+                                    validationLogic: (value) {
+                                      if (value!.length < 4) {
+                                        return 'Please enter a Date & Time';
+                                      } else {
+                                        return null;
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              SimposiLargeTextField(
+                                fieldLabel: 'Description',
+                                textAreaLines: 10,
+                                fieldController: _descriptionController,
                                 validationLogic: (value) {
                                   if (value!.length < 4) {
-                                    return 'Please enter a Date & Time';
+                                    return 'Please enter a description';
                                   } else {
                                     return null;
                                   }
                                 },
                               ),
-                            ),
+                              const SizedBox(height: 10),
+                              ContinueButton(
+                                  buttonLabel: 'Submit',
+                                  buttonAction: _nextEnabled()
+                                      ? () {
+                                          if (_formKey.currentState!
+                                              .validate()) {
+                                            if (_filePath?.isNotEmpty == true ||
+                                                _fileUrl?.isNotEmpty == true) {
+                                              _formKey.currentState!.save();
+                                              context
+                                                  .read<EventEditCubit>()
+                                                  .stage1(
+                                                      title:
+                                                          _titleController.text,
+                                                      description:
+                                                          _descriptionController
+                                                              .text,
+                                                      dateTime: _dateTime!,
+                                                      file: _filePath,
+                                                      url: _fileUrl);
+                                              AutoRouter.of(context)
+                                                  .push(CreateEvent2Route());
+                                            } else {
+                                              showErrorToast("Add photo");
+                                            }
+                                          }
+                                        }
+                                      : null)
+                            ],
                           ),
-                          const SizedBox(height: 10),
-                          SimposiLargeTextField(
-                            fieldLabel: 'Description',
-                            textAreaLines: 10,
-                            fieldController: _descriptionController,
-                            validationLogic: (value) {
-                              if (value!.length < 4) {
-                                return 'Please enter a description';
-                              } else {
-                                return null;
-                              }
-                            },
-                          ),
-                          const SizedBox(height: 10),
-                          ContinueButton(
-                              buttonLabel: 'Submit',
-                              buttonAction: _nextEnabled()
-                                  ? () {
-                                if (_formKey.currentState!
-                                    .validate()) {
-                                  if (_filePath?.isNotEmpty ==
-                                      true || _fileUrl?.isNotEmpty == true) {
-                                    _formKey.currentState!.save();
-                                    context
-                                        .read<EventEditCubit>()
-                                        .stage1(
-                                        title: _titleController
-                                            .text,
-                                        description:
-                                        _descriptionController
-                                            .text,
-                                        dateTime: _dateTime!,
-                                        file: _filePath, url: _fileUrl);
-                                    AutoRouter.of(context)
-                                        .push(CreateEvent2Route());
-                                  } else {
-                                    showErrorToast("Add photo");
-                                  }
-                                }
-                              }
-                                  : null)
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
-          ),
-        ),
+          );
+        }),
       );
-    }),
-  );
 
   bool _nextEnabled() {
     if (_titleController.text.length > 0 &&

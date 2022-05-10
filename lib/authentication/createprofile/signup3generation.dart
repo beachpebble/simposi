@@ -5,10 +5,7 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
-
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/app_router.dart';
@@ -84,11 +81,8 @@ class _SignUpForm3State extends RegistrationProfileScreenState<SignUpForm3> {
               padding: const EdgeInsets.fromLTRB(40, 10, 40, 20),
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: context
-                  .read<AppSetupCubit>()
-                  .masterData
-                  .generations
-                  .length,
+              itemCount:
+                  context.read<AppSetupCubit>().masterData.generations.length,
               separatorBuilder: (context, index) {
                 return const SizedBox(height: 10);
               },
@@ -100,10 +94,10 @@ class _SignUpForm3State extends RegistrationProfileScreenState<SignUpForm3> {
                         .generations[index]
                         .title,
                     isSelected: context
-                        .read<AppSetupCubit>()
-                        .masterData
-                        .generations[index]
-                        .id ==
+                            .read<AppSetupCubit>()
+                            .masterData
+                            .generations[index]
+                            .id ==
                         _selected,
                     buttonAction: () {
                       _selectGeneration(context

@@ -5,10 +5,7 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
-
 import 'package:auto_route/auto_route.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
@@ -209,8 +206,7 @@ class _SignUpForm7State extends State<SignUpForm7> {
                         child: ContinueButton(
                           buttonLabel: 'Finish',
                           buttonAction: _isFinishEnabled()
-                              ? () =>
-                                  context.read<RegistrationCubit>().finish()
+                              ? () => context.read<RegistrationCubit>().finish()
                               : null,
                         ),
                       ),

@@ -5,7 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';

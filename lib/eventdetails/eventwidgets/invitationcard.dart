@@ -5,8 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +72,8 @@ class InvitationCard extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: BlocConsumer<RsvpActionBloc, RsvpActionState>(
                   listener: (context, state) {
-                    if (state is RsvpActionSuccess && !state.dontCloseAfterAction)
+                    if (state is RsvpActionSuccess &&
+                        !state.dontCloseAfterAction)
                       AutoRouter.of(context).replace(SimposiHomeRoute());
                     else if (state is RsvpActionError) {
                       showErrorToast(handleError(state.error, context));

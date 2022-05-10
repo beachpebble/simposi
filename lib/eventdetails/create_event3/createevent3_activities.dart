@@ -5,11 +5,9 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup5activities/selectable_chip.dart';
 import 'package:simposi_app_v4/bloc/app_setup/app_setup_cubit.dart';
