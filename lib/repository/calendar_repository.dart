@@ -81,8 +81,7 @@ class CalendarRepository {
         "what_you_likes": wantToMeetInterests.map((e) => e.id).toList(),
         "who_earns": wantToMeetEarnings.map((e) => e.id).toList(),
       };
-      final response =
-          await _apiService.dio.post(Api.API_NEW_EVENT, data: data);
+      final response = await _apiService.dio.post(Api.API_EVENT, data: data);
       return response.data;
     } else {
       throw ParseException(
@@ -144,8 +143,7 @@ class CalendarRepository {
     if (imgName != null) {
       data['image'] = imgName;
     }
-    final response =
-        await _apiService.dio.put(Api.API_NEW_EVENT, data: data);
+    final response = await _apiService.dio.put(Api.API_EVENT, data: data);
     return response.data;
   }
 
@@ -219,6 +217,7 @@ class CalendarRepository {
           message: "Unexpected response");
     }
   }
+
   Future cancelEvent(int id) async {
     final response = await _apiService.dio.get(
       "${Api.API_EVENT_CANCEL}/$id",
@@ -243,8 +242,7 @@ class CalendarRepository {
     final Map? data = response.data;
     final List<dynamic>? grpUsers = data?['data']?['users'];
     if (grpUsers != null) {
-      final users =
-          grpUsers.map((e) => GroupFinderUser.fromJson(e)).toList();
+      final users = grpUsers.map((e) => GroupFinderUser.fromJson(e)).toList();
       return users;
     } else {
       throw ParseException(

@@ -11,6 +11,8 @@ import 'authentication/login/splash_screen.dart';
 import 'global/theme/theme.dart';
 
 class SimposiApp extends StatefulWidget {
+  const SimposiApp({super.key});
+
   @override
   State createState() => _SimposiAppState();
 }

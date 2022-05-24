@@ -22,12 +22,14 @@ if (flutterVersionName == null) {
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 32
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -36,8 +38,8 @@ android {
     defaultConfig {
         applicationId "com.simposi.simposi_app_v4"
         multiDexEnabled true
-        minSdkVersion 20
-        targetSdkVersion 31
+        minSdkVersion 23
+        targetSdkVersion 32
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -49,6 +51,7 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+    namespace 'com.simposi.simposi_app_v4'
 }
 
 flutter {
