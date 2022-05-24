@@ -12,7 +12,7 @@ import 'global/theme/theme.dart';
 
 class SimposiApp extends StatefulWidget {
   @override
-  _SimposiAppState createState() => _SimposiAppState();
+  State createState() => _SimposiAppState();
 }
 
 class _SimposiAppState extends State<SimposiApp> {
@@ -34,20 +34,20 @@ class _SimposiAppState extends State<SimposiApp> {
             return BlocListener<NavigationBloc, NavigationState>(
                 listener: (context, state) {
                   if (state is NavigationLogin) {
-                    _appRouter.replaceAll(
-                        [const GetStartedScreenRoute(), const LoginScreenRoute()]);
+                    _appRouter.replaceAll([
+                      const GetStartedScreenRoute(),
+                      const LoginScreenRoute()
+                    ]);
                   } else if (state is NavigationMain) {
                     _appRouter.replace(const SimposiHomeRoute());
                   } else if (state is NavigationNotAuth) {
-                    _appRouter.replaceAll(
-                        [const GetStartedScreenRoute()]);
+                    _appRouter.replaceAll([const GetStartedScreenRoute()]);
                   } else if (state is NavigationOnEvent) {
                     _appRouter
                         .replaceAll([GroupFinderRoute(event: state.event)]);
                   } else if (state is NavigationSurveyNeed) {
                     context.read<SurveyBloc>().add(SurveyRefreshEvent());
-                    _appRouter
-                        .replaceAll([const SurveyScreenRoute()]);
+                    _appRouter.replaceAll([const SurveyScreenRoute()]);
                   }
 
                   // if (state is NotAuthenticated) {

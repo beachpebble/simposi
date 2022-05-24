@@ -18,7 +18,7 @@ class EventSettings extends StatefulWidget {
   const EventSettings({Key? key}) : super(key: key);
 
   @override
-  _EventSettingsState createState() => _EventSettingsState();
+  State createState() => _EventSettingsState();
 }
 
 class _EventSettingsState extends State<EventSettings> {

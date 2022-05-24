@@ -17,7 +17,7 @@ class EventPhotoPick extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _EventPhotoPickState createState() => _EventPhotoPickState();
+  State createState() => _EventPhotoPickState();
 }
 
 class _EventPhotoPickState extends State<EventPhotoPick> {
@@ -71,7 +71,7 @@ class _EventPhotoPickState extends State<EventPhotoPick> {
               ))
           : CachedNetworkImage(
               imageUrl: widget.initialImage!,
-        width: MediaQuery.of(context).size.width - 100,
+              width: MediaQuery.of(context).size.width - 100,
               height: 150,
               imageBuilder: (context, imageProvider) => Container(
                 decoration: BoxDecoration(
@@ -82,8 +82,8 @@ class _EventPhotoPickState extends State<EventPhotoPick> {
                   ),
                 ),
               ),
-              placeholder: (context, url) =>
-                  const SizedBox(height: 25, child: CircularProgressIndicator()),
+              placeholder: (context, url) => const SizedBox(
+                  height: 25, child: CircularProgressIndicator()),
               errorWidget: (context, url, error) => const Icon(Icons.error),
             );
     }

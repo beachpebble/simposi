@@ -9,7 +9,7 @@ class ExpirationTimer extends StatefulWidget {
   final DateTime eventDate;
 
   @override
-  _ExpirationTimerState createState() => _ExpirationTimerState();
+  State createState() => _ExpirationTimerState();
 }
 
 class _ExpirationTimerState extends State<ExpirationTimer> {
@@ -22,14 +22,18 @@ class _ExpirationTimerState extends State<ExpirationTimer> {
       oneSec,
       (Timer timer) {
         final now = DateTime.now().toUtc();
-        final dif = widget.eventDate.add(const Duration(hours: 1)).toUtc().difference(now);
+        final dif = widget.eventDate
+            .add(const Duration(hours: 1))
+            .toUtc()
+            .difference(now);
         final inMin = dif.inMinutes;
         final hours = inMin ~/ 60;
         final minutes = inMin - 60 * hours;
         if (hours < 0 || minutes < 0) {
           time = "--:--";
         } else {
-          time = "${hours.toString().padLeft(2, "0")}:${minutes.toString().padLeft(2, "0")} m";
+          time =
+              "${hours.toString().padLeft(2, "0")}:${minutes.toString().padLeft(2, "0")} m";
         }
 
         if (hours == 0 && minutes == 0) {

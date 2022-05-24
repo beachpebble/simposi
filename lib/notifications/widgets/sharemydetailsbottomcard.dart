@@ -5,7 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-
 import 'package:flutter/material.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
@@ -49,7 +48,7 @@ class ShareDetailsButton extends StatelessWidget {
 // SHARE DETAILS BOTTOM SHEET
 class ShareDetailsPopup extends StatefulWidget {
   @override
-  _ShareDetailsPopupState createState() => _ShareDetailsPopupState();
+  State createState() => _ShareDetailsPopupState();
 }
 
 class _ShareDetailsPopupState extends State<ShareDetailsPopup> {

@@ -18,7 +18,7 @@ class InvitationSettings extends StatefulWidget {
   const InvitationSettings({Key? key}) : super(key: key);
 
   @override
-  _InvitationSettingsState createState() => _InvitationSettingsState();
+  State createState() => _InvitationSettingsState();
 }
 
 class _InvitationSettingsState extends State<InvitationSettings> {

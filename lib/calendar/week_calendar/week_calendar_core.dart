@@ -3,7 +3,7 @@ import 'package:simposi_app_v4/global/theme/appcolors.dart';
 
 import 'utils.dart';
 
-typedef _OnCalendarPageChanged = void Function(
+typedef OnCalendarPageChanged = void Function(
     int pageIndex, DateTime focusedDay);
 
 class WeekCalendarCore extends StatelessWidget {
@@ -21,7 +21,7 @@ class WeekCalendarCore extends StatelessWidget {
   final int? previousIndex;
   final PageController? pageController;
   final ScrollPhysics? scrollPhysics;
-  final _OnCalendarPageChanged onPageChanged;
+  final OnCalendarPageChanged onPageChanged;
 
   const WeekCalendarCore({
     Key? key,

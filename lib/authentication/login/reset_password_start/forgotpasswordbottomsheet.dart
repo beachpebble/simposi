@@ -5,7 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,8 +13,8 @@ import 'package:simposi_app_v4/app_router.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/global/widgets/phone_field.dart';
-import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/global/widgets/progress.dart';
+import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'forgot_password_start_cubit.dart';
@@ -23,7 +22,7 @@ import 'forgot_password_start_cubit.dart';
 // FORGOT PASSWORD BOTTOM SHEET
 class ForgotPasswordForm extends StatefulWidget {
   @override
-  _ForgotPasswordFormState createState() => _ForgotPasswordFormState();
+  State createState() => _ForgotPasswordFormState();
 }
 
 class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
@@ -53,7 +52,8 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
             } else if (state is ForgotPasswordStartSuccess) {
               showInfoToast("Code was sent via SMS");
               AutoRouter.of(context).pop();
-              AutoRouter.of(context).push(ResetPasswordScreenRoute(phone: phone));
+              AutoRouter.of(context)
+                  .push(ResetPasswordScreenRoute(phone: phone));
             }
           },
           builder: (context, state) {
@@ -92,27 +92,31 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                           children: [
                             PhoneField(
                               controller: _phoneController,
-                              onSave: (value) =>
-                                  setState(() => phone = value),
+                              onSave: (value) => setState(() => phone = value),
                             ),
                             const SizedBox(height: 10),
                             state is ForgotPasswordStartLoading
                                 ? AppProgressIndicator()
                                 : ContinueButton(
                                     buttonLabel: 'Reset Password',
-                                    buttonAction: _phoneController.text.isNotEmpty ? () {
-                                      final isValid =
-                                          _formKey.currentState!.validate();
+                                    buttonAction:
+                                        _phoneController.text.isNotEmpty
+                                            ? () {
+                                                final isValid = _formKey
+                                                    .currentState!
+                                                    .validate();
 
-                                      if (isValid) {
-                                        _formKey.currentState!.save();
-                                        print('Email: $phone');
-                                        context
-                                            .read<ForgotPasswordStartCubit>()
-                                            .sendForgotPasswordRequest(
-                                                phone: phone);
-                                      }
-                                    } : null),
+                                                if (isValid) {
+                                                  _formKey.currentState!.save();
+                                                  print('Email: $phone');
+                                                  context
+                                                      .read<
+                                                          ForgotPasswordStartCubit>()
+                                                      .sendForgotPasswordRequest(
+                                                          phone: phone);
+                                                }
+                                              }
+                                            : null),
                           ],
                         ),
                       ),
@@ -137,8 +141,8 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
 
   void _contactSupport() async {
     _formKey.currentState!.save();
-    final url = 'mailto:support@simposi.com?subject=Account%20Recovery%20-%20$phone&body=$phone';
+    final url =
+        'mailto:support@simposi.com?subject=Account%20Recovery%20-%20$phone&body=$phone';
     await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
   }
-
 }

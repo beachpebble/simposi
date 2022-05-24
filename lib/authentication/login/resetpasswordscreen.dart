@@ -8,17 +8,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
+import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 
 import '../../app_router.dart';
-
 
 class ResetPassword extends StatefulWidget {
   // Set Variables
   @override
-  _ResetPasswordState createState() => _ResetPasswordState();
+  State createState() => _ResetPasswordState();
 }
 
 class _ResetPasswordState extends State<ResetPassword> {
@@ -44,17 +43,16 @@ class _ResetPasswordState extends State<ResetPassword> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) => KeyboardDismisser(
-    child: Scaffold(
-      backgroundColor: Colors.white,
+        child: Scaffold(
+          backgroundColor: Colors.white,
 
-      // TODO: Hide App Bar if user accesses Reset Password via a link (no back button if coming from link)
-      appBar: BasicFormAppBar(),
+          // TODO: Hide App Bar if user accesses Reset Password via a link (no back button if coming from link)
+          appBar: BasicFormAppBar(),
 
-      body: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints viewportConstraints) {
+          body: LayoutBuilder(builder:
+              (BuildContext context, BoxConstraints viewportConstraints) {
             return SingleChildScrollView(
               child: ConstrainedBox(
                 constraints: BoxConstraints(
@@ -66,7 +64,6 @@ class _ResetPasswordState extends State<ResetPassword> {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-
                       // LOGO HEADER
                       SizedBox(
                         height: 170,
@@ -83,9 +80,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                               ),
                             ),
                             const SizedBox(height: 20),
-                            const Text(
-                              'Please enter your new password.'
-                            ),
+                            const Text('Please enter your new password.'),
                           ],
                         ),
                       ),
@@ -98,7 +93,6 @@ class _ResetPasswordState extends State<ResetPassword> {
                           key: _formKey,
                           child: Column(
                             children: [
-
                               // PASSWORD FIELD
                               _passwordField(),
                               const SizedBox(height: 10),
@@ -107,8 +101,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                               BigGBSelectButton(
                                   buttonLabel: 'Save',
                                   buttonAction: () {
-                                    final isValid = _formKey.currentState!
-                                        .validate();
+                                    final isValid =
+                                        _formKey.currentState!.validate();
 
                                     if (isValid) {
                                       _formKey.currentState!.save();
@@ -116,11 +110,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                                       AutoRouter.of(context)
                                           .replace(const SimposiHomeRoute());
                                     }
-                                  }
-                              ),
+                                  }),
                               const SizedBox(height: 10),
-
-
                             ],
                           ),
                         ),
@@ -144,58 +135,56 @@ class _ResetPasswordState extends State<ResetPassword> {
                           ],
                         ),
                       ),
-
                     ],
                   ),
                 ),
               ),
             );
-          }
-
-      ),
-    ),
-  );
+          }),
+        ),
+      );
 
   // PASSWORD FIELD
   Widget _passwordField() => TextFormField(
-    controller: _passwordController,
-    keyboardType: TextInputType.visiblePassword,
-    textInputAction: TextInputAction.next,
-    enableSuggestions: true,
-    autocorrect: true,
-    obscureText: _passwordVisible,
-    showCursor: true,
+        controller: _passwordController,
+        keyboardType: TextInputType.visiblePassword,
+        textInputAction: TextInputAction.next,
+        enableSuggestions: true,
+        autocorrect: true,
+        obscureText: _passwordVisible,
+        showCursor: true,
 
-    decoration: InputDecoration(
-      labelText: ' Password',
+        decoration: InputDecoration(
+          labelText: ' Password',
+          suffixIcon: _passwordController.text.isEmpty
+              ? Container(width: 0)
+              : IconButton(
+                  icon: Icon(
+                      _passwordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      size: 20,
+                      color: SimposiAppColors.simposiLightGrey),
+                  onPressed: () {
+                    setState(() {
+                      _passwordVisible = !_passwordVisible;
+                    });
+                  }),
+        ),
 
-      suffixIcon: _passwordController.text.isEmpty
-          ? Container(width: 0)
-          : IconButton(
-          icon: Icon(_passwordVisible ? Icons.visibility : Icons.visibility_off,
-              size: 20, color: SimposiAppColors.simposiLightGrey),
-          onPressed: () {
-            setState(() {
-              _passwordVisible = !_passwordVisible;
-            });
-          }),
+        // VALIDATION LOGIC
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'Password Required';
+          }
+          if (value.length < 8) {
+            return 'Must be at least 8 characters';
+          } else {
+            return null;
+          }
+        },
 
-    ),
-
-    // VALIDATION LOGIC
-    validator: (value) {
-      if (value!.isEmpty) {
-        return 'Password Required';
-      }
-      if (value.length < 8) {
-        return 'Must be at least 8 characters';
-      }
-      else {
-        return null;
-      }
-    },
-
-    // OUTPUT ACTIONS
-    onSaved: (value) => setState(() => password = value!),
-  );
+        // OUTPUT ACTIONS
+        onSaved: (value) => setState(() => password = value!),
+      );
 }

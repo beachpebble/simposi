@@ -51,7 +51,7 @@ class WeekCalendar extends StatefulWidget {
         super(key: key);
 
   @override
-  _WeekCalendarState createState() => _WeekCalendarState();
+  State createState() => _WeekCalendarState();
 }
 
 class _WeekCalendarState extends State<WeekCalendar> {

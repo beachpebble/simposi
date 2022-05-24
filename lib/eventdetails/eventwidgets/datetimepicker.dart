@@ -12,11 +12,11 @@ class SimposiDateTimePicker extends StatefulWidget {
   final Function(DateTime dt)? callback;
   final DateTime? initial;
 
-
-  const SimposiDateTimePicker({Key? key, this.callback, this.initial}) : super(key: key);
+  const SimposiDateTimePicker({Key? key, this.callback, this.initial})
+      : super(key: key);
 
   @override
-  _SimposiDateTimePickerState createState() => _SimposiDateTimePickerState();
+  State createState() => _SimposiDateTimePickerState();
 }
 
 class _SimposiDateTimePickerState extends State<SimposiDateTimePicker> {
@@ -24,13 +24,14 @@ class _SimposiDateTimePickerState extends State<SimposiDateTimePicker> {
   Widget build(BuildContext context) => Scaffold(
         body: Center(
           child: CupertinoDatePicker(
-              initialDateTime: widget.initial?? DateTime.now().add(const Duration(hours: 1)),
+              initialDateTime: widget.initial ??
+                  DateTime.now().add(const Duration(hours: 1)),
               mode: CupertinoDatePickerMode.dateAndTime,
-              minimumDate: DateTime.now().subtract(const Duration(days: 1)),//.add(Duration(hours: 1)),
+              minimumDate: DateTime.now().subtract(
+                  const Duration(days: 1)), //.add(Duration(hours: 1)),
               maximumDate: DateTime.now().add(const Duration(days: 90)),
               onDateTimeChanged: (dateTime) =>
                   setState(() => widget.callback?.call(dateTime))),
         ),
       );
-
 }

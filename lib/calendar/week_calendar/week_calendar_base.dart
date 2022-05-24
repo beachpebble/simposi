@@ -20,7 +20,9 @@ class WeekCalendarBase extends StatefulWidget {
   final SimpleSwipeConfig simpleSwipeConfig;
   final SwipeCallback? onVerticalSwipe;
   final void Function(DateTime focusedDay)? onPageChanged;
-  final void Function(CalendarController calendarController, )? onCalendarCreated;
+  final void Function(
+    CalendarController calendarController,
+  )? onCalendarCreated;
 
   const WeekCalendarBase({
     Key? key,
@@ -46,7 +48,7 @@ class WeekCalendarBase extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _WeekCalendarBaseState createState() => _WeekCalendarBaseState();
+  State createState() => _WeekCalendarBaseState();
 }
 
 class _WeekCalendarBaseState extends State<WeekCalendarBase>
@@ -64,7 +66,7 @@ class _WeekCalendarBaseState extends State<WeekCalendarBase>
     _focusedDay = widget.focusedDay;
     final initialPage = _calculateFocusedPage(widget.firstDay, _focusedDay);
     _pageController = PageController(initialPage: initialPage);
-    _calendarController = CalendarController(_pageController, (steps){
+    _calendarController = CalendarController(_pageController, (steps) {
       _pageCallbackDisabled = true;
       _pageCallbackDisabledSteps = steps;
     });
@@ -134,7 +136,8 @@ class _WeekCalendarBaseState extends State<WeekCalendarBase>
         dowHeight: widget.dowHeight,
         rowHeight: widget.rowHeight,
         onPageChanged: (index, focused) {
-          print("! IS DISABLED  $_pageCallbackDisabled  $_pageCallbackDisabledSteps");
+          print(
+              "! IS DISABLED  $_pageCallbackDisabled  $_pageCallbackDisabledSteps");
           if (!_pageCallbackDisabled && _pageCallbackDisabledSteps == 0) {
             if (!isSameDay(_focusedDay, focused)) {
               _focusedDay = focused;

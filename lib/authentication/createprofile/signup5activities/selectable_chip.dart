@@ -8,14 +8,11 @@ class SelectableChip extends StatefulWidget {
   final bool selected;
 
   const SelectableChip(
-      {Key? key,
-        required this.title,
-        this.onClick,
-        this.selected = false})
+      {Key? key, required this.title, this.onClick, this.selected = false})
       : super(key: key);
 
   @override
-  _SelectableChipState createState() => _SelectableChipState();
+  State createState() => _SelectableChipState();
 }
 
 class _SelectableChipState extends State<SelectableChip> {

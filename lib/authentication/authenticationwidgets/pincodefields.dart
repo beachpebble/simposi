@@ -12,7 +12,7 @@ import 'package:simposi_app_v4/global/theme/appcolors.dart';
 // TODO: Finish Setup
 class PinCodeFields extends StatefulWidget {
   @override
-  _PinCodeFieldsState createState() => _PinCodeFieldsState();
+  State createState() => _PinCodeFieldsState();
 }
 
 class _PinCodeFieldsState extends State<PinCodeFields> {
