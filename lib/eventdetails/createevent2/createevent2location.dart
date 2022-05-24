@@ -78,29 +78,27 @@ class _CreateEvent2State extends State<_CreateEvent2View> {
           return Column(
             children: [
               // Header
-              Container(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 45),
-                    LinearProgressIndicator(
-                      value: progress,
-                      valueColor: const AlwaysStoppedAnimation(
-                          SimposiAppColors.simposiDarkBlue),
-                      backgroundColor: SimposiAppColors.simposiFadedBlue,
-                    ),
-                    const SizedBox(height: 70),
-                    Text(
-                      'I want to meet nearby...',
-                      style: Theme.of(context).textTheme.headline3,
-                    ),
-                    const SizedBox(height: 20),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: _searchBar(),
-                    ),
-                    const SizedBox(height: 10),
-                  ],
-                ),
+              Column(
+                children: [
+                  const SizedBox(height: 45),
+                  LinearProgressIndicator(
+                    value: progress,
+                    valueColor: const AlwaysStoppedAnimation(
+                        SimposiAppColors.simposiDarkBlue),
+                    backgroundColor: SimposiAppColors.simposiFadedBlue,
+                  ),
+                  const SizedBox(height: 70),
+                  Text(
+                    'I want to meet nearby...',
+                    style: Theme.of(context).textTheme.headline3,
+                  ),
+                  const SizedBox(height: 20),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: _searchBar(),
+                  ),
+                  const SizedBox(height: 10),
+                ],
               ),
 
               // Body
@@ -126,9 +124,7 @@ class _CreateEvent2State extends State<_CreateEvent2View> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        child: Text(state.address ?? ""),
-                      ),
+                      child: Text(state.address ?? ""),
                     ),
                     const SizedBox(height: 10),
                     Container(
@@ -136,8 +132,8 @@ class _CreateEvent2State extends State<_CreateEvent2View> {
                       child: ContinueButton(
                           buttonAction: state.selectedLocation != null
                               ? () {
-                                  AutoRouter.of(context)
-                                      .push(const CreateEvent3ActivitiesRoute());
+                                  AutoRouter.of(context).push(
+                                      const CreateEvent3ActivitiesRoute());
                                 }
                               : null),
                     ),

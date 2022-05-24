@@ -5,7 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
@@ -22,7 +21,7 @@ import 'package:simposi_app_v4/utils/validators.dart';
 
 class EditProfile extends StatefulWidget {
   @override
-  _EditProfileState createState() => _EditProfileState();
+  State createState() => _EditProfileState();
 }
 
 class _EditProfileState extends State<EditProfile> {
@@ -71,180 +70,161 @@ class _EditProfileState extends State<EditProfile> {
           appBar: BasicFormAppBar(),
           body: LayoutBuilder(builder:
               (BuildContext context, BoxConstraints viewportConstraints) {
-            return Container(
-              child: Column(
-                children: [
-                  // HEADER
-                  Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Account Settings',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headline3,
-                        ),
-                        const SizedBox(height: 10),
-                        // TODO: ENSURE FIELDS ON THIS FORM RETAIN STATE/PREPOPULATE WITH USER DATA
-                        //  PHOTO UPLOAD FIELD
-                        ProfilePhotoPickButton(
-                          initialImage: context
-                              .read<ProfileRepository>()
-                              .profile
-                              .profilePhoto
-                              .url,
-                          imageSelectCallback: (val) {
-                            print("selected image $val");
-                            _filePath = val;
-                          },
-                        ),
-                        const SizedBox(height: 10),
-                        const Text(
-                          'Change Photo',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 15,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                      ],
+            return Column(
+              children: [
+                // HEADER
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Account Settings',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.headline3,
                     ),
-                  ),
+                    const SizedBox(height: 10),
+                    // TODO: ENSURE FIELDS ON THIS FORM RETAIN STATE/PREPOPULATE WITH USER DATA
+                    //  PHOTO UPLOAD FIELD
+                    ProfilePhotoPickButton(
+                      initialImage: context
+                          .read<ProfileRepository>()
+                          .profile
+                          .profilePhoto
+                          .url,
+                      imageSelectCallback: (val) {
+                        print("selected image $val");
+                        _filePath = val;
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'Change Photo',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                  ],
+                ),
 
-                  Expanded(
-                    child: Container(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                      child: Form(
-                        key: _formKey,
-                        child: MediaQuery.removePadding(
-                          removeTop: true,
-                          context: context,
-                          child: ListView(
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            primary: true,
-                            shrinkWrap: true,
-                            children: <Widget>[
-                              Wrap(
-                                children: [
-                                  Container(
-                                    child: Column(
-                                      children: [
-                                        SimposiFormFieldwClear(
-                                          inputType: 'name',
-                                          fieldLabel: ' Name',
-                                          fieldController: _nameController,
-                                          validationLogic: getValidator(
-                                              context, Validators.NAME),
-                                        ),
-                                        const SizedBox(height: 10),
-                                      ],
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 40, vertical: 20),
+                    child: Form(
+                      key: _formKey,
+                      child: MediaQuery.removePadding(
+                        removeTop: true,
+                        context: context,
+                        child: ListView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          primary: true,
+                          shrinkWrap: true,
+                          children: <Widget>[
+                            Wrap(
+                              children: [
+                                Column(
+                                  children: [
+                                    SimposiFormFieldwClear(
+                                      inputType: 'name',
+                                      fieldLabel: ' Name',
+                                      fieldController: _nameController,
+                                      validationLogic: getValidator(
+                                          context, Validators.NAME),
                                     ),
-                                  ),
-                                  Container(
-                                    child: Column(
-                                      children: [
-                                        SimposiFormFieldwClear(
-                                          inputType: 'phone',
-                                          fieldLabel: ' Phone',
-                                          fieldController: _phoneController,
-                                          validationLogic: getValidator(
-                                              context, Validators.PHONE),
-                                        ),
-                                        const SizedBox(height: 10),
-                                      ],
+                                    const SizedBox(height: 10),
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    SimposiFormFieldwClear(
+                                      inputType: 'phone',
+                                      fieldLabel: ' Phone',
+                                      fieldController: _phoneController,
+                                      validationLogic: getValidator(
+                                          context, Validators.PHONE),
                                     ),
-                                  ),
-                                  Container(
-                                    child: Column(
-                                      children: [
-                                        SimposiFormFieldwClear(
-                                          inputType: 'url',
-                                          fieldLabel: ' Facebook',
-                                          fieldController: _facebookController,
-                                          validationLogic: getValidator(
-                                              context, Validators.URL_LINK),
-                                        ),
-                                        const SizedBox(height: 10),
-                                      ],
+                                    const SizedBox(height: 10),
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    SimposiFormFieldwClear(
+                                      inputType: 'url',
+                                      fieldLabel: ' Facebook',
+                                      fieldController: _facebookController,
+                                      validationLogic: getValidator(
+                                          context, Validators.URL_LINK),
                                     ),
-                                  ),
-                                  Container(
-                                    child: Column(
-                                      children: [
-                                        SimposiFormFieldwClear(
-                                          inputType: 'url',
-                                          fieldLabel: ' Instagram',
-                                          fieldController: _instagramController,
-                                          validationLogic: getValidator(
-                                              context, Validators.URL_LINK),
-                                        ),
-                                        const SizedBox(height: 10),
-                                      ],
+                                    const SizedBox(height: 10),
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    SimposiFormFieldwClear(
+                                      inputType: 'url',
+                                      fieldLabel: ' Instagram',
+                                      fieldController: _instagramController,
+                                      validationLogic: getValidator(
+                                          context, Validators.URL_LINK),
                                     ),
-                                  ),
-                                  Container(
-                                    child: Column(
-                                      children: [
-                                        SimposiFormFieldwClear(
-                                          inputType: 'url',
-                                          fieldLabel: ' Linkedin',
-                                          fieldController: _linkedinController,
-                                          validationLogic: getValidator(
-                                              context, Validators.URL_LINK),
-                                        ),
-                                        const SizedBox(height: 10),
-                                      ],
+                                    const SizedBox(height: 10),
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    SimposiFormFieldwClear(
+                                      inputType: 'url',
+                                      fieldLabel: ' Linkedin',
+                                      fieldController: _linkedinController,
+                                      validationLogic: getValidator(
+                                          context, Validators.URL_LINK),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                                    const SizedBox(height: 10),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   ),
+                ),
 
-                  // FOOTER
-                  Container(
-                    child: SafeArea(
-                      child: BlocConsumer<ProfileBloc, ProfileState>(
-                        listener: (context, state) {
-                          if (state is ProfileEditError) {
-                            showErrorToast(handleError(state.error, context));
-                          } else if (state is ProfileEditSuccess) {
-                            showInfoToast("Profile is updated");
-                            Navigator.of(context).pop();
-                          }
-                        },
-                        builder: (context, state) {
-                          return state is ProfileEditLoading
-                              ? Center(child: AppProgressIndicator())
-                              : ContinueButton(
-                                  buttonLabel: 'Save',
-                                  buttonAction: () {
-                                    if (_formKey.currentState!.validate()) {
-                                      context.read<ProfileBloc>().add(
-                                          ProfileUpdateMainFields(
-                                              name: _nameController.text,
-                                              phone: _phoneController.text,
-                                              facebook:
-                                                  _facebookController.text,
-                                              instagram:
-                                                  _instagramController.text,
-                                              linkedin:
-                                                  _linkedinController.text,
-                                              filePath: _filePath));
-                                    }
-                                  });
-                        },
-                      ),
-                    ),
+                // FOOTER
+                SafeArea(
+                  child: BlocConsumer<ProfileBloc, ProfileState>(
+                    listener: (context, state) {
+                      if (state is ProfileEditError) {
+                        showErrorToast(handleError(state.error, context));
+                      } else if (state is ProfileEditSuccess) {
+                        showInfoToast("Profile is updated");
+                        Navigator.of(context).pop();
+                      }
+                    },
+                    builder: (context, state) {
+                      return state is ProfileEditLoading
+                          ? Center(child: AppProgressIndicator())
+                          : ContinueButton(
+                              buttonLabel: 'Save',
+                              buttonAction: () {
+                                if (_formKey.currentState!.validate()) {
+                                  context.read<ProfileBloc>().add(
+                                      ProfileUpdateMainFields(
+                                          name: _nameController.text,
+                                          phone: _phoneController.text,
+                                          facebook: _facebookController.text,
+                                          instagram: _instagramController.text,
+                                          linkedin: _linkedinController.text,
+                                          filePath: _filePath));
+                                }
+                              });
+                    },
                   ),
-                ],
-              ),
+                ),
+              ],
             );
           }),
         ),

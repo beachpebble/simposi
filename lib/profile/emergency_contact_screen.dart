@@ -5,7 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/bloc/profile/profile_bloc.dart';
@@ -19,11 +18,10 @@ import 'package:simposi_app_v4/repository/profile_repository.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
 
-
 class EmergencyContact extends StatefulWidget {
   // Set Variables
   @override
-  _EmergencyContactState createState() => _EmergencyContactState();
+  State createState() => _EmergencyContactState();
 }
 
 class _EmergencyContactState extends State<EmergencyContact> {
@@ -38,8 +36,8 @@ class _EmergencyContactState extends State<EmergencyContact> {
   void initState() {
     super.initState();
     _eContactNameController = TextEditingController(
-        text:
-            context.read<ProfileRepository>().profile.emergencyContactName ?? "")
+        text: context.read<ProfileRepository>().profile.emergencyContactName ??
+            "")
       ..addListener(() => setState(() {}));
     _eContactPhoneController = TextEditingController()
       ..addListener(() => setState(() {}));
@@ -69,28 +67,26 @@ class _EmergencyContactState extends State<EmergencyContact> {
                 child: Column(
                   children: [
                     // HEADER
-                    Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: const [
-                          SizedBox(height: 20),
-                          // TITLE
-                          Text(
-                            'Emergency Contact',
-                            style: TextStyle(
-                              fontSize: 19,
-                              fontWeight: FontWeight.w900,
-                              color: SimposiAppColors.simposiDarkGrey,
-                            ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: const [
+                        SizedBox(height: 20),
+                        // TITLE
+                        Text(
+                          'Emergency Contact',
+                          style: TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.w900,
+                            color: SimposiAppColors.simposiDarkGrey,
                           ),
-                          SizedBox(height: 10),
-                          Text(
-                            'Simposi will only use this information if you get injured at a Simposi activity or are exposed to Covid at a Simposi activity. While we hope to never use this information, it is still best to supply one just in case.',
-                            textAlign: TextAlign.center,
-                          ),
-                          SizedBox(height: 25),
-                        ],
-                      ),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Simposi will only use this information if you get injured at a Simposi activity or are exposed to Covid at a Simposi activity. While we hope to never use this information, it is still best to supply one just in case.',
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 25),
+                      ],
                     ),
 
                     // TODO: Enable Emergency Contact fields on User Profile
@@ -138,8 +134,10 @@ class _EmergencyContactState extends State<EmergencyContact> {
                                               if (isValid) {
                                                 _formKey.currentState!.save();
 
-                                                context
-                                                    .read<ProfileBloc>().add(ProfileUpdateEmergencyContact(name: eContactPhone, phone:  eContactPhone));
+                                                context.read<ProfileBloc>().add(
+                                                    ProfileUpdateEmergencyContact(
+                                                        name: eContactPhone,
+                                                        phone: eContactPhone));
                                               }
                                             }
                                           : null);
@@ -151,19 +149,17 @@ class _EmergencyContactState extends State<EmergencyContact> {
                     ),
 
                     // FOOTER
-                    Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: const [
-                          Text(
-                            '© 2021 Simposi Inc.',
-                            style: TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w700,
-                            ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: const [
+                        Text(
+                          '© 2021 Simposi Inc.',
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

@@ -5,7 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,7 +23,7 @@ class SignUpForm4 extends RegistrationProfileScreen {
   const SignUpForm4({bool editMode = false}) : super(editMode: editMode);
 
   @override
-  _SignUpForm4State createState() => _SignUpForm4State();
+  State createState() => _SignUpForm4State();
 }
 
 class _SignUpForm4State extends RegistrationProfileScreenState<SignUpForm4> {
@@ -75,24 +74,22 @@ class _SignUpForm4State extends RegistrationProfileScreenState<SignUpForm4> {
         return Column(
           children: [
             // Header
-            Container(
-              child: Column(
-                children: [
-                  const SizedBox(height: 45),
-                  LinearProgressIndicator(
-                    value: getProgressValue(),
-                    valueColor: const AlwaysStoppedAnimation(
-                        SimposiAppColors.simposiDarkBlue),
-                    backgroundColor: SimposiAppColors.simposiFadedBlue,
-                  ),
-                  const SizedBox(height: 70),
-                  Text(
-                    'Income Bracket...',
-                    style: Theme.of(context).textTheme.headline3,
-                  ),
-                  const SizedBox(height: 10),
-                ],
-              ),
+            Column(
+              children: [
+                const SizedBox(height: 45),
+                LinearProgressIndicator(
+                  value: getProgressValue(),
+                  valueColor: const AlwaysStoppedAnimation(
+                      SimposiAppColors.simposiDarkBlue),
+                  backgroundColor: SimposiAppColors.simposiFadedBlue,
+                ),
+                const SizedBox(height: 70),
+                Text(
+                  'Income Bracket...',
+                  style: Theme.of(context).textTheme.headline3,
+                ),
+                const SizedBox(height: 10),
+              ],
             ),
 
             // Body
@@ -100,19 +97,14 @@ class _SignUpForm4State extends RegistrationProfileScreenState<SignUpForm4> {
               child: ListView.separated(
                 padding: const EdgeInsets.fromLTRB(40, 10, 40, 20),
                 shrinkWrap: true,
-                itemCount: context
-                    .read<AppSetupCubit>()
-                    .masterData
-                    .earnings
-                    .length,
+                itemCount:
+                    context.read<AppSetupCubit>().masterData.earnings.length,
                 separatorBuilder: (context, index) {
                   return const SizedBox(height: 10);
                 },
                 itemBuilder: (context, index) {
-                  final earning = context
-                      .read<AppSetupCubit>()
-                      .masterData
-                      .earnings[index];
+                  final earning =
+                      context.read<AppSetupCubit>().masterData.earnings[index];
                   return BigGBSelectButton(
                       buttonLabel: earning.title,
                       isSelected: _selected.contains(earning),

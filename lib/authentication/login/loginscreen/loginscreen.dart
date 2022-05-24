@@ -5,7 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,7 +28,7 @@ import 'login_cubit.dart';
 class LoginScreen extends StatefulWidget {
   // Set Variables
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  State createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
@@ -101,88 +100,84 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         // TODO: Validate Account Exists and Start a New Page Stack with Home (Tracy you need to learn how to reset the Page Stack instead of pushnamed)
                         // LOGIN FORM
-                        Container(
-                          child: Form(
-                            key: _formKey,
-                            child: Column(
-                              children: [
-                                // EMAIL FIELD
-                                PhoneField(
-                                  controller: _phoneController,
-                                  onSave: (value) =>
-                                      setState(() => phone = value),
-                                ),
-                                const SizedBox(height: 10),
+                        Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              // EMAIL FIELD
+                              PhoneField(
+                                controller: _phoneController,
+                                onSave: (value) =>
+                                    setState(() => phone = value),
+                              ),
+                              const SizedBox(height: 10),
 
-                                // PASSWORD FIELD
-                                _passwordField(),
-                                const SizedBox(height: 10),
-                                BlocConsumer<LoginCubit, LoginState>(
-                                  listener: (context, state) {
-                                    if (state is LoginError) {
-                                      showErrorToast(
-                                          handleError(state.error, context));
-                                    } else if (state is LoginUnconfirmed) {
+                              // PASSWORD FIELD
+                              _passwordField(),
+                              const SizedBox(height: 10),
+                              BlocConsumer<LoginCubit, LoginState>(
+                                listener: (context, state) {
+                                  if (state is LoginError) {
+                                    showErrorToast(
+                                        handleError(state.error, context));
+                                  } else if (state is LoginUnconfirmed) {
+                                    AutoRouter.of(context).push(
+                                        SignUpForm8Route(
+                                            validateParameters:
+                                                ValidateParameters(phone)));
+                                    // Navigator.of(context).pushNamed(
+                                    //     '/signup8',
+                                    //     arguments: ValidateParameters(
+                                    //         phone));
+                                  }
+                                },
+                                builder: (context, state) {
+                                  return state is LoginProgress
+                                      ? AppProgressIndicator()
+                                      : ContinueButton(
+                                          buttonLabel:
+                                              AppLocalizations.of(context)!
+                                                  .loginLogInButton,
+                                          buttonAction: _nextEnabled()
+                                              ? () {
+                                                  final isValid = _formKey
+                                                      .currentState!
+                                                      .validate();
 
-
-                                      AutoRouter.of(context).push( SignUpForm8Route(
-                                          validateParameters:
-                                          ValidateParameters(phone)));
-                                      // Navigator.of(context).pushNamed(
-                                      //     '/signup8',
-                                      //     arguments: ValidateParameters(
-                                      //         phone));
-                                    }
-                                  },
-                                  builder: (context, state) {
-                                    return state is LoginProgress
-                                        ? AppProgressIndicator()
-                                        : ContinueButton(
-                                            buttonLabel:
-                                                AppLocalizations.of(context)!
-                                                    .loginLogInButton,
-                                            buttonAction: _nextEnabled()
-                                                ? () {
-                                                    final isValid = _formKey
-                                                        .currentState!
-                                                        .validate();
-
-                                                    if (isValid) {
-                                                      _formKey.currentState!
-                                                          .save();
-                                                      print('Phone: $phone');
-                                                      print(
-                                                          'Password: $password');
-                                                      context
-                                                          .read<LoginCubit>()
-                                                          .login(
-                                                              phone, password);
-                                                    }
+                                                  if (isValid) {
+                                                    _formKey.currentState!
+                                                        .save();
+                                                    print('Phone: $phone');
+                                                    print(
+                                                        'Password: $password');
+                                                    context
+                                                        .read<LoginCubit>()
+                                                        .login(phone, password);
                                                   }
-                                                : null);
-                                  },
-                                ),
-                                const SizedBox(height: 10),
-                                ForgotPasswordTextButton(
-                                  onClick: () {
-                                    showModalBottomSheet<void>(
-                                      isScrollControlled: true,
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return BlocProvider<
-                                            ForgotPasswordStartCubit>(
-                                          create: (context) =>
-                                              ForgotPasswordStartCubit(
-                                                  profileRepository:
-                                                      context.read()),
-                                          child: ForgotPasswordForm(),
-                                        );
-                                      },
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
+                                                }
+                                              : null);
+                                },
+                              ),
+                              const SizedBox(height: 10),
+                              ForgotPasswordTextButton(
+                                onClick: () {
+                                  showModalBottomSheet<void>(
+                                    isScrollControlled: true,
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return BlocProvider<
+                                          ForgotPasswordStartCubit>(
+                                        create: (context) =>
+                                            ForgotPasswordStartCubit(
+                                                profileRepository:
+                                                    context.read()),
+                                        child: ForgotPasswordForm(),
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                            ],
                           ),
                         ),
 

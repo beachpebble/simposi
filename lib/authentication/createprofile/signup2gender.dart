@@ -5,7 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,7 +22,7 @@ class SignUpForm2 extends RegistrationProfileScreen {
   const SignUpForm2({bool editMode = false}) : super(editMode: editMode);
 
   @override
-  _SignUpForm2State createState() => _SignUpForm2State();
+  State createState() => _SignUpForm2State();
 }
 
 class _SignUpForm2State extends RegistrationProfileScreenState<SignUpForm2> {
@@ -72,24 +71,22 @@ class _SignUpForm2State extends RegistrationProfileScreenState<SignUpForm2> {
       body: Column(
         children: [
           // Header
-          Container(
-            child: Column(
-              children: [
-                const SizedBox(height: 45),
-                LinearProgressIndicator(
-                  value: getProgressValue(),
-                  valueColor: const AlwaysStoppedAnimation(
-                      SimposiAppColors.simposiDarkBlue),
-                  backgroundColor: SimposiAppColors.simposiFadedBlue,
-                ),
-                const SizedBox(height: 70),
-                Text(
-                  'I indentify as...',
-                  style: Theme.of(context).textTheme.headline3,
-                ),
-                const SizedBox(height: 10),
-              ],
-            ),
+          Column(
+            children: [
+              const SizedBox(height: 45),
+              LinearProgressIndicator(
+                value: getProgressValue(),
+                valueColor: const AlwaysStoppedAnimation(
+                    SimposiAppColors.simposiDarkBlue),
+                backgroundColor: SimposiAppColors.simposiFadedBlue,
+              ),
+              const SizedBox(height: 70),
+              Text(
+                'I indentify as...',
+                style: Theme.of(context).textTheme.headline3,
+              ),
+              const SizedBox(height: 10),
+            ],
           ),
 
           // Body

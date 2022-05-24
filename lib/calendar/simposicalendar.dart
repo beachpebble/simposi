@@ -5,7 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,8 +25,10 @@ import 'calendarwidgets/calendarcards.dart';
 import 'week_calendar/week_calendar.dart';
 
 class SimposiCalendar extends StatefulWidget {
+  const SimposiCalendar({super.key});
+
   @override
-  _SimposiCalendarState createState() => _SimposiCalendarState();
+  State createState() => _SimposiCalendarState();
 }
 
 class _SimposiCalendarState extends State<SimposiCalendar> {
@@ -43,8 +44,7 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
     _itemScrollController = ItemScrollController();
     _itemPositionsListener = ItemPositionsListener.create();
     _itemPositionsListener.itemPositions.addListener(() {
-      final items =
-          _itemPositionsListener.itemPositions.value.toList();
+      final items = _itemPositionsListener.itemPositions.value.toList();
       items.sort((s1, s2) {
         return s1.index.compareTo(s2.index);
       });

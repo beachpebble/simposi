@@ -5,7 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +24,8 @@ import 'cubit/event_edit_cubit.dart';
 //AppLocalizations.of(context)!.wantToMeetTitle,
 
 class CreateEvent5Generations extends CreateEventScreen {
-  const CreateEvent5Generations({bool editMode = false}) : super(editMode: editMode);
+  const CreateEvent5Generations({bool editMode = false})
+      : super(editMode: editMode);
 
   @override
   State<StatefulWidget> createState() {
@@ -70,24 +70,22 @@ class _CreateEvent5GenerationsState
       appBar: BasicFormAppBar(),
       body: Column(
         children: [
-          Container(
-            child: Column(
-              children: [
-                const SizedBox(height: 45),
-                LinearProgressIndicator(
-                  value: getProgressValue(),
-                  valueColor: const AlwaysStoppedAnimation(
-                      SimposiAppColors.simposiDarkBlue),
-                  backgroundColor: SimposiAppColors.simposiFadedBlue,
-                ),
-                const SizedBox(height: 70),
-                Text(
-                  AppLocalizations.of(context)!.wantToMeetTitle,
-                  style: Theme.of(context).textTheme.headline3,
-                ),
-                const SizedBox(height: 10),
-              ],
-            ),
+          Column(
+            children: [
+              const SizedBox(height: 45),
+              LinearProgressIndicator(
+                value: getProgressValue(),
+                valueColor: const AlwaysStoppedAnimation(
+                    SimposiAppColors.simposiDarkBlue),
+                backgroundColor: SimposiAppColors.simposiFadedBlue,
+              ),
+              const SizedBox(height: 70),
+              Text(
+                AppLocalizations.of(context)!.wantToMeetTitle,
+                style: Theme.of(context).textTheme.headline3,
+              ),
+              const SizedBox(height: 10),
+            ],
           ),
 
           Expanded(

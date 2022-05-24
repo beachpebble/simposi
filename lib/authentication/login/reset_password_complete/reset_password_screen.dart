@@ -33,7 +33,7 @@ class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({Key? key, required this.phone}) : super(key: key);
   // Set Variables
   @override
-  _ResetPasswordScreenState createState() => _ResetPasswordScreenState();
+  State createState() => _ResetPasswordScreenState();
 }
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen>
@@ -110,37 +110,35 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         // HEADER LOGO
-                        Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Image.asset("assets/images/logo.png"),
-                              const Text(
-                                'simposi',
-                                style: TextStyle(
-                                  color: SimposiAppColors.simposiDarkBlue,
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 30,
-                                ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Image.asset("assets/images/logo.png"),
+                            const Text(
+                              'simposi',
+                              style: TextStyle(
+                                color: SimposiAppColors.simposiDarkBlue,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 30,
                               ),
-                              const SizedBox(height: 20),
-                              // TITLE
-                              const Text(
-                                'Create New Password',
-                                style: TextStyle(
-                                  fontSize: 19,
-                                  fontWeight: FontWeight.w900,
-                                  color: SimposiAppColors.simposiDarkGrey,
-                                ),
+                            ),
+                            const SizedBox(height: 20),
+                            // TITLE
+                            const Text(
+                              'Create New Password',
+                              style: TextStyle(
+                                fontSize: 19,
+                                fontWeight: FontWeight.w900,
+                                color: SimposiAppColors.simposiDarkGrey,
                               ),
-                              const SizedBox(height: 10),
-                              const Text(
-                                'Passwords must be at least 8 characters long.',
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(height: 25),
-                            ],
-                          ),
+                            ),
+                            const SizedBox(height: 10),
+                            const Text(
+                              'Passwords must be at least 8 characters long.',
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 25),
+                          ],
                         ),
 
                         // RESET PASSWORD FORM
@@ -309,20 +307,18 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
                         ),
 
                         // FOOTER
-                        Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: const [
-                              SizedBox(height: 20),
-                              Text(
-                                '© 2021 Simposi Inc.',
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: const [
+                            SizedBox(height: 20),
+                            Text(
+                              '© 2021 Simposi Inc.',
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w700,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

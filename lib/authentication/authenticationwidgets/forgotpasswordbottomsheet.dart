@@ -5,7 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-
 import 'package:flutter/material.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
@@ -15,40 +14,38 @@ import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 class ForgotPasswordTextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: TextButton(
-        style: TextButton.styleFrom(
-          primary: SimposiAppColors.simposiDarkBlue,
-          textStyle: const TextStyle(
-            fontFamily: 'Muli',
-            fontSize: 15,
-            fontWeight: FontWeight.w800,
-          ),
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
-          backgroundColor: Colors.white,
+    return TextButton(
+      style: TextButton.styleFrom(
+        primary: SimposiAppColors.simposiDarkBlue,
+        textStyle: const TextStyle(
+          fontFamily: 'Muli',
+          fontSize: 15,
+          fontWeight: FontWeight.w800,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text(
-              "Forgot Password",
-              textAlign: TextAlign.center,
-              style: TextStyle(),
-            ),
-          ],
-        ),
-        onPressed: () {
-          showModalBottomSheet<void>(
-            isScrollControlled: true,
-            context: context,
-            builder: (BuildContext context) {
-              return ForgotPasswordForm();
-            },
-          );
-        },
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20))),
+        padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+        backgroundColor: Colors.white,
       ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Text(
+            "Forgot Password",
+            textAlign: TextAlign.center,
+            style: TextStyle(),
+          ),
+        ],
+      ),
+      onPressed: () {
+        showModalBottomSheet<void>(
+          isScrollControlled: true,
+          context: context,
+          builder: (BuildContext context) {
+            return ForgotPasswordForm();
+          },
+        );
+      },
     );
   }
 }
@@ -56,7 +53,7 @@ class ForgotPasswordTextButton extends StatelessWidget {
 // FORGOT PASSWORD BOTTOM SHEET
 class ForgotPasswordForm extends StatefulWidget {
   @override
-  _ForgotPasswordFormState createState() => _ForgotPasswordFormState();
+  State createState() => _ForgotPasswordFormState();
 }
 
 class _ForgotPasswordFormState extends State<ForgotPasswordForm> {

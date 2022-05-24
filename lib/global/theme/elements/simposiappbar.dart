@@ -5,7 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-
 import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 
@@ -17,16 +16,12 @@ class SimposiAppBar extends StatelessWidget with PreferredSizeWidget {
   final simposiSubTitle;
   final simposiAction;
 
-  SimposiAppBar(
-      {required this.simposiTitle,
-      this.simposiSubTitle,
-      required this.simposiAction,
-      Key,
-      key})
-      : preferredSize = const Size.fromHeight(70),
-        super(key: key);
-
-  void get simposiNavTab => null;
+  SimposiAppBar({
+    required this.simposiTitle,
+    this.simposiSubTitle,
+    required this.simposiAction,
+    super.key,
+  }) : preferredSize = const Size.fromHeight(70);
 
   // Screen
   @override

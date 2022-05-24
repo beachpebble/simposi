@@ -23,7 +23,7 @@ class SignUpForm3 extends RegistrationProfileScreen {
   const SignUpForm3({bool editMode = false}) : super(editMode: editMode);
 
   @override
-  _SignUpForm3State createState() => _SignUpForm3State();
+  State createState() => _SignUpForm3State();
 }
 
 class _SignUpForm3State extends RegistrationProfileScreenState<SignUpForm3> {
@@ -56,24 +56,22 @@ class _SignUpForm3State extends RegistrationProfileScreenState<SignUpForm3> {
       body: Column(
         children: [
           // Header
-          Container(
-            child: Column(
-              children: [
-                const SizedBox(height: 45),
-                LinearProgressIndicator(
-                  value: getProgressValue(),
-                  valueColor: const AlwaysStoppedAnimation(
-                      SimposiAppColors.simposiDarkBlue),
-                  backgroundColor: SimposiAppColors.simposiFadedBlue,
-                ),
-                const SizedBox(height: 70),
-                Text(
-                  'Generation...',
-                  style: Theme.of(context).textTheme.headline3,
-                ),
-                const SizedBox(height: 10),
-              ],
-            ),
+          Column(
+            children: [
+              const SizedBox(height: 45),
+              LinearProgressIndicator(
+                value: getProgressValue(),
+                valueColor: const AlwaysStoppedAnimation(
+                    SimposiAppColors.simposiDarkBlue),
+                backgroundColor: SimposiAppColors.simposiFadedBlue,
+              ),
+              const SizedBox(height: 70),
+              Text(
+                'Generation...',
+                style: Theme.of(context).textTheme.headline3,
+              ),
+              const SizedBox(height: 10),
+            ],
           ),
 
           Expanded(

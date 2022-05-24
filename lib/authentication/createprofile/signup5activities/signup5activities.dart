@@ -41,115 +41,109 @@ class SignUpForm5 extends StatelessWidget {
             appBar: BasicFormAppBar(),
             body: LayoutBuilder(builder:
                 (BuildContext context, BoxConstraints viewportConstraints) {
-              return Container(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: viewportConstraints.maxHeight,
-                  ),
-                  child: BlocConsumer<Signup5ActivitiesCubit,
-                      Signup5ActivitiesState>(
-                    buildWhen: (prev, current) {
-                      return prev.filtered != current.filtered ||
-                          prev.nextEnabled != current.nextEnabled;
-                    },
-                    listener: (context, state) {
-                      if (state is Signup5ActivitiesStateSuccessChange) {
-                        Navigator.pop(context);
-                      }
-                      if (state is Signup5ActivitiesStateErrorChange) {
-                        showErrorToast(handleError(state.error!, context));
-                      }
-                    },
-                    builder: (context, state) {
-                      return Column(
-                        children: [
-                          // Header
-                          Container(
-                            child: Column(
-                              children: [
-                                const SizedBox(height: 45),
-                                LinearProgressIndicator(
-                                  value: state.editMode ? 1 : progress,
-                                  valueColor: const AlwaysStoppedAnimation(
-                                      SimposiAppColors.simposiDarkBlue),
-                                  backgroundColor:
-                                      SimposiAppColors.simposiFadedBlue,
-                                ),
-                                const SizedBox(height: 70),
-                                Text(
-                                  'I like to ...',
-                                  style: Theme.of(context).textTheme.headline3,
-                                ),
-                                const SizedBox(height: 10),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                                  child: _searchBar(context),
-                                ),
-                              ],
+              return ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: viewportConstraints.maxHeight,
+                ),
+                child: BlocConsumer<Signup5ActivitiesCubit,
+                    Signup5ActivitiesState>(
+                  buildWhen: (prev, current) {
+                    return prev.filtered != current.filtered ||
+                        prev.nextEnabled != current.nextEnabled;
+                  },
+                  listener: (context, state) {
+                    if (state is Signup5ActivitiesStateSuccessChange) {
+                      Navigator.pop(context);
+                    }
+                    if (state is Signup5ActivitiesStateErrorChange) {
+                      showErrorToast(handleError(state.error!, context));
+                    }
+                  },
+                  builder: (context, state) {
+                    return Column(
+                      children: [
+                        // Header
+                        Column(
+                          children: [
+                            const SizedBox(height: 45),
+                            LinearProgressIndicator(
+                              value: state.editMode ? 1 : progress,
+                              valueColor: const AlwaysStoppedAnimation(
+                                  SimposiAppColors.simposiDarkBlue),
+                              backgroundColor:
+                                  SimposiAppColors.simposiFadedBlue,
+                            ),
+                            const SizedBox(height: 70),
+                            Text(
+                              'I like to ...',
+                              style: Theme.of(context).textTheme.headline3,
+                            ),
+                            const SizedBox(height: 10),
+                            Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: _searchBar(context),
+                            ),
+                          ],
+                        ),
+
+                        // Body
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: MediaQuery.removePadding(
+                              removeTop: true,
+                              context: context,
+                              child: ListView(
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                primary: true,
+                                shrinkWrap: true,
+                                children: <Widget>[
+                                  Wrap(
+                                    runSpacing: -8.0,
+                                    children: selectedActivityWidgets(
+                                        state.filtered,
+                                        state.selected,
+                                        context),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
+                        ),
 
-                          // Body
-                          Expanded(
-                            child: Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: MediaQuery.removePadding(
-                                removeTop: true,
-                                context: context,
-                                child: ListView(
-                                  physics:
-                                      const AlwaysScrollableScrollPhysics(),
-                                  primary: true,
-                                  shrinkWrap: true,
-                                  children: <Widget>[
-                                    Wrap(
-                                      runSpacing: -8.0,
-                                      children: selectedActivityWidgets(
-                                          state.filtered,
-                                          state.selected,
-                                          context),
+                        // Footer
+                        state is Signup5ActivitiesStatLoading
+                            ? AppProgressIndicator()
+                            : Container(
+                                padding:
+                                    const EdgeInsets.fromLTRB(40, 10, 40, 40),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    ContinueButton(
+                                      buttonLabel:
+                                          state.editMode ? "Save" : "Continue",
+                                      buttonAction: state.nextEnabled
+                                          ? state.editMode
+                                              ? () {
+                                                  context
+                                                      .read<
+                                                          Signup5ActivitiesCubit>()
+                                                      .savePressed();
+                                                }
+                                              : () {
+                                                  AutoRouter.of(context)
+                                                      .push(SignUpForm6Route());
+                                                }
+                                          : null,
                                     ),
                                   ],
                                 ),
                               ),
-                            ),
-                          ),
-
-                          // Footer
-                          state is Signup5ActivitiesStatLoading
-                              ? AppProgressIndicator()
-                              : Container(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(40, 10, 40, 40),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      ContinueButton(
-                                        buttonLabel: state.editMode
-                                            ? "Save"
-                                            : "Continue",
-                                        buttonAction: state.nextEnabled
-                                            ? state.editMode
-                                                ? () {
-                                                    context
-                                                        .read<
-                                                            Signup5ActivitiesCubit>()
-                                                        .savePressed();
-                                                  }
-                                                : () {
-                                                    AutoRouter.of(context).push(
-                                                        SignUpForm6Route());
-                                                  }
-                                            : null,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                        ],
-                      );
-                    },
-                  ),
+                      ],
+                    );
+                  },
                 ),
               );
             })),

@@ -95,33 +95,31 @@ class LoginForwardTextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: TextButton(
-          style: TextButton.styleFrom(
-            primary: Colors.white,
-            textStyle: const TextStyle(
-              fontFamily: 'Muli',
-              fontSize: 15,
-              fontWeight: FontWeight.w800,
-            ),
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20))),
-            padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
-            backgroundColor: Colors.transparent,
+    return TextButton(
+        style: TextButton.styleFrom(
+          primary: Colors.white,
+          textStyle: const TextStyle(
+            fontFamily: 'Muli',
+            fontSize: 15,
+            fontWeight: FontWeight.w800,
           ),
-          onPressed: onClick,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: const [
-              Text(
-                "Log In",
-                textAlign: TextAlign.center,
-                style: TextStyle(),
-              ),
-              Icon(Icons.chevron_right),
-            ],
-          )),
-    );
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20))),
+          padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+          backgroundColor: Colors.transparent,
+        ),
+        onPressed: onClick,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: const [
+            Text(
+              "Log In",
+              textAlign: TextAlign.center,
+              style: TextStyle(),
+            ),
+            Icon(Icons.chevron_right),
+          ],
+        ));
   }
 }
 
@@ -282,7 +280,7 @@ class BigButton extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _BigButtonState createState() => _BigButtonState();
+  State createState() => _BigButtonState();
 }
 
 class _BigButtonState extends State<BigButton> {

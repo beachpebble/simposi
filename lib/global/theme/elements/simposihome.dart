@@ -20,7 +20,7 @@ import 'simposinavicons.dart';
 // Simposi Page Template
 class SimposiHome extends StatefulWidget {
   @override
-  _SimposiHomeState createState() => _SimposiHomeState();
+  State createState() => _SimposiHomeState();
 }
 
 class _SimposiHomeState extends State<SimposiHome> {
@@ -75,12 +75,10 @@ class _SimposiHomeState extends State<SimposiHome> {
                       child: const Icon(SimposiNav.calendar),
                     ),
                     if (state is RsvpLoaded && state.invited > 0)
-                      Container(
-                        child: Positioned(
-                          right: 25,
-                          child: SimposiCounterBubble(
-                            count: state.invited.toString(),
-                          ),
+                      Positioned(
+                        right: 25,
+                        child: SimposiCounterBubble(
+                          count: state.invited.toString(),
                         ),
                       ),
                   ]);

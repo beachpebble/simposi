@@ -9,8 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 
 class DiscoverCardDeck extends StatefulWidget {
+  const DiscoverCardDeck({super.key});
+
   @override
-  _DiscoverCardDeckState createState() => _DiscoverCardDeckState();
+  State createState() => _DiscoverCardDeckState();
 }
 
 class _DiscoverCardDeckState extends State<DiscoverCardDeck> {

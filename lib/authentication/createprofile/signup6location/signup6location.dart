@@ -93,29 +93,27 @@ class _SignUpForm6State extends State<_SignUpForm6View> {
           return Column(
             children: [
               // Header
-              Container(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 45),
-                    LinearProgressIndicator(
-                      value: state.editMode ? 1 : progress,
-                      valueColor: const AlwaysStoppedAnimation(
-                          SimposiAppColors.simposiDarkBlue),
-                      backgroundColor: SimposiAppColors.simposiFadedBlue,
-                    ),
-                    const SizedBox(height: 70),
-                    Text(
-                      'I want to meet nearby...',
-                      style: Theme.of(context).textTheme.headline3,
-                    ),
-                    const SizedBox(height: 20),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: _searchBar(),
-                    ),
-                    const SizedBox(height: 10),
-                  ],
-                ),
+              Column(
+                children: [
+                  const SizedBox(height: 45),
+                  LinearProgressIndicator(
+                    value: state.editMode ? 1 : progress,
+                    valueColor: const AlwaysStoppedAnimation(
+                        SimposiAppColors.simposiDarkBlue),
+                    backgroundColor: SimposiAppColors.simposiFadedBlue,
+                  ),
+                  const SizedBox(height: 70),
+                  Text(
+                    'I want to meet nearby...',
+                    style: Theme.of(context).textTheme.headline3,
+                  ),
+                  const SizedBox(height: 20),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: _searchBar(),
+                  ),
+                  const SizedBox(height: 10),
+                ],
               ),
 
               // Body

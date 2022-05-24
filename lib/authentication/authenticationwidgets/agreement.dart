@@ -5,7 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-
 import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 
@@ -19,16 +18,14 @@ class Agreement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(children: const [
-        Flexible(
-          child: Text(
-            'I have read & understand my local regulations and the CDC Guidelines.',
-            textAlign: TextAlign.start,
-          ),
+    return Row(children: const [
+      Flexible(
+        child: Text(
+          'I have read & understand my local regulations and the CDC Guidelines.',
+          textAlign: TextAlign.start,
         ),
-        AgreeButton(),
-      ]),
-    );
+      ),
+      AgreeButton(),
+    ]);
   }
 }

@@ -5,7 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -74,8 +73,7 @@ class ProfileScreenView extends StatelessWidget {
           children: [
             // Profile Image
             Expanded(
-              child: Container(
-                  child: CachedNetworkImage(
+              child: CachedNetworkImage(
                 imageUrl: profile.profilePhoto.url,
                 width: 100,
                 height: 100,
@@ -90,7 +88,7 @@ class ProfileScreenView extends StatelessWidget {
                 placeholder: (context, url) =>
                     Center(child: AppProgressIndicator()),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
-              )),
+              ),
             ),
 
             // Engagement Stats
@@ -99,105 +97,97 @@ class ProfileScreenView extends StatelessWidget {
               height: 70,
               child: Row(children: <Widget>[
                 Expanded(
-                  child: Container(
-                    child: Column(mainAxisAlignment: MainAxisAlignment.center,
-                        // TODO: Turn these into a ListTile's
-                        // TODO: Enable Profile Counters
-                        children: const <Widget>[
-                          // TODO: Enable Invitation Counter (Counts every RSVP received regardless if it was accepted)
-                          Text(
-                            '10',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w800,
-                            ),
+                  child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                      // TODO: Turn these into a ListTile's
+                      // TODO: Enable Profile Counters
+                      children: const <Widget>[
+                        // TODO: Enable Invitation Counter (Counts every RSVP received regardless if it was accepted)
+                        Text(
+                          '10',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w800,
                           ),
-                          SizedBox(height: 5),
-                          Text(
-                            'Invitations',
-                            style: TextStyle(
-                              color: SimposiAppColors.simposiLightText,
-                              fontSize: 13,
-                            ),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          'Invitations',
+                          style: TextStyle(
+                            color: SimposiAppColors.simposiLightText,
+                            fontSize: 13,
                           ),
-                        ]),
-                  ),
+                        ),
+                      ]),
                 ),
                 Expanded(
-                  child: Container(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const <Widget>[
-                          // TODO: Enable Check In Counter (Counts everytime user checked in for an event)
-                          Text(
-                            '10',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w800,
-                            ),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const <Widget>[
+                        // TODO: Enable Check In Counter (Counts everytime user checked in for an event)
+                        Text(
+                          '10',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w800,
                           ),
-                          SizedBox(height: 5),
-                          Text(
-                            'Event Attended',
-                            style: TextStyle(
-                              color: SimposiAppColors.simposiLightText,
-                              fontSize: 13,
-                            ),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          'Event Attended',
+                          style: TextStyle(
+                            color: SimposiAppColors.simposiLightText,
+                            fontSize: 13,
                           ),
-                        ]),
-                  ),
+                        ),
+                      ]),
                 ),
                 Expanded(
-                  child: Container(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const <Widget>[
-                          // TODO: Enable People Counter (Counts every affinity survey sent.)
-                          Text(
-                            '10',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w800,
-                            ),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const <Widget>[
+                        // TODO: Enable People Counter (Counts every affinity survey sent.)
+                        Text(
+                          '10',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w800,
                           ),
-                          SizedBox(height: 5),
-                          Text(
-                            'People Met',
-                            style: TextStyle(
-                              color: SimposiAppColors.simposiLightText,
-                              fontSize: 13,
-                            ),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          'People Met',
+                          style: TextStyle(
+                            color: SimposiAppColors.simposiLightText,
+                            fontSize: 13,
                           ),
-                        ]),
-                  ),
+                        ),
+                      ]),
                 ),
               ]),
             ),
 
             // Subscribe Footer Area
-            Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 10),
-                  Text('Get Unlimited Access',
-                      style: Theme.of(context).textTheme.headline4),
-                  const SizedBox(height: 10),
-                  Text(
-                    'Subscribe for unlimited access and \n meet as many people as you like.',
-                    style: Theme.of(context).textTheme.caption,
-                  ),
-                  const SizedBox(height: 10),
-                  // TODO: Update transition to draw bottom sheet instead of screen
-                  SubscribeButton(
-                    onClick: () =>
-                        AutoRouter.of(context).push(const SimposiSubscribeRoute()),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                      'Free Users will always be able to \ncreate or attend one meetup per month.',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.caption),
-                  const SizedBox(height: 10),
-                ],
-              ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 10),
+                Text('Get Unlimited Access',
+                    style: Theme.of(context).textTheme.headline4),
+                const SizedBox(height: 10),
+                Text(
+                  'Subscribe for unlimited access and \n meet as many people as you like.',
+                  style: Theme.of(context).textTheme.caption,
+                ),
+                const SizedBox(height: 10),
+                // TODO: Update transition to draw bottom sheet instead of screen
+                SubscribeButton(
+                  onClick: () => AutoRouter.of(context)
+                      .push(const SimposiSubscribeRoute()),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                    'Free Users will always be able to \ncreate or attend one meetup per month.',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.caption),
+                const SizedBox(height: 10),
+              ],
             ),
           ],
         ),

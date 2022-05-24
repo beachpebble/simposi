@@ -89,36 +89,33 @@ class _CreateEvent1State extends State<CreateEvent1> {
                   child: Column(
                     children: [
                       // Header
-                      Container(
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 45),
-                            const LinearProgressIndicator(
-                              value: CreateEvent1.progress,
-                              valueColor: AlwaysStoppedAnimation(
-                                  SimposiAppColors.simposiDarkBlue),
-                              backgroundColor:
-                                  SimposiAppColors.simposiFadedBlue,
-                            ),
-                            const SizedBox(height: 70),
-                            Text(
-                              'Post an activity \nand start meeting new people.',
-                              style: Theme.of(context).textTheme.headline3,
-                              textAlign: TextAlign.center,
-                            ),
-                            const SizedBox(height: 20),
-                            EventPhotoPick(
-                              initialImage:
-                                  context.read<EventEditCubit>().photoUrl,
-                              imageSelectCallback: (val) {
-                                print("selected image $val");
-                                setState(() {
-                                  _filePath = val;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
+                      Column(
+                        children: [
+                          const SizedBox(height: 45),
+                          const LinearProgressIndicator(
+                            value: CreateEvent1.progress,
+                            valueColor: AlwaysStoppedAnimation(
+                                SimposiAppColors.simposiDarkBlue),
+                            backgroundColor: SimposiAppColors.simposiFadedBlue,
+                          ),
+                          const SizedBox(height: 70),
+                          Text(
+                            'Post an activity \nand start meeting new people.',
+                            style: Theme.of(context).textTheme.headline3,
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 20),
+                          EventPhotoPick(
+                            initialImage:
+                                context.read<EventEditCubit>().photoUrl,
+                            imageSelectCallback: (val) {
+                              print("selected image $val");
+                              setState(() {
+                                _filePath = val;
+                              });
+                            },
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 10),
 
@@ -146,7 +143,8 @@ class _CreateEvent1State extends State<CreateEvent1> {
                               GestureDetector(
                                 onTap: () {
                                   _dateTimeValue = _dateTime ??
-                                      DateTime.now().add(const Duration(hours: 2));
+                                      DateTime.now()
+                                          .add(const Duration(hours: 2));
                                   showCupertinoModalPopup(
                                     context: context,
                                     builder: (context) => CupertinoActionSheet(
@@ -222,8 +220,8 @@ class _CreateEvent1State extends State<CreateEvent1> {
                                                       dateTime: _dateTime!,
                                                       file: _filePath,
                                                       url: _fileUrl);
-                                              AutoRouter.of(context)
-                                                  .push(const CreateEvent2Route());
+                                              AutoRouter.of(context).push(
+                                                  const CreateEvent2Route());
                                             } else {
                                               showErrorToast("Add photo");
                                             }

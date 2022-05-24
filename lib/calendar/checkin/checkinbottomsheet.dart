@@ -5,11 +5,11 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:simposi_app_v4/eventdetails/eventwidgets/eventappbars.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
@@ -18,7 +18,6 @@ import 'package:simposi_app_v4/global/widgets/progress.dart';
 import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/model/rsvp.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../app_router.dart';
 import 'bloc/check_in_bloc.dart';
@@ -62,7 +61,7 @@ class CheckInPopup extends StatefulWidget {
   const CheckInPopup({Key? key, required this.rsvp}) : super(key: key);
 
   @override
-  _CheckInPopupState createState() => _CheckInPopupState();
+  State createState() => _CheckInPopupState();
 }
 
 class _CheckInPopupState extends State<CheckInPopup> {
@@ -111,16 +110,15 @@ class _CheckInPopupState extends State<CheckInPopup> {
               // BUTTONS
               BlocConsumer<CheckInBloc, CheckInState>(
                 listener: (context, state) {
-                 if (state is CheckInSuccess) {
-                   AutoRouter.of(context).push(
-                       GroupFinderRoute(
-                           event: widget.rsvp.event));
-                 } else if (state is CheckInLocationPermission) {
-                   AutoRouter.of(context).pushNativeRoute(
-                       _permissionDialog(context, null));
-                 }else if (state is CheckInError) {
-                   showErrorToast(handleError(state.error, context));
-                 }
+                  if (state is CheckInSuccess) {
+                    AutoRouter.of(context)
+                        .push(GroupFinderRoute(event: widget.rsvp.event));
+                  } else if (state is CheckInLocationPermission) {
+                    AutoRouter.of(context)
+                        .pushNativeRoute(_permissionDialog(context, null));
+                  } else if (state is CheckInError) {
+                    showErrorToast(handleError(state.error, context));
+                  }
                 },
                 builder: (context, state) {
                   return (state is CheckInLoading)
@@ -130,13 +128,17 @@ class _CheckInPopupState extends State<CheckInPopup> {
                       : Column(
                           children: [
                             BigCheckInButton(
-                                onClick: () => context.read<CheckInBloc>().add(CheckInEventSend(widget.rsvp))),
+                                onClick: () => context
+                                    .read<CheckInBloc>()
+                                    .add(CheckInEventSend(widget.rsvp))),
                             const SizedBox(height: 10),
                             BigButton(
-                              buttonLabel: AppLocalizations.of(context)!.checkInCancelRsvp,
+                              buttonLabel: AppLocalizations.of(context)!
+                                  .checkInCancelRsvp,
                               buttonAction: () {
                                 AutoRouter.of(context).pushNativeRoute(
-                                    cancelEventDialog(context, widget.rsvp, false));
+                                    cancelEventDialog(
+                                        context, widget.rsvp, false));
                               },
                               buttonColor: SimposiAppColors.simposiLightGrey,
                               textColor: SimposiAppColors.simposiDarkGrey,
@@ -150,23 +152,26 @@ class _CheckInPopupState extends State<CheckInPopup> {
         ),
       );
 
-
   Route<Object?> _permissionDialog(BuildContext context, Object? arguments) {
     return CupertinoDialogRoute<void>(
       context: context,
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
-          title: Text(AppLocalizations.of(context)!.checkInPermissionDialogTitle),
-          content: Text(AppLocalizations.of(context)!.checkInPermissionDialogContent),
+          title:
+              Text(AppLocalizations.of(context)!.checkInPermissionDialogTitle),
+          content: Text(
+              AppLocalizations.of(context)!.checkInPermissionDialogContent),
           actions: <Widget>[
             CupertinoDialogAction(
-                child: Text(AppLocalizations.of(context)!.checkInPermissionDialogSettings),
+                child: Text(AppLocalizations.of(context)!
+                    .checkInPermissionDialogSettings),
                 onPressed: () {
                   AutoRouter.of(context).pop();
                   Geolocator.openAppSettings();
                 }),
             CupertinoDialogAction(
-              child: Text(AppLocalizations.of(context)!.checkInPermissionDialogCancel),
+              child: Text(
+                  AppLocalizations.of(context)!.checkInPermissionDialogCancel),
               onPressed: () {
                 AutoRouter.of(context).pop();
               },
@@ -176,5 +181,4 @@ class _CheckInPopupState extends State<CheckInPopup> {
       },
     );
   }
-
 }

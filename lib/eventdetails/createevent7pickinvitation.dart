@@ -25,24 +25,22 @@ class CreateEvent7 extends StatelessWidget {
         body: Column(
           children: [
             // Header
-            Container(
-              child: Column(
-                children: [
-                  const SizedBox(height: 45),
-                  LinearProgressIndicator(
-                    value: progress,
-                    valueColor: const AlwaysStoppedAnimation(
-                        SimposiAppColors.simposiDarkBlue),
-                    backgroundColor: SimposiAppColors.simposiFadedBlue,
-                  ),
-                  const SizedBox(height: 70),
-                  Text(
-                    'Pick an Invitation',
-                    style: Theme.of(context).textTheme.headline3,
-                  ),
-                  const SizedBox(height: 20),
-                ],
-              ),
+            Column(
+              children: [
+                const SizedBox(height: 45),
+                LinearProgressIndicator(
+                  value: progress,
+                  valueColor: const AlwaysStoppedAnimation(
+                      SimposiAppColors.simposiDarkBlue),
+                  backgroundColor: SimposiAppColors.simposiFadedBlue,
+                ),
+                const SizedBox(height: 70),
+                Text(
+                  'Pick an Invitation',
+                  style: Theme.of(context).textTheme.headline3,
+                ),
+                const SizedBox(height: 20),
+              ],
             ),
 
             // Body
@@ -74,8 +72,9 @@ class CreateEvent7 extends StatelessWidget {
                   // TODO: Disable Button until user has selected an invitation
                   BigGBSelectButton(
                     buttonLabel: 'Create Event',
-                    buttonAction: () =>
-                        {AutoRouter.of(context).replace(const SimposiHomeRoute())},
+                    buttonAction: () => {
+                      AutoRouter.of(context).replace(const SimposiHomeRoute())
+                    },
                   ),
                 ],
               ),

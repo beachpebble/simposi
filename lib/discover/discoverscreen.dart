@@ -28,12 +28,7 @@ class DiscoverScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              child:
-                  // TODO: Enable IF Statement, IF Have Events show Discover Card Deck ELSE show Background
-//          SimposiDiscoverBackground(),
-                  DiscoverCardDeck(),
-            ),
+            DiscoverCardDeck(),
           ],
         ),
       );

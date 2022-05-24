@@ -30,9 +30,8 @@ class EventAppBar extends StatelessWidget with PreferredSizeWidget {
   final EventModel eventModel;
 
   // Initiate Variables
-  EventAppBar({Key, key, required this.eventModel})
-      : preferredSize = const Size.fromHeight(60),
-        super(key: key);
+  EventAppBar({super.key, required this.eventModel})
+      : preferredSize = const Size.fromHeight(60);
 
   // Screen
   @override

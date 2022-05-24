@@ -5,7 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-
 import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
@@ -59,13 +58,9 @@ class YouLikeEachOther extends StatelessWidget {
             // Users Image
             Expanded(
               // TODO: Replace Image URL with Variable from Profile
-              child: Container(
-                //     height: MediaQuery.of(context).size.height * 0.6,
-                //    width: MediaQuery.of(context).size.width,
-                child: Image.asset(
-                  "assets/images/profileplaceholder.png",
-                  fit: BoxFit.cover,
-                ),
+              child: Image.asset(
+                "assets/images/profileplaceholder.png",
+                fit: BoxFit.cover,
               ),
             ),
 
@@ -74,27 +69,25 @@ class YouLikeEachOther extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(30, 20, 30, 40),
               child: Column(
                 children: [
-                  Container(
-                    child: Column(
-                      children: const [
-                        Text(
-                          'Flora',
-                          style: TextStyle(
-                            color: SimposiAppColors.simposiDarkGrey,
-                            fontSize: 19,
-                            fontWeight: FontWeight.w900,
-                          ),
+                  Column(
+                    children: const [
+                      Text(
+                        'Flora',
+                        style: TextStyle(
+                          color: SimposiAppColors.simposiDarkGrey,
+                          fontSize: 19,
+                          fontWeight: FontWeight.w900,
                         ),
-                        Text(
-                          'Ditch Fashion Show',
-                          style: TextStyle(
-                            color: SimposiAppColors.simposiDarkGrey,
-                            fontWeight: FontWeight.w900,
-                          ),
+                      ),
+                      Text(
+                        'Ditch Fashion Show',
+                        style: TextStyle(
+                          color: SimposiAppColors.simposiDarkGrey,
+                          fontWeight: FontWeight.w900,
                         ),
-                        Text('May 18, 2021'),
-                      ],
-                    ),
+                      ),
+                      Text('May 18, 2021'),
+                    ],
                   ),
                   const SizedBox(height: 20),
                   Row(

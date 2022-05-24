@@ -17,7 +17,7 @@ class ProfilePhotoPickButton extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ProfilePhotoPickButtonState createState() => _ProfilePhotoPickButtonState();
+  State createState() => _ProfilePhotoPickButtonState();
 }
 
 class _ProfilePhotoPickButtonState extends State<ProfilePhotoPickButton> {
@@ -83,8 +83,8 @@ class _ProfilePhotoPickButtonState extends State<ProfilePhotoPickButton> {
                       ),
                     ),
                   ),
-                  placeholder: (context, url) =>
-                      const SizedBox(height: 25, child: CircularProgressIndicator()),
+                  placeholder: (context, url) => const SizedBox(
+                      height: 25, child: CircularProgressIndicator()),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
           const Positioned.fill(

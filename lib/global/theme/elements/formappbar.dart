@@ -16,9 +16,7 @@ class BasicFormAppBar extends StatelessWidget with PreferredSizeWidget {
   final Size preferredSize;
 
   // Initiate Variables
-  BasicFormAppBar({Key, key})
-      : preferredSize = const Size.fromHeight(70),
-        super(key: key);
+  BasicFormAppBar({super.key}) : preferredSize = const Size.fromHeight(70);
 
   // Screen
   @override

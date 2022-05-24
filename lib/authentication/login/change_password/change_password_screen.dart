@@ -5,7 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -14,17 +13,17 @@ import 'package:simposi_app_v4/authentication/login/change_password/change_passw
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/password_field.dart';
+import 'package:simposi_app_v4/global/widgets/progress.dart';
 import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
-import 'package:simposi_app_v4/global/widgets/password_field.dart';
-import 'package:simposi_app_v4/global/widgets/progress.dart';
 
 /// Use only for password change from settings
 class ChangePasswordScreen extends StatefulWidget {
   // Set Variables
   @override
-  _ChangePasswordScreenState createState() => _ChangePasswordScreenState();
+  State createState() => _ChangePasswordScreenState();
 }
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
@@ -51,7 +50,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) => BlocProvider(
         create: (context) => ChangePasswordCubit(
-            profileRepository: context.read(), authenticationBloc: context.read()),
+            profileRepository: context.read(),
+            authenticationBloc: context.read()),
         child: KeyboardDismisser(
           child: Scaffold(
             backgroundColor: Colors.white,
@@ -70,37 +70,35 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     child: Column(
                       children: [
                         // HEADER LOGO
-                        Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Image.asset("assets/images/logo.png"),
-                              const Text(
-                                'simposi',
-                                style: TextStyle(
-                                  color: SimposiAppColors.simposiDarkBlue,
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 30,
-                                ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Image.asset("assets/images/logo.png"),
+                            const Text(
+                              'simposi',
+                              style: TextStyle(
+                                color: SimposiAppColors.simposiDarkBlue,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 30,
                               ),
-                              const SizedBox(height: 20),
-                              // TITLE
-                              const Text(
-                                'Create New Password',
-                                style: TextStyle(
-                                  fontSize: 19,
-                                  fontWeight: FontWeight.w900,
-                                  color: SimposiAppColors.simposiDarkGrey,
-                                ),
+                            ),
+                            const SizedBox(height: 20),
+                            // TITLE
+                            const Text(
+                              'Create New Password',
+                              style: TextStyle(
+                                fontSize: 19,
+                                fontWeight: FontWeight.w900,
+                                color: SimposiAppColors.simposiDarkGrey,
                               ),
-                              const SizedBox(height: 10),
-                              const Text(
-                                'Passwords must be at least 8 characters long.',
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(height: 25),
-                            ],
-                          ),
+                            ),
+                            const SizedBox(height: 10),
+                            const Text(
+                              'Passwords must be at least 8 characters long.',
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 25),
+                          ],
                         ),
 
                         // RESET PASSWORD FORM
@@ -142,9 +140,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                   ChangePasswordState>(
                                 listener: (context, state) {
                                   if (state is ChangePasswordSuccess) {
-                                    showInfoToast(
-                                        AppLocalizations.of(context)!
-                                            .passwordChangeSuccess);
+                                    showInfoToast(AppLocalizations.of(context)!
+                                        .passwordChangeSuccess);
                                     Navigator.of(context).pop();
                                   } else if (state is ChangePasswordError) {
                                     showErrorToast(
@@ -175,22 +172,20 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             ],
                           ),
                         ),
-                        
+
                         // FOOTER
-                        Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: const [
-                              SizedBox(height: 20),
-                              Text(
-                                '© 2021 Simposi Inc.',
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: const [
+                            SizedBox(height: 20),
+                            Text(
+                              '© 2021 Simposi Inc.',
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w700,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
