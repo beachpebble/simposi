@@ -12,7 +12,7 @@ class Image extends Equatable {
   @JsonKey(name: 'url', required: true, disallowNullValue: true)
   final String url;
 
-  Image({
+  const Image({
     required this.id,
     required this.name,
     required this.url,

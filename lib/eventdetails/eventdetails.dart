@@ -32,13 +32,13 @@ class EventDetails extends StatefulWidget {
 }
 
 class _EventDetailsState extends State<EventDetails> {
-  Completer<void> _initCompleter = Completer();
+  final Completer<void> _initCompleter = Completer();
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      await Future.delayed(Duration(milliseconds: 400));
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Future.delayed(const Duration(milliseconds: 400));
       _initCompleter.complete();
     });
     context
@@ -92,7 +92,7 @@ class _EventDetailsState extends State<EventDetails> {
                     ),
                     placeholder: (context, url) =>
                         Center(child: AppProgressIndicator()),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
                   ),
                 ),
               ),
@@ -172,10 +172,10 @@ class _EventDetailsState extends State<EventDetails> {
                             const SizedBox(width: 10),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
+                              children: const [
                                 Text(
                                   'Who\'s Going',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontWeight: FontWeight.w900,
                                     color: SimposiAppColors.simposiDarkGrey,
                                   ),
@@ -207,9 +207,9 @@ class _EventDetailsState extends State<EventDetails> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Organized for',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 21,
                     color: SimposiAppColors.simposiDarkGrey,
                     fontWeight: FontWeight.w900,
@@ -222,9 +222,9 @@ class _EventDetailsState extends State<EventDetails> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4.0),
-                          child: const Icon(Icons.circle,
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 4.0),
+                          child: Icon(Icons.circle,
                               color: SimposiAppColors.simposiDarkBlue,
                               size: 10),
                         ),
@@ -236,9 +236,9 @@ class _EventDetailsState extends State<EventDetails> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4.0),
-                          child: const Icon(Icons.circle,
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 4.0),
+                          child: Icon(Icons.circle,
                               color: SimposiAppColors.simposiDarkBlue,
                               size: 10),
                         ),
@@ -255,9 +255,9 @@ class _EventDetailsState extends State<EventDetails> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4.0),
-                          child: const Icon(Icons.circle,
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 4.0),
+                          child: Icon(Icons.circle,
                               color: SimposiAppColors.simposiDarkBlue,
                               size: 10),
                         ),
@@ -284,9 +284,9 @@ class _EventDetailsState extends State<EventDetails> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Description',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 21,
                     color: SimposiAppColors.simposiDarkGrey,
                     fontWeight: FontWeight.w900,
@@ -330,7 +330,7 @@ class _EventDetailsState extends State<EventDetails> {
                     initialCameraPosition:
                         CameraPosition(target: loc, zoom: 11),
                     onTap: (loc) async {
-                      var mapSchema = 'geo:${loc.latitude},${loc.longitude}';
+                      final mapSchema = 'geo:${loc.latitude},${loc.longitude}';
                       if (await canLaunch(mapSchema)) {
                         await launch(mapSchema);
                       } else {
@@ -345,11 +345,11 @@ class _EventDetailsState extends State<EventDetails> {
 
   Set<Marker> _getMarkers(LatLng? location) => location == null
       ? {}
-      : Set.from([
+      : {
           Marker(
-            markerId: MarkerId("Selected"),
+            markerId: const MarkerId("Selected"),
             position: location,
             draggable: false,
           )
-        ]);
+        };
 }

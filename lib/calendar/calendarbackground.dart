@@ -20,23 +20,23 @@ class SimposiCalendarBackground extends StatelessWidget {
             "assets/images/backgroundcalendar.png",
           ),
         ),
-        SizedBox(height: 30.0),
+        const SizedBox(height: 30.0),
         Center(
           child: Text(
             "Hmm.. No plans?",
             style: Theme.of(context).textTheme.headline3,
           ),
         ),
-        SizedBox(height: 5.0),
-        Center(
+        const SizedBox(height: 5.0),
+        const Center(
           child: Text(
             "Meet new people by inviting \nthem to join you!",
             textAlign: TextAlign.center,
             style: TextStyle(),
           ),
         ),
-        SizedBox(height: 20.0),
-        SmallPinkButton(buttonLabel: 'Meet Now', nextPage: '/createevent'),
+        const SizedBox(height: 20.0),
+        const SmallPinkButton(buttonLabel: 'Meet Now', nextPage: '/createevent'),
       ],
     );
   }

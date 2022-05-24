@@ -39,7 +39,7 @@ class SimposiFormFieldwClear extends StatelessWidget {
         suffixIcon: fieldController.text.isEmpty
             ? Container(width: 0)
             : IconButton(
-                icon: Icon(Icons.close,
+                icon: const Icon(Icons.close,
                     size: 20, color: SimposiAppColors.simposiLightGrey),
                 onPressed: () => fieldController.clear(),
               ),
@@ -59,7 +59,7 @@ class SimposiCounterField extends StatefulWidget {
   final Function(String?)? onSave;
   final TextEditingController fieldController;
 
-  SimposiCounterField({
+  const SimposiCounterField({
     Key? key,
     required this.inputType,
     required this.fieldLabel,
@@ -94,7 +94,7 @@ class _SimposiCounterFieldState extends State<SimposiCounterField> {
       showCursor: true,
       maxLength: widget.counterLength,
 
-      style: TextStyle(
+      style: const TextStyle(
         color: SimposiAppColors.simposiLightText,
         fontWeight: FontWeight.w500,
       ),
@@ -154,7 +154,7 @@ class SimposiLargeTextField extends StatelessWidget {
       textAlignVertical: TextAlignVertical.top,
       decoration: InputDecoration(
         labelText: fieldLabel,
-        border: OutlineInputBorder(
+        border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
         ),
       ),
@@ -172,7 +172,7 @@ class SimposiPlainField extends StatefulWidget {
   final TextEditingController? fieldController;
   final Function(String?)? onSave;
 
-  SimposiPlainField({
+  const SimposiPlainField({
     Key? key,
     required this.inputType,
     required this.fieldLabel,

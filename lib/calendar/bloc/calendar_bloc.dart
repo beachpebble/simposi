@@ -10,7 +10,6 @@ import 'package:simposi_app_v4/utils/date_utils.dart';
 import '../event_model.dart';
 
 part 'calendar_event.dart';
-
 part 'calendar_state.dart';
 
 EventTransformer<CalendarEvent> debounce<CalendarEvent>(Duration duration) {
@@ -35,7 +34,7 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
         _loadedEvents = state.rsvps;
         add(EventsUpdated(_loadedEvents));
       } else if (state is RsvpLoading) {
-        add(EventsLoading());
+        add(const EventsLoading());
       } else if (state is RsvpError) {
         add(EventsError(state.error));
       }
@@ -64,23 +63,23 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
     return super.close();
   }
 
-  _calendarScrolled(WeekSelected event, Emitter<CalendarState> emit) {
+  void _calendarScrolled(WeekSelected event, Emitter<CalendarState> emit) {
     weekStart = event.weekStart;
     updateFromWeek = true;
-    int index = _getIndexByFirstDate(event.weekStart);
+    final index = _getIndexByFirstDate(event.weekStart);
     emit(CalendarLoaded(weekStart, _loadedEvents, index, LoadBy.CALENDAR, 0));
   }
 
-  _listScrolled(ListScrolled event, Emitter<CalendarState> emit) {
-    EventModel eventModel = _loadedEvents[event.index];
+  void _listScrolled(ListScrolled event, Emitter<CalendarState> emit) {
+    final eventModel = _loadedEvents[event.index];
 
-    DateTime eventWeekStart =
+    final eventWeekStart =
         SimposiDateUtils.weekStart(eventModel.normalizedDate);
-    Duration difference = eventWeekStart.difference(weekStart);
-    int difInDays = 0;
+    final difference = eventWeekStart.difference(weekStart);
+    var difInDays = 0;
     if (difference.inDays > 0) difInDays = difference.inDays + 1;
     if (difference.inDays < 0) difInDays = difference.inDays - 1;
-    int difWeeks = difInDays ~/ 7;
+    final difWeeks = difInDays ~/ 7;
     if (updateFromWeek) {
       updateFromWeek = false;
     } else {
@@ -94,14 +93,14 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
 
   int _getIndexByFirstDate(DateTime date) {
     EventModel? first;
-    for (EventModel ev in _loadedEvents) {
+    for (final ev in _loadedEvents) {
       if (ev.normalizedDate.isAfter(date) ||
           DateUtils.isSameDay(ev.normalizedDate, date)) {
         first = ev;
         break;
       }
     }
-    int index = 0;
+    var index = 0;
     if (first != null) {
       index = _loadedEvents.indexOf(first);
     } else if (_loadedEvents.isNotEmpty &&

@@ -18,10 +18,10 @@ class LoginCubit extends Cubit<LoginState> {
     emit(LoginProgress());
 
     try {
-      var response = await profileRepository.login(login, password);
-      Map data = response['data'];
+      final response = await profileRepository.login(login, password);
+      final Map data = response['data'];
       if (data.containsKey('user') && data['user'] != null) {
-        Map<String, dynamic> user = data['user'];
+        final Map<String, dynamic> user = data['user'];
         if (data.containsKey('token') &&
             data['token'] != null &&
             user.containsKey('verified') &&
@@ -31,7 +31,7 @@ class LoginCubit extends Cubit<LoginState> {
           emit(LoginSuccess());
         } else {
           await profileRepository.setProfile(user);
-          emit(LoginUnconfirmed());
+          emit(const LoginUnconfirmed());
         }
       } else {
         emit(LoginError(AuthException(

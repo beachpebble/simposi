@@ -18,12 +18,12 @@ class PinCodeFields extends StatefulWidget {
 class _PinCodeFieldsState extends State<PinCodeFields> {
   final TextEditingController _verificationCodeController =
       TextEditingController(text: '');
-  bool _isButtonDisabled = true;
+  final bool _isButtonDisabled = true;
   late String errorText;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width * 0.8,
       child: PinCodeTextField(
         length: 6,

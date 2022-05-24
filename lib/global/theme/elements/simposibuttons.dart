@@ -30,14 +30,14 @@ class TinyTextButton extends StatelessWidget {
       style: TextButton.styleFrom(
         backgroundColor: Colors.transparent,
         primary: color,
-        textStyle: TextStyle(
+        textStyle: const TextStyle(
           fontFamily: 'Muli',
           fontSize: 11,
           fontWeight: FontWeight.w700,
         ),
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(20))),
-        padding: EdgeInsets.all(0),
+        padding: const EdgeInsets.all(0),
       ),
       child: Text(
         buttonLabel,
@@ -77,13 +77,13 @@ class SimposiTextButton extends StatelessWidget {
           ),
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20))),
-          padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+          padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
         ),
+        onPressed: onClick,
         child: Text(
           buttonLabel,
           textAlign: TextAlign.center,
-        ),
-        onPressed: onClick);
+        ));
   }
 }
 
@@ -99,19 +99,20 @@ class LoginForwardTextButton extends StatelessWidget {
       child: TextButton(
           style: TextButton.styleFrom(
             primary: Colors.white,
-            textStyle: TextStyle(
+            textStyle: const TextStyle(
               fontFamily: 'Muli',
               fontSize: 15,
               fontWeight: FontWeight.w800,
             ),
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(20))),
-            padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+            padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
             backgroundColor: Colors.transparent,
           ),
+          onPressed: onClick,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: [
+            children: const [
               Text(
                 "Log In",
                 textAlign: TextAlign.center,
@@ -119,8 +120,7 @@ class LoginForwardTextButton extends StatelessWidget {
               ),
               Icon(Icons.chevron_right),
             ],
-          ),
-          onPressed: onClick),
+          )),
     );
   }
 }
@@ -138,20 +138,20 @@ class GetStartedButton extends StatelessWidget {
           elevation: 0,
           primary: Colors.white,
           onPrimary: SimposiAppColors.simposiDarkGrey,
-          textStyle: TextStyle(
+          textStyle: const TextStyle(
             fontFamily: 'Muli',
             fontSize: 17,
             fontWeight: FontWeight.w800,
           ),
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(25))),
-          padding: EdgeInsets.fromLTRB(40, 15, 40, 15),
+          padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
         ),
-        child: Text(
+        onPressed: onClick,
+        child: const Text(
           "Get Started",
           textAlign: TextAlign.center,
-        ),
-        onPressed: onClick);
+        ));
   }
 }
 
@@ -175,26 +175,28 @@ class ContinueButton extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(30))),
           ),
           padding: MaterialStateProperty.all(
-            EdgeInsets.all(20),
+            const EdgeInsets.all(20),
           ),
           backgroundColor: MaterialStateProperty.resolveWith<Color>(
               (Set<MaterialState> states) {
-            if (states.contains(MaterialState.disabled))
+            if (states.contains(MaterialState.disabled)) {
               return SimposiAppColors.simposiLightGrey;
+            }
             return SimposiAppColors.simposiDarkBlue;
           }),
           foregroundColor: MaterialStateProperty.resolveWith<Color>(
               (Set<MaterialState> states) {
-            if (states.contains(MaterialState.disabled))
+            if (states.contains(MaterialState.disabled)) {
               return SimposiAppColors.simposiDarkGrey;
+            }
             return Colors.white;
           }),
         ),
+        // Button Actions
+        onPressed: buttonAction,
 
         // Label
         child: Text(buttonLabel),
-        // Button Actions
-        onPressed: buttonAction,
       ),
     );
   }
@@ -225,7 +227,7 @@ class BigGBSelectButton extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(30))),
           ),
           padding: MaterialStateProperty.all(
-            EdgeInsets.all(20),
+            const EdgeInsets.all(20),
           ),
           elevation: MaterialStateProperty.resolveWith<double>(
             (Set<MaterialState> states) {
@@ -254,10 +256,10 @@ class BigGBSelectButton extends StatelessWidget {
           }),
         ),
 
+        onPressed: buttonAction,
+
         // Label
         child: Text(buttonLabel),
-
-        onPressed: buttonAction,
       ),
     );
   }
@@ -295,26 +297,28 @@ class _BigButtonState extends State<BigButton> {
                 borderRadius: BorderRadius.all(Radius.circular(30))),
           ),
           padding: MaterialStateProperty.all(
-            EdgeInsets.all(20),
+            const EdgeInsets.all(20),
           ),
           backgroundColor: MaterialStateProperty.resolveWith<Color>(
               (Set<MaterialState> states) {
-            if (states.contains(MaterialState.disabled))
+            if (states.contains(MaterialState.disabled)) {
               return widget.buttonColor;
+            }
             return SimposiAppColors.simposiDarkBlue;
           }),
           foregroundColor: MaterialStateProperty.resolveWith<Color>(
               (Set<MaterialState> states) {
-            if (states.contains(MaterialState.disabled))
+            if (states.contains(MaterialState.disabled)) {
               return widget.textColor;
+            }
             return Colors.white;
           }),
         ),
 
+        onPressed: widget.buttonAction,
+
         // Label
         child: Text(widget.buttonLabel),
-
-        onPressed: widget.buttonAction,
       ),
     );
   }
@@ -334,17 +338,17 @@ class SubscribeButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.fromLTRB(50, 15, 50, 15),
-        shape: StadiumBorder(),
+        padding: const EdgeInsets.fromLTRB(50, 15, 50, 15),
+        shape: const StadiumBorder(),
         elevation: 0,
         primary: SimposiAppColors.simposiDarkBlue,
-      ),
-      child: Text(
-        "Subscribe",
       ),
 
       // ACTION
       onPressed: onClick,
+      child: const Text(
+        "Subscribe",
+      ),
     );
   }
 }
@@ -371,7 +375,7 @@ class SmallPinkButton extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(20)),
           side: BorderSide(color: SimposiAppColors.simposiPink, width: 1.0),
         ),
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         elevation: 0,
       ),
       // TODO: Enable Meet Now Button
@@ -406,7 +410,7 @@ class SmallBlueButton extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(20)),
           side: BorderSide(color: SimposiAppColors.simposiDarkBlue, width: 0),
         ),
-        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 0),
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 0),
         elevation: 0,
       ),
       // TODO: Enable Meet Now Button
@@ -461,10 +465,10 @@ class AgreeButton extends StatelessWidget {
         }),
       ),
 
-      // Label
-      child: Text('I Agree'),
-
       onPressed: onClick,
+
+      // Label
+      child: const Text('I Agree'),
     );
   }
 }
@@ -484,6 +488,7 @@ class _BigCheckInButtonState extends State<BigCheckInButton>
   late AnimationController _controller;
   late Animation<double> _animation;
 
+  @override
   void initState() {
     super.initState();
     _controller = AnimationController(
@@ -518,11 +523,11 @@ class _BigCheckInButtonState extends State<BigCheckInButton>
             _controller.reverse();
           }
         },
-        child: Container(
+        child: SizedBox(
           height: 55,
           child: Stack(
             children: [
-              Container(
+              SizedBox(
                 height: 55,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(25),
@@ -533,7 +538,7 @@ class _BigCheckInButtonState extends State<BigCheckInButton>
                   ),
                 ),
               ),
-              Align(
+              const Align(
                   alignment: Alignment.center,
                   child: Text('Press & Hold to Set Location')),
             ],
@@ -569,14 +574,14 @@ class SimposiBigButton extends StatelessWidget {
           elevation: 0,
           primary: buttonColor,
           onPrimary: textColor,
-          textStyle: TextStyle(
+          textStyle: const TextStyle(
             fontFamily: 'Muli',
             fontSize: 17,
             fontWeight: FontWeight.w800,
           ),
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(25))),
-          padding: EdgeInsets.fromLTRB(40, 15, 40, 15),
+          padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
         ),
         child: Text(
           buttonLabel,

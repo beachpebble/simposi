@@ -52,7 +52,7 @@ class Event extends Equatable {
   @JsonKey(name: 'what_you_likes', required: true, disallowNullValue: true)
   final List<Interest> wantToMeetInterests;
 
-  Event({
+  const Event({
     required this.id,
     required this.title,
     required this.datetime,
@@ -68,10 +68,10 @@ class Event extends Equatable {
     required this.locationAddress,
     required this.locationCity,
     required this.isLgbt,
-    required List<Gender> this.wantToMeetGenders,
-    required List<Generation> this.wantToMeetGenerations,
-    required List<Earning> this.wantToMeetEarnings,
-    required List<Interest> this.wantToMeetInterests,
+    required this.wantToMeetGenders,
+    required this.wantToMeetGenerations,
+    required this.wantToMeetEarnings,
+    required this.wantToMeetInterests,
   });
 
   @override
@@ -103,4 +103,4 @@ class Event extends Equatable {
 
 
 }
-DateTime _dateFromJson(String json) => DateTime.parse(json+"Z");
+DateTime _dateFromJson(String json) => DateTime.parse("${json}Z");

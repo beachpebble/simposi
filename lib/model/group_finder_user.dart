@@ -17,7 +17,7 @@ class GroupFinderUser extends Equatable {
   @JsonKey(name: 'latitude', required: true, disallowNullValue: true)
   final String latitude;
 
-  GroupFinderUser( {required this.id, required this.name, required this.imageUrl, required this.longitude, required this.latitude});
+  const GroupFinderUser( {required this.id, required this.name, required this.imageUrl, required this.longitude, required this.latitude});
 
   @override
   List<Object?> get props => [id, name, imageUrl, longitude, latitude];

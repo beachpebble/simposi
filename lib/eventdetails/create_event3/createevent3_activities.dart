@@ -60,7 +60,7 @@ class CreateEvent3Activities extends StatelessWidget {
                                       SimposiAppColors.simposiFadedBlue,
                                 ),
                                 const SizedBox(height: 70),
-                                Text(
+                                const Text(
                                   'What kind of activity is this?',
                                   style: TextStyle(
                                     fontSize: 19,
@@ -68,8 +68,8 @@ class CreateEvent3Activities extends StatelessWidget {
                                     color: SimposiAppColors.simposiDarkGrey,
                                   ),
                                 ),
-                                SizedBox(height: 20),
-                                Text(
+                                const SizedBox(height: 20),
+                                const Text(
                                   'Choose as many interests as you like.',
                                   style: TextStyle(
                                     color: SimposiAppColors.simposiLightText,
@@ -78,7 +78,7 @@ class CreateEvent3Activities extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 10),
                                 Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  padding: const EdgeInsets.symmetric(horizontal: 10),
                                   child: _searchBar(context),
                                 ),
                               ],
@@ -165,7 +165,7 @@ class CreateEvent3Activities extends StatelessWidget {
         keyboardType: TextInputType.streetAddress,
         decoration: const InputDecoration(
           hintText: 'Search activity',
-          suffixIcon: const Icon(Icons.search),
+          suffixIcon: Icon(Icons.search),
         ),
         onChanged: (value) =>
             context.read<CreateEventActivitiesCubit>().search(value),

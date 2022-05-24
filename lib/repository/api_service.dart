@@ -63,7 +63,7 @@ class AuthApiService {
   final baseUrl;
   late Dio _dio;
   late CookieJar _cookieJar;
-  AuthenticationBloc _authenticationBloc;
+  final AuthenticationBloc _authenticationBloc;
 
   AuthApiService(
       {required AuthenticationBloc authenticationBloc, this.baseUrl = Api.TEST})

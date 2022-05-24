@@ -22,8 +22,8 @@ class ShareDetailsButton extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           primary: SimposiAppColors.simposiDarkGrey,
-          shape: StadiumBorder(),
-          padding: EdgeInsets.fromLTRB(40, 15, 40, 15),
+          shape: const StadiumBorder(),
+          padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
         ),
 
         // TODO: Enable Check In Button
@@ -37,7 +37,7 @@ class ShareDetailsButton extends StatelessWidget {
           );
         },
 
-        child: Text(
+        child: const Text(
           "Share my Details",
           textAlign: TextAlign.center,
         ),
@@ -53,7 +53,7 @@ class ShareDetailsPopup extends StatefulWidget {
 }
 
 class _ShareDetailsPopupState extends State<ShareDetailsPopup> {
-  Color _facebook = SimposiAppColors.simposiLightText;
+  final Color _facebook = SimposiAppColors.simposiLightText;
   final Color _instagram = SimposiAppColors.simposiLightText;
   final Color _linkedin = SimposiAppColors.simposiLightText;
   final Color _email = SimposiAppColors.simposiLightText;
@@ -66,8 +66,8 @@ class _ShareDetailsPopupState extends State<ShareDetailsPopup> {
           color: Colors.black87,
           // Bottom Sheet
           child: Container(
-            padding: EdgeInsets.fromLTRB(20, 40, 20, 20),
-            decoration: BoxDecoration(
+            padding: const EdgeInsets.fromLTRB(20, 40, 20, 20),
+            decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20.0),
@@ -75,7 +75,7 @@ class _ShareDetailsPopupState extends State<ShareDetailsPopup> {
                 )),
             child: Column(
               children: [
-                Text(
+                const Text(
                   'Making Friends!',
                   style: TextStyle(
                     fontSize: 17,
@@ -83,14 +83,14 @@ class _ShareDetailsPopupState extends State<ShareDetailsPopup> {
                     color: SimposiAppColors.simposiDarkGrey,
                   ),
                 ),
-                SizedBox(height: 10),
-                Text(
+                const SizedBox(height: 10),
+                const Text(
                   'The next step is sending them a message. \nHow would you like to chat?',
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
                     children: [
                       Expanded(
@@ -112,7 +112,7 @@ class _ShareDetailsPopupState extends State<ShareDetailsPopup> {
                       ),
                       Expanded(
                         child: IconButton(
-                            icon: Icon(
+                            icon: const Icon(
                               Social.instagram,
                               color: SimposiAppColors.simposiLightText,
                               size: 50,
@@ -121,7 +121,7 @@ class _ShareDetailsPopupState extends State<ShareDetailsPopup> {
                       ),
                       Expanded(
                         child: IconButton(
-                            icon: Icon(
+                            icon: const Icon(
                               Social.linkedin,
                               color: SimposiAppColors.simposiLightText,
                               size: 50,
@@ -130,7 +130,7 @@ class _ShareDetailsPopupState extends State<ShareDetailsPopup> {
                       ),
                       Expanded(
                         child: IconButton(
-                            icon: Icon(
+                            icon: const Icon(
                               Social.mail,
                               color: SimposiAppColors.simposiLightText,
                               size: 50,
@@ -140,14 +140,14 @@ class _ShareDetailsPopupState extends State<ShareDetailsPopup> {
                     ],
                   ),
                 ),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
+                  children: const [
                     Text('Message:', textAlign: TextAlign.left),
                   ],
                 ),
-                TextField(
+                const TextField(
                   maxLines: 4,
                   maxLength: 220,
                   decoration: InputDecoration(
@@ -159,18 +159,18 @@ class _ShareDetailsPopupState extends State<ShareDetailsPopup> {
                     ),
                   ),
                 ),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
 
                 // TODO: Enable button only when user has selected an Icon Button, change color to Blue when enabled, capture message and send message to the other user
                 // Button
-                BigButton(
+                const BigButton(
                   buttonLabel: 'Share my Details',
                   buttonAction: null,
                   buttonColor: SimposiAppColors.simposiLightGrey,
                   textColor: SimposiAppColors.simposiDarkGrey,
                 ),
-                SizedBox(height: 20),
-                Text(
+                const SizedBox(height: 20),
+                const Text(
                   'Add contact methods to your profile to see it here.',
                   style: TextStyle(
                     fontSize: 13,

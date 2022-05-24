@@ -20,7 +20,7 @@ class ResetPasswordResendSuccess extends ResetPasswordCompleteState {
 class ResetPasswordResendError extends ResetPasswordCompleteState {
   final dynamic error;
 
-  ResetPasswordResendError(this.error);
+  const ResetPasswordResendError(this.error);
 
   @override
   List<Object> get props => [error];
@@ -29,7 +29,7 @@ class ResetPasswordResendError extends ResetPasswordCompleteState {
 class ResetPasswordCompleteError extends ResetPasswordCompleteState {
   final dynamic error;
 
-  ResetPasswordCompleteError(this.error);
+  const ResetPasswordCompleteError(this.error);
 
   @override
   List<Object> get props => [error];

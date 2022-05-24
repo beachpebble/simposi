@@ -27,76 +27,76 @@ class ProfileMenu extends StatelessWidget {
             // Menu List
             Expanded(
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: MediaQuery.removePadding(
                   removeTop: true,
                   context: context,
                   child: ListView(children: [
                     SimposiMenuCard(
-                      menuCardIcon: Icon(
+                      menuCardIcon: const Icon(
                         Icons.person_outline,
                         color: SimposiAppColors.simposiLightBlue,
                       ),
                       menuCardLabel: 'Account Settings',
                       onTap: () {
-                        AutoRouter.of(context).push(EditProfileRoute());
+                        AutoRouter.of(context).push(const EditProfileRoute());
                       },
                     ),
                     SimposiMenuCard(
-                      menuCardIcon: Icon(
+                      menuCardIcon: const Icon(
                         Icons.vpn_key_outlined,
                         color: SimposiAppColors.simposiPink,
                       ),
                       menuCardLabel: 'Change Password',
                       onTap: () {
                         AutoRouter.of(context)
-                            .push(ChangePasswordScreenRoute());
+                            .push(const ChangePasswordScreenRoute());
                       },
                     ),
                     SimposiMenuCard(
-                      menuCardIcon: Icon(
+                      menuCardIcon: const Icon(
                         Icons.markunread_mailbox_outlined,
                         color: SimposiAppColors.simposiYellow,
                         size: 20,
                       ),
                       menuCardLabel: 'Who am I',
                       onTap: () {
-                        AutoRouter.of(context).push(InvitationSettingsRoute());
+                        AutoRouter.of(context).push(const InvitationSettingsRoute());
                       },
                     ),
                     SimposiMenuCard(
-                      menuCardIcon: Icon(
+                      menuCardIcon: const Icon(
                         Icons.perm_contact_calendar_outlined,
                         color: SimposiAppColors.simposiLightBlue,
                         size: 20,
                       ),
                       menuCardLabel: 'Who I want to Meet',
                       onTap: () {
-                        AutoRouter.of(context).push(EventSettingsRoute());
+                        AutoRouter.of(context).push(const EventSettingsRoute());
                       },
                     ),
                     SimposiMenuCard(
-                      menuCardIcon: Icon(
+                      menuCardIcon: const Icon(
                         Icons.local_hospital_outlined,
                         color: SimposiAppColors.simposiPink,
                       ),
                       menuCardLabel: 'Emergency Contact',
                       onTap: () {
-                        AutoRouter.of(context).push(EmergencyContactRoute());
+                        AutoRouter.of(context).push(const EmergencyContactRoute());
                       },
                     ),
                     SimposiMenuCard(
-                      menuCardIcon: Icon(
+                      menuCardIcon: const Icon(
                         Icons.help_outline_outlined,
                         color: SimposiAppColors.simposiYellow,
                       ),
                       menuCardLabel: 'FAQ      ',
                       onTap: () {
-                        AutoRouter.of(context).push(FAQScreenRoute());
+                        AutoRouter.of(context).push(const FAQScreenRoute());
                       },
                     ),
                     SimposiMenuCard(
-                      menuCardIcon: Icon(
+                      menuCardIcon: const Icon(
                         Icons.sticky_note_2_outlined,
                         color: SimposiAppColors.simposiLightBlue,
                       ),
@@ -106,17 +106,17 @@ class ProfileMenu extends StatelessWidget {
                       },
                     ),
                     SimposiMenuCard(
-                      menuCardIcon: Icon(
+                      menuCardIcon: const Icon(
                         Icons.privacy_tip_outlined,
                         color: SimposiAppColors.simposiPink,
                       ),
                       menuCardLabel: 'Privacy Policy',
                       onTap: () {
-                        AutoRouter.of(context).push(PrivacyScreenRoute());
+                        AutoRouter.of(context).push(const PrivacyScreenRoute());
                       },
                     ),
                     SimposiMenuCard(
-                      menuCardIcon: Icon(
+                      menuCardIcon: const Icon(
                         Icons.question_answer_outlined,
                         color: SimposiAppColors.simposiYellow,
                       ),
@@ -124,7 +124,7 @@ class ProfileMenu extends StatelessWidget {
                       onTap: () {},
                     ),
                     SimposiMenuCard(
-                      menuCardIcon: Icon(
+                      menuCardIcon: const Icon(
                         Icons.exit_to_app,
                         color: SimposiAppColors.simposiLightBlue,
                       ),
@@ -141,7 +141,7 @@ class ProfileMenu extends StatelessWidget {
 
             // Footer
             Container(
-              padding: EdgeInsets.only(bottom: 40),
+              padding: const EdgeInsets.only(bottom: 40),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -149,8 +149,8 @@ class ProfileMenu extends StatelessWidget {
                     height: 100,
                     child: Image.asset('assets/images/logosquare.png'),
                   ),
-                  SizedBox(height: 5),
-                  Text(
+                  const SizedBox(height: 5),
+                  const Text(
                     'Version 4.1.0',
                     style: TextStyle(
                       fontSize: 13,

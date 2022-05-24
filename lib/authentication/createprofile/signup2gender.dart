@@ -20,7 +20,7 @@ import 'package:simposi_app_v4/model/gender.dart';
 import 'registration_profile_screen.dart';
 
 class SignUpForm2 extends RegistrationProfileScreen {
-  SignUpForm2({bool editMode = false}) : super(editMode: editMode);
+  const SignUpForm2({bool editMode = false}) : super(editMode: editMode);
 
   @override
   _SignUpForm2State createState() => _SignUpForm2State();
@@ -115,22 +115,22 @@ class _SignUpForm2State extends RegistrationProfileScreenState<SignUpForm2> {
                   const SizedBox(height: 30),
                   // Also Member Divider
                   Row(
-                    children: [
+                    children: const [
                       Expanded(
-                        child: const Divider(
+                        child: Divider(
                           endIndent: 10,
                           color: SimposiAppColors.simposiLightText,
                         ),
                       ),
-                      const Text(
+                      Text(
                         'Also member of',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: SimposiAppColors.simposiLightText,
                           fontSize: 13,
                         ),
                       ),
                       Expanded(
-                        child: const Divider(
+                        child: Divider(
                           indent: 10,
                           color: SimposiAppColors.simposiLightText,
                         ),

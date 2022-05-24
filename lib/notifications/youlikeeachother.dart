@@ -21,11 +21,11 @@ class YouLikeEachOther extends StatelessWidget {
           children: [
             // Message Header
             Container(
-              padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
               child: Column(
                 children: [
                   Row(
-                    children: [
+                    children: const [
                       Text(
                         'It\'s a Match!',
                         style: TextStyle(
@@ -36,9 +36,9 @@ class YouLikeEachOther extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 2),
+                  const SizedBox(height: 2),
                   Row(
-                    children: [
+                    children: const [
                       Expanded(
                         child: Text(
                           'Making new friends is easy',
@@ -71,12 +71,12 @@ class YouLikeEachOther extends StatelessWidget {
 
             // Message
             Container(
-              padding: EdgeInsets.fromLTRB(30, 20, 30, 40),
+              padding: const EdgeInsets.fromLTRB(30, 20, 30, 40),
               child: Column(
                 children: [
                   Container(
                     child: Column(
-                      children: [
+                      children: const [
                         Text(
                           'Flora',
                           style: TextStyle(
@@ -96,11 +96,11 @@ class YouLikeEachOther extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         'You',
                         style: TextStyle(
                           fontSize: 17,
@@ -108,13 +108,13 @@ class YouLikeEachOther extends StatelessWidget {
                           fontWeight: FontWeight.w900,
                         ),
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Image.asset(
                         'assets/images/ratingheart1.png',
                         width: 30,
                       ),
-                      SizedBox(width: 10),
-                      Text(
+                      const SizedBox(width: 10),
+                      const Text(
                         'like each other',
                         style: TextStyle(
                           fontSize: 17,
@@ -124,14 +124,14 @@ class YouLikeEachOther extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
-                  Text(
+                  const SizedBox(height: 20),
+                  const Text(
                     'It takes at least 50hrs to make it official so keep it going by connecting IRL.',
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   ShareDetailsButton(),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                 ],
               ),
             ),

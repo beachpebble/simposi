@@ -26,7 +26,7 @@ import 'create_event_screen.dart';
 import 'cubit/event_edit_cubit.dart';
 
 class CreateEvent6 extends CreateEventScreen {
-  CreateEvent6({bool editMode = false}) : super(editMode: editMode);
+  const CreateEvent6({bool editMode = false}) : super(editMode: editMode);
 
   @override
   _SignUpForm4State createState() => _SignUpForm4State();
@@ -37,10 +37,11 @@ class _SignUpForm4State extends CreateEventScreenState<CreateEvent6> {
 
   void _selectEarning(Earning earning) {
     setState(() {
-      if (_selected.contains(earning))
+      if (_selected.contains(earning)) {
         _selected.remove(earning);
-      else
+      } else {
         _selected.add(earning);
+      }
     });
     if (!widget.editMode) {
       context.read<EventEditCubit>().stage6Earnings(earnings: _selected);
@@ -50,10 +51,11 @@ class _SignUpForm4State extends CreateEventScreenState<CreateEvent6> {
   void _selectAll() {
     setState(() {
       if (_selected.length ==
-          context.read<AppSetupCubit>().masterData.earnings.length)
+          context.read<AppSetupCubit>().masterData.earnings.length) {
         _selected.clear();
-      else
+      } else {
         _selected.addAll(context.read<AppSetupCubit>().masterData.earnings);
+      }
     });
 
     if (!widget.editMode) {
@@ -116,7 +118,7 @@ class _SignUpForm4State extends CreateEventScreenState<CreateEvent6> {
                   return const SizedBox(height: 10);
                 },
                 itemBuilder: (context, index) {
-                  Earning earning =
+                  final earning =
                       context.read<AppSetupCubit>().masterData.earnings[index];
                   return BigGBSelectButton(
                       buttonLabel: earning.title,
@@ -159,7 +161,7 @@ class _SignUpForm4State extends CreateEventScreenState<CreateEvent6> {
     return BlocConsumer<EventEditCubit, EventEditState>(
       listener: (context, state) {
         if (state is EventEditSuccess) {
-          AutoRouter.of(context).replace(SimposiHomeRoute());
+          AutoRouter.of(context).replace(const SimposiHomeRoute());
         } else if (state is EventEditError) {
           showErrorToast(handleError(state.error, context));
         }

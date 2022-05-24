@@ -43,7 +43,7 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
     _itemScrollController = ItemScrollController();
     _itemPositionsListener = ItemPositionsListener.create();
     _itemPositionsListener.itemPositions.addListener(() {
-      List<ItemPosition> items =
+      final items =
           _itemPositionsListener.itemPositions.value.toList();
       items.sort((s1, s2) {
         return s1.index.compareTo(s2.index);
@@ -77,27 +77,27 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
         simposiAction: Row(
           children: [
             TextButton(
-              child: Text(
+              child: const Text(
                 'TODO Refresh',
                 style: TextStyle(fontSize: 17),
               ),
               onPressed: () => {
                 context.read<RsvpBloc>().add(RefreshRequested(
-                    DateTime.now().subtract(Duration(days: 90)),
-                    DateTime.now().add(Duration(days: 90))))
+                    DateTime.now().subtract(const Duration(days: 90)),
+                    DateTime.now().add(const Duration(days: 90))))
               },
             ),
             TextButton(
-              child: Text(
+              child: const Text(
                 'Meet Now',
                 style: TextStyle(fontSize: 17),
               ),
               onPressed: () {
                 context.read<EventEditCubit>().initCreate();
-                AutoRouter.of(context).push(CreateEvent1Route());
+                AutoRouter.of(context).push(const CreateEvent1Route());
               },
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
           ],
         ),
       ),
@@ -113,8 +113,8 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
               },
               builder: (context, state) {
                 return WeekCalendar(
-                  firstDay: DateTime.now().subtract(Duration(days: 90)),
-                  lastDay: DateTime.now().add(Duration(days: 90)),
+                  firstDay: DateTime.now().subtract(const Duration(days: 90)),
+                  lastDay: DateTime.now().add(const Duration(days: 90)),
                   focusedDay: SimposiDateUtils.weekStart(
                       DateUtils.dateOnly(DateTime.now())),
                   onPageChanged: (fd) {
@@ -128,7 +128,7 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
                   defaultBuilder: defaultBuilder,
                   eventChecker: (day) {
                     if (state is CalendarLoaded) {
-                      bool d = state.events
+                      final d = state.events
                           .map((e) => e.normalizedDate.toUtc())
                           .toList()
                           .contains(day.toUtc());
@@ -145,17 +145,17 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
           // Upcoming Counter Bar
           Container(
             color: Colors.white,
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Row(
               children: [
-                Text(
+                const Text(
                   'Upcoming',
                   style: TextStyle(
                     color: Color(0xFFBBBBBB),
                     fontWeight: FontWeight.w900,
                   ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 BlocBuilder<RsvpBloc, RsvpState>(
                   builder: (context, state) {
                     return SimposiCounterBubble(
@@ -179,13 +179,13 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
                 if (state.scrollPos != _firstScrollItemIndex) {
                   _itemScrollController.scrollTo(
                       index: state.scrollPos,
-                      duration: Duration(milliseconds: 500),
+                      duration: const Duration(milliseconds: 500),
                       curve: Curves.easeInOutCubic);
                 }
               } else if (state is CalendarLoaded &&
                   state.loadBy == LoadBy.LIST) {
                 if (state.difWeeks != 0) {
-                  int cur = _calendarPageController?.getPage().toInt() ?? 0;
+                  final cur = _calendarPageController?.getPage().toInt() ?? 0;
                   _calendarPageController?.animateToPage(cur + state.difWeeks,
                       callback: false);
                 }
@@ -193,10 +193,11 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
             },
             buildWhen: (state1, state2) {
               if (state1 is CalendarLoaded && state2 is CalendarLoaded) {
-                if (state1.events != state2.events)
+                if (state1.events != state2.events) {
                   return true;
-                else
+                } else {
                   return false;
+                }
               }
               return true;
             },
@@ -224,7 +225,7 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
                   ),
                 );
               } else {
-                return Expanded(
+                return const Expanded(
                   child: Text("Error"),
                 );
               }
@@ -239,13 +240,13 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
     return Center(
       child: Container(
         padding: const EdgeInsets.all(5),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
           color: SimposiAppColors.simposiFadedBlue,
           shape: BoxShape.rectangle,
         ),
         child: Text(d1.day.toString(),
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w900,
             )),
@@ -255,7 +256,7 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
   var defaultBuilder = (context, d1, d2) {
     return Center(
         child: Text(d1.day.toString(),
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w900,
             )));
@@ -281,7 +282,7 @@ class _CalendarHeader extends StatelessWidget {
         SizedBox(
           child: Text(
             headerText,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 15,
               color: SimposiAppColors.simposiLightText,
             ),

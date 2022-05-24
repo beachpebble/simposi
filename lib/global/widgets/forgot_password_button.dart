@@ -12,7 +12,7 @@ class ForgotPasswordTextButton extends StatelessWidget {
       child: TextButton(
         style: TextButton.styleFrom(
           primary: SimposiAppColors.simposiDarkBlue,
-          textStyle: TextStyle(
+          textStyle: const TextStyle(
             fontFamily: 'Muli',
             fontSize: 15,
             fontWeight: FontWeight.w800,
@@ -22,9 +22,10 @@ class ForgotPasswordTextButton extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
           backgroundColor: Colors.white,
         ),
+        onPressed: onClick,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: const [
             Text(
               "Forgot Password",
               textAlign: TextAlign.center,
@@ -32,7 +33,6 @@ class ForgotPasswordTextButton extends StatelessWidget {
             ),
           ],
         ),
-        onPressed: onClick,
       ),
     );
   }

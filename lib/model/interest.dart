@@ -10,7 +10,7 @@ class Interest extends Equatable {
   @JsonKey(name: 'title', required: true, disallowNullValue: true)
   final String title;
 
-  Interest({required this.id, required this.title});
+  const Interest({required this.id, required this.title});
 
 
   @override

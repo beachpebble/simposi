@@ -11,7 +11,7 @@ class CalendarLoaded extends CalendarState {
   final int difWeeks;
   final LoadBy loadBy;
 
-  CalendarLoaded(this.weekStart, this.events, this.scrollPos, this.loadBy, this.difWeeks);
+  const CalendarLoaded(this.weekStart, this.events, this.scrollPos, this.loadBy, this.difWeeks);
 
   @override
   List<Object> get props => [weekStart, events, scrollPos, loadBy, difWeeks];
@@ -30,7 +30,7 @@ class CalendarLoading extends CalendarState {
 class CalendarError extends CalendarState {
   final dynamic error;
 
-  CalendarError(this.error);
+  const CalendarError(this.error);
 
   @override
   List<Object> get props => [error];

@@ -19,10 +19,10 @@ class AppSetupErrorScreen extends StatelessWidget {
              padding: const EdgeInsets.all(8.0),
              child: Text("Error initializing app: ${handleError(error, context)}"),
            ),
-           SizedBox(height: 10),
+           const SizedBox(height: 10),
            TextButton(onPressed: () {
              context.read<AppSetupCubit>().load();
-           }, child: Text("Reload", style: TextStyle(color: Colors.white),))
+           }, child: const Text("Reload", style: TextStyle(color: Colors.white),))
          ],),
     );
   }

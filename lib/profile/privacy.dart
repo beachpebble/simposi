@@ -16,7 +16,7 @@ class PrivacyScreen extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: Colors.white,
         appBar: BasicFormAppBar(),
-        body: SingleChildScrollView(
+        body: const SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
             // TODO: Insert variable to pull Privacy from Admin Dashboard

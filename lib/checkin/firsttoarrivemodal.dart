@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 
 class FirstToArrive extends StatelessWidget {
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) => const Scaffold(
 //    appBar: SimposiAppBar('Flora',
 //      simposiSubTitle: 'Vancouver',
 //    ),

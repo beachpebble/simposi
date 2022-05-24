@@ -91,18 +91,18 @@ class _SignUpForm1State extends State<SignUpForm1> {
                       },
                       builder: (context, state) {
                         return Container(
-                          padding: EdgeInsets.all(40),
+                          padding: const EdgeInsets.all(40),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               // HEADER
-                              Container(
+                              SizedBox(
                                 height: 225,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Signup and start \n meeting new people.',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
@@ -111,7 +111,7 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                         fontSize: 19,
                                       ),
                                     ),
-                                    SizedBox(height: 20),
+                                    const SizedBox(height: 20),
                                     // TODO: ENABLE IMAGE PICKER & ERROR MESSAGE IF NO IMAGE ON SUBMIT
                                     //  PHOTO UPLOAD FIELD
                                     ProfilePhotoPickButton(
@@ -132,11 +132,11 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                   key: _formKey,
                                   child: Column(
                                     children: [
-                                      SizedBox(height: 40),
+                                      const SizedBox(height: 40),
 
                                       // NAME FIELD
                                       _nameField(),
-                                      SizedBox(height: 10),
+                                      const SizedBox(height: 10),
 
                                       // phone FIELD
                                       PhoneField(
@@ -144,7 +144,7 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                             setState(() => _phone = value),
                                         controller: _phoneController,
                                       ),
-                                      SizedBox(height: 10),
+                                      const SizedBox(height: 10),
 
                                       // email FIELD
                                       // PASSWORD FIELD
@@ -154,7 +154,7 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                           controller: _passwordController,
                                           validator: getValidator(
                                               context, Validators.PASSWORD)),
-                                      SizedBox(height: 10),
+                                      const SizedBox(height: 10),
 
                                       // PASSWORD FIELD
                                       PasswordField(
@@ -173,7 +173,7 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                               return null;
                                             }
                                           }),
-                                      SizedBox(height: 15),
+                                      const SizedBox(height: 15),
 
                                       // SUBMIT BUTTON
                                       state is Signup1CreateAccountLoading
@@ -209,14 +209,14 @@ class _SignUpForm1State extends State<SignUpForm1> {
                                             }
                                           }
                                               : null),
-                                      SizedBox(height: 10),
+                                      const SizedBox(height: 10),
                                       // LOGIN BUTTON
                                       SimposiTextButton(
                                         buttonLabel: "Log In",
                                         fontSize: 15,
                                         fontWeight: FontWeight.w900,
                                         onClick: () {
-                                          AutoRouter.of(context).replace(LoginScreenRoute());
+                                          AutoRouter.of(context).replace(const LoginScreenRoute());
                                         },
                                       ),
                                     ],
@@ -228,7 +228,7 @@ class _SignUpForm1State extends State<SignUpForm1> {
                               Container(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
+                                  children: const [
                                     SizedBox(height: 30),
                                     PrivacyTOUFooter(
                                       footerColor:

@@ -14,7 +14,7 @@ class SurveyListLoading extends SurveyState {}
 class SurveyError extends SurveyState {
   final dynamic error;
 
-  SurveyError(this.error);
+  const SurveyError(this.error);
 
   @override
   List<Object> get props => [error];
@@ -23,7 +23,7 @@ class SurveyError extends SurveyState {
 class SurveyProcess extends SurveyState {
   final SurveyRequired surveyRequired;
 
-  SurveyProcess(this.surveyRequired);
+  const SurveyProcess(this.surveyRequired);
 
   @override
   List<Object> get props => [surveyRequired];

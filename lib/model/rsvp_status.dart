@@ -23,7 +23,7 @@ class RsvpStatus extends Equatable {
   @JsonKey(name: 'title', required: true, disallowNullValue: true)
   final String title;
 
-  RsvpStatus(this.id, this.title);
+  const RsvpStatus(this.id, this.title);
 
   @override
   List<Object?> get props => [id, title];

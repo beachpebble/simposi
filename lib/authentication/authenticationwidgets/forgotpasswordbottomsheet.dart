@@ -19,19 +19,19 @@ class ForgotPasswordTextButton extends StatelessWidget {
       child: TextButton(
         style: TextButton.styleFrom(
           primary: SimposiAppColors.simposiDarkBlue,
-          textStyle: TextStyle(
+          textStyle: const TextStyle(
             fontFamily: 'Muli',
             fontSize: 15,
             fontWeight: FontWeight.w800,
           ),
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20))),
-          padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+          padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
           backgroundColor: Colors.white,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: const [
             Text(
               "Forgot Password",
               textAlign: TextAlign.center,
@@ -83,30 +83,30 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
           color: Colors.black54,
           child: Container(
               padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   color: Colors.white,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: const Radius.circular(20.0),
-                    topRight: const Radius.circular(20.0),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20.0),
+                    topRight: Radius.circular(20.0),
                   )),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   const Text(
                     'Recover Password',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: SimposiAppColors.simposiDarkBlue,
                       fontSize: 17,
                       fontWeight: FontWeight.w900,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   const Text(
                       'Please enter your email\nto restore your password.'),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
 
                   // FORGOT PASSWORD FORM
                   Form(
@@ -114,7 +114,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                     child: Column(
                       children: [
                         _emailField(),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
 
                         // TODO: ENABLE FORGOT PASSWORD BUTTON
                         // FORGOT PASSWORD BUTTON
@@ -125,7 +125,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
 
                               if (isValid) {
                                 _formKey.currentState!.save();
-                                print('Email: ${email}');
+                                print('Email: $email');
                                 Navigator.of(context)
                                     .pushReplacementNamed('/createpassword');
                               }
@@ -133,19 +133,19 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   TextButton(
                       // TODO: Enable Contact Support button to open the users native email app to support@simposi.com
                       onPressed: () {},
                       child: const Text(
                         'Contact Support',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: SimposiAppColors.simposiDarkBlue,
                           fontSize: 15,
                           fontWeight: FontWeight.w900,
                         ),
                       )),
-                  SizedBox(height: 150),
+                  const SizedBox(height: 150),
                 ],
               )),
         ),
@@ -174,7 +174,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
 
         // EMAIL VALIDATION LOGIC
         validator: (value) {
-          final pattern =
+          const pattern =
               r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
           final regExp = RegExp(pattern);
 

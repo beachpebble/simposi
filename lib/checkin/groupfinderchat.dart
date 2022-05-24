@@ -12,6 +12,6 @@ class GroupFinderChat extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: BasicFormAppBar(),
-        body: Text('Group Finder Chat'),
+        body: const Text('Group Finder Chat'),
       );
 }

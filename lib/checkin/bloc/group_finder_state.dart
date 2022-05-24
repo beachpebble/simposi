@@ -12,7 +12,7 @@ class GroupFinderLoaded extends GroupFinderState {
   final List<GroupUserWithRange> users;
   final double startAngle;
 
-  GroupFinderLoaded(this.userSelected, this.users, this.startAngle);
+  const GroupFinderLoaded(this.userSelected, this.users, this.startAngle);
 
   @override
   List<Object?> get props => [userSelected, users, startAngle];
@@ -21,7 +21,7 @@ class GroupFinderLoaded extends GroupFinderState {
 class GroupFinderError extends GroupFinderState {
   final dynamic error;
 
-  GroupFinderError(this.error);
+  const GroupFinderError(this.error);
 
   @override
   List<Object> get props => [error];
@@ -39,15 +39,16 @@ class GroupUserWithRange extends Equatable {
   final double range;
 
   Range get rangeClass {
-    if (range < 2)
+    if (range < 2) {
       return Range.R1_2;
-    else if (range < 10)
+    } else if (range < 10) {
       return Range.R2_10;
-    else
+    } else {
       return Range.R10_30;
+    }
   }
 
-  GroupUserWithRange(this.user, this.range);
+  const GroupUserWithRange(this.user, this.range);
 
   @override
   List<Object?> get props => [user, range];

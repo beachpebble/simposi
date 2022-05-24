@@ -10,7 +10,7 @@ abstract class AppCubit<State> extends Cubit<State> with ErrorHandle {
 
   final AuthenticationBloc authenticationBloc;
 
-  LocalizedErrorType handleErrorWithAuth(dynamic exception) {
+  LocalizedErrorType handleErrorWithAuth(exception) {
     if (exception is AuthException) {
       authenticationBloc.add(LoggedOut());
       return LocalizedErrorType.AUTH;
@@ -25,7 +25,7 @@ abstract class AppCubit<State> extends Cubit<State> with ErrorHandle {
 }
 
 mixin ErrorHandle {
-  String getErrorMessage(dynamic error) {
+  String getErrorMessage(error) {
     if (error is ServerException) {
       return error.message;
     } else if (error is Exception) {
@@ -49,11 +49,12 @@ LocalizedErrorType handleDioException(DioError exception) {
     case DioErrorType.sendTimeout:
       return LocalizedErrorType.DIO_TIMEOUT;
     case DioErrorType.other:
-      dynamic error = exception.error;
-      if (error is SocketException)
+      final dynamic error = exception.error;
+      if (error is SocketException) {
         return LocalizedErrorType.NETWORK;
-      else
+      } else {
         return LocalizedErrorType.DIO_DEFAULT;
+      }
     default:
       return LocalizedErrorType.DIO_DEFAULT;
   }

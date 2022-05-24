@@ -21,7 +21,7 @@ class SurveyRequired extends Equatable {
   @JsonKey(name: 'event_date', required: true, disallowNullValue: true)
   final DateTime eventDate;
 
-  SurveyRequired(
+  const SurveyRequired(
       {required this.id,
       required this.userName,
       required this.userPhoto,

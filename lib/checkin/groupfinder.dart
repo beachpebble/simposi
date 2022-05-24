@@ -44,7 +44,7 @@ class GroupFinder extends StatelessWidget {
           simposiAction: Row(
             children: [
               TextButton(
-                child: Text(
+                child: const Text(
                   'Info',
                   style: TextStyle(fontSize: 17),
                 ),
@@ -54,7 +54,7 @@ class GroupFinder extends StatelessWidget {
                   //AutoRouter.of(context).replace(AffinityRatingCardsRoute());
                 },
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
             ],
           ),
         ),
@@ -79,10 +79,10 @@ class GroupFinder extends StatelessWidget {
                               ),
                             ),
                           ),
-                          placeholder: (context, url) => SizedBox(
+                          placeholder: (context, url) => const SizedBox(
                               height: 25, child: CircularProgressIndicator()),
                           errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
+                              const Icon(Icons.error),
                         ))
                       : Expanded(
                           child: Center(
@@ -98,7 +98,7 @@ class GroupFinder extends StatelessWidget {
                                 Text(
                                   AppLocalizations.of(context)!
                                       .groupFinderSelectSomeoneExtended,
-                                  style: TextStyle().copyWith(
+                                  style: const TextStyle().copyWith(
                                       fontSize: 11,
                                       fontWeight: FontWeight.w600),
                                 )
@@ -130,7 +130,7 @@ class GroupFinder extends StatelessWidget {
             } else if (state is GroupFinderLocationError) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: [
+                children: const [
                   Text(
                       "Location is disabled, Reenable location in device settings")
                 ],
@@ -148,19 +148,19 @@ class GroupFinder extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("No Location permission"),
+                    const Text("No Location permission"),
                     TextButton(
                         onPressed: () {
                           Geolocator.openAppSettings();
                         },
-                        child: Text("Open settings")),
+                        child: const Text("Open settings")),
                     TextButton(
                         onPressed: () {
                           context
                               .read<GroupFinderBloc>()
                               .add(GroupFinderPermissionRefresh());
                         },
-                        child: Text("Reload"))
+                        child: const Text("Reload"))
                   ],
                 ),
               );
@@ -168,7 +168,7 @@ class GroupFinder extends StatelessWidget {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Text("Unknown error")],
+                  children: const [Text("Unknown error")],
                 ),
               );
             }

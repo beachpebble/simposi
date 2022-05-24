@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 
 class GroupLocator extends StatelessWidget {
-  GroupLocator({Key? key, required this.users, this.userSelected, required this.startAngle}) : super(key: key);
+  const GroupLocator({Key? key, required this.users, this.userSelected, required this.startAngle}) : super(key: key);
 
   final List<GroupUserWithRange> users;
   final GroupUserWithRange? userSelected;
@@ -20,14 +20,15 @@ class GroupLocator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double radiusFull = (width - margin) / 2;
+    final width = MediaQuery.of(context).size.width;
+    final radiusFull = (width - margin) / 2;
     var angleI = startAngle;
 
     return SizedBox(
       width: width,
       height: width,
       child: CustomPaint(
+        painter: CirclesPainter(margin),
         child: Stack(
             alignment: Alignment.center,
           children: [
@@ -45,21 +46,21 @@ class GroupLocator extends StatelessWidget {
                 Container(
                   width: 50,
                   height: 50,
-                  child: Center(child: Text(AppLocalizations.of(context)!.groupFinderMe, style: TextStyle().copyWith(fontSize: 11, fontWeight: FontWeight.w600),)),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25.0),
                     border: Border.all(color: SimposiAppColors.simposiLightBlue),
 
                   ),
+                  child: Center(child: Text(AppLocalizations.of(context)!.groupFinderMe, style: const TextStyle().copyWith(fontSize: 11, fontWeight: FontWeight.w600),)),
                 )
                  ),
 
             Stack(
               alignment: Alignment.center,
               children: users.map((user) {
-                double radius  = _getRadius(user.rangeClass, radiusFull);
-                double radius2  = _getRadius2(user.rangeClass, radiusFull, margin.toDouble());
-                double angle = angleI + 2;
+                final radius  = _getRadius(user.rangeClass, radiusFull);
+                final radius2  = _getRadius2(user.rangeClass, radiusFull, margin.toDouble());
+                final angle = angleI + 2;
                 angleI = angle;
                 return Positioned(
 left: radius2 + radius - radius*sin(angle) + margin/2 - 25,
@@ -70,7 +71,6 @@ left: radius2 + radius - radius*sin(angle) + margin/2 - 25,
             )
           ],
         ),
-        painter: CirclesPainter(margin),
       ),
     );
   }
@@ -102,7 +102,7 @@ left: radius2 + radius - radius*sin(angle) + margin/2 - 25,
   }
 
   Widget _circleText(String text) {
-    return Text(text, style: TextStyle().copyWith(color: Colors.black, fontSize: 11, fontWeight: FontWeight.w600),);
+    return Text(text, style: const TextStyle().copyWith(color: Colors.black, fontSize: 11, fontWeight: FontWeight.w600),);
   }
 }
 
@@ -113,15 +113,15 @@ class CirclesPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    var center = size / 2;
-    var paint = Paint()
+    final center = size / 2;
+    final paint = Paint()
       ..color = Colors.lightBlue.withOpacity(0.2)
       ..strokeWidth = 5;
 
     canvas.drawCircle(Offset(center.width, center.height),
         ((size.width - margin) / 2), paint);
-    final TextPainter textPainter = TextPainter(
-        text: TextSpan(text: '10-30m', style: TextStyle().copyWith(color: Colors.black, fontSize: 12)),
+    final textPainter = TextPainter(
+        text: TextSpan(text: '10-30m', style: const TextStyle().copyWith(color: Colors.black, fontSize: 12)),
         textAlign: TextAlign.center,
         textDirection: TextDirection.ltr
     )..layout(maxWidth: 50);

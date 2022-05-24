@@ -25,13 +25,13 @@ class CalendarController {
   CalendarController(this.pageController, this.withOutCallback);
 
   Future<void> animateToPage(int page, { bool callback = true}) {
-    int currentPage = pageController.page?.round() ?? 0;
-    int dif = (page - currentPage).abs();
+    final currentPage = pageController.page?.round() ?? 0;
+    final dif = (page - currentPage).abs();
     print("Cal controleer ----   $page    $currentPage");
     if (!callback) {
       withOutCallback.call(dif);
     }
-    return pageController.animateToPage(page,  duration: Duration(milliseconds: 300),
+    return pageController.animateToPage(page,  duration: const Duration(milliseconds: 300),
         curve: Curves.easeOut);
   }
   int getPage() {

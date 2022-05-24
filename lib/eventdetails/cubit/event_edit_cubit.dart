@@ -33,13 +33,13 @@ class EventEditCubit extends Cubit<EventEditState> {
 
   bool editMode = false;
 
-  stage1(
+  void stage1(
       {required String title,
       required String? file,
       required String? url,
       required String description,
       required DateTime dateTime}) {
-    this.photo = file;
+    photo = file;
     this.title = title;
     this.description = description;
     this.dateTime = dateTime.toUtc();
@@ -60,13 +60,13 @@ class EventEditCubit extends Cubit<EventEditState> {
   void setInterests({
     required Set<Interest> interests,
   }) async {
-    this.wantToMeetInterests = interests;
+    wantToMeetInterests = interests;
   }
 
   void stage4Gender({
     required Set<Gender> gender,
   }) {
-    this.wantToMeetGender = gender;
+    wantToMeetGender = gender;
   }
 
   void stage4Lgbt({
@@ -78,13 +78,13 @@ class EventEditCubit extends Cubit<EventEditState> {
   void stage5Generations({
     required Set<Generation> generation,
   }) async {
-    this.wantToMeetGenerations = generation;
+    wantToMeetGenerations = generation;
   }
 
   void stage6Earnings({
     required Set<Earning> earnings,
   }) async {
-    this.wantToMeetEarnings = earnings;
+    wantToMeetEarnings = earnings;
   }
 
   Future<void> complete() {

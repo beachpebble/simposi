@@ -18,7 +18,7 @@ class Survey extends Equatable {
   @JsonKey(name: 'text', required: true, disallowNullValue: true)
   final String? reportText;
 
-  Survey({required this.userId, required this.eventId, required this.rate, this.reportText});
+  const Survey({required this.userId, required this.eventId, required this.rate, this.reportText});
 
   @override
   List<Object?> get props => [userId, eventId, rate, reportText];

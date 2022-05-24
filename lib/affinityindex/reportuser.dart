@@ -54,26 +54,26 @@ class _ReportUserState extends State<ReportUser> {
           },
         ),
         body: Container(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              Text(
+              const Text(
                 'Tell us what happened. If you just didn’t like this user '
                 'and don’t want to see them again, go back and use the other '
                 'unhappy face. This one is for reporting serious stuff only.',
                 textAlign: TextAlign.center,
               ),
-              Divider(
+              const Divider(
                 height: 40,
               ),
               TextField(
                 maxLines: 25,
                 controller: _controller,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.w500,
                   color: SimposiAppColors.simposiLightText,
                 ),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Type here...',
                   hintStyle: TextStyle(

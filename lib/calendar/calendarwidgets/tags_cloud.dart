@@ -18,7 +18,7 @@ class TagsCloud extends StatelessWidget {
             child: InputChip(
         label: Text(
             item.title,
-            style: TextStyle(color: Colors.black),
+            style: const TextStyle(color: Colors.black),
         ),
         elevation: 0,
         showCheckmark: false,

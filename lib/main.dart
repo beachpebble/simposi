@@ -67,7 +67,7 @@ void main() {
                       context.read(),
                       context.read(),
                       context.read(),
-                    )..add(ProfileReload())),
+                    )..add(const ProfileReload())),
             BlocProvider(
                 create: (context) =>
                     RegistrationCubit(profileRepository: context.read())),
@@ -79,8 +79,8 @@ void main() {
                     context.read(), context.read())
                   ..add(RefreshRequested(
                       DateTime.now().subtract(
-                          Duration(days: AppConstants.CALENDAR_DAYS_INTERVAL)),
-                      DateTime.now().add(Duration(
+                          const Duration(days: AppConstants.CALENDAR_DAYS_INTERVAL)),
+                      DateTime.now().add(const Duration(
                           days: AppConstants.CALENDAR_DAYS_INTERVAL))))),
             BlocProvider(create: (context) => CalendarBloc(context.read())),
             BlocProvider(

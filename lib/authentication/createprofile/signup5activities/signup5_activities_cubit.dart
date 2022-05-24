@@ -47,7 +47,7 @@ class Signup5ActivitiesCubit extends Cubit<Signup5ActivitiesState> {
   final Set<Interest> interests;
 
   Future<void> selectInterest(Interest interest) async {
-    Set<Interest> newSelected = {};
+    final newSelected = <Interest>{};
     newSelected.addAll(state.selected);
     newSelected.add(interest);
     emit(state.copyWith(selected: newSelected));
@@ -57,7 +57,7 @@ class Signup5ActivitiesCubit extends Cubit<Signup5ActivitiesState> {
   }
 
   Future<void> deselectInterest(Interest interest) async {
-    Set<Interest> newSelected = {};
+    final newSelected = <Interest>{};
     newSelected.addAll(state.selected);
     newSelected.remove(interest);
     emit(state.copyWith(selected: newSelected));
@@ -73,7 +73,7 @@ class Signup5ActivitiesCubit extends Cubit<Signup5ActivitiesState> {
   }
 
   Future<void> search(String search) async {
-    Set<Interest> newFiltered = {}..addAll(state.interests.where((element) =>
+    final newFiltered = <Interest>{}..addAll(state.interests.where((element) =>
         element.title.toLowerCase().contains(search.toLowerCase())));
 
     //clean selected not in filter

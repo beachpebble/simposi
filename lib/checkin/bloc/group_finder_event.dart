@@ -10,7 +10,7 @@ abstract class GroupFinderEvent extends Equatable {
 class GroupFinderMyLocationChanged extends GroupFinderEvent {
   final Position position;
 
-  GroupFinderMyLocationChanged(this.position);
+  const GroupFinderMyLocationChanged(this.position);
 
   @override
   List<Object?> get props => [position];
@@ -19,7 +19,7 @@ class GroupFinderMyLocationChanged extends GroupFinderEvent {
 class GroupFinderUserListUpdated extends GroupFinderEvent {
   final List<GroupFinderUser> users;
 
-  GroupFinderUserListUpdated(this.users);
+  const GroupFinderUserListUpdated(this.users);
 
   @override
   List<Object?> get props => [users];
@@ -28,7 +28,7 @@ class GroupFinderUserListUpdated extends GroupFinderEvent {
 class GroupFinderUserSelect extends GroupFinderEvent {
   final GroupUserWithRange user;
 
-  GroupFinderUserSelect(this.user);
+  const GroupFinderUserSelect(this.user);
 
   @override
   List<Object?> get props => [user];
@@ -46,7 +46,7 @@ class GroupFinderPermissionLost extends GroupFinderEvent {
 class GroupFinderErrorEvent extends GroupFinderEvent {
   final dynamic error;
 
-  GroupFinderErrorEvent(this.error);
+  const GroupFinderErrorEvent(this.error);
 
   @override
   List<Object> get props => [error];

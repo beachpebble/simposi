@@ -10,7 +10,7 @@ class Generation extends Equatable {
   @JsonKey(name: 'title', required: true, disallowNullValue: true)
   final String title;
 
-  Generation({required this.id, required this.title});
+  const Generation({required this.id, required this.title});
 
   @override
   List<Object> get props => [id, title];

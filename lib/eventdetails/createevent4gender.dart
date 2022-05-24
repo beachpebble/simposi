@@ -21,7 +21,7 @@ import 'create_event_screen.dart';
 import 'cubit/event_edit_cubit.dart';
 
 class CreateEvent4 extends CreateEventScreen {
-  CreateEvent4({bool editMode = false}) : super(editMode: editMode);
+  const CreateEvent4({bool editMode = false}) : super(editMode: editMode);
 
   @override
   _SignUpForm2State createState() => _SignUpForm2State();
@@ -51,10 +51,11 @@ class _SignUpForm2State extends CreateEventScreenState<CreateEvent4> {
 
   void _selectGender(Gender gender) {
     setState(() {
-      if (_selected.contains(gender))
+      if (_selected.contains(gender)) {
         _selected.remove(gender);
-      else
+      } else {
         _selected.add(gender);
+      }
     });
     if (!widget.editMode) {
       context.read<EventEditCubit>().stage4Gender(gender: _selected);
@@ -122,22 +123,22 @@ class _SignUpForm2State extends CreateEventScreenState<CreateEvent4> {
                   const SizedBox(height: 30),
                   // Also Member Divider
                   Row(
-                    children: [
+                    children: const [
                       Expanded(
-                        child: const Divider(
+                        child: Divider(
                           endIndent: 10,
                           color: SimposiAppColors.simposiLightText,
                         ),
                       ),
-                      const Text(
+                      Text(
                         'Also member of',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: SimposiAppColors.simposiLightText,
                           fontSize: 13,
                         ),
                       ),
                       Expanded(
-                        child: const Divider(
+                        child: Divider(
                           indent: 10,
                           color: SimposiAppColors.simposiLightText,
                         ),

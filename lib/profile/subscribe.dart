@@ -12,6 +12,6 @@ class SimposiSubscribe extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: BasicFormAppBar(),
-        body: Text('Subscribe'),
+        body: const Text('Subscribe'),
       );
 }

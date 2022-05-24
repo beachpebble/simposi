@@ -108,7 +108,7 @@ class _WeekCalendarState extends State<WeekCalendar> {
           },
           dowBuilder: (BuildContext context, DateTime day) {
             final weekdayString = DateFormat.E(widget.locale).format(day);
-            Widget dowCell = Center(
+            final Widget dowCell = Center(
               child: Text(
                 weekdayString,
               ),
@@ -132,7 +132,7 @@ class _WeekCalendarState extends State<WeekCalendar> {
         final children = <Widget>[];
         final isToday = isSameDay(day, widget.currentDay);
 
-        Widget content = (isToday)
+        final content = (isToday)
             ? widget.todayBuilder.call(context, day, focusedDay)
             : widget.defaultBuilder.call(context, day, focusedDay);
 
@@ -140,7 +140,7 @@ class _WeekCalendarState extends State<WeekCalendar> {
         final hasEvents = widget.eventChecker.call(day);
         if (hasEvents) {
           final center = constraints.maxHeight / 2;
-          final markerSize = 4.0;
+          const markerSize = 4.0;
           final markerAutoAlignmentTop = center +
               (shorterSide - const EdgeInsets.all(6.0).vertical) / 2 -
               (markerSize * 0.7);
@@ -154,8 +154,8 @@ class _WeekCalendarState extends State<WeekCalendar> {
         }
         return Stack(
           alignment: Alignment.bottomCenter,
-          children: children,
           clipBehavior: Clip.hardEdge,
+          children: children,
         );
       },
     );
@@ -165,7 +165,7 @@ class _WeekCalendarState extends State<WeekCalendar> {
     return Container(
         width: 8,
         height: 8,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
           shape: BoxShape.circle,
         ));

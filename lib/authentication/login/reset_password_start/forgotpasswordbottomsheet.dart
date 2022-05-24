@@ -48,10 +48,9 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
   Widget build(BuildContext context) => KeyboardDismisser(
         child: BlocConsumer<ForgotPasswordStartCubit, ForgotPasswordStartState>(
           listener: (context, state) {
-            if (state is ForgotPasswordStartError)
-              //TODO make localization
+            if (state is ForgotPasswordStartError) {
               showErrorToast("Code was not sent");
-            else if (state is ForgotPasswordStartSuccess) {
+            } else if (state is ForgotPasswordStartSuccess) {
               showInfoToast("Code was sent via SMS");
               AutoRouter.of(context).pop();
               AutoRouter.of(context).push(ResetPasswordScreenRoute(phone: phone));
@@ -61,8 +60,8 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
             return Container(
               color: Colors.black54,
               child: Container(
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
+                  padding: const EdgeInsets.all(20),
+                  decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(20.0),
@@ -73,8 +72,8 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(height: 20),
-                      Text(
+                      const SizedBox(height: 20),
+                      const Text(
                         'Recover Password',
                         style: TextStyle(
                           color: SimposiAppColors.simposiDarkBlue,
@@ -82,10 +81,10 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                           fontWeight: FontWeight.w900,
                         ),
                       ),
-                      SizedBox(height: 10),
-                      Text(
+                      const SizedBox(height: 10),
+                      const Text(
                           'Please enter your email\nto restore your password.'),
-                      SizedBox(height: 30),
+                      const SizedBox(height: 30),
                       // FORGOT PASSWORD FORM
                       Form(
                         key: _formKey,
@@ -96,7 +95,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                               onSave: (value) =>
                                   setState(() => phone = value),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             state is ForgotPasswordStartLoading
                                 ? AppProgressIndicator()
                                 : ContinueButton(
@@ -107,7 +106,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
 
                                       if (isValid) {
                                         _formKey.currentState!.save();
-                                        print('Email: ${phone}');
+                                        print('Email: $phone');
                                         context
                                             .read<ForgotPasswordStartCubit>()
                                             .sendForgotPasswordRequest(
@@ -117,10 +116,10 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       TextButton(
                           onPressed: _contactSupport,
-                          child: Text(
+                          child: const Text(
                             'Contact Support',
                             style: TextStyle(
                               color: SimposiAppColors.simposiDarkBlue,
@@ -128,7 +127,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                               fontWeight: FontWeight.w900,
                             ),
                           )),
-                      SizedBox(height: 150),
+                      const SizedBox(height: 150),
                     ],
                   )),
             );
@@ -138,7 +137,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
 
   void _contactSupport() async {
     _formKey.currentState!.save();
-    var url = 'mailto:support@simposi.com?subject=Account%20Recovery%20-%20$phone&body=$phone';
+    final url = 'mailto:support@simposi.com?subject=Account%20Recovery%20-%20$phone&body=$phone';
     await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
   }
 

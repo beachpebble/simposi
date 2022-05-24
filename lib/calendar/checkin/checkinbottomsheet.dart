@@ -34,7 +34,7 @@ class CheckInButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         primary: SimposiAppColors.simposiPink,
-        shape: StadiumBorder(),
+        shape: const StadiumBorder(),
       ),
 
       // TODO: Enable Check In Button
@@ -47,7 +47,7 @@ class CheckInButton extends StatelessWidget {
         );
       },
 
-      child: Text(
+      child: const Text(
         "Check In",
         textAlign: TextAlign.center,
       ),
@@ -72,8 +72,8 @@ class _CheckInPopupState extends State<CheckInPopup> {
         color: Colors.black54,
         // Bottom Sheet
         child: Container(
-          padding: EdgeInsets.fromLTRB(20, 40, 20, 20),
-          decoration: BoxDecoration(
+          padding: const EdgeInsets.fromLTRB(20, 40, 20, 20),
+          decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20.0),
@@ -83,31 +83,31 @@ class _CheckInPopupState extends State<CheckInPopup> {
             children: [
               Text(
                 AppLocalizations.of(context)!.checkInCancelText1,
-                style: TextStyle(
+                style: const TextStyle(
                   color: SimposiAppColors.simposiDarkGrey,
                   fontWeight: FontWeight.w900,
                   fontSize: 19,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 AppLocalizations.of(context)!.checkInCancelText2,
-                style: TextStyle(
+                style: const TextStyle(
                   color: SimposiAppColors.simposiDarkGrey,
                   fontWeight: FontWeight.w900,
                   fontSize: 17,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(AppLocalizations.of(context)!.checkInCancelText3),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 AppLocalizations.of(context)!.checkInCancelText4,
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Image.asset("assets/images/airbaloon.png"),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // BUTTONS
               BlocConsumer<CheckInBloc, CheckInState>(
                 listener: (context, state) {
@@ -131,7 +131,7 @@ class _CheckInPopupState extends State<CheckInPopup> {
                           children: [
                             BigCheckInButton(
                                 onClick: () => context.read<CheckInBloc>().add(CheckInEventSend(widget.rsvp))),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             BigButton(
                               buttonLabel: AppLocalizations.of(context)!.checkInCancelRsvp,
                               buttonAction: () {

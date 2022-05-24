@@ -19,13 +19,16 @@ class EventModel extends Equatable {
   String get generationsString => rsvp.event.wantToMeetGenerations.map((e) => e.title).join(", ");
   String get earningsString => rsvp.event.wantToMeetEarnings.map((e) => e.title).join(", ");
   String get gendersString {
-    var values = <String>[];
-    if (rsvp.event.wantToMeetGenders.contains(Gender.Male))
+    final values = <String>[];
+    if (rsvp.event.wantToMeetGenders.contains(Gender.Male)) {
       values.add("Men");
-    if (rsvp.event.wantToMeetGenders.contains(Gender.Female))
+    }
+    if (rsvp.event.wantToMeetGenders.contains(Gender.Female)) {
       values.add("Women");
-    if (rsvp.event.isLgbt)
+    }
+    if (rsvp.event.isLgbt) {
       values.add("LGBT");
+    }
     return values.join(", ");
   }
 
@@ -37,9 +40,9 @@ class EventModel extends Equatable {
   bool get showCheckIn => ([RsvpStatus.ACCEPTED].contains(rsvp.status.title) || isMine) && isTimeReady();
 
   bool isTimeReady() {
-    var now = DateTime.now().toUtc();
-    Duration dif = rsvp.event.datetime.difference(now);
-    return dif <= Duration(minutes: 15);
+    final now = DateTime.now().toUtc();
+    final dif = rsvp.event.datetime.difference(now);
+    return dif <= const Duration(minutes: 15);
   }
 
   @override

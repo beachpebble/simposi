@@ -41,8 +41,8 @@ class _CreateEvent2View extends StatefulWidget {
 class _CreateEvent2State extends State<_CreateEvent2View> {
   double progress = 0.32;
   final _placeSearchController = TextEditingController();
-  Completer<GoogleMapController> _controller = Completer();
-  Completer<void> _initCompleter = Completer();
+  final Completer<GoogleMapController> _controller = Completer();
+  final Completer<void> _initCompleter = Completer();
 
   @override
   void initState() {
@@ -55,8 +55,8 @@ class _CreateEvent2State extends State<_CreateEvent2View> {
       showErrorToast("There is no location permission");
       context.read<CreateEvent2LocationCubit>().noPermission();
     });
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      await Future.delayed(Duration(milliseconds: 200));
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Future.delayed(const Duration(milliseconds: 200));
       _initCompleter.complete();
     });
   }
@@ -84,7 +84,7 @@ class _CreateEvent2State extends State<_CreateEvent2View> {
                     const SizedBox(height: 45),
                     LinearProgressIndicator(
                       value: progress,
-                      valueColor: AlwaysStoppedAnimation(
+                      valueColor: const AlwaysStoppedAnimation(
                           SimposiAppColors.simposiDarkBlue),
                       backgroundColor: SimposiAppColors.simposiFadedBlue,
                     ),
@@ -105,7 +105,7 @@ class _CreateEvent2State extends State<_CreateEvent2View> {
 
               // Body
               Expanded(
-                child: Container(
+                child: SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: state.selectedLocation == null
                       ? Center(child: AppProgressIndicator())
@@ -137,7 +137,7 @@ class _CreateEvent2State extends State<_CreateEvent2View> {
                           buttonAction: state.selectedLocation != null
                               ? () {
                                   AutoRouter.of(context)
-                                      .push(CreateEvent3ActivitiesRoute());
+                                      .push(const CreateEvent3ActivitiesRoute());
                                 }
                               : null),
                     ),
@@ -154,9 +154,9 @@ class _CreateEvent2State extends State<_CreateEvent2View> {
       controller: _placeSearchController,
       textCapitalization: TextCapitalization.words,
       keyboardType: TextInputType.streetAddress,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         hintText: 'Search a location',
-        suffixIcon: const Icon(Icons.search),
+        suffixIcon: Icon(Icons.search),
       ),
       onChanged: (value) =>
           context.read<CreateEvent2LocationCubit>().searchPlace(value),
@@ -208,7 +208,7 @@ class _CreateEvent2State extends State<_CreateEvent2View> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
       child: Container(
-          decoration: new BoxDecoration(
+          decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
           ),
@@ -222,8 +222,8 @@ class _CreateEvent2State extends State<_CreateEvent2View> {
             ),
             onTap: () async {
               if (placesSearchResult.geometry != null) {
-                final GoogleMapController controller = await _controller.future;
-                var newLoc = LatLng(placesSearchResult.geometry!.location.lat,
+                final controller = await _controller.future;
+                final newLoc = LatLng(placesSearchResult.geometry!.location.lat,
                     placesSearchResult.geometry!.location.lng);
                 controller.animateCamera(CameraUpdate.newLatLng(newLoc));
                 setState(() {
@@ -240,9 +240,9 @@ class _CreateEvent2State extends State<_CreateEvent2View> {
 
   Set<Marker> _getMarkers(LatLng? location) => location == null
       ? {}
-      : Set.from([
+      : {
           Marker(
-              markerId: MarkerId("Selected"),
+              markerId: const MarkerId("Selected"),
               position: location,
               draggable: true,
               onDragEnd: ((newPosition) {
@@ -250,5 +250,5 @@ class _CreateEvent2State extends State<_CreateEvent2View> {
                     .read<CreateEvent2LocationCubit>()
                     .selectLocation(newPosition);
               }))
-        ]);
+        };
 }

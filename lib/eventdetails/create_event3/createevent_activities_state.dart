@@ -27,5 +27,6 @@ class CreateEventActivitiesState extends Equatable {
   @override
   List<Object> get props => [selected, interests, filtered];
 
+  @override
   bool? get stringify => true;
 }

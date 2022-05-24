@@ -14,7 +14,7 @@ class Signup8ValidateLoading extends Signup8ValidateState {}
 class Signup8ValidateError extends Signup8ValidateState {
   final dynamic error;
 
-  Signup8ValidateError(this.error);
+  const Signup8ValidateError(this.error);
 
   @override
   List<Object> get props => [error];
@@ -23,7 +23,7 @@ class Signup8ValidateError extends Signup8ValidateState {
 class Signup8ValidateSuccess extends Signup8ValidateState {
   final String message;
 
-  Signup8ValidateSuccess(this.message);
+  const Signup8ValidateSuccess(this.message);
 
   @override
   List<Object> get props => [message];
@@ -32,7 +32,7 @@ class Signup8ValidateSuccess extends Signup8ValidateState {
 class Signup8ResendError extends Signup8ValidateState {
   final dynamic error;
 
-  Signup8ResendError(this.error);
+  const Signup8ResendError(this.error);
 
   @override
   List<Object> get props => [error];

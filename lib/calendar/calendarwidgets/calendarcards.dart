@@ -18,7 +18,7 @@ import 'package:simposi_app_v4/global/widgets/progress.dart';
 import 'rsvp_indicator.dart';
 
 class EventCard extends StatelessWidget {
-  EventCard({Key? key, required this.eventModel}) : super(key: key);
+  const EventCard({Key? key, required this.eventModel}) : super(key: key);
 
   final EventModel eventModel;
 
@@ -26,7 +26,7 @@ class EventCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: Colors.black,
-      margin: EdgeInsets.fromLTRB(15, 10, 15, 0),
+      margin: const EdgeInsets.fromLTRB(15, 10, 15, 0),
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
@@ -54,40 +54,40 @@ class EventCard extends StatelessWidget {
                 ),
                 placeholder: (context, url) =>
                     Center(child: AppProgressIndicator()),
-                errorWidget: (context, url, error) => Icon(Icons.error),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
 
               // OVERLAY AND TEXT
               Container(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 color: Colors.black26,
                 height: 172,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    SizedBox(height: 50),
+                    const SizedBox(height: 50),
                     Text(
-                      eventModel.rsvp.title ?? "",
-                      style: TextStyle(
+                      eventModel.rsvp.title,
+                      style: const TextStyle(
                         fontWeight: FontWeight.w900,
                         fontSize: 15,
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.access_time,
                           color: Colors.white,
                           size: 15,
                         ),
-                        SizedBox(width: 5),
+                        const SizedBox(width: 5),
                         Text(
                           DateFormat('yyyy-MM-dd – kk:mm')
                               .format(eventModel.rsvp.fullDate),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 13,
                             color: Colors.white,
                           ),
@@ -111,10 +111,10 @@ class EventCard extends StatelessWidget {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           color: SimposiAppColors.simposiPink,
                         ),
-                        child: Icon(
+                        child: const Icon(
                           Icons.self_improvement,
                           color: SimposiAppColors.simposiLightGrey,
                           size: 30,

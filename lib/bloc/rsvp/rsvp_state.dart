@@ -33,7 +33,7 @@ class RsvpError extends RsvpState {
 
   final dynamic error;
 
-  RsvpError(this.error);
+  const RsvpError(this.error);
 
   @override
   List<Object> get props => [error];

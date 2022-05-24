@@ -16,7 +16,7 @@ class ProfileStatus extends Equatable {
 
   bool get isOnEvent => eventId != null && eventId! > 0;
 
-  ProfileStatus({this.eventId, this.eventDate, required this.surveyNeed});
+  const ProfileStatus({this.eventId, this.eventDate, required this.surveyNeed});
 
   factory ProfileStatus.fromJson(Map<String, dynamic> json) =>
       _$ProfileStatusFromJson(json);

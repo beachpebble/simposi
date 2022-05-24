@@ -47,7 +47,7 @@ class _ProfilePhotoPickButtonState extends State<ProfilePhotoPickButton> {
             size: 100,
             color: SimposiAppColors.simposiDarkGrey.withOpacity(0.5),
           ),
-          Positioned.fill(
+          const Positioned.fill(
               child: Align(
             alignment: Alignment.bottomRight,
             child: Icon(
@@ -84,10 +84,10 @@ class _ProfilePhotoPickButtonState extends State<ProfilePhotoPickButton> {
                     ),
                   ),
                   placeholder: (context, url) =>
-                      SizedBox(height: 25, child: CircularProgressIndicator()),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
+                      const SizedBox(height: 25, child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
-          Positioned.fill(
+          const Positioned.fill(
               child: Align(
             alignment: Alignment.bottomRight,
             child: Icon(

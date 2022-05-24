@@ -14,13 +14,13 @@ class RsvpActionLoading extends RsvpActionState {}
 class RsvpActionSuccess extends RsvpActionState {
   final bool dontCloseAfterAction;
 
-  RsvpActionSuccess([this.dontCloseAfterAction = false]);
+  const RsvpActionSuccess([this.dontCloseAfterAction = false]);
 }
 
 class RsvpActionError extends RsvpActionState {
   final dynamic error;
 
-  RsvpActionError(this.error);
+  const RsvpActionError(this.error);
 
   @override
   List<Object> get props => [error];

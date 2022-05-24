@@ -14,8 +14,8 @@ class NetworkResponseSuccess extends NetworkResponse {
   List<Object> get props => [data];
 
   static NetworkResponseSuccess fromJson(Map json) {
-    var data = json.containsKey('data') ? json['data'] : null;
-    var message = json.containsKey('message') ? json['message'] : null;
+    final data = json.containsKey('data') ? json['data'] : null;
+    final message = json.containsKey('message') ? json['message'] : null;
     return NetworkResponseSuccess(data: data, message: message);
   }
 }
@@ -31,7 +31,7 @@ class NetworkResponseError extends NetworkResponse {
 
   static NetworkResponseError fromJson(Map json) {
     if (!json.containsKey('error') && json.containsKey('status')) {
-      Map error = json['error'];
+      final Map error = json['error'];
       if (error.containsKey('message')) {
         return NetworkResponseError(error['message'], json['status']);
       } else {

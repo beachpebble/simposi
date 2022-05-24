@@ -14,7 +14,7 @@ class FcmInitial extends FcmState {
 class FcmTokenUpdated extends FcmState {
   final String token;
 
-  FcmTokenUpdated(this.token);
+  const FcmTokenUpdated(this.token);
 
   @override
   List<Object> get props => [token];

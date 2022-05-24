@@ -29,7 +29,7 @@ class PickInvitationThumbnail extends StatelessWidget {
             elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
-              side: BorderSide(
+              side: const BorderSide(
                 color: SimposiAppColors.simposiLightText,
                 width: 0.5,
                 style: BorderStyle.solid,
@@ -49,7 +49,7 @@ class PickInvitationThumbnail extends StatelessWidget {
                 // PREVIEW OVERLAY
                 Center(
                   child: Container(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     // color: Colors.black12,
                     child: SizedBox(
                       height: 30,
@@ -72,7 +72,7 @@ class PickInvitationThumbnail extends StatelessWidget {
         // TODO: Final State - On Click of Select Button - Charge users appstore account, create invite, generate receipt and all of that
         // Select Button
         Container(
-          padding: EdgeInsets.only(top: 5),
+          padding: const EdgeInsets.only(top: 5),
           child: SizedBox(
             height: 30,
             child: SmallBlueButton(

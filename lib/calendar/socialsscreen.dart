@@ -18,13 +18,13 @@ class SocialsScreen extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         appBar: SimposiAppBar(
           simposiTitle: 'Socials',
-          simposiSubTitle: Text('Month'),
+          simposiSubTitle: const Text('Month'),
           simposiAction: TextButton(
-            child: Text(
+            child: const Text(
               'Meet Now',
               style: TextStyle(fontSize: 17),
             ),
-            onPressed: () => {AutoRouter.of(context).push(CreateEvent1Route())},
+            onPressed: () => {AutoRouter.of(context).push(const CreateEvent1Route())},
           ),
         ),
         body: Column(

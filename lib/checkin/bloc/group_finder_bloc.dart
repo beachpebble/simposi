@@ -17,7 +17,6 @@ import 'package:simposi_app_v4/utils/location.dart';
 import '../../app_constants.dart';
 
 part 'group_finder_event.dart';
-
 part 'group_finder_state.dart';
 
 class GroupFinderBloc extends Bloc<GroupFinderEvent, GroupFinderState> {
@@ -30,9 +29,9 @@ class GroupFinderBloc extends Bloc<GroupFinderEvent, GroupFinderState> {
   final RsvpBloc _rsvpBloc;
   final int eventId;
   Position? _currentPosition;
-  final Distance distance = new Distance();
+  final Distance distance = const Distance();
   double _startAngle = 0.0;
-  var rng = new Random();
+  var rng = Random();
 
   GroupFinderBloc({
     required RsvpBloc rsvpBloc,
@@ -44,7 +43,7 @@ class GroupFinderBloc extends Bloc<GroupFinderEvent, GroupFinderState> {
         _profileRepository = profileRepository,
         _profileBloc = profileBloc,
         _rsvpBloc = rsvpBloc,
-        super(GroupFinderLoaded(null, [], 0.0)) {
+        super(const GroupFinderLoaded(null, [], 0.0)) {
     on<GroupFinderUserSelect>((event, emit) {
       _userSelect(event, emit);
     });
@@ -70,26 +69,27 @@ class GroupFinderBloc extends Bloc<GroupFinderEvent, GroupFinderState> {
     });
   }
 
-  _userSelect(GroupFinderUserSelect event, Emitter<GroupFinderState> emit) {
+  void _userSelect(
+      GroupFinderUserSelect event, Emitter<GroupFinderState> emit) {
     if (state is GroupFinderLoaded) {
       emit(GroupFinderLoaded(
           event.user, (state as GroupFinderLoaded).users, _startAngle));
     }
   }
 
-  _locationChanged(
+  void _locationChanged(
       GroupFinderMyLocationChanged event, Emitter<GroupFinderState> emit) {
     _currentPosition = event.position;
     if (state is GroupFinderLoaded) {
-      List<GroupUserWithRange> result = (state as GroupFinderLoaded)
+      final result = (state as GroupFinderLoaded)
           .users
           .map((e) => GroupUserWithRange(
               e.user,
               distance.as(
                   LengthUnit.Meter,
-                  new LatLng(
+                  LatLng(
                       _currentPosition!.latitude, _currentPosition!.longitude),
-                  new LatLng(double.parse(e.user.latitude),
+                  LatLng(double.parse(e.user.latitude),
                       double.parse(e.user.longitude)))))
           .toList();
       if (state is GroupFinderLoaded) {
@@ -101,22 +101,21 @@ class GroupFinderBloc extends Bloc<GroupFinderEvent, GroupFinderState> {
     }
   }
 
-  _listUpdated(
+  void _listUpdated(
       GroupFinderUserListUpdated event, Emitter<GroupFinderState> emit) {
     if (_startAngle == 0.0) {
       _startAngle = rng.nextDouble() * 7;
     }
     if (_currentPosition != null) {
-      List<GroupUserWithRange> result = event.users
+      final result = event.users
           .where((element) => element.id != _profileRepository.profile.userId)
           .map((e) => GroupUserWithRange(
               e,
               distance.as(
                   LengthUnit.Meter,
-                  new LatLng(
+                  LatLng(
                       _currentPosition!.latitude, _currentPosition!.longitude),
-                  new LatLng(
-                      double.parse(e.latitude), double.parse(e.longitude)))))
+                  LatLng(double.parse(e.latitude), double.parse(e.longitude)))))
           .toList();
       if (state is GroupFinderLoaded) {
         emit(GroupFinderLoaded(
@@ -127,7 +126,7 @@ class GroupFinderBloc extends Bloc<GroupFinderEvent, GroupFinderState> {
     }
   }
 
-  _permissionRefresh(GroupFinderPermissionRefresh event,
+  Future<void> _permissionRefresh(GroupFinderPermissionRefresh event,
       Emitter<GroupFinderState> emit) async {
     try {
       await checkPermissions();
@@ -160,13 +159,14 @@ class GroupFinderBloc extends Bloc<GroupFinderEvent, GroupFinderState> {
         add(GroupFinderErrorEvent(v));
       });
 
-      if (_currentPosition != null)
+      if (_currentPosition != null) {
         _calendarRepository
             .groupFinder(
                 eventId: eventId,
                 latitude: _currentPosition!.latitude.toString(),
                 longitude: _currentPosition!.longitude.toString())
             .then((value) => add(GroupFinderUserListUpdated(value)));
+      }
     } catch (e) {
       add(GroupFinderPermissionLost());
     }
@@ -176,23 +176,24 @@ class GroupFinderBloc extends Bloc<GroupFinderEvent, GroupFinderState> {
     if (v is DioError && v.type == DioErrorType.response) {
       if (v.response?.statusCode == 422 &&
           getDioResponseError(v) == 'User not checked-in on this Event') {
-        _profileBloc.add(ProfileReload());
+        _profileBloc.add(const ProfileReload());
         _rsvpBloc.add(RefreshRequested(
             DateTime.now().subtract(
-                Duration(days: AppConstants.CALENDAR_DAYS_INTERVAL)),
-            DateTime.now().add(Duration(
-                days: AppConstants.CALENDAR_DAYS_INTERVAL))));
+                const Duration(days: AppConstants.CALENDAR_DAYS_INTERVAL)),
+            DateTime.now().add(
+                const Duration(days: AppConstants.CALENDAR_DAYS_INTERVAL))));
       }
     }
   }
 
   Stream<List<GroupFinderUser>?> _getPeriodicStream() async* {
-    yield* Stream.periodic(Duration(seconds: 10), (_) {
-      if (_currentPosition != null)
+    yield* Stream.periodic(const Duration(seconds: 10), (_) {
+      if (_currentPosition != null) {
         return _calendarRepository.groupFinder(
             eventId: eventId,
             latitude: _currentPosition!.latitude.toString(),
             longitude: _currentPosition!.longitude.toString());
+      }
     }).asyncMap(
       (value) async => value,
     );

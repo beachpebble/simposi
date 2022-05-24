@@ -16,10 +16,10 @@ class ProfileRepository {
   final AuthApiService _authApiService;
   final ApiService _apiService;
 
-  ProfileRepository(this._apiService, this._authApiService) {}
+  ProfileRepository(this._apiService, this._authApiService);
 
   late Profile profile;
-  final LocalStorage storage = new LocalStorage('profile_storage');
+  final LocalStorage storage = LocalStorage('profile_storage');
 
   Future<void> setProfile(Map<String, dynamic> data) async {
     await storage.ready;
@@ -30,14 +30,14 @@ class ProfileRepository {
 
   Future<Profile> refreshProfile() async {
     await storage.ready;
-    var data = await storage.getItem("profile");
+    final data = await storage.getItem("profile");
     profile = Profile.fromJson(data);
     return profile;
   }
 
   Future updateFbToken(String newToken) async {
     await storage.ready;
-    String? oldFbToken = await storage.getItem("fbToken");
+    final String? oldFbToken = await storage.getItem("fbToken");
     if (oldFbToken != null && oldFbToken == newToken) {
       print("Fb token was not changed");
     } else {
@@ -50,11 +50,11 @@ class ProfileRepository {
   }
 
   Future<ProfileStatus> refreshStatus() async {
-    Response response = await _authApiService.dio.get(Api.API_STATUS);
-    Map data = response.data;
+    final response = await _authApiService.dio.get(Api.API_STATUS);
+    final Map data = response.data;
 
     if (data["data"] != null) {
-      ProfileStatus profileStatus = ProfileStatus.fromJson(data["data"]);
+      final profileStatus = ProfileStatus.fromJson(data["data"]);
       return profileStatus;
     } else {
       throw ParseException(
@@ -65,14 +65,14 @@ class ProfileRepository {
 
   Future<Map> login(String login, String password) async {
     await storage.ready;
-    String? fbToken = await storage.getItem("fbToken");
-    Map<String, Object> params = {
+    final String? fbToken = await storage.getItem("fbToken");
+    final params = <String, Object>{
       'phone': login,
       'password': password,
     };
     if (fbToken != null && fbToken.isNotEmpty) params["device_token"] = fbToken;
-    Response response =
-        await (await _apiService.dio.post(Api.API_LOGIN, data: params));
+    final response =
+        (await _apiService.dio.post(Api.API_LOGIN, data: params));
     return response.data;
   }
 
@@ -83,14 +83,14 @@ class ProfileRepository {
   }
 
   Future<String?> acceptCode(String phone, String code) async {
-    Response response = await _apiService.dio.post(Api.API_ACCEPT_CODE, data: {
+    final response = await _apiService.dio.post(Api.API_ACCEPT_CODE, data: {
       'code': code,
       'phone': phone,
     });
-    Map data = response.data;
+    final Map data = response.data;
 
     if (data["data"]?["token"] != null) {
-      String token = data["data"]?["token"];
+      final String token = data["data"]?["token"];
       return token;
     } else {
       throw ParseException(
@@ -100,18 +100,18 @@ class ProfileRepository {
   }
 
   Future<String?> uploadProfilePhoto(String path) async {
-    String fileName = path.split('/').last;
-    FormData formData = FormData.fromMap({
+    final fileName = path.split('/').last;
+    final formData = FormData.fromMap({
       "image": await MultipartFile.fromFile(
         path,
         filename: fileName,
         contentType: MediaType("image", "jpeg"),
       ),
     });
-    Response response =
+    final response =
         await _apiService.dio.post(Api.API_UPLOAD_AVATAR, data: formData);
-    Map? data = response.data;
-    String? name = data?["data"]?['name'];
+    final Map? data = response.data;
+    final String? name = data?["data"]?['name'];
     if (name != null) {
       return name;
     } else {
@@ -125,12 +125,12 @@ class ProfileRepository {
   Future<bool> userNotExist({
     required String phone,
   }) async {
-    Map<String, Object> data = {
+    final data = <String, Object>{
       "phone": phone,
     };
-    Response<Map> response =
+    final response =
         await _apiService.dio.post(Api.API_USER_EXISTS, data: data);
-    bool? isPhoneUsed = response.data?['data']?['isPhoneUsed'];
+    final bool? isPhoneUsed = response.data?['data']?['isPhoneUsed'];
     if (isPhoneUsed == null) {
       throw ParseException(
           errorType: LocalizedErrorType.PARSE_ERROR,
@@ -154,7 +154,7 @@ class ProfileRepository {
     required List<int> earning,
     required List<int> likes,
   }) async {
-    var data = {
+    final data = {
       "name": name,
       "profile_photo": image,
       "phone": phone,
@@ -169,13 +169,13 @@ class ProfileRepository {
       "who_earns": earning,
       "what_you_likes": likes,
     };
-    Response response =
+    final response =
         await _apiService.dio.post(Api.API_REGISTER, data: data);
     return response.data;
   }
 
   Future requestConfirmationCode(String phone) async {
-    await _apiService.dio.get(Api.API_ACCEPT_CODE + "/" + phone);
+    await _apiService.dio.get("${Api.API_ACCEPT_CODE}/$phone");
   }
 
   Future<Profile> updateProfile({
@@ -186,22 +186,25 @@ class ProfileRepository {
     String? instagram,
     String? linkedin,
   }) async {
-    Map<String, Object> data = {};
+    final data = <String, Object>{};
     if (name != null) data["name"] = name;
     if (filepath != null) data["profile_photo"] = filepath;
-    if (facebook != null && facebook.isNotEmpty)
+    if (facebook != null && facebook.isNotEmpty) {
       data["facebook_url"] = facebook;
-    if (instagram != null && instagram.isNotEmpty)
+    }
+    if (instagram != null && instagram.isNotEmpty) {
       data["instagram"] = instagram;
-    if (linkedin != null && linkedin.isNotEmpty)
+    }
+    if (linkedin != null && linkedin.isNotEmpty) {
       data["linkedin_url"] = linkedin;
+    }
     if (phone != null && phone.isNotEmpty) data["phone"] = phone;
     return updateProfileFields(data);
   }
 
   Future<Profile> updateProfileGender(
       {required Gender gender, required bool lgbt}) async {
-    Map<String, Object> data = {
+    final data = <String, Object>{
       "gender": gender.id,
       "is_lgbtq": lgbt,
     };
@@ -210,7 +213,7 @@ class ProfileRepository {
 
   Future<Profile> updateEmergencyContact(
       {required EmergencyContact contact}) async {
-    Map<String, Object> data = {
+    final data = <String, Object>{
       "emergency_contact_name": contact.name,
       "emergency_contact_phone": contact.phone,
     };
@@ -218,7 +221,7 @@ class ProfileRepository {
   }
 
   Future<Profile> updateProfileGenerations({required int generation}) async {
-    Map<String, Object> data = {"generations_identity_id": generation};
+    final data = <String, Object>{"generations_identity_id": generation};
     return updateProfileFields(data);
   }
 
@@ -227,22 +230,22 @@ class ProfileRepository {
     UserMeta meta;
     if (profile.userMeta == null) {
       meta = UserMeta(
-          wantToMeetGender: [],
+          wantToMeetGender: const [],
           wantToMeetGenerations: generations,
-          wantToMeetEarnings: [],
+          wantToMeetEarnings: const [],
           wantToMeetLgbt: false,
-          wantToMeetInterests: []);
+          wantToMeetInterests: const []);
     } else {
       meta = profile.userMeta!.copy(wantToMeetGenerations: generations);
     }
-    Map<String, Object> data = {
+    final data = <String, Object>{
       "meta_data": meta.toJson(),
     };
     return updateProfileFields(data);
   }
 
   Future<Profile> updateProfileInterests({required List<int> interests}) async {
-    Map<String, Object> data = {"what_you_likes": interests};
+    final data = <String, Object>{"what_you_likes": interests};
     return updateProfileFields(data);
   }
 
@@ -250,7 +253,7 @@ class ProfileRepository {
       {required double latitude,
       required double longitude,
       required double range}) async {
-    Map<String, Object> data = {
+    final data = <String, Object>{
       "longitude": longitude,
       "latitude": latitude,
       "distance": range,
@@ -259,7 +262,7 @@ class ProfileRepository {
   }
 
   Future<Profile> updateProfileIncome({required List<int> earnings}) async {
-    Map<String, Object> data = {"who_earns": earnings};
+    final data = <String, Object>{"who_earns": earnings};
     return updateProfileFields(data);
   }
 
@@ -268,15 +271,15 @@ class ProfileRepository {
     UserMeta meta;
     if (profile.userMeta == null) {
       meta = UserMeta(
-          wantToMeetGender: [],
-          wantToMeetGenerations: [],
+          wantToMeetGender: const [],
+          wantToMeetGenerations: const [],
           wantToMeetEarnings: earnings,
           wantToMeetLgbt: false,
-          wantToMeetInterests: []);
+          wantToMeetInterests: const []);
     } else {
       meta = profile.userMeta!.copy(wantToMeetEarnings: earnings);
     }
-    Map<String, Object> data = {
+    final data = <String, Object>{
       "meta_data": meta.toJson(),
     };
     return updateProfileFields(data);
@@ -288,23 +291,23 @@ class ProfileRepository {
     if (profile.userMeta == null) {
       meta = UserMeta(
           wantToMeetGender: gender,
-          wantToMeetGenerations: [],
-          wantToMeetEarnings: [],
+          wantToMeetGenerations: const [],
+          wantToMeetEarnings: const [],
           wantToMeetLgbt: false,
-          wantToMeetInterests: []);
+          wantToMeetInterests: const []);
     } else {
       meta = profile.userMeta!.copy(wantToMeetGender: gender, lgbt: lgbt);
     }
-    Map<String, Object> data = {
+    final data = <String, Object>{
       "meta_data": meta.toJson(),
     };
     return updateProfileFields(data);
   }
 
   Future<Profile> updateProfileFields(Map<String, Object> data) async {
-    Response response =
+    final response =
         await _authApiService.dio.put(Api.API_USER_EDIT, data: data);
-    Map<String, dynamic>? user = response.data["data"]?["user"];
+    final Map<String, dynamic>? user = response.data["data"]?["user"];
     if (user != null) {
       await setProfile(user);
       return Profile.fromJson(user);

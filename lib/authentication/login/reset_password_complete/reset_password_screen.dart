@@ -56,16 +56,16 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
     _passwordController.addListener(() => setState(() {}));
     _confirmPasswordController.addListener(() => setState(() {}));
     _controller =
-        AnimationController(vsync: this, duration: Duration(seconds: 60));
+        AnimationController(vsync: this, duration: const Duration(seconds: 60));
     _startCountDownTimer();
   }
 
-  _startCountDownTimer() async {
+  void _startCountDownTimer() async {
     resendOnDelay = true;
     _controller.reset();
     _controller.forward();
     _timer?.cancel();
-    _timer = new Timer(new Duration(seconds: 60), () {
+    _timer = Timer(const Duration(seconds: 60), () {
       setState(() {
         resendOnDelay = false;
       });
@@ -98,13 +98,13 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
             body: LayoutBuilder(builder:
                 (BuildContext context, BoxConstraints viewportConstraints) {
               return SingleChildScrollView(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: viewportConstraints.maxHeight,
                   ),
                   child: Container(
-                    padding: EdgeInsets.all(40),
+                    padding: const EdgeInsets.all(40),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -115,7 +115,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Image.asset("assets/images/logo.png"),
-                              Text(
+                              const Text(
                                 'simposi',
                                 style: TextStyle(
                                   color: SimposiAppColors.simposiDarkBlue,
@@ -123,9 +123,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
                                   fontSize: 30,
                                 ),
                               ),
-                              SizedBox(height: 20),
+                              const SizedBox(height: 20),
                               // TITLE
-                              Text(
+                              const Text(
                                 'Create New Password',
                                 style: TextStyle(
                                   fontSize: 19,
@@ -133,12 +133,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
                                   color: SimposiAppColors.simposiDarkGrey,
                                 ),
                               ),
-                              SizedBox(height: 10),
-                              Text(
+                              const SizedBox(height: 10),
+                              const Text(
                                 'Passwords must be at least 8 characters long.',
                                 textAlign: TextAlign.center,
                               ),
-                              SizedBox(height: 25),
+                              const SizedBox(height: 25),
                             ],
                           ),
                         ),
@@ -151,7 +151,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
                               : AutovalidateMode.disabled,
                           child: Column(
                             children: [
-                              Container(
+                              SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.8,
                                 child: PinCodeTextField(
                                   length: 6,
@@ -187,7 +187,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
                                   },
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               // EMAIL FIELD
@@ -197,7 +197,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
                                   controller: _passwordController,
                                   validator: getValidator(
                                       context, Validators.PASSWORD)),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               // PASSWORD FIELD
                               PasswordField(
                                   label: AppLocalizations.of(context)!
@@ -216,7 +216,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
                                       return null;
                                     }
                                   }),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               BlocConsumer<ResetPasswordCompleteCubit,
                                   ResetPasswordCompleteState>(
                                 listener: (context, state) {
@@ -225,19 +225,21 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
                                         .passwordChangeSuccess);
                                     Navigator.of(context).pop();
                                   } else if (state
-                                      is ResetPasswordCompleteError)
+                                      is ResetPasswordCompleteError) {
                                     showErrorToast(
                                         handleError(state.error, context));
-                                  else if (state is ResetPasswordResendError)
+                                  } else if (state
+                                      is ResetPasswordResendError) {
                                     showErrorToast(
                                         handleError(state.error, context));
-                                  else if (state
+                                  } else if (state
                                       is ResetPasswordResendSuccess) {
                                     _startCountDownTimer();
                                     showInfoToast("Code was sent");
-                                  } else if (state is ResetPasswordStateError)
+                                  } else if (state is ResetPasswordStateError) {
                                     showErrorToast(
                                         "Incorrect Application State");
+                                  }
                                 },
                                 builder: (context, state) {
                                   if (state is ResetPasswordCompleteProgress) {
@@ -268,7 +270,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
                                                     }
                                                   }
                                                 : null),
-                                        SizedBox(height: 15),
+                                        const SizedBox(height: 15),
                                         resendOnDelay
                                             ? ResendCountDown(
                                                 animation: StepTween(
@@ -294,7 +296,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
                                   }
                                 },
                               ),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               // FORGOT PASSWORD BUTTON CONTAINED IN BOTTOM SHEET (NOT IN BUTTONS)
                               SimposiTextButton(
                                 buttonLabel: 'Contact Support',
@@ -310,7 +312,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
                         Container(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
+                            children: const [
                               SizedBox(height: 20),
                               Text(
                                 '© 2021 Simposi Inc.',

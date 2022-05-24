@@ -16,12 +16,12 @@ class Rsvp extends Equatable {
   @JsonKey(name: 'status', required: true, disallowNullValue: true)
   final RsvpStatus status;
 
-  get fullDate => event.datetime.toLocal();
-  get date => normalizeDate(event.datetime);
-  get title => event.title;
-  get image => event.image.url;
+  DateTime get fullDate => event.datetime.toLocal();
+  DateTime get date => normalizeDate(event.datetime);
+  String get title => event.title;
+  String get image => event.image.url;
 
-  Rsvp({
+  const Rsvp({
     required this.id,
     required this.event,
     required this.status,

@@ -85,7 +85,7 @@ class _EditProfileState extends State<EditProfile> {
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.headline3,
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         // TODO: ENSURE FIELDS ON THIS FORM RETAIN STATE/PREPOPULATE WITH USER DATA
                         //  PHOTO UPLOAD FIELD
                         ProfilePhotoPickButton(
@@ -99,15 +99,15 @@ class _EditProfileState extends State<EditProfile> {
                             _filePath = val;
                           },
                         ),
-                        SizedBox(height: 10),
-                        Text(
+                        const SizedBox(height: 10),
+                        const Text(
                           'Change Photo',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 15,
                           ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                       ],
                     ),
                   ),
@@ -115,7 +115,7 @@ class _EditProfileState extends State<EditProfile> {
                   Expanded(
                     child: Container(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                          const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                       child: Form(
                         key: _formKey,
                         child: MediaQuery.removePadding(
@@ -152,7 +152,7 @@ class _EditProfileState extends State<EditProfile> {
                                           validationLogic: getValidator(
                                               context, Validators.PHONE),
                                         ),
-                                        SizedBox(height: 10),
+                                        const SizedBox(height: 10),
                                       ],
                                     ),
                                   ),
@@ -166,7 +166,7 @@ class _EditProfileState extends State<EditProfile> {
                                           validationLogic: getValidator(
                                               context, Validators.URL_LINK),
                                         ),
-                                        SizedBox(height: 10),
+                                        const SizedBox(height: 10),
                                       ],
                                     ),
                                   ),
@@ -180,7 +180,7 @@ class _EditProfileState extends State<EditProfile> {
                                           validationLogic: getValidator(
                                               context, Validators.URL_LINK),
                                         ),
-                                        SizedBox(height: 10),
+                                        const SizedBox(height: 10),
                                       ],
                                     ),
                                   ),
@@ -194,7 +194,7 @@ class _EditProfileState extends State<EditProfile> {
                                           validationLogic: getValidator(
                                               context, Validators.URL_LINK),
                                         ),
-                                        SizedBox(height: 10),
+                                        const SizedBox(height: 10),
                                       ],
                                     ),
                                   ),

@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:meta/meta.dart';
 import 'package:simposi_app_v4/model/earning.dart';
@@ -11,7 +10,7 @@ import 'package:simposi_app_v4/repository/api_service.dart';
 part 'app_setup_state.dart';
 
 class AppSetupCubit extends Cubit<AppSetupState> {
-  ApiService _apiService;
+  final ApiService _apiService;
   late MasterData _masterData;
 
   AppSetupCubit(ApiService apiService)
@@ -33,28 +32,28 @@ class AppSetupCubit extends Cubit<AppSetupState> {
   MasterData get masterData => _masterData;
 
   Future<MasterData> _getMasterData() async {
-    Response response =
+    final response =
         await _apiService.dio.get(Api.API_MASTER_DATA);
-    Map? data = response.data['data'];
-    List<Interest> interestList = [];
+    final Map? data = response.data['data'];
+    var interestList = <Interest>[];
     if (data != null &&
         data.containsKey('whatYouLike') &&
         data['whatYouLike'] is List) {
-      List il = data['whatYouLike'];
+      final List il = data['whatYouLike'];
       interestList = (il.map((e) => Interest.fromJson(e)).toList());
     }
-    List<Generation> generationList = [];
+    var generationList = <Generation>[];
     if (data != null &&
         data.containsKey('generationsIdentity') &&
         data['generationsIdentity'] is List) {
-      List il = data['generationsIdentity'];
+      final List il = data['generationsIdentity'];
       generationList = (il.map((e) => Generation.fromJson(e)).toList());
     }
-    List<Earning> earninigList = [];
+    var earninigList = <Earning>[];
     if (data != null &&
         data.containsKey('whoEarn') &&
         data['whoEarn'] is List) {
-      List il = data['whoEarn'];
+      final List il = data['whoEarn'];
       earninigList = (il.map((e) => Earning.fromJson(e)).toList());
       earninigList.sort((first, second) {
         return first.sortId.compareTo(second.sortId);

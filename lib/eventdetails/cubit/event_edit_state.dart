@@ -15,7 +15,7 @@ class EventEditLoading extends EventEditState {}
 class EventEditError extends EventEditState {
   final dynamic error;
 
-  EventEditError(this.error);
+  const EventEditError(this.error);
 
   @override
   List<Object> get props => [error];

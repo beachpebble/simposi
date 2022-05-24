@@ -16,7 +16,7 @@ class Signup1CreateAccountReady extends Signup1CreateAccountState {}
 class Signup1CreateAccountError extends Signup1CreateAccountState {
   final dynamic error;
 
-  Signup1CreateAccountError(this.error);
+  const Signup1CreateAccountError(this.error);
 
   @override
   List<Object> get props => [error];

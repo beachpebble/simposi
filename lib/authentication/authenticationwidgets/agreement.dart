@@ -20,7 +20,7 @@ class Agreement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Row(children: [
+      child: Row(children: const [
         Flexible(
           child: Text(
             'I have read & understand my local regulations and the CDC Guidelines.',

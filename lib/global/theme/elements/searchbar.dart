@@ -19,14 +19,14 @@ class ActivitySearch extends SearchDelegate<String> {
   @override
   List<Widget> buildActions(BuildContext context) => [
         IconButton(
-          icon: Icon(Icons.clear),
+          icon: const Icon(Icons.clear),
           onPressed: () {},
         )
       ];
 
   @override
   Widget buildLeading(BuildContext context) => IconButton(
-        icon: Icon(Icons.arrow_back),
+        icon: const Icon(Icons.arrow_back),
         onPressed: () {},
       );
 
@@ -35,7 +35,7 @@ class ActivitySearch extends SearchDelegate<String> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.location_city, size: 120),
+            const Icon(Icons.location_city, size: 120),
             const SizedBox(height: 48),
             Text(
               query,
@@ -57,7 +57,7 @@ class ActivitySearch extends SearchDelegate<String> {
         final suggestion = suggestions[index];
 
         return ListTile(
-          leading: Icon(Icons.location_city),
+          leading: const Icon(Icons.location_city),
           title: Text(suggestion),
         );
       });

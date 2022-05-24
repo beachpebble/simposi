@@ -30,11 +30,11 @@ class InvitationCard extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        decoration: new BoxDecoration(
-          image: new DecorationImage(
-              image: new ExactAssetImage('assets/images/invitationcard.png'),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: ExactAssetImage('assets/images/invitationcard.png'),
               fit: BoxFit.cover,
-              colorFilter: const ColorFilter.mode(
+              colorFilter: ColorFilter.mode(
                 Colors.white70,
                 BlendMode.lighten,
               )),
@@ -73,9 +73,9 @@ class InvitationCard extends StatelessWidget {
                 child: BlocConsumer<RsvpActionBloc, RsvpActionState>(
                   listener: (context, state) {
                     if (state is RsvpActionSuccess &&
-                        !state.dontCloseAfterAction)
-                      AutoRouter.of(context).replace(SimposiHomeRoute());
-                    else if (state is RsvpActionError) {
+                        !state.dontCloseAfterAction) {
+                      AutoRouter.of(context).replace(const SimposiHomeRoute());
+                    } else if (state is RsvpActionError) {
                       showErrorToast(handleError(state.error, context));
                     }
                   },
@@ -116,7 +116,7 @@ class InvitationCard extends StatelessWidget {
                                     Navigator.of(context)
                                         .pushNamed('/eventdetails')
                                   },
-                                  child: Container(
+                                  child: const SizedBox(
                                       height: 300,
                                       child: SimposiDateTimePicker()),
                                 ),
@@ -130,13 +130,13 @@ class InvitationCard extends StatelessWidget {
                                       .read<RsvpActionBloc>()
                                       .add(RsvpActionDeclined(eventModel.rsvp))
                                 },
+                                style: const ButtonStyle(),
                                 child: const Text(
                                   'Decline',
                                   style: TextStyle(
                                     color: SimposiAppColors.simposiLightText,
                                   ),
                                 ),
-                                style: const ButtonStyle(),
                               ),
                             ],
                           );
@@ -145,12 +145,12 @@ class InvitationCard extends StatelessWidget {
               ),
             ),
             Column(
-              children: [
-                const Text('Scroll for Details'),
-                const SizedBox(height: 10),
-                const Icon(Icons.arrow_circle_down_rounded,
+              children: const [
+                Text('Scroll for Details'),
+                SizedBox(height: 10),
+                Icon(Icons.arrow_circle_down_rounded,
                     color: SimposiAppColors.simposiLightText),
-                const SizedBox(height: 30),
+                SizedBox(height: 30),
               ],
             ),
           ],
@@ -163,15 +163,15 @@ class InvitationCard extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
-          title: Text('You\'re Going!'),
-          content: Text('Ditch Fashion Show \n Sept. 16, 2021'),
+          title: const Text('You\'re Going!'),
+          content: const Text('Ditch Fashion Show \n Sept. 16, 2021'),
           actions: <Widget>[
             CupertinoDialogAction(
                 // TODO: Enable click to open a bottom sheet which list share options, like copy url, SMS, email, whatsapp, messenger, etc.
-                child: Text('Invite a Friend'),
+                child: const Text('Invite a Friend'),
                 onPressed: () {}),
             CupertinoDialogAction(
-              child: Text('Done'),
+              child: const Text('Done'),
               onPressed: () {
                 context
                     .read<RsvpActionBloc>()
@@ -186,7 +186,7 @@ class InvitationCard extends StatelessWidget {
   }
 
   // Share Bottomsheet
-  static _onShare(BuildContext context) async {
+  static void _onShare(BuildContext context) async {
     // A builder is used to retrieve the context immediately
     // surrounding the ElevatedButton.
     //
@@ -225,8 +225,8 @@ class InvitationCard extends StatelessWidget {
           ],
           // TODO: Capture Date/Time from picker, generate Alert message for user who created the event
           cancelButton: CupertinoActionSheetAction(
-            child: Text('Submit'),
             onPressed: onClicked,
+            child: const Text('Submit'),
           ),
         ),
       );

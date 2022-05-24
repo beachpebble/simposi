@@ -20,15 +20,15 @@ class SimposiDiscoverBackground extends StatelessWidget {
             "assets/images/backgroundcompass.png",
           ),
         ),
-        SizedBox(height: 30.0),
+        const SizedBox(height: 30.0),
         Center(
           child: Text(
             "No Events Found",
             style: Theme.of(context).textTheme.headline3,
           ),
         ),
-        SizedBox(height: 5.0),
-        Center(
+        const SizedBox(height: 5.0),
+        const Center(
           child: Text(
             "That's everything in your area. \n Reset the deck to browse nearby events again.",
             textAlign: TextAlign.center,
@@ -37,10 +37,10 @@ class SimposiDiscoverBackground extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 20.0),
+        const SizedBox(height: 20.0),
 
         // TODO: Enable this to reset the Card Deck
-        SmallPinkButton(buttonLabel: 'Reset', nextPage: '/createevent'),
+        const SmallPinkButton(buttonLabel: 'Reset', nextPage: '/createevent'),
       ],
     );
   }

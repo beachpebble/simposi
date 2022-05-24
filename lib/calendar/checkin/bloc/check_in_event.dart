@@ -10,7 +10,7 @@ abstract class CheckInEvent extends Equatable {
 class CheckInEventSend extends CheckInEvent {
   final Rsvp rsvp;
 
-  CheckInEventSend(this.rsvp);
+  const CheckInEventSend(this.rsvp);
 
   @override
   List<Object?> get props => [rsvp];

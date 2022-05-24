@@ -48,8 +48,8 @@ class _SignUpForm6View extends StatefulWidget {
 class _SignUpForm6State extends State<_SignUpForm6View> {
   double progress = 0.85;
   final _placeSearchController = TextEditingController();
-  Completer<GoogleMapController> _controller = Completer();
-  Completer<void> _initCompleter = Completer();
+  final Completer<GoogleMapController> _controller = Completer();
+  final Completer<void> _initCompleter = Completer();
 
   @override
   void initState() {
@@ -62,8 +62,8 @@ class _SignUpForm6State extends State<_SignUpForm6View> {
       showErrorToast("There is no location permission !!!  $e");
       context.read<Signup6LocationCubit>().noPermission();
     });
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      await Future.delayed(Duration(milliseconds: 200));
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Future.delayed(const Duration(milliseconds: 200));
       _initCompleter.complete();
     });
   }
@@ -99,7 +99,7 @@ class _SignUpForm6State extends State<_SignUpForm6View> {
                     const SizedBox(height: 45),
                     LinearProgressIndicator(
                       value: state.editMode ? 1 : progress,
-                      valueColor: AlwaysStoppedAnimation(
+                      valueColor: const AlwaysStoppedAnimation(
                           SimposiAppColors.simposiDarkBlue),
                       backgroundColor: SimposiAppColors.simposiFadedBlue,
                     ),
@@ -120,17 +120,17 @@ class _SignUpForm6State extends State<_SignUpForm6View> {
 
               // Body
               Expanded(
-                child: Container(
+                child: SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: state.selectedLocation == null
                       ? Center(child: AppProgressIndicator())
                       : Stack(
-                    children: [
-                      _googleMap(state),
-                      if (state.searchResults.isNotEmpty)
-                        _searchResult(state)
-                    ],
-                  ),
+                          children: [
+                            _googleMap(state),
+                            if (state.searchResults.isNotEmpty)
+                              _searchResult(state)
+                          ],
+                        ),
                 ),
               ),
 
@@ -138,45 +138,42 @@ class _SignUpForm6State extends State<_SignUpForm6View> {
               state is Signup6LocationStateLoading
                   ? AppProgressIndicator()
                   : Container(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 40),
-                child: Column(
-                  children: [
-                    Container(
-                      child: _rangeSlider(state),
-                    ),
-                    const SizedBox(height: 10),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 30),
-                      child: ContinueButton(
-                          buttonLabel:
-                          state.editMode ? "Save" : "Continue",
-                          buttonAction: state.selectedLocation !=
-                              null
-                              ? state.editMode
-                              ? () {
-                            context
-                                .read<
-                                Signup6LocationCubit>()
-                                .save();
-                          }
-                              : () {
-                            AutoRouter.of(context)
-                                .push(SignUpForm7Route());
-                          }
-                              : null),
-                    ),
-                  ],
-                ),
-              )
+                      padding: const EdgeInsets.fromLTRB(10, 10, 10, 40),
+                      child: Column(
+                        children: [
+                          Container(
+                            child: _rangeSlider(state),
+                          ),
+                          const SizedBox(height: 10),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            child: ContinueButton(
+                                buttonLabel:
+                                    state.editMode ? "Save" : "Continue",
+                                buttonAction: state.selectedLocation != null
+                                    ? state.editMode
+                                        ? () {
+                                            context
+                                                .read<Signup6LocationCubit>()
+                                                .save();
+                                          }
+                                        : () {
+                                            AutoRouter.of(context)
+                                                .push(const SignUpForm7Route());
+                                          }
+                                    : null),
+                          ),
+                        ],
+                      ),
+                    )
             ],
           );
         },
       ));
 
   Widget _rangeSlider(Signup6LocationState state) {
-    String units = localeIsImperial ? "miles" : "km";
-    double range = localeIsImperial ? state.rangeKm / 1.6 : state.rangeKm;
+    final units = localeIsImperial ? "miles" : "km";
+    var range = localeIsImperial ? state.rangeKm / 1.6 : state.rangeKm;
     if (range < 1) range = 1;
     if (range > 150) range = 150;
     return Column(
@@ -206,9 +203,9 @@ class _SignUpForm6State extends State<_SignUpForm6View> {
       controller: _placeSearchController,
       textCapitalization: TextCapitalization.words,
       keyboardType: TextInputType.streetAddress,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         hintText: 'Search a location',
-        suffixIcon: const Icon(Icons.search),
+        suffixIcon: Icon(Icons.search),
       ),
       onChanged: (value) =>
           context.read<Signup6LocationCubit>().searchPlace(value),
@@ -216,7 +213,7 @@ class _SignUpForm6State extends State<_SignUpForm6View> {
   }
 
   Widget _googleMap(Signup6LocationState state) {
-    double range = localeIsImperial ? state.rangeKm * 1.6 : state.rangeKm;
+    var range = localeIsImperial ? state.rangeKm * 1.6 : state.rangeKm;
     if (range < 1) range = 1;
     if (range > 150) range = 150;
     return FutureBuilder(
@@ -261,7 +258,7 @@ class _SignUpForm6State extends State<_SignUpForm6View> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
       child: Container(
-          decoration: new BoxDecoration(
+          decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
           ),
@@ -275,8 +272,8 @@ class _SignUpForm6State extends State<_SignUpForm6View> {
             ),
             onTap: () async {
               if (placesSearchResult.geometry != null) {
-                final GoogleMapController controller = await _controller.future;
-                var newLoc = LatLng(placesSearchResult.geometry!.location.lat,
+                final controller = await _controller.future;
+                final newLoc = LatLng(placesSearchResult.geometry!.location.lat,
                     placesSearchResult.geometry!.location.lng);
                 controller.animateCamera(CameraUpdate.newLatLng(newLoc));
                 setState(() {
@@ -291,22 +288,22 @@ class _SignUpForm6State extends State<_SignUpForm6View> {
 
   Set<Circle> _getCircle(LatLng? location, double range) => location == null
       ? {}
-      : Set.from([
+      : {
           Circle(
             strokeColor: SimposiAppColors.simposiLightBlue,
             strokeWidth: 1,
             fillColor: SimposiAppColors.simposiLightBlue.withOpacity(0.5),
-            circleId: CircleId("myplace"),
+            circleId: const CircleId("myplace"),
             center: location,
             radius: range * 1000,
           )
-        ]);
+        };
 
   Set<Marker> _getMarkers(LatLng? location) => location == null
       ? {}
-      : Set.from([
+      : {
           Marker(
-              markerId: MarkerId("Selected"),
+              markerId: const MarkerId("Selected"),
               position: location,
               draggable: true,
               onDragEnd: ((newPosition) {
@@ -314,10 +311,10 @@ class _SignUpForm6State extends State<_SignUpForm6View> {
                     .read<Signup6LocationCubit>()
                     .selectLocation(newPosition);
               }))
-        ]);
+        };
 
   static bool get localeIsImperial {
-    final String defaultLocale = Platform.localeName;
+    final defaultLocale = Platform.localeName;
     return defaultLocale.endsWith("US");
   }
 }

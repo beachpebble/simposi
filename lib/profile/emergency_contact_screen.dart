@@ -59,20 +59,20 @@ class _EmergencyContactState extends State<EmergencyContact> {
         body: LayoutBuilder(builder:
             (BuildContext context, BoxConstraints viewportConstraints) {
           return SingleChildScrollView(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             child: ConstrainedBox(
               constraints: BoxConstraints(
                 minHeight: viewportConstraints.maxHeight,
               ),
               child: Container(
-                padding: EdgeInsets.all(40),
+                padding: const EdgeInsets.all(40),
                 child: Column(
                   children: [
                     // HEADER
                     Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
+                        children: const [
                           SizedBox(height: 20),
                           // TITLE
                           Text(
@@ -101,7 +101,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
                         children: [
                           // EMERGENCY CONTACT NAME FIELD
                           _eContactNameField(),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           // PASSWORD FIELD
                           PhoneField(
                             initialPhone: context
@@ -113,7 +113,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
                                 setState(() => eContactPhone = value),
                             controller: _eContactPhoneController,
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           BlocConsumer<ProfileBloc, ProfileState>(
                             listener: (context, state) {
                               if (state is ProfileEditError) {
@@ -145,7 +145,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
                                           : null);
                             },
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                         ],
                       ),
                     ),
@@ -154,7 +154,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
                     Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
+                        children: const [
                           Text(
                             '© 2021 Simposi Inc.',
                             style: TextStyle(
@@ -188,7 +188,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
         obscureText: false,
         showCursor: true,
 
-        style: TextStyle(
+        style: const TextStyle(
           color: SimposiAppColors.simposiLightText,
           fontWeight: FontWeight.w500,
           fontSize: 15,
@@ -196,8 +196,8 @@ class _EmergencyContactState extends State<EmergencyContact> {
 
         decoration: InputDecoration(
           labelText: ' Name',
-          contentPadding: EdgeInsets.all(20),
-          labelStyle: TextStyle(
+          contentPadding: const EdgeInsets.all(20),
+          labelStyle: const TextStyle(
             color: SimposiAppColors.simposiLightText,
             fontSize: 15,
             fontWeight: FontWeight.w500,
@@ -205,7 +205,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
           ),
 
           // Initial State
-          border: OutlineInputBorder(
+          border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(40.0)),
             borderSide: BorderSide(
               color: SimposiAppColors.simposiLightGrey,
@@ -214,7 +214,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
 
           // Focus State
           focusColor: SimposiAppColors.simposiDarkBlue,
-          focusedBorder: OutlineInputBorder(
+          focusedBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(40.0)),
             borderSide: BorderSide(
               color: SimposiAppColors.simposiDarkBlue,
@@ -222,17 +222,17 @@ class _EmergencyContactState extends State<EmergencyContact> {
           ),
 
           // Focus Error State
-          focusedErrorBorder: OutlineInputBorder(
+          focusedErrorBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(40.0)),
               borderSide: BorderSide(
                 color: SimposiAppColors.simposiPink,
               )),
 
           // Error State
-          errorStyle: TextStyle(
+          errorStyle: const TextStyle(
             color: SimposiAppColors.simposiPink,
           ),
-          errorBorder: OutlineInputBorder(
+          errorBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(40.0)),
               borderSide: BorderSide(
                 color: SimposiAppColors.simposiPink,
@@ -241,7 +241,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
           suffixIcon: _eContactNameController.text.isEmpty
               ? Container(width: 0)
               : IconButton(
-                  icon: Icon(Icons.close,
+                  icon: const Icon(Icons.close,
                       size: 20, color: SimposiAppColors.simposiLightGrey),
                   onPressed: () => _eContactNameController.clear(),
                 ),

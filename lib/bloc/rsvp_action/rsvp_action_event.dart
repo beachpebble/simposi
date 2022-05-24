@@ -7,7 +7,7 @@ abstract class RsvpActionEvent extends Equatable {
 class RsvpActionOpened extends RsvpActionEvent {
   final Rsvp rsvp;
 
-  RsvpActionOpened(this.rsvp);
+  const RsvpActionOpened(this.rsvp);
 
   @override
   List<Object?> get props => [rsvp];
@@ -16,7 +16,7 @@ class RsvpActionOpened extends RsvpActionEvent {
 class RsvpActionAccepted extends RsvpActionEvent {
   final Rsvp rsvp;
 
-  RsvpActionAccepted(this.rsvp);
+  const RsvpActionAccepted(this.rsvp);
 
   @override
   List<Object?> get props => [rsvp];
@@ -25,7 +25,7 @@ class RsvpActionAccepted extends RsvpActionEvent {
 class RsvpActionDeclined extends RsvpActionEvent {
   final Rsvp rsvp;
 
-  RsvpActionDeclined(this.rsvp);
+  const RsvpActionDeclined(this.rsvp);
 
   @override
   List<Object?> get props => [rsvp];
@@ -34,7 +34,7 @@ class RsvpActionDeclined extends RsvpActionEvent {
 class RsvpActionCanceled extends RsvpActionEvent {
   final Rsvp rsvp;
 
-  RsvpActionCanceled(this.rsvp);
+  const RsvpActionCanceled(this.rsvp);
 
   @override
   List<Object?> get props => [rsvp];
@@ -43,7 +43,7 @@ class RsvpActionCanceled extends RsvpActionEvent {
 class EventActionCanceled extends RsvpActionEvent {
   final Rsvp rsvp;
 
-  EventActionCanceled(this.rsvp);
+  const EventActionCanceled(this.rsvp);
 
   @override
   List<Object?> get props => [rsvp];

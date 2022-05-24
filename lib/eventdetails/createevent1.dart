@@ -43,7 +43,7 @@ class _CreateEvent1State extends State<CreateEvent1> {
     super.initState();
     _fileUrl = context.read<EventEditCubit>().photoUrl;
     _dateTime = context.read<EventEditCubit>().dateTime ??
-        DateTime.now().add(Duration(hours: 2));
+        DateTime.now().add(const Duration(hours: 2));
     _dateTimeValue = context.read<EventEditCubit>().dateTime ?? _dateTime;
     _dateController = TextEditingController(
         text: DateFormat('yyyy-MM-dd – hh:mm a').format(_dateTimeValue!))
@@ -55,13 +55,12 @@ class _CreateEvent1State extends State<CreateEvent1> {
           ..addListener(() {
             setState(() {});
           });
-    ;
+
     _descriptionController =
         TextEditingController(text: context.read<EventEditCubit>().description)
           ..addListener(() {
             setState(() {});
           });
-    ;
   }
 
   @override
@@ -94,7 +93,7 @@ class _CreateEvent1State extends State<CreateEvent1> {
                         child: Column(
                           children: [
                             const SizedBox(height: 45),
-                            LinearProgressIndicator(
+                            const LinearProgressIndicator(
                               value: CreateEvent1.progress,
                               valueColor: AlwaysStoppedAnimation(
                                   SimposiAppColors.simposiDarkBlue),
@@ -147,23 +146,22 @@ class _CreateEvent1State extends State<CreateEvent1> {
                               GestureDetector(
                                 onTap: () {
                                   _dateTimeValue = _dateTime ??
-                                      DateTime.now().add(Duration(hours: 2));
+                                      DateTime.now().add(const Duration(hours: 2));
                                   showCupertinoModalPopup(
                                     context: context,
                                     builder: (context) => CupertinoActionSheet(
                                       actions: [
-                                        Container(
+                                        SizedBox(
                                             height: 300,
                                             child: SimposiDateTimePicker(
                                               initial: _dateTime,
                                               callback: (dt) {
                                                 _dateTimeValue = dt;
-                                                ;
                                               },
                                             ))
                                       ],
                                       cancelButton: CupertinoActionSheetAction(
-                                        child: Text('Save'),
+                                        child: const Text('Save'),
                                         onPressed: () {
                                           _dateTime = _dateTimeValue;
                                           _dateController.text =
@@ -225,7 +223,7 @@ class _CreateEvent1State extends State<CreateEvent1> {
                                                       file: _filePath,
                                                       url: _fileUrl);
                                               AutoRouter.of(context)
-                                                  .push(CreateEvent2Route());
+                                                  .push(const CreateEvent2Route());
                                             } else {
                                               showErrorToast("Add photo");
                                             }
@@ -246,9 +244,9 @@ class _CreateEvent1State extends State<CreateEvent1> {
       );
 
   bool _nextEnabled() {
-    if (_titleController.text.length > 0 &&
-        _descriptionController.text.length > 0 &&
-        _dateController.text.length > 0) return true;
+    if (_titleController.text.isNotEmpty &&
+        _descriptionController.text.isNotEmpty &&
+        _dateController.text.isNotEmpty) return true;
     return false;
   }
 }

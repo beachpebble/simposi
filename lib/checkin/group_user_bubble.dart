@@ -20,7 +20,7 @@ class GroupUserBubble extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(user.user.name, style: TextStyle().copyWith(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.black),),
+            Text(user.user.name, style: const TextStyle().copyWith(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.black),),
             CachedNetworkImage(
               imageUrl: user.user.imageUrl,
               width: 50,
@@ -36,8 +36,8 @@ class GroupUserBubble extends StatelessWidget {
                 ),
               ),
               placeholder: (context, url) =>
-                  SizedBox(height: 25, child: CircularProgressIndicator()),
-              errorWidget: (context, url, error) => Icon(Icons.error),
+                  const SizedBox(height: 25, child: CircularProgressIndicator()),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
             )
           ],
         ),

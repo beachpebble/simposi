@@ -11,6 +11,7 @@ import 'package:simposi_app_v4/global/theme/appcolors.dart';
 
 class SimposiAppBar extends StatelessWidget with PreferredSizeWidget {
   // Set Variables
+  @override
   final Size preferredSize;
   final simposiTitle;
   final simposiSubTitle;
@@ -22,10 +23,10 @@ class SimposiAppBar extends StatelessWidget with PreferredSizeWidget {
       required this.simposiAction,
       Key,
       key})
-      : preferredSize = Size.fromHeight(70),
+      : preferredSize = const Size.fromHeight(70),
         super(key: key);
 
-  get simposiNavTab => null;
+  void get simposiNavTab => null;
 
   // Screen
   @override
@@ -36,7 +37,7 @@ class SimposiAppBar extends StatelessWidget with PreferredSizeWidget {
         toolbarHeight: 75,
         backgroundColor: Colors.white,
         foregroundColor: SimposiAppColors.simposiDarkGrey,
-        title: Container(
+        title: SizedBox(
           height: 68,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,7 +45,7 @@ class SimposiAppBar extends StatelessWidget with PreferredSizeWidget {
             children: [
               Text(
                 simposiTitle,
-                style: TextStyle(
+                style: const TextStyle(
                   color: SimposiAppColors.simposiDarkGrey,
                   fontWeight: FontWeight.w800,
                   fontSize: 30,
@@ -54,7 +55,7 @@ class SimposiAppBar extends StatelessWidget with PreferredSizeWidget {
               Column(
                 children: [
                   if (simposiSubTitle != null) simposiSubTitle,
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                 ],
               )
             ],

@@ -25,6 +25,7 @@ import '../../app_router.dart';
 
 class EventAppBar extends StatelessWidget with PreferredSizeWidget {
   // Variables
+  @override
   final Size preferredSize;
   final EventModel eventModel;
 
@@ -86,19 +87,19 @@ class EventAppBar extends StatelessWidget with PreferredSizeWidget {
         FocusedMenuItem(
           title: Text(
             AppLocalizations.of(context)!.eventDetailsMenuEditEvent,
-            style: TextStyle(
+            style: const TextStyle(
               color: SimposiAppColors.simposiDarkBlue,
             ),
           ),
           onPressed: () {
             context.read<EventEditCubit>().initEdit(eventModel.rsvp.event);
-            AutoRouter.of(context).push(CreateEvent1Route());
+            AutoRouter.of(context).push(const CreateEvent1Route());
           },
         ),
         FocusedMenuItem(
           title: Text(
             AppLocalizations.of(context)!.eventDetailsMenuCancelEvent,
-            style: TextStyle(
+            style: const TextStyle(
               color: SimposiAppColors.simposiDarkBlue,
             ),
           ),
@@ -108,7 +109,7 @@ class EventAppBar extends StatelessWidget with PreferredSizeWidget {
         FocusedMenuItem(
           title: Text(
             AppLocalizations.of(context)!.eventDetailsMenuCancelRsvp,
-            style: TextStyle(
+            style: const TextStyle(
               color: SimposiAppColors.simposiDarkBlue,
             ),
           ),
@@ -121,7 +122,7 @@ class EventAppBar extends StatelessWidget with PreferredSizeWidget {
         FocusedMenuItem(
           title: Text(
             AppLocalizations.of(context)!.eventDetailsMenuCancelRsvp,
-            style: TextStyle(
+            style: const TextStyle(
               color: SimposiAppColors.simposiDarkBlue,
             ),
           ),
@@ -132,7 +133,7 @@ class EventAppBar extends StatelessWidget with PreferredSizeWidget {
           // TODO: Enable Report Social Button
           title: Text(
             AppLocalizations.of(context)!.eventDetailsMenuReport,
-            style: TextStyle(
+            style: const TextStyle(
               color: SimposiAppColors.simposiDarkBlue,
             ),
           ),

@@ -12,6 +12,6 @@ class ProposeNewTime extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: BasicFormAppBar(),
-        body: Text('Propose New Time'),
+        body: const Text('Propose New Time'),
       );
 }

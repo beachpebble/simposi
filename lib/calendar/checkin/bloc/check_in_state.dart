@@ -22,7 +22,7 @@ class CheckInLocationPermission extends CheckInState {
 class CheckInError extends CheckInState {
   final dynamic error;
 
-  CheckInError(this.error);
+  const CheckInError(this.error);
 
   @override
   List<Object> get props => [error];

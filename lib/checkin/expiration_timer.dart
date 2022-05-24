@@ -17,15 +17,15 @@ class _ExpirationTimerState extends State<ExpirationTimer> {
   String time = "";
 
   void _startTimer() {
-    const oneSec = const Duration(seconds: 1);
-    _timer = new Timer.periodic(
+    const oneSec = Duration(seconds: 1);
+    _timer = Timer.periodic(
       oneSec,
       (Timer timer) {
-        DateTime now = DateTime.now().toUtc();
-        Duration dif = widget.eventDate.add(Duration(hours: 1)).toUtc().difference(now);
-        int inMin = dif.inMinutes;
-        int hours = inMin ~/ 60;
-        int minutes = inMin - 60 * hours;
+        final now = DateTime.now().toUtc();
+        final dif = widget.eventDate.add(const Duration(hours: 1)).toUtc().difference(now);
+        final inMin = dif.inMinutes;
+        final hours = inMin ~/ 60;
+        final minutes = inMin - 60 * hours;
         if (hours < 0 || minutes < 0) {
           time = "--:--";
         } else {

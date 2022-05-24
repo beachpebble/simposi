@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/model/survey.dart';
 import 'package:simposi_app_v4/model/survey_required.dart';
@@ -11,11 +10,11 @@ class SurveyRepository {
   SurveyRepository(this._apiService);
 
   Future<List<SurveyRequired>> getAllSurveyRequests() async {
-    Response response = await _apiService.dio.get(Api.API_GET_SURVEY_REQUESTS);
-    Map? data = response.data["data"];
+    final response = await _apiService.dio.get(Api.API_GET_SURVEY_REQUESTS);
+    final Map? data = response.data["data"];
     if (data != null) {
-      List surveysMap = data['surveys'];
-      List<SurveyRequired> surveys = surveysMap.map((e) => SurveyRequired.fromJson(e)).toList();
+      final List surveysMap = data['surveys'];
+      final surveys = surveysMap.map((e) => SurveyRequired.fromJson(e)).toList();
       return surveys;
     } else {
       throw ParseException(

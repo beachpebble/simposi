@@ -35,19 +35,19 @@ class _SimposiAppState extends State<SimposiApp> {
                 listener: (context, state) {
                   if (state is NavigationLogin) {
                     _appRouter.replaceAll(
-                        [GetStartedScreenRoute(), LoginScreenRoute()]);
+                        [const GetStartedScreenRoute(), const LoginScreenRoute()]);
                   } else if (state is NavigationMain) {
-                    _appRouter.replace(SimposiHomeRoute());
+                    _appRouter.replace(const SimposiHomeRoute());
                   } else if (state is NavigationNotAuth) {
                     _appRouter.replaceAll(
-                        [GetStartedScreenRoute()]);
+                        [const GetStartedScreenRoute()]);
                   } else if (state is NavigationOnEvent) {
                     _appRouter
                         .replaceAll([GroupFinderRoute(event: state.event)]);
                   } else if (state is NavigationSurveyNeed) {
                     context.read<SurveyBloc>().add(SurveyRefreshEvent());
                     _appRouter
-                        .replaceAll([SurveyScreenRoute()]);
+                        .replaceAll([const SurveyScreenRoute()]);
                   }
 
                   // if (state is NotAuthenticated) {

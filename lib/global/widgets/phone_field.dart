@@ -5,7 +5,7 @@ import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
 
 class PhoneField extends StatefulWidget {
-  PhoneField({Key? key, required this.controller, required this.onSave, this.showClearIcon = true, this.initialPhone}) : super(key: key);
+  const PhoneField({Key? key, required this.controller, required this.onSave, this.showClearIcon = true, this.initialPhone}) : super(key: key);
   final TextEditingController? controller;
   final Function(String newValue) onSave;
   final bool showClearIcon;
@@ -22,7 +22,7 @@ class _PhoneFieldState extends State<PhoneField> {
   @override
   void initState() {
     super.initState();
-    String? pref = getPrefixByPhone(widget.initialPhone);
+    final pref = getPrefixByPhone(widget.initialPhone);
     if (pref != null && pref.isNotEmpty && widget.initialPhone != null) {
       widget.controller?.text = widget.initialPhone!.substring(pref.length);
       prefix = pref;
@@ -40,7 +40,7 @@ class _PhoneFieldState extends State<PhoneField> {
       obscureText: false,
       showCursor: true,
 
-      style: TextStyle(
+      style: const TextStyle(
         color: SimposiAppColors.simposiLightText,
         fontWeight: FontWeight.w500,
         fontSize: 15,
@@ -55,15 +55,15 @@ class _PhoneFieldState extends State<PhoneField> {
             prefix = val?.dialCode ??"";
           },
           initialSelection: getPrefixByPhone(widget.initialPhone) ?? '+380',
-          favorite: ['+380'],
+          favorite: const ['+380'],
           showCountryOnly: false,
           showOnlyCountryWhenClosed: false,
           alignLeft: false,
         ),
-        prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
+        prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
         labelText: ' Phone Number',
         //contentPadding: EdgeInsets.all(20),
-        labelStyle: TextStyle(
+        labelStyle: const TextStyle(
           color: SimposiAppColors.simposiLightText,
           fontSize: 14,
           fontWeight: FontWeight.w500,
@@ -71,7 +71,7 @@ class _PhoneFieldState extends State<PhoneField> {
         ),
 
         // INITIAL STATE
-        border: OutlineInputBorder(
+        border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(40.0)),
             borderSide: BorderSide(
               color: SimposiAppColors.simposiLightGrey,
@@ -79,24 +79,24 @@ class _PhoneFieldState extends State<PhoneField> {
 
         // FOCUS STATE
         focusColor: SimposiAppColors.simposiDarkBlue,
-        focusedBorder: OutlineInputBorder(
+        focusedBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(40.0)),
             borderSide: BorderSide(
               color: SimposiAppColors.simposiDarkBlue,
             )),
 
         // FOCUS ERROR STATE
-        focusedErrorBorder: OutlineInputBorder(
+        focusedErrorBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(40.0)),
             borderSide: BorderSide(
               color: SimposiAppColors.simposiPink,
             )),
 
         // ERROR STATE
-        errorStyle: TextStyle(
+        errorStyle: const TextStyle(
           color: SimposiAppColors.simposiPink,
         ),
-        errorBorder: OutlineInputBorder(
+        errorBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(40.0)),
             borderSide: BorderSide(
               color: SimposiAppColors.simposiPink,
@@ -105,7 +105,7 @@ class _PhoneFieldState extends State<PhoneField> {
         suffixIcon: widget.showClearIcon ? widget.controller?.text.isEmpty == true
             ? Container(width: 0)
             : IconButton(
-          icon: Icon(Icons.close,
+          icon: const Icon(Icons.close,
               size: 20, color: SimposiAppColors.simposiLightGrey),
           onPressed: () => widget.controller?.clear(),
         ) : null,
@@ -119,11 +119,13 @@ class _PhoneFieldState extends State<PhoneField> {
   }
 
   String? getPrefixByPhone(String? phone) {
-    if (phone == null)
+    if (phone == null) {
       return null;
-    for (Map item in codes) {
-      if (phone.startsWith(item['dial_code']))
+    }
+    for (final Map item in codes) {
+      if (phone.startsWith(item['dial_code'])) {
         return item['dial_code'];
+      }
     }
     return null;
   }

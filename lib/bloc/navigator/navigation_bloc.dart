@@ -14,9 +14,9 @@ part 'navigation_state.dart';
 class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
   late StreamSubscription authSubscription;
   late StreamSubscription profileSubscription;
-  AuthenticationBloc _authBloc;
-  ProfileBloc _profileBloc;
-  SurveyBloc _surveyBloc;
+  final AuthenticationBloc _authBloc;
+  final ProfileBloc _profileBloc;
+  final SurveyBloc _surveyBloc;
 
   NavigationBloc(AuthenticationBloc authBloc, ProfileBloc profileBloc, SurveyBloc surveyBloc)
       : _authBloc = authBloc,

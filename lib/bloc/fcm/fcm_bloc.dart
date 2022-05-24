@@ -6,7 +6,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:simposi_app_v4/bloc/app_setup/app_setup_cubit.dart';
 
 part 'fcm_event.dart';
-
 part 'fcm_state.dart';
 
 class FcmBloc extends Bloc<FcmEvent, FcmState> {
@@ -18,7 +17,7 @@ class FcmBloc extends Bloc<FcmEvent, FcmState> {
   FcmBloc(AppSetupCubit appSetupCubit) : super(FcmInitial()) {
     setupSubscription = appSetupCubit.stream.listen((state) {
       if (state is AppSetupLoaded) {
-        FirebaseMessaging messaging = FirebaseMessaging.instance;
+        final messaging = FirebaseMessaging.instance;
 
         messaging
             .requestPermission(
@@ -40,14 +39,16 @@ class FcmBloc extends Bloc<FcmEvent, FcmState> {
             print('User declined or has not accepted permission');
           }
         });
+
         FirebaseMessaging.instance.getToken().then(setToken);
         _tokenStream = FirebaseMessaging.instance.onTokenRefresh;
         _tokenStream.listen(setToken);
 
         FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-          RemoteNotification? notification = message.notification;
-          print("Notification! ${notification?.title ?? "--"} ${notification?.body ?? "--"} ");
-          if (notification?.body  != null) {
+          final notification = message.notification;
+          print(
+              "Notification! ${notification?.title ?? "--"} ${notification?.body ?? "--"} ");
+          if (notification?.body != null) {
             if (notification?.body == ':New event') {
               add(NewRsvp());
             }

@@ -19,14 +19,14 @@ class CalendarRepository {
   CalendarRepository(this._apiService);
 
   Future<List<Rsvp>> getAllevents(DateTime from, DateTime to) async {
-    Response response = await _apiService.dio.post(Api.RSVP_LIST, data: {
+    final response = await _apiService.dio.post(Api.RSVP_LIST, data: {
       'dataFrom': DateFormat('yyyy-MM-dd hh:mm:ss').format(from),
       'dataTo': DateFormat('yyyy-MM-dd hh:mm:ss').format(to),
     });
-    Map? data = response.data["data"];
+    final Map? data = response.data["data"];
     if (data != null) {
-      List rsvpsMap = data['rsvps'];
-      List<Rsvp> rsvps = rsvpsMap.map((e) => Rsvp.fromJson(e)).toList();
+      final List rsvpsMap = data['rsvps'];
+      final rsvps = rsvpsMap.map((e) => Rsvp.fromJson(e)).toList();
       return rsvps;
     } else {
       throw ParseException(
@@ -50,20 +50,20 @@ class CalendarRepository {
     required Set<Interest> wantToMeetInterests,
     required Set<Generation> wantToMeetGenerations,
   }) async {
-    String fileName = image.split('/').last;
-    FormData formData = FormData.fromMap({
+    final fileName = image.split('/').last;
+    final formData = FormData.fromMap({
       "image": await MultipartFile.fromFile(
         image,
         filename: fileName,
         contentType: MediaType("image", "jpeg"),
       ),
     });
-    Response response =
+    final response =
         await _apiService.dio.post(Api.API_UPLOAD_AVATAR, data: formData);
-    Map? data = response.data;
-    String? imgName = data?["data"]?['name'];
+    final Map? data = response.data;
+    final String? imgName = data?["data"]?['name'];
     if (imgName != null) {
-      var data = {
+      final data = {
         "image": imgName,
         "title": title,
         "description": description,
@@ -81,7 +81,7 @@ class CalendarRepository {
         "what_you_likes": wantToMeetInterests.map((e) => e.id).toList(),
         "who_earns": wantToMeetEarnings.map((e) => e.id).toList(),
       };
-      Response response =
+      final response =
           await _apiService.dio.post(Api.API_NEW_EVENT, data: data);
       return response.data;
     } else {
@@ -109,21 +109,21 @@ class CalendarRepository {
   }) async {
     String? imgName;
     if (image != null) {
-      String fileName = image.split('/').last;
-      FormData formData = FormData.fromMap({
+      final fileName = image.split('/').last;
+      final formData = FormData.fromMap({
         "image": await MultipartFile.fromFile(
           image,
           filename: fileName,
           contentType: MediaType("image", "jpeg"),
         ),
       });
-      Response response =
+      final response =
           await _apiService.dio.post(Api.API_UPLOAD_AVATAR, data: formData);
-      Map? data = response.data;
+      final Map? data = response.data;
       imgName = data?["data"]?['name'];
     }
 
-    var data = {
+    final data = {
       'id': id,
       "title": title,
       "description": description,
@@ -144,16 +144,16 @@ class CalendarRepository {
     if (imgName != null) {
       data['image'] = imgName;
     }
-    Response response =
+    final response =
         await _apiService.dio.put(Api.API_NEW_EVENT, data: data);
     return response.data;
   }
 
   Future<Rsvp> openRsvp(int id) async {
-    Response response = await _apiService.dio.post(Api.API_RSVP_STATUS,
+    final response = await _apiService.dio.post(Api.API_RSVP_STATUS,
         data: {'id': id, 'modify_status_to': RsvpStatus.OPENED_ID});
-    Map? data = response.data;
-    Map<String, dynamic>? rsvpMap = data?['data']?['rsvp'];
+    final Map? data = response.data;
+    final Map<String, dynamic>? rsvpMap = data?['data']?['rsvp'];
     if (rsvpMap != null) {
       return Rsvp.fromJson(rsvpMap);
     } else {
@@ -164,10 +164,10 @@ class CalendarRepository {
   }
 
   Future<Rsvp> acceptRsvp(int id) async {
-    Response response = await _apiService.dio.post(Api.API_RSVP_STATUS,
+    final response = await _apiService.dio.post(Api.API_RSVP_STATUS,
         data: {'id': id, 'modify_status_to': RsvpStatus.ACCEPTED_ID});
-    Map? data = response.data;
-    Map<String, dynamic>? rsvpMap = data?['data']?['rsvp'];
+    final Map? data = response.data;
+    final Map<String, dynamic>? rsvpMap = data?['data']?['rsvp'];
     if (rsvpMap != null) {
       return Rsvp.fromJson(rsvpMap);
     } else {
@@ -178,10 +178,10 @@ class CalendarRepository {
   }
 
   Future<Rsvp> declineRsvp(int id) async {
-    Response response = await _apiService.dio.post(Api.API_RSVP_STATUS,
+    final response = await _apiService.dio.post(Api.API_RSVP_STATUS,
         data: {'id': id, 'modify_status_to': RsvpStatus.DECLINED_ID});
-    Map? data = response.data;
-    Map<String, dynamic>? rsvpMap = data?['data']?['rsvp'];
+    final Map? data = response.data;
+    final Map<String, dynamic>? rsvpMap = data?['data']?['rsvp'];
     if (rsvpMap != null) {
       return Rsvp.fromJson(rsvpMap);
     } else {
@@ -192,10 +192,10 @@ class CalendarRepository {
   }
 
   Future<Rsvp> cancelRsvp(int id) async {
-    Response response = await _apiService.dio.post(Api.API_RSVP_STATUS,
+    final response = await _apiService.dio.post(Api.API_RSVP_STATUS,
         data: {'id': id, 'modify_status_to': RsvpStatus.CANCELED_ID});
-    Map? data = response.data;
-    Map<String, dynamic>? rsvpMap = data?['data']?['rsvp'];
+    final Map? data = response.data;
+    final Map<String, dynamic>? rsvpMap = data?['data']?['rsvp'];
     if (rsvpMap != null) {
       return Rsvp.fromJson(rsvpMap);
     } else {
@@ -206,11 +206,11 @@ class CalendarRepository {
   }
 
   Future<Event> getEvent(int id) async {
-    Response response = await _apiService.dio.get(
-      Api.API_EVENT + "/$id",
+    final response = await _apiService.dio.get(
+      "${Api.API_EVENT}/$id",
     );
-    Map? data = response.data;
-    Map<String, dynamic>? eventMap = data?['data']?['event'];
+    final Map? data = response.data;
+    final Map<String, dynamic>? eventMap = data?['data']?['event'];
     if (eventMap != null) {
       return Event.fromJson(eventMap);
     } else {
@@ -220,8 +220,8 @@ class CalendarRepository {
     }
   }
   Future cancelEvent(int id) async {
-    Response response = await _apiService.dio.get(
-      Api.API_EVENT_CANCEL + "/$id",
+    final response = await _apiService.dio.get(
+      "${Api.API_EVENT_CANCEL}/$id",
     );
   }
 
@@ -234,16 +234,16 @@ class CalendarRepository {
       {required int eventId,
       required String latitude,
       required String longitude}) async {
-    Response response = await _apiService.dio.post(Api.API_GROUP_FINDER, data: {
+    final response = await _apiService.dio.post(Api.API_GROUP_FINDER, data: {
       "event_id": eventId,
       "latitude": latitude,
       "longitude": longitude
     });
 
-    Map? data = response.data;
-    List<dynamic>? grpUsers = data?['data']?['users'];
+    final Map? data = response.data;
+    final List<dynamic>? grpUsers = data?['data']?['users'];
     if (grpUsers != null) {
-      List<GroupFinderUser> users =
+      final users =
           grpUsers.map((e) => GroupFinderUser.fromJson(e)).toList();
       return users;
     } else {

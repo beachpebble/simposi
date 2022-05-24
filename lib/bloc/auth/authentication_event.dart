@@ -12,7 +12,7 @@ class ReloadAuthEvent extends AuthenticationEvent {}
 class SaveAuthEvent extends AuthenticationEvent {
   final String token;
 
-  SaveAuthEvent(this.token);
+  const SaveAuthEvent(this.token);
 
 
   @override

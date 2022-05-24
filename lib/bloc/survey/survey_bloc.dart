@@ -6,20 +6,19 @@ import 'package:simposi_app_v4/model/survey_required.dart';
 import 'package:simposi_app_v4/repository/survey_repository.dart';
 
 part 'survey_event.dart';
-
 part 'survey_state.dart';
 
 class SurveyBloc extends Bloc<SurveyEvent, SurveyState> {
-  SurveyRepository _surveyRepository;
-  ProfileBloc _profileBloc;
+  final SurveyRepository _surveyRepository;
+  final ProfileBloc _profileBloc;
 
   List<SurveyRequired> _required = [];
 
   SurveyBloc(
       {required SurveyRepository surveyRepository,
       required ProfileBloc profileBloc})
-      : this._surveyRepository = surveyRepository,
-        this._profileBloc = profileBloc,
+      : _surveyRepository = surveyRepository,
+        _profileBloc = profileBloc,
         super(SurveyInitial()) {
     on<SurveyEvent>((event, emit) async {
       if (event is SurveyRefreshEvent) {
@@ -30,33 +29,34 @@ class SurveyBloc extends Bloc<SurveyEvent, SurveyState> {
     });
   }
 
-  _surveyRefresh(SurveyRefreshEvent event, Emitter<SurveyState> emit) async {
+  Future<void> _surveyRefresh(
+      SurveyRefreshEvent event, Emitter<SurveyState> emit) async {
     try {
       emit(SurveyListLoading());
       _required = await _surveyRepository.getAllSurveyRequests();
       if (_required.isNotEmpty) {
-        SurveyRequired current  = _required.first;
+        final current = _required.first;
         emit(SurveyProcess(current));
       } else {
-        _profileBloc.add(ProfileReload());
+        _profileBloc.add(const ProfileReload());
       }
-
     } on Exception catch (e) {
       emit(SurveyError(e));
     }
   }
 
-  _surveySend(SurveySendEvent event, Emitter<SurveyState> emit) async {
+  Future<void> _surveySend(
+      SurveySendEvent event, Emitter<SurveyState> emit) async {
     try {
       emit(SurveyListLoading());
       await _surveyRepository.submitSurvey(event.survey);
-      SurveyRequired current  = _required.first;
+      final current = _required.first;
       _required.remove(current);
       if (_required.isNotEmpty) {
-        SurveyRequired newCurrent  = _required.first;
+        final newCurrent = _required.first;
         emit(SurveyProcess(newCurrent));
       } else {
-        _profileBloc.add(ProfileReload());
+        _profileBloc.add(const ProfileReload());
       }
     } on Exception catch (e) {
       emit(SurveyError(e));

@@ -22,7 +22,7 @@ class WeekCalendarBase extends StatefulWidget {
   final void Function(DateTime focusedDay)? onPageChanged;
   final void Function(CalendarController calendarController, )? onCalendarCreated;
 
-  WeekCalendarBase({
+  const WeekCalendarBase({
     Key? key,
     required this.firstDay,
     required this.lastDay,
@@ -125,8 +125,8 @@ class _WeekCalendarBaseState extends State<WeekCalendarBase>
       child: WeekCalendarCore(
         pageController: _pageController,
         scrollPhysics: _canScrollHorizontally
-            ? PageScrollPhysics()
-            : NeverScrollableScrollPhysics(),
+            ? const PageScrollPhysics()
+            : const NeverScrollableScrollPhysics(),
         firstDay: widget.firstDay,
         lastDay: widget.lastDay,
         previousIndex: _previousIndex,
@@ -143,8 +143,9 @@ class _WeekCalendarBaseState extends State<WeekCalendarBase>
             widget.onPageChanged?.call(focused);
           }
           _pageCallbackDisabled = false;
-          if (_pageCallbackDisabledSteps > 0)
+          if (_pageCallbackDisabledSteps > 0) {
             _pageCallbackDisabledSteps--;
+          }
         },
         dowBuilder: widget.dowBuilder,
         dayBuilder: widget.dayBuilder,

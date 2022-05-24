@@ -10,7 +10,7 @@ abstract class FcmEvent extends Equatable {
 class FcmNewToken extends FcmEvent {
   final String token;
 
-  FcmNewToken(this.token);
+  const FcmNewToken(this.token);
 
   @override
   List<Object?> get props => [token];

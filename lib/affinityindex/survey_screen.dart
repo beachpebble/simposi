@@ -38,7 +38,7 @@ class SurveyScreen extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("Loading surveys"),
+        const Text("Loading surveys"),
         Row(
           children: [AppProgressIndicator()],
         )
@@ -50,7 +50,7 @@ class SurveyScreen extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
+        const Text(
           "Error loading surveys",
           textAlign: TextAlign.center,
         ),

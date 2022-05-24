@@ -22,15 +22,15 @@ class SimposiAlertsBackground extends StatelessWidget {
             "assets/images/backgroundbell.png",
           ),
         ),
-        SizedBox(height: 30.0),
+        const SizedBox(height: 30.0),
         Center(
           child: Text(
             "No Notifications",
             style: Theme.of(context).textTheme.headline3,
           ),
         ),
-        SizedBox(height: 5.0),
-        Center(
+        const SizedBox(height: 5.0),
+        const Center(
           child: Text(
             "Check again later or invite others \n to meet you instead.",
             textAlign: TextAlign.center,
@@ -39,8 +39,8 @@ class SimposiAlertsBackground extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 20.0),
-        SmallPinkButton(
+        const SizedBox(height: 20.0),
+        const SmallPinkButton(
             buttonLabel: 'Meet Now',
             nextPage: '/createevent'),
       ],

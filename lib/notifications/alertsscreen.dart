@@ -22,10 +22,10 @@ class AlertsScreen extends StatelessWidget {
           simposiAction: Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
             child: IconButton(
-                icon: Icon(Icons.settings_outlined,
+                icon: const Icon(Icons.settings_outlined,
                     color: SimposiAppColors.simposiLightText, size: 30),
                 onPressed: () =>
-                    {AutoRouter.of(context).push(ProfileMenuRoute())}),
+                    {AutoRouter.of(context).push(const ProfileMenuRoute())}),
           ),
         ),
         body: Column(

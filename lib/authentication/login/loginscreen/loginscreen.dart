@@ -76,13 +76,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     minHeight: viewportConstraints.maxHeight,
                   ),
                   child: Container(
-                    padding: EdgeInsets.all(40),
+                    padding: const EdgeInsets.all(40),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         // LOGO HEADER
-                        Container(
+                        SizedBox(
                           height: 250,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -90,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Image.asset("assets/images/logo.png"),
                               Text(
                                 AppLocalizations.of(context)!.loginTitle,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: SimposiAppColors.simposiDarkBlue,
                                   fontWeight: FontWeight.w900,
                                   fontSize: 30,
@@ -112,11 +112,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                   onSave: (value) =>
                                       setState(() => phone = value),
                                 ),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
 
                                 // PASSWORD FIELD
                                 _passwordField(),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 BlocConsumer<LoginCubit, LoginState>(
                                   listener: (context, state) {
                                     if (state is LoginError) {
@@ -150,9 +150,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                                     if (isValid) {
                                                       _formKey.currentState!
                                                           .save();
-                                                      print('Phone: ${phone}');
+                                                      print('Phone: $phone');
                                                       print(
-                                                          'Password: ${password}');
+                                                          'Password: $password');
                                                       context
                                                           .read<LoginCubit>()
                                                           .login(
@@ -162,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 : null);
                                   },
                                 ),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 ForgotPasswordTextButton(
                                   onClick: () {
                                     showModalBottomSheet<void>(
@@ -187,7 +187,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
 
                         // Footer
-                        Container(
+                        SizedBox(
                           height: 150,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -196,7 +196,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: Text(
                                   AppLocalizations.of(context)!
                                       .loginRegisterButton,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: SimposiAppColors.simposiDarkBlue,
                                     fontWeight: FontWeight.w900,
                                     fontSize: 15,
@@ -204,18 +204,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                                 onPressed: () => {
                                   AutoRouter.of(context)
-                                      .replace(SignUpForm1Route())
+                                      .replace(const SignUpForm1Route())
                                 },
                               ),
-                              SizedBox(height: 10),
-                              Text(
+                              const SizedBox(height: 10),
+                              const Text(
                                 '© 2021 Simposi Inc.',
                                 style: TextStyle(
                                   fontSize: 11,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
-                              SizedBox(height: 20),
+                              const SizedBox(height: 20),
                             ],
                           ),
                         ),
@@ -239,7 +239,7 @@ class _LoginScreenState extends State<LoginScreen> {
         obscureText: _passwordVisible,
         showCursor: true,
 
-        style: TextStyle(
+        style: const TextStyle(
           color: SimposiAppColors.simposiLightText,
           fontWeight: FontWeight.w500,
           fontSize: 15,
@@ -247,8 +247,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
         decoration: InputDecoration(
           labelText: ' Password',
-          contentPadding: EdgeInsets.all(20),
-          labelStyle: TextStyle(
+          contentPadding: const EdgeInsets.all(20),
+          labelStyle: const TextStyle(
             color: SimposiAppColors.simposiLightText,
             fontSize: 14,
             fontWeight: FontWeight.w500,
@@ -271,7 +271,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   }),
 
           // INITIAL STATE
-          border: OutlineInputBorder(
+          border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(40.0)),
             borderSide: BorderSide(
               color: SimposiAppColors.simposiLightGrey,
@@ -280,7 +280,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
           // FOCUS STATE
           focusColor: SimposiAppColors.simposiDarkBlue,
-          focusedBorder: OutlineInputBorder(
+          focusedBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(40.0)),
             borderSide: BorderSide(
               color: SimposiAppColors.simposiDarkBlue,
@@ -288,17 +288,17 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
 
           // FOCUS ERROR STATE
-          focusedErrorBorder: OutlineInputBorder(
+          focusedErrorBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(40.0)),
               borderSide: BorderSide(
                 color: SimposiAppColors.simposiPink,
               )),
 
           // ERROR STATE
-          errorStyle: TextStyle(
+          errorStyle: const TextStyle(
             color: SimposiAppColors.simposiPink,
           ),
-          errorBorder: OutlineInputBorder(
+          errorBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(40.0)),
               borderSide: BorderSide(
                 color: SimposiAppColors.simposiPink,

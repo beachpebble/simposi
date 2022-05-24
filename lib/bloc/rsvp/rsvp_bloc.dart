@@ -17,8 +17,8 @@ part 'rsvp_event.dart';
 part 'rsvp_state.dart';
 
 class RsvpBloc extends Bloc<RsvpEvent, RsvpState> {
-  CalendarRepository _calendarRepository;
-  ProfileRepository _profileRepository;
+  final CalendarRepository _calendarRepository;
+  final ProfileRepository _profileRepository;
   List<EventModel> _loadedEvents = [];
   late StreamSubscription authSubscription;
   late StreamSubscription fcmSubscription;
@@ -27,16 +27,16 @@ class RsvpBloc extends Bloc<RsvpEvent, RsvpState> {
       ProfileRepository profileRepository)
       : _calendarRepository = calendarRepository,
         _profileRepository = profileRepository,
-        super(RsvpLoaded([])) {
+        super(RsvpLoaded(const [])) {
     authSubscription = authBloc.stream.listen((state) {
       if (state is NotAuthenticated) {
         _loadedEvents.clear();
       } else if (state is Authenticated) {
         add(RefreshRequested(
             DateTime.now()
-                .subtract(Duration(days: AppConstants.CALENDAR_DAYS_INTERVAL)),
+                .subtract(const Duration(days: AppConstants.CALENDAR_DAYS_INTERVAL)),
             DateTime.now()
-                .add(Duration(days: AppConstants.CALENDAR_DAYS_INTERVAL))));
+                .add(const Duration(days: AppConstants.CALENDAR_DAYS_INTERVAL))));
       }
     });
 
@@ -44,14 +44,14 @@ class RsvpBloc extends Bloc<RsvpEvent, RsvpState> {
       if (state is NewRsvpReceived) {
         add(RefreshRequested(
         DateTime.now().subtract(
-  Duration(days: AppConstants.CALENDAR_DAYS_INTERVAL)),
-  DateTime.now().add(Duration(
+  const Duration(days: AppConstants.CALENDAR_DAYS_INTERVAL)),
+  DateTime.now().add(const Duration(
   days: AppConstants.CALENDAR_DAYS_INTERVAL))));
       }
     });
     on<RefreshRequested>((event, emit) async {
       if (authBloc.state is Authenticated) {
-        emit(RsvpLoading());
+        emit(const RsvpLoading());
         try {
           _loadedEvents = await _getRsvps(event.from, event.to);
           emit(RsvpLoaded(_loadedEvents));
@@ -62,9 +62,9 @@ class RsvpBloc extends Bloc<RsvpEvent, RsvpState> {
     });
 
     on<RsvpOpened>((event, emit) async {
-      List<EventModel> loadedEvents = []..addAll(_loadedEvents);
+      final loadedEvents = <EventModel>[..._loadedEvents];
       loadedEvents.removeWhere((element) => element.rsvp.id == event.rsvp.id);
-      var tmp  = EventModel(
+      final tmp  = EventModel(
           rsvp: event.rsvp,
           normalizedDate: event.rsvp.date,
           myId: _profileRepository.profile.userId);
@@ -74,8 +74,8 @@ class RsvpBloc extends Bloc<RsvpEvent, RsvpState> {
       emit(RsvpLoaded(_loadedEvents));
     });
     on<RsvpAccepted>((event, emit) async {
-      List<EventModel> loadedEvents = []..addAll(_loadedEvents);
-      var tmp  = EventModel(
+      final loadedEvents = <EventModel>[..._loadedEvents];
+      final tmp  = EventModel(
           rsvp: event.rsvp,
           normalizedDate: event.rsvp.date,
           myId: _profileRepository.profile.userId);
@@ -86,13 +86,13 @@ class RsvpBloc extends Bloc<RsvpEvent, RsvpState> {
       emit(RsvpLoaded(_loadedEvents));
     });
     on<RsvpDeclined>((event, emit) async {
-      List<EventModel> loadedEvents = []..addAll(_loadedEvents);
+      final loadedEvents = <EventModel>[..._loadedEvents];
       loadedEvents.removeWhere((element) => element.rsvp.id == event.rsvp.id);
       _loadedEvents = loadedEvents;
       emit(RsvpLoaded(_loadedEvents));
     });
     on<RsvpCanceled>((event, emit) async {
-      List<EventModel> loadedEvents = []..addAll(_loadedEvents);
+      final loadedEvents = <EventModel>[..._loadedEvents];
       loadedEvents.removeWhere((element) => element.rsvp.id == event.rsvp.id);
       _loadedEvents = loadedEvents;
       emit(RsvpLoaded(_loadedEvents));
@@ -100,7 +100,7 @@ class RsvpBloc extends Bloc<RsvpEvent, RsvpState> {
   }
 
   Future<List<EventModel>> _getRsvps(DateTime from, DateTime to) async {
-    var rsvps =
+    final rsvps =
         await _calendarRepository.getAllevents(from, to);
     return rsvps.where((element) => element.status.id != RsvpStatus.CANCELED_ID && element.status.id != RsvpStatus.DECLINED_ID)
         .map((e) => EventModel(
@@ -112,8 +112,8 @@ class RsvpBloc extends Bloc<RsvpEvent, RsvpState> {
   }
 
   int Function(EventModel a, EventModel b) dateComparator = (EventModel a, EventModel b) {
-    int ams = a.rsvp.event.datetime.millisecondsSinceEpoch;
-    int bms = b.rsvp.event.datetime.millisecondsSinceEpoch;
+    final ams = a.rsvp.event.datetime.millisecondsSinceEpoch;
+    final bms = b.rsvp.event.datetime.millisecondsSinceEpoch;
     return ams.compareTo(bms);
   };
 

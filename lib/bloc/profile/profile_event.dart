@@ -8,7 +8,7 @@ abstract class ProfileEvent extends Equatable {
 }
 
 class ProfileReload extends ProfileEvent {
-  ProfileReload();
+  const ProfileReload();
 }
 
 class ProfileUpdateMainFields extends ProfileEvent {
@@ -19,7 +19,7 @@ class ProfileUpdateMainFields extends ProfileEvent {
   final String? linkedin;
   final String? filePath;
 
-  ProfileUpdateMainFields(
+  const ProfileUpdateMainFields(
       {this.name,
       this.phone,
       this.facebook,
@@ -36,7 +36,7 @@ class ProfileUpdateIndentifyAs extends ProfileEvent {
   final Gender gender;
   final bool isLgbt;
 
-  ProfileUpdateIndentifyAs({required this.gender, required this.isLgbt});
+  const ProfileUpdateIndentifyAs({required this.gender, required this.isLgbt});
 
   @override
   List<Object?> get props => [gender, isLgbt];
@@ -45,7 +45,7 @@ class ProfileUpdateIndentifyAs extends ProfileEvent {
 class ProfileUpdateGeneration extends ProfileEvent {
   final int generation;
 
-  ProfileUpdateGeneration({required this.generation});
+  const ProfileUpdateGeneration({required this.generation});
 
   @override
   List<Object?> get props => [generation];
@@ -54,7 +54,7 @@ class ProfileUpdateGeneration extends ProfileEvent {
 class ProfileUpdateInterests extends ProfileEvent {
   final Set<Interest> interests;
 
-  ProfileUpdateInterests({required this.interests});
+  const ProfileUpdateInterests({required this.interests});
 
   @override
   List<Object?> get props => [interests];
@@ -65,7 +65,7 @@ class ProfileUpdateLocation extends ProfileEvent {
   final double longitude;
   final double range;
 
-  ProfileUpdateLocation(this.latitude, this.longitude, this.range);
+  const ProfileUpdateLocation(this.latitude, this.longitude, this.range);
 
   @override
   List<Object?> get props => [latitude, longitude, range];
@@ -74,7 +74,7 @@ class ProfileUpdateLocation extends ProfileEvent {
 class ProfileUpdateIncome extends ProfileEvent {
   final Set<Earning> earnings;
 
-  ProfileUpdateIncome(this.earnings);
+  const ProfileUpdateIncome(this.earnings);
 
   @override
   List<Object?> get props => [earnings];
@@ -84,7 +84,7 @@ class ProfileUpdateEmergencyContact extends ProfileEvent {
   final String name;
   final String phone;
 
-  ProfileUpdateEmergencyContact({required this.name, required this.phone});
+  const ProfileUpdateEmergencyContact({required this.name, required this.phone});
 
   @override
   List<Object?> get props => [name, phone];
@@ -93,7 +93,7 @@ class ProfileUpdateEmergencyContact extends ProfileEvent {
 class ProfileUpdateWantToMeetGeneration extends ProfileEvent {
   final List<Generation> generations;
 
-  ProfileUpdateWantToMeetGeneration(this.generations);
+  const ProfileUpdateWantToMeetGeneration(this.generations);
 
   @override
   List<Object?> get props => [generations];
@@ -102,7 +102,7 @@ class ProfileUpdateWantToMeetGeneration extends ProfileEvent {
 class ProfileUpdateWantToMeetIncome extends ProfileEvent {
   final List<Earning> earnings;
 
-  ProfileUpdateWantToMeetIncome(this.earnings);
+  const ProfileUpdateWantToMeetIncome(this.earnings);
 
   @override
   List<Object?> get props => [earnings];
@@ -112,7 +112,7 @@ class ProfileUpdateWantToMeetGender extends ProfileEvent {
   final List<Gender> gender;
   final bool isLgbt;
 
-  ProfileUpdateWantToMeetGender({required this.gender, required this.isLgbt});
+  const ProfileUpdateWantToMeetGender({required this.gender, required this.isLgbt});
 
   @override
   List<Object?> get props => [gender, isLgbt];

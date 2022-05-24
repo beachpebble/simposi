@@ -12,14 +12,14 @@ class ProfileNotLoaded extends ProfileState {}
 class ProfileLoaded extends ProfileState {
   final Profile userProfile;
 
-  ProfileLoaded(this.userProfile);
+  const ProfileLoaded(this.userProfile);
 
   @override
   List<Object> get props => [userProfile];
 }
 
 class ProfileOnEvent extends ProfileLoaded {
-  ProfileOnEvent(Profile userProfile, this.event) : super(userProfile);
+  const ProfileOnEvent(Profile userProfile, this.event) : super(userProfile);
 
   final Event event;
 
@@ -28,21 +28,21 @@ class ProfileOnEvent extends ProfileLoaded {
 }
 
 class ProfileOnSurvey extends ProfileLoaded {
-  ProfileOnSurvey(Profile userProfile) : super(userProfile);
+  const ProfileOnSurvey(Profile userProfile) : super(userProfile);
 }
 
 class ProfileEditLoading extends ProfileLoaded {
-  ProfileEditLoading(Profile userProfile) : super(userProfile);
+  const ProfileEditLoading(Profile userProfile) : super(userProfile);
 }
 
 class ProfileEditSuccess extends ProfileLoaded {
-  ProfileEditSuccess(Profile userProfile) : super(userProfile);
+  const ProfileEditSuccess(Profile userProfile) : super(userProfile);
 }
 
 class ProfileEditError extends ProfileLoaded {
   final dynamic error;
 
-  ProfileEditError(Profile userProfile, this.error) : super(userProfile);
+  const ProfileEditError(Profile userProfile, this.error) : super(userProfile);
 
   @override
   List<Object> get props => [userProfile, error];
@@ -53,7 +53,7 @@ class ProfileLoading extends ProfileState {}
 class ProfileLoadError extends ProfileState {
   final dynamic error;
 
-  ProfileLoadError(this.error);
+  const ProfileLoadError(this.error);
 
   @override
   List<Object> get props => [error];

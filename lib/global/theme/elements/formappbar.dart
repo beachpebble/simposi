@@ -12,11 +12,12 @@ import 'package:simposi_app_v4/global/theme/appcolors.dart';
 // JUST A BACK BUTTON APP BAR
 class BasicFormAppBar extends StatelessWidget with PreferredSizeWidget {
   // Variables
+  @override
   final Size preferredSize;
 
   // Initiate Variables
   BasicFormAppBar({Key, key})
-      : preferredSize = Size.fromHeight(70),
+      : preferredSize = const Size.fromHeight(70),
         super(key: key);
 
   // Screen
@@ -29,7 +30,7 @@ class BasicFormAppBar extends StatelessWidget with PreferredSizeWidget {
       foregroundColor: SimposiAppColors.simposiDarkGrey,
       leading: Builder(
         builder: (BuildContext context) {
-          return BackButton(
+          return const BackButton(
             color: SimposiAppColors.simposiDarkGrey,
           );
         },
@@ -40,6 +41,7 @@ class BasicFormAppBar extends StatelessWidget with PreferredSizeWidget {
 
 class HeaderFormAppBar extends StatelessWidget with PreferredSizeWidget {
   // Variables
+  @override
   final Size preferredSize;
   final headerTitle;
   final nextButtonLabel;
@@ -51,7 +53,7 @@ class HeaderFormAppBar extends StatelessWidget with PreferredSizeWidget {
     required this.headerTitle,
     required this.nextButtonLabel,
     required this.onNext,
-  })  : preferredSize = Size.fromHeight(70),
+  })  : preferredSize = const Size.fromHeight(70),
         super(key: key);
 
   // Screen
@@ -64,21 +66,21 @@ class HeaderFormAppBar extends StatelessWidget with PreferredSizeWidget {
       foregroundColor: SimposiAppColors.simposiDarkGrey,
       title: Text(
         headerTitle,
-        style: TextStyle(
+        style: const TextStyle(
           color: SimposiAppColors.simposiDarkGrey,
           fontSize: 17,
           fontWeight: FontWeight.w700,
         ),
       ),
       leading: Container(
-        padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+        padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
         child: Builder(
           builder: (BuildContext context) {
             return TextButton(
               onPressed: () {
                 AutoRouter.of(context).pop();
               },
-              child: Text(
+              child: const Text(
                 'Cancel',
                 style: TextStyle(
                   color: SimposiAppColors.simposiDarkBlue,
@@ -92,7 +94,7 @@ class HeaderFormAppBar extends StatelessWidget with PreferredSizeWidget {
       actions: <Widget>[
         TextButton(
           onPressed: onNext,
-          child: Text(
+          child: const Text(
             "Submit",
             style: TextStyle(
               fontSize: 17,

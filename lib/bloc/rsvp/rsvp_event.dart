@@ -8,7 +8,7 @@ class RefreshRequested extends RsvpEvent {
   final DateTime from;
   final DateTime to;
 
-  RefreshRequested(this.from, this.to);
+  const RefreshRequested(this.from, this.to);
 
   @override
   List<Object?> get props => [from, to];
@@ -17,7 +17,7 @@ class RefreshRequested extends RsvpEvent {
 class RsvpOpened extends RsvpEvent {
   final Rsvp rsvp;
 
-  RsvpOpened(this.rsvp);
+  const RsvpOpened(this.rsvp);
 
   @override
   List<Object?> get props => [rsvp];
@@ -26,7 +26,7 @@ class RsvpOpened extends RsvpEvent {
 class RsvpAccepted extends RsvpEvent {
   final Rsvp rsvp;
 
-  RsvpAccepted(this.rsvp);
+  const RsvpAccepted(this.rsvp);
 
   @override
   List<Object?> get props => [rsvp];
@@ -35,7 +35,7 @@ class RsvpAccepted extends RsvpEvent {
 class RsvpDeclined extends RsvpEvent {
   final Rsvp rsvp;
 
-  RsvpDeclined(this.rsvp);
+  const RsvpDeclined(this.rsvp);
 
   @override
   List<Object?> get props => [rsvp];
@@ -44,7 +44,7 @@ class RsvpDeclined extends RsvpEvent {
 class RsvpCanceled extends RsvpEvent {
   final Rsvp rsvp;
 
-  RsvpCanceled(this.rsvp);
+  const RsvpCanceled(this.rsvp);
 
   @override
   List<Object?> get props => [rsvp];

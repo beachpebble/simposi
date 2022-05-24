@@ -28,19 +28,19 @@ class CreateEvent7 extends StatelessWidget {
             Container(
               child: Column(
                 children: [
-                  SizedBox(height: 45),
+                  const SizedBox(height: 45),
                   LinearProgressIndicator(
                     value: progress,
-                    valueColor: AlwaysStoppedAnimation(
+                    valueColor: const AlwaysStoppedAnimation(
                         SimposiAppColors.simposiDarkBlue),
                     backgroundColor: SimposiAppColors.simposiFadedBlue,
                   ),
-                  SizedBox(height: 70),
+                  const SizedBox(height: 70),
                   Text(
                     'Pick an Invitation',
                     style: Theme.of(context).textTheme.headline3,
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
@@ -48,7 +48,7 @@ class CreateEvent7 extends StatelessWidget {
             // Body
             Expanded(
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: MediaQuery.removePadding(
                   removeTop: true,
                   context: context,
@@ -59,7 +59,7 @@ class CreateEvent7 extends StatelessWidget {
                     childAspectRatio: (1.0 / 1.2),
                     // TODO: Allow infinite scroll of active invitation cards in DB, remove the 10 tile limit from this generated list
                     children: List.generate(10, (index) {
-                      return PickInvitationThumbnail();
+                      return const PickInvitationThumbnail();
                     }),
                   ),
                 ),
@@ -75,7 +75,7 @@ class CreateEvent7 extends StatelessWidget {
                   BigGBSelectButton(
                     buttonLabel: 'Create Event',
                     buttonAction: () =>
-                        {AutoRouter.of(context).replace(SimposiHomeRoute())},
+                        {AutoRouter.of(context).replace(const SimposiHomeRoute())},
                   ),
                 ],
               ),

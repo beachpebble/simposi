@@ -10,7 +10,7 @@ abstract class CalendarEvent extends Equatable {
 class WeekSelected extends CalendarEvent {
   final DateTime weekStart;
 
-  WeekSelected(this.weekStart);
+  const WeekSelected(this.weekStart);
 
   @override
   List<Object?> get props => [weekStart];
@@ -19,7 +19,7 @@ class WeekSelected extends CalendarEvent {
 class ListScrolled extends CalendarEvent {
   final int index;
 
-  ListScrolled(this.index);
+  const ListScrolled(this.index);
 
   @override
   List<Object?> get props => [index];
@@ -28,7 +28,7 @@ class ListScrolled extends CalendarEvent {
 class EventsUpdated extends CalendarEvent {
   final List<EventModel> events;
 
-  EventsUpdated(this.events);
+  const EventsUpdated(this.events);
 
   @override
   List<Object?> get props => [events];
@@ -41,7 +41,7 @@ class EventsLoading extends CalendarEvent {
 class EventsError extends CalendarEvent {
   final dynamic error;
 
-  EventsError(this.error);
+  const EventsError(this.error);
 
   @override
   List<Object?> get props => [error];

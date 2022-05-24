@@ -20,9 +20,7 @@ import 'package:simposi_app_v4/utils/validators.dart';
 import 'package:simposi_app_v4/global/widgets/password_field.dart';
 import 'package:simposi_app_v4/global/widgets/progress.dart';
 
-/**
- * Use only for password change from settings
- */
+/// Use only for password change from settings
 class ChangePasswordScreen extends StatefulWidget {
   // Set Variables
   @override
@@ -62,13 +60,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             body: LayoutBuilder(builder:
                 (BuildContext context, BoxConstraints viewportConstraints) {
               return SingleChildScrollView(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: viewportConstraints.maxHeight,
                   ),
                   child: Container(
-                    padding: EdgeInsets.all(40),
+                    padding: const EdgeInsets.all(40),
                     child: Column(
                       children: [
                         // HEADER LOGO
@@ -77,7 +75,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Image.asset("assets/images/logo.png"),
-                              Text(
+                              const Text(
                                 'simposi',
                                 style: TextStyle(
                                   color: SimposiAppColors.simposiDarkBlue,
@@ -85,9 +83,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                   fontSize: 30,
                                 ),
                               ),
-                              SizedBox(height: 20),
+                              const SizedBox(height: 20),
                               // TITLE
-                              Text(
+                              const Text(
                                 'Create New Password',
                                 style: TextStyle(
                                   fontSize: 19,
@@ -95,12 +93,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                   color: SimposiAppColors.simposiDarkGrey,
                                 ),
                               ),
-                              SizedBox(height: 10),
-                              Text(
+                              const SizedBox(height: 10),
+                              const Text(
                                 'Passwords must be at least 8 characters long.',
                                 textAlign: TextAlign.center,
                               ),
-                              SizedBox(height: 25),
+                              const SizedBox(height: 25),
                             ],
                           ),
                         ),
@@ -120,7 +118,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                   controller: _passwordController,
                                   validator: getValidator(
                                       context, Validators.PASSWORD)),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               // PASSWORD FIELD
                               PasswordField(
                                   label: AppLocalizations.of(context)!
@@ -139,7 +137,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                       return null;
                                     }
                                   }),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               BlocConsumer<ChangePasswordCubit,
                                   ChangePasswordState>(
                                 listener: (context, state) {
@@ -148,9 +146,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                         AppLocalizations.of(context)!
                                             .passwordChangeSuccess);
                                     Navigator.of(context).pop();
-                                  } else if (state is ChangePasswordError)
+                                  } else if (state is ChangePasswordError) {
                                     showErrorToast(
                                         handleError(state.error, context));
+                                  }
                                 },
                                 builder: (context, state) {
                                   if (state is ChangePasswordLoading) {
@@ -181,7 +180,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         Container(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
+                            children: const [
                               SizedBox(height: 20),
                               Text(
                                 '© 2021 Simposi Inc.',

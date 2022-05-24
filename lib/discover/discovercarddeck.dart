@@ -20,7 +20,7 @@ class _DiscoverCardDeckState extends State<DiscoverCardDeck> {
       child: Stack(
         children: [
           // CARD BACKGROUND
-          Container(
+          SizedBox(
             height: MediaQuery.of(context).size.width * 1.4,
             width: MediaQuery.of(context).size.width * 0.95,
             child: Card(
@@ -29,7 +29,7 @@ class _DiscoverCardDeckState extends State<DiscoverCardDeck> {
               ),
               child: ShaderMask(
                 shaderCallback: (rect) {
-                  return LinearGradient(
+                  return const LinearGradient(
                     begin: Alignment.center,
                     end: Alignment.bottomCenter,
                     colors: [Colors.white, Colors.transparent],
@@ -53,7 +53,7 @@ class _DiscoverCardDeckState extends State<DiscoverCardDeck> {
             left: 20,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: const [
                 Text(
                   'Ditch Fashion Show',
                   style: TextStyle(
@@ -86,11 +86,11 @@ class _DiscoverCardDeckState extends State<DiscoverCardDeck> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     color: SimposiAppColors.simposiPink,
                   ),
                   child: Column(
-                    children: [
+                    children: const [
                       // TODO: Enable IF ELSE statement on these dots for how many people have RSVPd (Pink or LightGrey)
                       // TODO: Color from bottom to top as RSVPs come in
                       Icon(

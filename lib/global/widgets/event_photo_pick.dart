@@ -83,8 +83,8 @@ class _EventPhotoPickState extends State<EventPhotoPick> {
                 ),
               ),
               placeholder: (context, url) =>
-                  SizedBox(height: 25, child: CircularProgressIndicator()),
-              errorWidget: (context, url, error) => Icon(Icons.error),
+                  const SizedBox(height: 25, child: CircularProgressIndicator()),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
             );
     }
   }

@@ -6,10 +6,10 @@ class Gender extends Equatable {
   final GenderType gender;
   final int id;
 
-  Gender(this.gender, this.id);
+  const Gender(this.gender, this.id);
 
-  static Gender Male = Gender(GenderType.MALE, 1);
-  static Gender Female = Gender(GenderType.FEMALE, 2);
+  static Gender Male = const Gender(GenderType.MALE, 1);
+  static Gender Female = const Gender(GenderType.FEMALE, 2);
 
   factory Gender.fromJson(Map<String, dynamic> json) {
     return json['id'] == 1 ? Gender.Male : Gender.Female;

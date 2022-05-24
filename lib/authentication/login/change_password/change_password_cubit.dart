@@ -16,7 +16,7 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
   Future<void> changePassword(String password) async {
     emit(ChangePasswordLoading());
     try {
-      String? token = authenticationBloc.token;
+      final token = authenticationBloc.token;
       if (token != null) {
         await profileRepository.changePassword(password, token);
         emit(ChangePasswordSuccess());

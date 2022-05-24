@@ -20,8 +20,8 @@ class GetStartedScreen extends StatelessWidget {
         backgroundColor: SimposiAppColors.simposiDarkBlue,
         body: Container(
           decoration: const BoxDecoration(
-            image: const DecorationImage(
-                image: const AssetImage("assets/images/background.png"),
+            image: DecorationImage(
+                image: AssetImage("assets/images/background.png"),
                 fit: BoxFit.contain,
                 alignment: Alignment.topLeft),
           ),
@@ -34,7 +34,7 @@ class GetStartedScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 40),
                     child: LoginForwardTextButton(
                       onClick: () =>
-                          AutoRouter.of(context).push(LoginScreenRoute()),
+                          AutoRouter.of(context).push(const LoginScreenRoute()),
                     )),
 
                 // BODY
@@ -49,7 +49,7 @@ class GetStartedScreen extends StatelessWidget {
                         children: [
                           const Text(
                             'simposi',
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.white,
                               fontFamily: 'Muli',
                               fontWeight: FontWeight.w900,
@@ -62,10 +62,10 @@ class GetStartedScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       Row(
-                        children: [
-                          const Text(
+                        children: const [
+                          Text(
                             'A new way to match and meet \npeople with the same interests.',
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w700,
                               letterSpacing: 1.5,
@@ -78,7 +78,7 @@ class GetStartedScreen extends StatelessWidget {
                         children: [
                           GetStartedButton(
                               onClick: () => AutoRouter.of(context)
-                                  .push(SignUpForm1Route())),
+                                  .push(const SignUpForm1Route())),
                         ],
                       ),
                     ],

@@ -82,7 +82,7 @@ class SignUpForm5 extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 10),
                                 Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  padding: const EdgeInsets.symmetric(horizontal: 10),
                                   child: _searchBar(context),
                                 ),
                               ],
@@ -180,7 +180,7 @@ class SignUpForm5 extends StatelessWidget {
         keyboardType: TextInputType.streetAddress,
         decoration: const InputDecoration(
           hintText: 'Search activity',
-          suffixIcon: const Icon(Icons.search),
+          suffixIcon: Icon(Icons.search),
         ),
         onChanged: (value) =>
             context.read<Signup5ActivitiesCubit>().search(value),

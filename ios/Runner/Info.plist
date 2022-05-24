@@ -19,11 +19,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>$(MARKETING_VERSION)</string>
+	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -33,6 +33,10 @@
 	</dict>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Simposi requires access to your photos to upload profile and event photos</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>dartobservatory._tcp.</string>
+	</array>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Simposi requires access to your photos to upload profile and event photos</string>
 	<key>NSCameraUsageDescription</key>
@@ -71,5 +75,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 </dict>
 </plist>

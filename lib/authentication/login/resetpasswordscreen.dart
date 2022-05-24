@@ -61,20 +61,20 @@ class _ResetPasswordState extends State<ResetPassword> {
                   minHeight: viewportConstraints.maxHeight,
                 ),
                 child: Container(
-                  padding: EdgeInsets.all(40),
+                  padding: const EdgeInsets.all(40),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
 
                       // LOGO HEADER
-                      Container(
+                      SizedBox(
                         height: 170,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Image.asset("assets/images/logo.png"),
-                            Text(
+                            const Text(
                               'simposi',
                               style: TextStyle(
                                 color: SimposiAppColors.simposiDarkBlue,
@@ -82,8 +82,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                                 fontSize: 30,
                               ),
                             ),
-                            SizedBox(height: 20),
-                            Text(
+                            const SizedBox(height: 20),
+                            const Text(
                               'Please enter your new password.'
                             ),
                           ],
@@ -92,7 +92,7 @@ class _ResetPasswordState extends State<ResetPassword> {
 
                       // TODO: Validate Account Exists and Start a New Page Stack with Home (Tracy you need to learn how to reset the Page Stack instead of pushnamed)
                       // LOGIN FORM
-                      Container(
+                      SizedBox(
                         height: 250,
                         child: Form(
                           key: _formKey,
@@ -101,7 +101,7 @@ class _ResetPasswordState extends State<ResetPassword> {
 
                               // PASSWORD FIELD
                               _passwordField(),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
 
                               // TODO: Disable Save Button until Password requirements met
                               BigGBSelectButton(
@@ -112,13 +112,13 @@ class _ResetPasswordState extends State<ResetPassword> {
 
                                     if (isValid) {
                                       _formKey.currentState!.save();
-                                      print('Password: ${password}');
+                                      print('Password: $password');
                                       AutoRouter.of(context)
-                                          .replace(SimposiHomeRoute());
+                                          .replace(const SimposiHomeRoute());
                                     }
                                   }
                               ),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
 
 
                             ],
@@ -127,11 +127,11 @@ class _ResetPasswordState extends State<ResetPassword> {
                       ),
 
                       // Footer
-                      Container(
+                      SizedBox(
                         height: 150,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
+                          children: const [
                             SizedBox(height: 10),
                             Text(
                               '© 2021 Simposi Inc.',

@@ -13,7 +13,7 @@ class SurveySendEvent extends SurveyEvent {
 
   final Survey survey;
 
-  SurveySendEvent(this.survey);
+  const SurveySendEvent(this.survey);
   @override
   List<Object?> get props => [survey];
 }

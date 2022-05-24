@@ -137,7 +137,7 @@ class Profile extends Equatable {
   )
   final UserMeta? userMeta;
 
-  Profile({
+  const Profile({
     required this.userId,
     required this.userName,
     required this.userPhone,

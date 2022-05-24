@@ -15,7 +15,7 @@ class LoginProgress extends LoginState {}
 
 class LoginUnconfirmed extends LoginState {
 
-  LoginUnconfirmed();
+  const LoginUnconfirmed();
 
   @override
   List<Object> get props => [];
@@ -24,7 +24,7 @@ class LoginUnconfirmed extends LoginState {
 class LoginError extends LoginState {
   final dynamic error;
 
-  LoginError(this.error);
+  const LoginError(this.error);
 
   @override
   List<Object> get props => [error];

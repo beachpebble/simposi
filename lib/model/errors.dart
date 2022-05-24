@@ -30,10 +30,11 @@ class ParseException implements Exception {
 
   @override
   String toString() {
-    if (message.isNotEmpty)
+    if (message.isNotEmpty) {
       return message;
-    else
+    } else {
       return "Parse exception";
+    }
   }
 }
 
@@ -49,10 +50,11 @@ class ServerException implements Exception {
 
   @override
   String toString() {
-    if (message.isNotEmpty)
+    if (message.isNotEmpty) {
       return message;
-    else
+    } else {
       return "Unknown ServerException";
+    }
   }
 }
 
@@ -63,7 +65,7 @@ class AuthException extends ServerException {
 }
 
 //TODO LOcalize
-String handleError(dynamic exception, BuildContext context) {
+String handleError(exception, BuildContext context) {
   if (exception is AuthException) {
       return "Auth error ${exception.message}";
   } else if (exception is ServerException) {
@@ -93,11 +95,12 @@ String getDioException(DioError dioError, BuildContext context) {
     case DioErrorType.sendTimeout:
       return "Send timeout timeout";
     case DioErrorType.other:
-      dynamic error = dioError.error;
-      if (error is SocketException)
+      final dynamic error = dioError.error;
+      if (error is SocketException) {
         return "Network error";
-      else
+      } else {
         return dioError.message.isEmpty == true ? "Unknown Dio error" : dioError.message;
+      }
     default:
       return dioError.message.isEmpty == true ? "Unknown Dio error" : dioError.message;
   }
@@ -105,19 +108,19 @@ String getDioException(DioError dioError, BuildContext context) {
 
 String getDioResponseError(DioError dioError) {
   if (dioError.type == DioErrorType.response && dioError.response != null) {
-    Response response = dioError.response!;
+    final response = dioError.response!;
     try {
-      var body = response.data is String ? jsonDecode(response.data) : response.data;
+      final body = response.data is String ? jsonDecode(response.data) : response.data;
       if (body is Map && body.containsKey('error')) {
-        Map? error = body['error'];
+        final Map? error = body['error'];
         if (error != null && error.containsKey('message')) {
-          var message = error['message'];
+          final message = error['message'];
           if (message is String) {
             return message;
           } else if (message is Map) {
-            String error = "";
-            for(List f in message.values) {
-              String fs = f.join(", ");
+            var error = "";
+            for(final List f in message.values) {
+              final fs = f.join(", ");
               error += fs;
             }
             return error;

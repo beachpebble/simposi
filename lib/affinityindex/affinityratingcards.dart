@@ -30,8 +30,8 @@ class AffinityRatingCard extends StatelessWidget {
           child: Column(
             children: [
               // HEADER
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 20),
+              const Text(
                 'Want to meet again?',
                 style: TextStyle(
                   fontWeight: FontWeight.w900,
@@ -39,12 +39,12 @@ class AffinityRatingCard extends StatelessWidget {
                   color: SimposiAppColors.simposiDarkGrey,
                 ),
               ),
-              SizedBox(height: 10),
-              Text(
+              const SizedBox(height: 10),
+              const Text(
                 'Simposi uses affinity matching to improve or prevent you from meeting again. Meet people you like more often or stop meeting those you don\'t.',
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
 
               // RATING CARDS
               Expanded(
@@ -52,7 +52,7 @@ class AffinityRatingCard extends StatelessWidget {
                   alignment: Alignment.bottomLeft,
                   children: [
                     // CARD BACKGROUND IMAGE
-                    Container(
+                    SizedBox(
                       height: MediaQuery.of(context).size.height * 0.6,
                       width: MediaQuery.of(context).size.width * 0.95,
                       child: Card(
@@ -65,7 +65,7 @@ class AffinityRatingCard extends StatelessWidget {
                               // TODO: Replace Image URL with Variable from Profile
                               child: ShaderMask(
                                 shaderCallback: (rect) {
-                                  return LinearGradient(
+                                  return const LinearGradient(
                                     begin: Alignment.center,
                                     end: Alignment.bottomCenter,
                                     colors: [Colors.white, Colors.transparent],
@@ -87,7 +87,7 @@ class AffinityRatingCard extends StatelessWidget {
                                   placeholder: (context, url) =>
                                       Center(child: AppProgressIndicator()),
                                   errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
+                                      const Icon(Icons.error),
                                 ) /*ClipRRect(
                               borderRadius: BorderRadius.circular(20.0),
                               child: Image.asset(
@@ -105,7 +105,7 @@ class AffinityRatingCard extends StatelessWidget {
 
                     // CARD EVENT DETAILS
                     Container(
-                      padding: EdgeInsets.fromLTRB(20, 0, 0, 30),
+                      padding: const EdgeInsets.fromLTRB(20, 0, 0, 30),
                       width: MediaQuery.of(context).size.width,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -113,7 +113,7 @@ class AffinityRatingCard extends StatelessWidget {
                         children: [
                           Text(
                             surveyRequired.userName,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 21,
                               fontWeight: FontWeight.w900,
                               color: SimposiAppColors.simposiDarkGrey,
@@ -121,7 +121,7 @@ class AffinityRatingCard extends StatelessWidget {
                           ),
                           Text(
                             surveyRequired.eventName,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.w900,
                               color: SimposiAppColors.simposiDarkGrey,
@@ -130,7 +130,7 @@ class AffinityRatingCard extends StatelessWidget {
                           Text(
                             DateFormat('yyyy-MM-dd – kk:mm a')
                                 .format(surveyRequired.eventDate),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 13,
                             ),
                           ),
@@ -143,7 +143,7 @@ class AffinityRatingCard extends StatelessWidget {
 
               // TODO: Turn these into buttons
               // RATING BUTTONS
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               Row(
                 children: [
                   Expanded(
@@ -153,7 +153,7 @@ class AffinityRatingCard extends StatelessWidget {
                             userId: surveyRequired.id,
                             eventId: surveyRequired.eventId,
                             rate: 4)));
-                        AutoRouter.of(context).push(YouLikeEachOtherRoute());
+                        AutoRouter.of(context).push(const YouLikeEachOtherRoute());
                       },
                       child: Image.asset(
                         "assets/images/ratingheart1.png",
@@ -228,10 +228,10 @@ class AffinityRatingCard extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               Column(
-                children: [
+                children: const [
                   Text(
                     'This information will never be shared with anyone.',
                     style: TextStyle(

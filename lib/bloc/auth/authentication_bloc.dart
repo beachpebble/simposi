@@ -8,37 +8,37 @@ part 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
-  static final String TOKEN_KEY = 'token_key';
+  static const String TOKEN_KEY = 'token_key';
   String? _token;
 
   AuthenticationBloc() : super(AuthenticationLoading()) {
     on<ReloadAuthEvent>((event, emit) async {
       emit(AuthenticationLoading());
-      SharedPreferences sp = await SharedPreferences.getInstance();
+      final sp = await SharedPreferences.getInstance();
       _token = sp.getString(TOKEN_KEY);
       if (_token?.isNotEmpty ?? false) {
         emit(Authenticated());
       } else {
-        emit(NotAuthenticated());
+        emit(const NotAuthenticated());
       }
     });
     on<LogOut>((event, emit) async {
-      SharedPreferences sp = await SharedPreferences.getInstance();
+      final sp = await SharedPreferences.getInstance();
       sp.remove(TOKEN_KEY);
-      emit(NotAuthenticated());
+      emit(const NotAuthenticated());
     });
     on<Auth401>((event, emit) async {
       if (state is Authenticated) {
-        SharedPreferences sp = await SharedPreferences.getInstance();
+        final sp = await SharedPreferences.getInstance();
         await sp.remove(TOKEN_KEY);
-        emit(NotAuthenticated(loginScreen: true));
+        emit(const NotAuthenticated(loginScreen: true));
       }
     });
     on<LoggedOut>((event, emit) async {
-      emit(NotAuthenticated());
+      emit(const NotAuthenticated());
     });
     on<SaveAuthEvent>((event, emit) async {
-      SharedPreferences sp = await SharedPreferences.getInstance();
+      final sp = await SharedPreferences.getInstance();
       _token = event.token;
       await sp.setString(TOKEN_KEY, event.token);
       emit(Authenticated());

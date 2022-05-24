@@ -12,7 +12,7 @@ class Earning extends Equatable {
   @JsonKey(name: 'sort', required: true, disallowNullValue: true)
   final int sortId;
 
-  Earning({required this.id, required this.title, required this.sortId});
+  const Earning({required this.id, required this.title, required this.sortId});
 
   factory Earning.fromJson(Map<String, dynamic> json) =>
       _$EarningFromJson(json);

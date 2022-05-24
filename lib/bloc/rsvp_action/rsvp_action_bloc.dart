@@ -10,8 +10,8 @@ part 'rsvp_action_event.dart';
 part 'rsvp_action_state.dart';
 
 class RsvpActionBloc extends Bloc<RsvpActionEvent, RsvpActionState> {
-  CalendarRepository _calendarRepository;
-  RsvpBloc _rsvpBloc;
+  final CalendarRepository _calendarRepository;
+  final RsvpBloc _rsvpBloc;
 
   RsvpActionBloc(
       {required RsvpBloc rsvpBloc,
@@ -22,9 +22,9 @@ class RsvpActionBloc extends Bloc<RsvpActionEvent, RsvpActionState> {
     on<RsvpActionOpened>((event, emit) async {
       if (event.rsvp.status.title == RsvpStatus.INVITED) {
         try {
-          Rsvp updated = await _calendarRepository.openRsvp(event.rsvp.id);
-          emit(RsvpActionSuccess(true));
-          _rsvpBloc..add(RsvpOpened(updated));
+          final updated = await _calendarRepository.openRsvp(event.rsvp.id);
+          emit(const RsvpActionSuccess(true));
+          _rsvpBloc.add(RsvpOpened(updated));
         } on Exception catch (e) {
           emit(RsvpActionError(e));
         }
@@ -35,8 +35,8 @@ class RsvpActionBloc extends Bloc<RsvpActionEvent, RsvpActionState> {
       if (event.rsvp.status.title == RsvpStatus.INVITED || event.rsvp.status.title == RsvpStatus.OPENED) {
         emit(RsvpActionLoading());
         try {
-          Rsvp updated = await _calendarRepository.acceptRsvp(event.rsvp.id);
-          emit(RsvpActionSuccess());
+          final updated = await _calendarRepository.acceptRsvp(event.rsvp.id);
+          emit(const RsvpActionSuccess());
           _rsvpBloc.add(RsvpAccepted(updated));
         } on Exception catch (e) {
           emit(RsvpActionError(e));
@@ -48,8 +48,8 @@ class RsvpActionBloc extends Bloc<RsvpActionEvent, RsvpActionState> {
       if (event.rsvp.status.title == RsvpStatus.INVITED || event.rsvp.status.title == RsvpStatus.OPENED) {
         emit(RsvpActionLoading());
         try {
-          Rsvp updated = await _calendarRepository.declineRsvp(event.rsvp.id);
-          emit(RsvpActionSuccess());
+          final updated = await _calendarRepository.declineRsvp(event.rsvp.id);
+          emit(const RsvpActionSuccess());
           _rsvpBloc.add(RsvpDeclined(updated));
         } on Exception catch (e) {
           emit(RsvpActionError(e));
@@ -60,8 +60,8 @@ class RsvpActionBloc extends Bloc<RsvpActionEvent, RsvpActionState> {
     on<RsvpActionCanceled>((event, emit) async {
       emit(RsvpActionLoading());
       try {
-        Rsvp updated = await _calendarRepository.cancelRsvp(event.rsvp.id);
-        emit(RsvpActionSuccess());
+        final updated = await _calendarRepository.cancelRsvp(event.rsvp.id);
+        emit(const RsvpActionSuccess());
         _rsvpBloc.add(RsvpCanceled(updated));
       } on Exception catch (e) {
         emit(RsvpActionError(e));
@@ -72,7 +72,7 @@ class RsvpActionBloc extends Bloc<RsvpActionEvent, RsvpActionState> {
       emit(RsvpActionLoading());
       try {
         await _calendarRepository.cancelEvent(event.rsvp.event.id);
-        emit(RsvpActionSuccess());
+        emit(const RsvpActionSuccess());
         _rsvpBloc.add(RsvpCanceled(event.rsvp));
       } on Exception catch (e) {
         emit(RsvpActionError(e));

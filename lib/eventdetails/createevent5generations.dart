@@ -25,7 +25,7 @@ import 'cubit/event_edit_cubit.dart';
 //AppLocalizations.of(context)!.wantToMeetTitle,
 
 class CreateEvent5Generations extends CreateEventScreen {
-  CreateEvent5Generations({bool editMode = false}) : super(editMode: editMode);
+  const CreateEvent5Generations({bool editMode = false}) : super(editMode: editMode);
 
   @override
   State<StatefulWidget> createState() {
@@ -39,10 +39,11 @@ class _CreateEvent5GenerationsState
 
   void _selectGeneration(Generation generation) {
     setState(() {
-      if (_selected.contains(generation))
+      if (_selected.contains(generation)) {
         _selected.remove(generation);
-      else
+      } else {
         _selected.add(generation);
+      }
     });
     context.read<EventEditCubit>().stage5Generations(generation: _selected);
   }

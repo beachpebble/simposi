@@ -77,7 +77,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     required int agreeNum,
     required bool agreeVal,
   }) {
-    this.stage8Agree[agreeNum] = agreeVal;
+    stage8Agree[agreeNum] = agreeVal;
   }
 
   void reset() {
@@ -100,7 +100,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   Future<void> finish() async {
     emit(RegistrationLoading());
     try {
-      Map data = await profileRepository.sendRegistration(
+      final data = await profileRepository.sendRegistration(
         name: name!,
         image: path!,
         phone: phone!,

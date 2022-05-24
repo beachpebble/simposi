@@ -28,7 +28,7 @@ class _SimposiHomeState extends State<SimposiHome> {
   int simposiNavTab = 0;
 
   // Set Nav Bar Pages
-  List<Widget> _simposiPages = [
+  final List<Widget> _simposiPages = [
     SimposiCalendar(),
     DiscoverScreen(),
     AlertsScreen(),
@@ -54,12 +54,12 @@ class _SimposiHomeState extends State<SimposiHome> {
             });
           },
           selectedItemColor: SimposiAppColors.simposiDarkGrey,
-          unselectedLabelStyle: TextStyle(
+          unselectedLabelStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w800,
             color: SimposiAppColors.simposiLightText,
           ),
-          selectedLabelStyle: TextStyle(
+          selectedLabelStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w800,
             color: SimposiAppColors.simposiDarkGrey,
@@ -70,9 +70,9 @@ class _SimposiHomeState extends State<SimposiHome> {
                 builder: (context, state) {
                   return Stack(children: <Widget>[
                     Container(
-                      padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
+                      padding: const EdgeInsets.fromLTRB(0, 15, 0, 10),
                       alignment: Alignment.center,
-                      child: Icon(SimposiNav.calendar),
+                      child: const Icon(SimposiNav.calendar),
                     ),
                     if (state is RsvpLoaded && state.invited > 0)
                       Container(
@@ -92,9 +92,9 @@ class _SimposiHomeState extends State<SimposiHome> {
               icon: Stack(
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
+                    padding: const EdgeInsets.fromLTRB(0, 15, 0, 10),
                     alignment: Alignment.center,
-                    child: Icon(SimposiNav.carddeck),
+                    child: const Icon(SimposiNav.carddeck),
                   ),
 
                   // Container(
@@ -114,9 +114,9 @@ class _SimposiHomeState extends State<SimposiHome> {
               icon: Stack(
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
+                    padding: const EdgeInsets.fromLTRB(0, 15, 0, 10),
                     alignment: Alignment.center,
-                    child: Icon(SimposiNav.alerts),
+                    child: const Icon(SimposiNav.alerts),
                   ),
                   // Container(
                   //   child: Positioned(
@@ -133,8 +133,8 @@ class _SimposiHomeState extends State<SimposiHome> {
             ),
             BottomNavigationBarItem(
               icon: Container(
-                padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
-                child: Icon(SimposiNav.profile),
+                padding: const EdgeInsets.fromLTRB(0, 15, 0, 10),
+                child: const Icon(SimposiNav.profile),
               ),
               label: 'Profile',
             ),

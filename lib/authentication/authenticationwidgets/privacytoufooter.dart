@@ -26,10 +26,10 @@ class PrivacyTOUFooter extends StatelessWidget {
           color: footerColor,
           buttonLabel: 'Privacy',
           footerButtonAlign: TextAlign.right,
-          nextPage: () => AutoRouter.of(context).push(PrivacyScreenRoute()),
+          nextPage: () => AutoRouter.of(context).push(const PrivacyScreenRoute()),
         ),
         Container(
-          padding: EdgeInsets.fromLTRB(0, 0, 12, 0),
+          padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
           child: Icon(
             Icons.circle,
             color: footerColor,
@@ -41,9 +41,9 @@ class PrivacyTOUFooter extends StatelessWidget {
           buttonLabel: 'Terms of Use',
           footerButtonAlign: TextAlign.left,
           nextPage: ()=> AutoRouter.of(context)
-              .push(TermsOfUseRoute()),
+              .push(const TermsOfUseRoute()),
         ),
-        SizedBox(width: 15),
+        const SizedBox(width: 15),
       ],
     );
   }

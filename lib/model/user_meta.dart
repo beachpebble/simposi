@@ -20,7 +20,7 @@ class UserMeta extends Equatable {
   @JsonKey(name: 'wtm_lgbt', required: true, disallowNullValue: false)
   final bool wantToMeetLgbt;
 
-  UserMeta(
+  const UserMeta(
       {required this.wantToMeetGender,
       required this.wantToMeetGenerations,
       required this.wantToMeetEarnings,
@@ -40,7 +40,7 @@ class UserMeta extends Equatable {
       wantToMeetGenerations: wantToMeetGenerations?? this.wantToMeetGenerations,
       wantToMeetEarnings: wantToMeetEarnings?? this.wantToMeetEarnings,
       wantToMeetInterests: wantToMeetInterests?? this.wantToMeetInterests,
-      wantToMeetLgbt: lgbt?? this.wantToMeetLgbt
+      wantToMeetLgbt: lgbt?? wantToMeetLgbt
     );
   }
 }

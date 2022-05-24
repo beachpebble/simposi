@@ -98,11 +98,11 @@ class WeekCalendarCore extends StatelessWidget {
       children: List.generate(
         7,
         (index) {
-          bool today = DateUtils.isSameDay(DateTime.now(), visibleDays[index]);
+          final today = DateUtils.isSameDay(DateTime.now(), visibleDays[index]);
           return Container(
             padding: const EdgeInsets.only(top: 5, right: 5, left: 5),
             decoration: today
-                ? BoxDecoration(
+                ? const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(15)),
                     color: SimposiAppColors.simposiFadedBlue,
                     shape: BoxShape.rectangle,

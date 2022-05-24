@@ -76,7 +76,7 @@ class _SignUpForm7State extends State<SignUpForm7> {
                       ),
                       const SizedBox(height: 10),
                       Container(
-                        child: Text(
+                        child: const Text(
                           'You must agree to follow the CDC guidelines \n and local regulations to use Simposi.',
                           textAlign: TextAlign.center,
                         ),
@@ -193,13 +193,13 @@ class _SignUpForm7State extends State<SignUpForm7> {
                     children: [
                       BlocListener<RegistrationCubit, RegistrationState>(
                         listener: (context, state) {
-                          if (state is RegistrationWaitCode)
+                          if (state is RegistrationWaitCode) {
                             AutoRouter.of(context).replaceAll([
                               SignUpForm8Route(
                                   validateParameters:
                                       ValidateParameters(state.phone))
                             ]);
-                          else if (state is RegistrationError) {
+                          } else if (state is RegistrationError) {
                             showErrorToast(handleError(state.error, context));
                           }
                         },

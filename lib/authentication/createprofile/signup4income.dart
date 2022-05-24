@@ -21,7 +21,7 @@ import 'package:simposi_app_v4/model/earning.dart';
 import 'registration_profile_screen.dart';
 
 class SignUpForm4 extends RegistrationProfileScreen {
-  SignUpForm4({bool editMode = false}) : super(editMode: editMode);
+  const SignUpForm4({bool editMode = false}) : super(editMode: editMode);
 
   @override
   _SignUpForm4State createState() => _SignUpForm4State();
@@ -34,10 +34,11 @@ class _SignUpForm4State extends RegistrationProfileScreenState<SignUpForm4> {
 
   void _selectEarning(Earning earning) {
     setState(() {
-      if (_selected.contains(earning))
+      if (_selected.contains(earning)) {
         _selected.remove(earning);
-      else
+      } else {
         _selected.add(earning);
+      }
     });
     context.read<RegistrationCubit>().setEarnings(earnings: _selected);
   }
@@ -45,10 +46,11 @@ class _SignUpForm4State extends RegistrationProfileScreenState<SignUpForm4> {
   void _selectAll() {
     setState(() {
       if (_selected.length ==
-          context.read<AppSetupCubit>().masterData.earnings.length)
+          context.read<AppSetupCubit>().masterData.earnings.length) {
         _selected.clear();
-      else
+      } else {
         _selected.addAll(context.read<AppSetupCubit>().masterData.earnings);
+      }
     });
   }
 
@@ -107,7 +109,7 @@ class _SignUpForm4State extends RegistrationProfileScreenState<SignUpForm4> {
                   return const SizedBox(height: 10);
                 },
                 itemBuilder: (context, index) {
-                  Earning earning = context
+                  final earning = context
                       .read<AppSetupCubit>()
                       .masterData
                       .earnings[index];

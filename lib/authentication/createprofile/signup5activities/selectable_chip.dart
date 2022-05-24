@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 
-/**
- * We need to make separate stateful to improve performance
- */
+/// We need to make separate stateful to improve performance
 class SelectableChip extends StatefulWidget {
   final String title;
   final Function(bool)? onClick;

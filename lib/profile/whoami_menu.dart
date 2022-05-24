@@ -32,14 +32,14 @@ class _InvitationSettingsState extends State<InvitationSettings> {
               // Menu List
               Expanded(
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: MediaQuery.removePadding(
                     removeTop: true,
                     context: context,
                     child: ListView(
                       children: [
                         SimposiMenuCard(
-                          menuCardIcon: Icon(
+                          menuCardIcon: const Icon(
                             Icons.perm_identity,
                             color: SimposiAppColors.simposiPink,
                           ),
@@ -50,7 +50,7 @@ class _InvitationSettingsState extends State<InvitationSettings> {
                           },
                         ),
                         SimposiMenuCard(
-                          menuCardIcon: Icon(
+                          menuCardIcon: const Icon(
                             Icons.cake_outlined,
                             color: SimposiAppColors.simposiLightBlue,
                             size: 20,
@@ -62,7 +62,7 @@ class _InvitationSettingsState extends State<InvitationSettings> {
                           },
                         ),
                         SimposiMenuCard(
-                          menuCardIcon: Icon(
+                          menuCardIcon: const Icon(
                             Icons.work_outline,
                             color: SimposiAppColors.simposiYellow,
                           ),
@@ -73,7 +73,7 @@ class _InvitationSettingsState extends State<InvitationSettings> {
                           },
                         ),
                         SimposiMenuCard(
-                          menuCardIcon: Icon(
+                          menuCardIcon: const Icon(
                             Icons.directions_bike,
                             color: SimposiAppColors.simposiPink,
                           ),
@@ -84,7 +84,7 @@ class _InvitationSettingsState extends State<InvitationSettings> {
                           },
                         ),
                         SimposiMenuCard(
-                          menuCardIcon: Icon(
+                          menuCardIcon: const Icon(
                             Icons.location_searching,
                             color: SimposiAppColors.simposiLightBlue,
                           ),
@@ -102,7 +102,7 @@ class _InvitationSettingsState extends State<InvitationSettings> {
 
               // Footer
               Container(
-                padding: EdgeInsets.only(bottom: 40),
+                padding: const EdgeInsets.only(bottom: 40),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -110,8 +110,8 @@ class _InvitationSettingsState extends State<InvitationSettings> {
                       height: 100,
                       child: Image.asset('assets/images/logosquare.png'),
                     ),
-                    SizedBox(height: 5),
-                    Text(
+                    const SizedBox(height: 5),
+                    const Text(
                       'Version 4.1.0',
                       style: TextStyle(
                         fontSize: 13,

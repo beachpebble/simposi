@@ -27,7 +27,7 @@ class ProfileScreen extends StatelessWidget {
         if (state is ProfileLoaded) {
           return ProfileScreenView(profile: state.userProfile);
         } else if (state is ProfileLoadError) {
-          return Scaffold(
+          return const Scaffold(
               //TODO wrap
               body: Center(child: Text("Profile not loaded")));
         } else {
@@ -67,7 +67,7 @@ class ProfileScreenView extends StatelessWidget {
                   icon: const Icon(Icons.settings_outlined,
                       color: SimposiAppColors.simposiLightText, size: 30),
                   onPressed: () =>
-                      AutoRouter.of(context).push(ProfileMenuRoute()))),
+                      AutoRouter.of(context).push(const ProfileMenuRoute()))),
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -89,7 +89,7 @@ class ProfileScreenView extends StatelessWidget {
                 ),
                 placeholder: (context, url) =>
                     Center(child: AppProgressIndicator()),
-                errorWidget: (context, url, error) => Icon(Icons.error),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               )),
             ),
 
@@ -103,18 +103,18 @@ class ProfileScreenView extends StatelessWidget {
                     child: Column(mainAxisAlignment: MainAxisAlignment.center,
                         // TODO: Turn these into a ListTile's
                         // TODO: Enable Profile Counters
-                        children: <Widget>[
+                        children: const <Widget>[
                           // TODO: Enable Invitation Counter (Counts every RSVP received regardless if it was accepted)
                           Text(
                             '10',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontWeight: FontWeight.w800,
                             ),
                           ),
-                          const SizedBox(height: 5),
+                          SizedBox(height: 5),
                           Text(
                             'Invitations',
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: SimposiAppColors.simposiLightText,
                               fontSize: 13,
                             ),
@@ -126,7 +126,7 @@ class ProfileScreenView extends StatelessWidget {
                   child: Container(
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
+                        children: const <Widget>[
                           // TODO: Enable Check In Counter (Counts everytime user checked in for an event)
                           Text(
                             '10',
@@ -149,7 +149,7 @@ class ProfileScreenView extends StatelessWidget {
                   child: Container(
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
+                        children: const <Widget>[
                           // TODO: Enable People Counter (Counts every affinity survey sent.)
                           Text(
                             '10',
@@ -176,26 +176,26 @@ class ProfileScreenView extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text('Get Unlimited Access',
                       style: Theme.of(context).textTheme.headline4),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                     'Subscribe for unlimited access and \n meet as many people as you like.',
                     style: Theme.of(context).textTheme.caption,
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   // TODO: Update transition to draw bottom sheet instead of screen
                   SubscribeButton(
                     onClick: () =>
-                        AutoRouter.of(context).push(SimposiSubscribeRoute()),
+                        AutoRouter.of(context).push(const SimposiSubscribeRoute()),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                       'Free Users will always be able to \ncreate or attend one meetup per month.',
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.caption),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                 ],
               ),
             ),

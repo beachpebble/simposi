@@ -26,7 +26,7 @@ class SimposiMenuCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
-        side: BorderSide(
+        side: const BorderSide(
           color: SimposiAppColors.simposiLightGrey,
         ),
       ),
@@ -35,18 +35,18 @@ class SimposiMenuCard extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: Text(
             menuCardLabel,
-            style: TextStyle(
+            style: const TextStyle(
               color: SimposiAppColors.simposiLightText,
               fontSize: 17,
               fontWeight: FontWeight.w500,
             ),
           ),
         ),
-        leading: Container(
-          child: menuCardIcon,
+        leading: SizedBox(
           width: 20,
+          child: menuCardIcon,
         ),
-        trailing: Icon(Icons.chevron_right, size: 30),
+        trailing: const Icon(Icons.chevron_right, size: 30),
         onTap: onTap,
       ),
     );
@@ -64,12 +64,12 @@ class SimposiMenuCardx extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
-        side: BorderSide(
+        side: const BorderSide(
           color: SimposiAppColors.simposiLightGrey,
         ),
       ),
       child: ListTile(
-        title: Align(
+        title: const Align(
           alignment: Alignment(-1.2, 0),
           child: Text(
             'Edit Profile',
@@ -80,11 +80,11 @@ class SimposiMenuCardx extends StatelessWidget {
             ),
           ),
         ),
-        leading: Icon(
+        leading: const Icon(
           Icons.person_outline,
           color: SimposiAppColors.simposiPink,
         ),
-        trailing: Icon(Icons.chevron_right, size: 30),
+        trailing: const Icon(Icons.chevron_right, size: 30),
         onTap: () {
           Navigator.of(context).pushNamed('/editprofile');
         },

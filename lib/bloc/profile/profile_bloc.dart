@@ -12,12 +12,10 @@ import 'package:simposi_app_v4/model/generation.dart';
 import 'package:simposi_app_v4/model/interest.dart';
 import 'package:simposi_app_v4/model/master_data.dart';
 import 'package:simposi_app_v4/model/profile.dart';
-import 'package:simposi_app_v4/model/profile_status.dart';
 import 'package:simposi_app_v4/repository/calendar_repository.dart';
 import 'package:simposi_app_v4/repository/profile_repository.dart';
 
 part 'profile_event.dart';
-
 part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
@@ -35,7 +33,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         _calendarRepository = calendarRepository,
         super(ProfileNotLoaded()) {
     if (authBloc.state is Authenticated) {
-      add(ProfileReload());
+      add(const ProfileReload());
     }
     authSubscription = authBloc.stream.listen((state) {
       if (state is NotAuthenticated) {
@@ -43,7 +41,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         if (fcmBloc.token != null) {
           _profileRepository.updateFbToken(fcmBloc.token!);
         }
-        add(ProfileReload());
+        add(const ProfileReload());
       }
     });
 
@@ -59,10 +57,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         try {
           _currentProfile = await _profileRepository.refreshProfile();
 
-          ProfileStatus profileStatus =
-              await _profileRepository.refreshStatus();
+          final profileStatus = await _profileRepository.refreshStatus();
           if (profileStatus.isOnEvent) {
-            Event event =
+            final event =
                 await _calendarRepository.getEvent(profileStatus.eventId!);
             emit(ProfileOnEvent(_currentProfile!, event));
           } else if (profileStatus.surveyNeed) {
@@ -85,7 +82,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             newPath =
                 await profileRepository.uploadProfilePhoto(event.filePath!);
           }
-          String? newPhone =
+          final newPhone =
               (profileRepository.profile.userPhone != event.phone &&
                       event.phone != null &&
                       (event.phone?.isNotEmpty ?? false))
@@ -233,6 +230,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   @override
   Future<void> close() {
     authSubscription.cancel();
+    fbSubscription.cancel();
     return super.close();
   }
 }
