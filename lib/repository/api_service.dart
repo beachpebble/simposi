@@ -65,7 +65,7 @@ class AuthApiService {
   final AuthenticationBloc _authenticationBloc;
 
   AuthApiService(
-      {required AuthenticationBloc authenticationBloc, this.baseUrl = Api.TEST})
+      {required AuthenticationBloc authenticationBloc, this.baseUrl = Api.TEST,})
       : _authenticationBloc = authenticationBloc {
     _authenticationBloc.stream.listen((state) {
       if (state is Authenticated) {

@@ -1,5 +1,5 @@
 import 'package:country_code_picker/country_code_picker.dart';
-import 'package:country_code_picker/country_codes.dart';
+import 'package:country_code_picker/country_codes.dart' as country;
 import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
@@ -52,19 +52,7 @@ class _PhoneFieldState extends State<PhoneField> {
       ),
 
       decoration: InputDecoration(
-        prefixIcon: CountryCodePicker(
-          onChanged: (val) {
-            prefix = val.dialCode ?? "";
-          },
-          onInit: (val) {
-            prefix = val?.dialCode ?? "";
-          },
-          initialSelection: getPrefixByPhone(widget.initialPhone) ?? '+380',
-          favorite: const ['+380'],
-          showCountryOnly: false,
-          showOnlyCountryWhenClosed: false,
-          alignLeft: false,
-        ),
+        prefixIcon: _buildCountryPicker(),
         prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
         labelText: ' Phone Number',
         //contentPadding: EdgeInsets.all(20),
@@ -125,11 +113,33 @@ class _PhoneFieldState extends State<PhoneField> {
     );
   }
 
+  Widget _buildCountryPicker() {
+    final locale = (WidgetsBinding.instance.window.locale.countryCode ?? 'us')
+        .toUpperCase();
+    final countryCode = country.codes.firstWhere((countryJson) {
+      return countryJson['code'] == locale;
+    })['dial_code'];
+
+    return CountryCodePicker(
+      onChanged: (val) {
+        prefix = val.dialCode ?? "";
+      },
+      onInit: (val) {
+        prefix = val?.dialCode ?? "";
+      },
+      initialSelection: getPrefixByPhone(widget.initialPhone) ?? countryCode,
+      // favorite: const ['+380'],
+      showCountryOnly: false,
+      showOnlyCountryWhenClosed: false,
+      alignLeft: false,
+    );
+  }
+
   String? getPrefixByPhone(String? phone) {
     if (phone == null) {
       return null;
     }
-    for (final Map item in codes) {
+    for (final Map item in country.codes) {
       if (phone.startsWith(item['dial_code'])) {
         return item['dial_code'];
       }
