@@ -18,11 +18,11 @@ class Api {
   static const String API_USER_EDIT = "/api/v1/user/update-profile";
   static const String API_RSVP_STATUS = "/api/v1/rsvp/status/change";
   static const String API_REFRESH_LOCATOR = "/api/v1/refreshlocator";
-  static const String API_CHECKIN = "/api/v1/event/check-in";
-  static const String API_GROUP_FINDER = "/api/v1/event/group-finder";
-  static const String API_STATUS = "/api/v1/user/event/status";
-  static const String API_EVENT = "/api/v1/event";
-  static const String API_EVENT_CANCEL = "/api/v1/event/cancel";
+  static const String API_CHECKIN = "/api/v1/events/check-in";
+  static const String API_GROUP_FINDER = "/api/v1/events/group-finder";
+  static const String API_STATUS = "/api/v1/user/events/status";
+  static const String API_EVENT = "/api/v1/events";
+  static const String API_EVENT_CANCEL = "/api/v1/events/cancel";
   static const String API_GET_SURVEY_REQUESTS = "/api/v1/survey";
   static const String API_SEND_SURVEY = "/api/v1/survey";
   static const String API_UPDATE_FB_TOKEN = "/api/v1/update-device-token";
