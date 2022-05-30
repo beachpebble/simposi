@@ -83,7 +83,7 @@ class _SignUpForm1State extends State<SignUpForm1> {
                         if (state is Signup1CreateAccountReady) {
                           AutoRouter.of(context).push(SignUpForm2Route());
                         } else if (state is Signup1CreateAccountError) {
-                          showErrorToast(handleError(state.error, context));
+                          showErrorToast(handleError(state.message, context));
                         }
                       },
                       builder: (context, state) {

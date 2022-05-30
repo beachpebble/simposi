@@ -12,6 +12,8 @@ import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'discovercarddeck.dart';
 
 class DiscoverScreen extends StatelessWidget {
+  const DiscoverScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: SimposiAppBar(
@@ -27,7 +29,7 @@ class DiscoverScreen extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: const [
             DiscoverCardDeck(),
           ],
         ),

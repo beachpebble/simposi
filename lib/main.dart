@@ -78,8 +78,8 @@ void main() {
                 create: (context) => RsvpBloc(context.read(), context.read(),
                     context.read(), context.read())
                   ..add(RefreshRequested(
-                      DateTime.now().subtract(
-                          const Duration(days: AppConstants.CALENDAR_DAYS_INTERVAL)),
+                      DateTime.now().subtract(const Duration(
+                          days: AppConstants.CALENDAR_DAYS_INTERVAL)),
                       DateTime.now().add(const Duration(
                           days: AppConstants.CALENDAR_DAYS_INTERVAL))))),
             BlocProvider(create: (context) => CalendarBloc(context.read())),
@@ -98,7 +98,7 @@ void main() {
             BlocProvider(
                 create: (context) => NavigationBloc(
                     context.read(), context.read(), context.read())),
-          ], child: SimposiApp())),
+          ], child: const SimposiApp())),
     ),
   ));
 }

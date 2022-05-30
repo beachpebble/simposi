@@ -59,14 +59,15 @@ class ApiService {
 }
 
 class AuthApiService {
-  final baseUrl;
+  final String baseUrl;
   late Dio _dio;
   late CookieJar _cookieJar;
   final AuthenticationBloc _authenticationBloc;
 
-  AuthApiService(
-      {required AuthenticationBloc authenticationBloc, this.baseUrl = Api.TEST,})
-      : _authenticationBloc = authenticationBloc {
+  AuthApiService({
+    required AuthenticationBloc authenticationBloc,
+    this.baseUrl = Api.TEST,
+  }) : _authenticationBloc = authenticationBloc {
     _authenticationBloc.stream.listen((state) {
       if (state is Authenticated) {
         _dio.options.headers = {

@@ -58,7 +58,6 @@ class ServerException implements Exception {
   }
 }
 
-
 class AuthException extends ServerException {
   AuthException({String message = ""})
       : super(errorType: LocalizedErrorType.AUTH, message: message);
@@ -67,16 +66,17 @@ class AuthException extends ServerException {
 //TODO LOcalize
 String handleError(exception, BuildContext context) {
   if (exception is AuthException) {
-      return "Auth error ${exception.message}";
+    return "Auth error ${exception.message}";
   } else if (exception is ServerException) {
     return "Server error ${exception.message}";
   } else if (exception is DioError) {
     return getDioException(exception, context);
   } else if (exception is ParseException) {
     return "Data parse error";
-  } if (exception is String ){
+  }
+  if (exception is String) {
     return exception;
-  }else {
+  } else {
     return "Unknown error";
   }
 }
@@ -86,7 +86,7 @@ String getDioException(DioError dioError, BuildContext context) {
   switch (dioError.type) {
     case DioErrorType.response:
       return "Server error: ${getDioResponseError(dioError)}";
-      case DioErrorType.cancel:
+    case DioErrorType.cancel:
       return "Request cancelled";
     case DioErrorType.connectTimeout:
       return "Connection timeout";
@@ -99,37 +99,38 @@ String getDioException(DioError dioError, BuildContext context) {
       if (error is SocketException) {
         return "Network error";
       } else {
-        return dioError.message.isEmpty == true ? "Unknown Dio error" : dioError.message;
+        return dioError.message.isEmpty == true
+            ? "Unknown Dio error"
+            : dioError.message;
       }
     default:
-      return dioError.message.isEmpty == true ? "Unknown Dio error" : dioError.message;
+      return dioError.message.isEmpty == true
+          ? "Unknown Dio error"
+          : dioError.message;
   }
 }
 
 String getDioResponseError(DioError dioError) {
   if (dioError.type == DioErrorType.response && dioError.response != null) {
     final response = dioError.response!;
-    try {
-      final body = response.data is String ? jsonDecode(response.data) : response.data;
-      if (body is Map && body.containsKey('error')) {
-        final Map? error = body['error'];
-        if (error != null && error.containsKey('message')) {
-          final message = error['message'];
-          if (message is String) {
-            return message;
-          } else if (message is Map) {
-            var error = "";
-            for(final List f in message.values) {
-              final fs = f.join(", ");
-              error += fs;
-            }
-            return error;
-          }
 
+    final body =
+        response.data is String ? jsonDecode(response.data) : response.data;
+    if (body is Map && body.containsKey('error')) {
+      final Map? error = body['error'];
+      if (error != null && error.containsKey('message')) {
+        final message = error['message'];
+        if (message is String) {
+          return message;
+        } else if (message is Map) {
+          var error = "";
+          for (final List f in message.values) {
+            final fs = f.join(", ");
+            error += fs;
+          }
+          return error;
         }
       }
-    } catch (e) {
-
     }
   }
   return "Dio response error: ${dioError.message}";

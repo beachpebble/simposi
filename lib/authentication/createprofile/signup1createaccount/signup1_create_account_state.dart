@@ -18,6 +18,31 @@ class Signup1CreateAccountError extends Signup1CreateAccountState {
 
   const Signup1CreateAccountError(this.error);
 
+  String get message {
+    if (error is! DioError) {
+      return error.toString();
+    }
+
+    final response = error.response;
+    if (response == null) {
+      return error.message;
+    }
+
+    final data = response.data;
+    if (data is String) {
+      return data;
+    }
+
+    if (data is Map) {
+      final errors = data['errors'];
+      final message = (errors['message'] as Map<String, dynamic>);
+      final messages = message.values.expand((element) => element).join('\n');
+      return messages;
+    }
+
+    return error.toString();
+  }
+
   @override
   List<Object> get props => [error];
 }

@@ -56,7 +56,7 @@ class RouteGenerator {
       //   return MaterialPageRoute(builder: (_) => CreateEvent1());
       // Discover
       case '/discoverscreen':
-        return MaterialPageRoute(builder: (_) => DiscoverScreen());
+        return MaterialPageRoute(builder: (_) => const DiscoverScreen());
 
       // Alerts & Notifications
       case '/adminalert':

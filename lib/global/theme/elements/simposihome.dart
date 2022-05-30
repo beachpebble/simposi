@@ -29,8 +29,8 @@ class _SimposiHomeState extends State<SimposiHome> {
 
   // Set Nav Bar Pages
   final List<Widget> _simposiPages = [
-    SimposiCalendar(),
-    DiscoverScreen(),
+    const SimposiCalendar(),
+    const DiscoverScreen(),
     AlertsScreen(),
     ProfileScreen(),
   ];
