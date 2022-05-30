@@ -55,6 +55,10 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
     on<EventsLoading>((event, emit) async {
       emit(CalendarLoading());
     });
+
+    on<EventsError>((event, emit) {
+      emit(CalendarError(event.error));
+    });
   }
 
   @override
