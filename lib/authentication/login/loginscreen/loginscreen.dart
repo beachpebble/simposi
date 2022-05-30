@@ -12,12 +12,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup8validate/signup8_validate_cubit.dart';
 import 'package:simposi_app_v4/authentication/login/reset_password_start/forgot_password_start_cubit.dart';
+import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/global/widgets/forgot_password_button.dart';
 import 'package:simposi_app_v4/global/widgets/phone_field.dart';
 import 'package:simposi_app_v4/global/widgets/progress.dart';
 import 'package:simposi_app_v4/model/errors.dart';
+import 'package:simposi_app_v4/repository/profile_repository.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
 
@@ -26,6 +28,8 @@ import '../reset_password_start/forgotpasswordbottomsheet.dart';
 import 'login_cubit.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   // Set Variables
   @override
   State createState() => _LoginScreenState();
@@ -37,8 +41,8 @@ class _LoginScreenState extends State<LoginScreen> {
   String password = '';
   bool _passwordVisible = true;
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -63,12 +67,11 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) => KeyboardDismisser(
         child: BlocProvider(
           create: (context) => LoginCubit(
-              authenticationBloc: context.read(),
-              profileRepository: context.read()),
+              authenticationBloc: context.read<AuthenticationBloc>(),
+              profileRepository: context.read<ProfileRepository>()),
           child: Scaffold(
             backgroundColor: Colors.white,
-            body: LayoutBuilder(builder:
-                (BuildContext context, BoxConstraints viewportConstraints) {
+            body: LayoutBuilder(builder: (context, viewportConstraints) {
               return SingleChildScrollView(
                 child: ConstrainedBox(
                   constraints: BoxConstraints(

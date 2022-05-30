@@ -87,7 +87,8 @@ class _$AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(routeData: routeData, child: SimposiHome());
     },
     ProfileMenuRoute.name: (routeData) {
-      return MaterialPageX<dynamic>(routeData: routeData, child: ProfileMenu());
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const ProfileMenu());
     },
     ProfileScreenRoute.name: (routeData) {
       return MaterialPageX<dynamic>(

@@ -18,6 +18,8 @@ import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'elements/simposimenucard.dart';
 
 class ProfileMenu extends StatelessWidget {
+  const ProfileMenu({super.key});
+
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: Colors.white,
@@ -61,7 +63,8 @@ class ProfileMenu extends StatelessWidget {
                       ),
                       menuCardLabel: 'Who am I',
                       onTap: () {
-                        AutoRouter.of(context).push(const InvitationSettingsRoute());
+                        AutoRouter.of(context)
+                            .push(const InvitationSettingsRoute());
                       },
                     ),
                     SimposiMenuCard(
@@ -82,7 +85,8 @@ class ProfileMenu extends StatelessWidget {
                       ),
                       menuCardLabel: 'Emergency Contact',
                       onTap: () {
-                        AutoRouter.of(context).push(const EmergencyContactRoute());
+                        AutoRouter.of(context)
+                            .push(const EmergencyContactRoute());
                       },
                     ),
                     SimposiMenuCard(

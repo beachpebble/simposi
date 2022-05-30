@@ -100,57 +100,42 @@ class _SignUpForm2State extends CreateEventScreenState<CreateEvent4> {
 
           // Body
           Expanded(
-            child: Container(
+            child: Padding(
               padding: const EdgeInsets.fromLTRB(40, 10, 40, 20),
-              child: Column(
-                children: [
-                  BigGBSelectButton(
-                      buttonLabel: 'Man', //TODO Localize
-                      isSelected: _selected.contains(Gender.Male),
-                      buttonAction: () {
-                        _selectGender(Gender.Male);
-                      }),
-                  const SizedBox(height: 10),
-                  BigGBSelectButton(
-                      buttonLabel: 'Woman', //TODO Localize
-                      isSelected: _selected.contains(Gender.Female),
-                      buttonAction: () {
-                        _selectGender(Gender.Female);
-                      }),
+              child: CustomScrollView(
+                slivers: [
+                  SliverList(
+                    delegate: SliverChildListDelegate(
+                      [
+                        BigGBSelectButton(
+                            buttonLabel: 'Man', //TODO Localize
+                            isSelected: _selected.contains(Gender.Male),
+                            buttonAction: () {
+                              _selectGender(Gender.Male);
+                            }),
+                        const SizedBox(height: 10),
+                        BigGBSelectButton(
+                            buttonLabel: 'Woman', //TODO Localize
+                            isSelected: _selected.contains(Gender.Female),
+                            buttonAction: () {
+                              _selectGender(Gender.Female);
+                            }),
 
-                  const SizedBox(height: 30),
-                  // Also Member Divider
-                  Row(
-                    children: const [
-                      Expanded(
-                        child: Divider(
-                          endIndent: 10,
-                          color: SimposiAppColors.simposiLightText,
-                        ),
-                      ),
-                      Text(
-                        'Also member of',
-                        style: TextStyle(
-                          color: SimposiAppColors.simposiLightText,
-                          fontSize: 13,
-                        ),
-                      ),
-                      Expanded(
-                        child: Divider(
-                          indent: 10,
-                          color: SimposiAppColors.simposiLightText,
-                        ),
-                      ),
-                    ],
+                        const SizedBox(height: 30),
+                        // Also Member Divider
+                        _buildDivider(),
+                        const SizedBox(height: 20),
+                        // Multi-Select Community Buttons
+                        BigGBSelectButton(
+                            buttonLabel: 'LGBTQ', //TODO Localize
+                            isSelected: _isLgbt,
+                            buttonAction: () {
+                              _selectLgbt();
+                            }),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 20),
-                  // Multi-Select Community Buttons
-                  BigGBSelectButton(
-                      buttonLabel: 'LGBTQ', //TODO Localize
-                      isSelected: _isLgbt,
-                      buttonAction: () {
-                        _selectLgbt();
-                      }),
+                  const SliverFillRemaining()
                 ],
               ),
             ),
@@ -160,6 +145,32 @@ class _SignUpForm2State extends CreateEventScreenState<CreateEvent4> {
           getFooter()
         ],
       ),
+    );
+  }
+
+  Row _buildDivider() {
+    return Row(
+      children: const [
+        Expanded(
+          child: Divider(
+            endIndent: 10,
+            color: SimposiAppColors.simposiLightText,
+          ),
+        ),
+        Text(
+          'Also member of',
+          style: TextStyle(
+            color: SimposiAppColors.simposiLightText,
+            fontSize: 13,
+          ),
+        ),
+        Expanded(
+          child: Divider(
+            indent: 10,
+            color: SimposiAppColors.simposiLightText,
+          ),
+        ),
+      ],
     );
   }
 
