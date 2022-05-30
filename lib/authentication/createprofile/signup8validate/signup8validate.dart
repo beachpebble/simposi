@@ -114,7 +114,7 @@ class _SignUpForm8State extends State<SignUpForm8>
                             ),
                             const SizedBox(height: 15),
                             const Text(
-                              'Check your email for an access code \n to activate your account.',
+                              'Check your phone for an access code \n to activate your account.',
                               textAlign: TextAlign.center,
                             ),
                             const SizedBox(height: 25),

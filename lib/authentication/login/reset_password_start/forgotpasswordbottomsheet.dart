@@ -83,7 +83,9 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                       ),
                       const SizedBox(height: 10),
                       const Text(
-                          'Please enter your email\nto restore your password.'),
+                        'Please enter your phone number\nto restore your password.',
+                        textAlign: TextAlign.center,
+                      ),
                       const SizedBox(height: 30),
                       // FORGOT PASSWORD FORM
                       Form(
