@@ -355,12 +355,12 @@ class SubscribeButton extends StatelessWidget {
 class SmallPinkButton extends StatelessWidget {
   // Set Variables
   final String buttonLabel;
-  final nextPage;
+  final VoidCallback? nextPage;
 
   const SmallPinkButton({
     Key? key,
     required this.buttonLabel,
-    required this.nextPage,
+    this.nextPage,
   }) : super(key: key);
 
   @override
