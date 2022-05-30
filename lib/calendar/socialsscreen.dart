@@ -24,7 +24,8 @@ class SocialsScreen extends StatelessWidget {
               'Meet Now',
               style: TextStyle(fontSize: 17),
             ),
-            onPressed: () => {AutoRouter.of(context).push(const CreateEvent1Route())},
+            onPressed: () =>
+                AutoRouter.of(context).push(const CreateEvent1Route()),
           ),
         ),
         body: Column(

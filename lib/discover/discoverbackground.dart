@@ -5,8 +5,11 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+
+import '../app_router.dart';
 
 class SimposiDiscoverBackground extends StatelessWidget {
   @override
@@ -40,7 +43,10 @@ class SimposiDiscoverBackground extends StatelessWidget {
         const SizedBox(height: 20.0),
 
         // TODO: Enable this to reset the Card Deck
-        const SmallPinkButton(buttonLabel: 'Reset', nextPage: '/createevent'),
+        SmallPinkButton(
+            buttonLabel: 'Reset',
+            nextPage: () =>
+                AutoRouter.of(context).push(const CreateEvent1Route())),
       ],
     );
   }
