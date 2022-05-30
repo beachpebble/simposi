@@ -19,9 +19,12 @@ import '../app_router.dart';
 import '../global/theme/elements/simposiappbar.dart';
 
 class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileBloc, ProfileState>(
+      bloc: context.read<ProfileBloc>(),
       builder: (context, state) {
         if (state is ProfileLoaded) {
           return ProfileScreenView(profile: state.userProfile);
