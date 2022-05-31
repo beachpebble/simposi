@@ -27,7 +27,7 @@ class Api {
   static const String API_SEND_SURVEY = "/api/v1/survey";
   static const String API_UPDATE_FB_TOKEN = "/api/v1/update-device-token";
 
-  static const String RSVP_LIST = "/api/v1/rsvps";
+  static const String RSVP_LIST = "/api/v1/rsvps/info";
 }
 
 class ApiService {
