@@ -36,7 +36,8 @@ class _$AppRouter extends RootStackRouter {
           child: ResetPasswordScreen(key: args.key, phone: args.phone));
     },
     LoginScreenRoute.name: (routeData) {
-      return MaterialPageX<dynamic>(routeData: routeData, child: LoginScreen());
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const LoginScreen());
     },
     SignUpForm1Route.name: (routeData) {
       return MaterialPageX<dynamic>(routeData: routeData, child: SignUpForm1());
@@ -92,7 +93,7 @@ class _$AppRouter extends RootStackRouter {
     },
     ProfileScreenRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
-          routeData: routeData, child: ProfileScreen());
+          routeData: routeData, child: const ProfileScreen());
     },
     EventSettingsRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
@@ -124,8 +125,9 @@ class _$AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: SimposiSubscribe());
     },
-    EditProfileRoute.name: (routeData) {
-      return MaterialPageX<dynamic>(routeData: routeData, child: EditProfile());
+    EditProfileScreenRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const EditProfileScreen());
     },
     CreateEvent1Route.name: (routeData) {
       return MaterialPageX<dynamic>(
@@ -220,7 +222,7 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(SubscriptionPurchaseRoute.name,
             path: '/subscription-purchase'),
         RouteConfig(SimposiSubscribeRoute.name, path: '/simposi-subscribe'),
-        RouteConfig(EditProfileRoute.name, path: '/edit-profile'),
+        RouteConfig(EditProfileScreenRoute.name, path: '/edit-profile-screen'),
         RouteConfig(CreateEvent1Route.name, path: '/create-event1'),
         RouteConfig(CreateEvent2Route.name, path: '/create-event2'),
         RouteConfig(CreateEvent3ActivitiesRoute.name,
@@ -553,12 +555,12 @@ class SimposiSubscribeRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [EditProfile]
-class EditProfileRoute extends PageRouteInfo<void> {
-  const EditProfileRoute()
-      : super(EditProfileRoute.name, path: '/edit-profile');
+/// [EditProfileScreen]
+class EditProfileScreenRoute extends PageRouteInfo<void> {
+  const EditProfileScreenRoute()
+      : super(EditProfileScreenRoute.name, path: '/edit-profile-screen');
 
-  static const String name = 'EditProfileRoute';
+  static const String name = 'EditProfileScreenRoute';
 }
 
 /// generated route for

@@ -27,9 +27,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   Profile? _currentProfile;
 
-  ProfileBloc(AuthenticationBloc authBloc, ProfileRepository profileRepository,
-      CalendarRepository calendarRepository, FcmBloc fcmBloc)
-      : _profileRepository = profileRepository,
+  ProfileBloc(
+    AuthenticationBloc authBloc,
+    ProfileRepository profileRepository,
+    CalendarRepository calendarRepository,
+    FcmBloc fcmBloc,
+  )   : _profileRepository = profileRepository,
         _calendarRepository = calendarRepository,
         super(ProfileNotLoaded()) {
     if (authBloc.state is Authenticated) {
@@ -56,17 +59,19 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         emit(ProfileLoading());
         try {
           _currentProfile = await _profileRepository.refreshProfile();
+          emit(ProfileLoaded(_currentProfile!));
 
-          final profileStatus = await _profileRepository.refreshStatus();
-          if (profileStatus.isOnEvent) {
-            final event =
-                await _calendarRepository.getEvent(profileStatus.eventId!);
-            emit(ProfileOnEvent(_currentProfile!, event));
-          } else if (profileStatus.surveyNeed) {
-            emit(ProfileOnSurvey(_currentProfile!));
-          } else {
-            emit(ProfileLoaded(_currentProfile!));
-          }
+          //TODO: Re-enable
+          // final profileStatus = await _profileRepository.refreshStatus();
+          // if (profileStatus.isOnEvent) {
+          //   final event =
+          //       await _calendarRepository.getEvent(profileStatus.eventId!);
+          //   emit(ProfileOnEvent(_currentProfile!, event));
+          // } else if (profileStatus.surveyNeed) {
+          //   emit(ProfileOnSurvey(_currentProfile!));
+          // } else {
+          //   emit(ProfileLoaded(_currentProfile!));
+          // }
         } catch (e) {
           emit(ProfileLoadError(e));
         }

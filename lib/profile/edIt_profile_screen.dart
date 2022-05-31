@@ -1,10 +1,3 @@
-/*
-*  EditProfile.dart
-*  Simposi App Designs V4.0
-*  Created by Simposi Inc.
-*  Copyright ©2018-2021 Simposi Inc. All rights reserved.
-*/
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
@@ -19,14 +12,14 @@ import 'package:simposi_app_v4/repository/profile_repository.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
 
-class EditProfile extends StatefulWidget {
-  const EditProfile({super.key});
+class EditProfileScreen extends StatefulWidget {
+  const EditProfileScreen({super.key});
 
   @override
-  State createState() => _EditProfileState();
+  State createState() => _EditProfileScreenState();
 }
 
-class _EditProfileState extends State<EditProfile> {
+class _EditProfileScreenState extends State<EditProfileScreen> {
   String? _filePath;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
@@ -70,8 +63,7 @@ class _EditProfileState extends State<EditProfile> {
         child: Scaffold(
           backgroundColor: Colors.white,
           appBar: BasicFormAppBar(),
-          body: LayoutBuilder(builder:
-              (BuildContext context, BoxConstraints viewportConstraints) {
+          body: LayoutBuilder(builder: (context, viewportConstraints) {
             return Column(
               children: [
                 // HEADER

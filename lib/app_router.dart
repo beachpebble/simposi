@@ -1,3 +1,7 @@
+///
+/// To Regenerate Routes run:
+/// flutter packages pub run build_runner build --delete-conflicting-outputs
+/// import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup8validate/signup8_validate_cubit.dart';
@@ -30,9 +34,10 @@ import 'eventdetails/createevent6income.dart';
 import 'eventdetails/createevent7pickinvitation.dart';
 import 'eventdetails/eventdetails.dart';
 import 'global/theme/elements/simposihome.dart';
+import 'model/survey_required.dart';
 import 'notifications/youlikeeachother.dart';
 import 'profile/accountmenu.dart';
-import 'profile/editprofileform.dart';
+import 'profile/edIt_profile_screen.dart';
 import 'profile/emergency_contact_screen.dart';
 import 'profile/faqscreen.dart';
 import 'profile/privacy.dart';
@@ -41,7 +46,6 @@ import 'profile/subscriptionpurchase.dart';
 import 'profile/termsofuse.dart';
 import 'profile/whoami_menu.dart';
 import 'profile/whoiwanttomeet_menu.dart';
-import 'model/survey_required.dart';
 
 part 'app_router.gr.dart';
 
@@ -79,7 +83,7 @@ part 'app_router.gr.dart';
     AutoRoute(page: TermsOfUse),
     AutoRoute(page: SubscriptionPurchase),
     AutoRoute(page: SimposiSubscribe),
-    AutoRoute(page: EditProfile),
+    AutoRoute(page: EditProfileScreen),
 
     //CREATE EVENT
     AutoRoute(page: CreateEvent1),

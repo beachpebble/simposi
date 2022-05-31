@@ -41,7 +41,8 @@ class ProfileMenu extends StatelessWidget {
                       ),
                       menuCardLabel: 'Account Settings',
                       onTap: () {
-                        AutoRouter.of(context).push(const EditProfileRoute());
+                        AutoRouter.of(context)
+                            .push(const EditProfileScreenRoute());
                       },
                     ),
                     SimposiMenuCard(

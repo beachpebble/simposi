@@ -31,7 +31,7 @@ class Api {
 }
 
 class ApiService {
-  final baseUrl;
+  final String baseUrl;
   late Dio _dio;
   late CookieJar _cookieJar;
 

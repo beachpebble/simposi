@@ -286,7 +286,7 @@ bool _parseJsonIntToBool(jsonValue) {
   }
 
   if (jsonValue is num) {
-    return jsonValue == 1 ? true : false;
+    return jsonValue == 1;
   }
 
   return false;

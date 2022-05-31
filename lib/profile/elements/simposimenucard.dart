@@ -11,14 +11,14 @@ import 'package:simposi_app_v4/global/theme/appcolors.dart';
 class SimposiMenuCard extends StatelessWidget {
   final Icon menuCardIcon;
   final String menuCardLabel;
-  final onTap;
+  final VoidCallback onTap;
 
-  const SimposiMenuCard(
-      {Key? key,
-      required this.menuCardIcon,
-      required this.menuCardLabel,
-      required this.onTap})
-      : super(key: key);
+  const SimposiMenuCard({
+    super.key,
+    required this.menuCardIcon,
+    required this.menuCardLabel,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -39,7 +39,7 @@ dependencies:
   email_validator: ^2.0.1
   equatable: ^2.0.3
 #  firebase_core: ^1.16.0
-  firebase_messaging: ^11.4.0
+  firebase_messaging: ^11.4.1
   flutter_bloc: ^8.0.1
   flutter_compass: ^0.7.0
   flutter_plugin_android_lifecycle: ^2.0.6
@@ -47,7 +47,7 @@ dependencies:
   focused_menu: ^1.0.5
   geocoding: ^2.0.4
   geolocator: ^8.2.1
-  google_maps_flutter: ^2.1.5
+  google_maps_flutter: ^2.1.6
   google_maps_webservice: "0.0.20-nullsafety.5" # DO NOT UPGRADE!
   html: ^0.15.0
   http_parser: ^4.0.1
@@ -63,12 +63,12 @@ dependencies:
   permission_handler: ^9.2.0
   pretty_dio_logger: ^1.1.1
   pin_code_fields: ^7.4.0
-  rxdart: ^0.27.3
+  rxdart: ^0.27.4
   scrollable_positioned_list: ^0.3.2
-  share_plus: ^4.0.4
+  share_plus: ^4.0.5
   shared_preferences: ^2.0.15
   stream_transform: ^2.0.0
-  table_calendar: ^3.0.5
+  table_calendar: ^3.0.6
   url_launcher: ^6.1.2
 
 # Simposi Dev Dependencies
