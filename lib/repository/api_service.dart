@@ -16,7 +16,7 @@ class Api {
   static const String API_REGISTER = "/api/v1/register";
   static const String API_USER_EXISTS = "/api/v1/verification/check-phone";
   static const String API_USER_EDIT = "/api/v1/user/update-profile";
-  static const String API_RSVP_STATUS = "/api/v1/rsvp/status/change";
+  static const String API_RSVP_STATUS = "/api/v1/rsvps/status/change";
   static const String API_REFRESH_LOCATOR = "/api/v1/refreshlocator";
   static const String API_CHECKIN = "/api/v1/events/check-in";
   static const String API_GROUP_FINDER = "/api/v1/events/group-finder";
@@ -27,7 +27,7 @@ class Api {
   static const String API_SEND_SURVEY = "/api/v1/survey";
   static const String API_UPDATE_FB_TOKEN = "/api/v1/update-device-token";
 
-  static const String RSVP_LIST = "/api/v1/rsvp";
+  static const String RSVP_LIST = "/api/v1/rsvps";
 }
 
 class ApiService {
