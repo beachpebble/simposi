@@ -20,7 +20,7 @@ class Api {
   static const String API_REFRESH_LOCATOR = "/api/v1/refreshlocator";
   static const String API_CHECKIN = "/api/v1/events/check-in";
   static const String API_GROUP_FINDER = "/api/v1/events/group-finder";
-  static const String API_STATUS = "/api/v1/user/events/status";
+  static const String API_STATUS = "/api/v1/user/profile";
   static const String API_EVENT = "/api/v1/events";
   static const String API_EVENT_CANCEL = "/api/v1/events/cancel";
   static const String API_GET_SURVEY_REQUESTS = "/api/v1/survey";
