@@ -83,8 +83,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       initialImage: context
                           .read<ProfileRepository>()
                           .profile
-                          .profilePhoto
-                          .url,
+                          .profilePhoto,
                       imageSelectCallback: (val) {
                         print("selected image $val");
                         _filePath = val;

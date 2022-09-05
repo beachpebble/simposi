@@ -50,7 +50,7 @@ class ProfileRepository {
   }
 
   Future<ProfileStatus> refreshStatus() async {
-    final response = await _authApiService.dio.get(Api.API_STATUS);
+    final response = await _authApiService.dio.get(Api.API_PROFILE);
     final Map data = response.data;
 
     if (data["data"] != null) {
@@ -71,8 +71,7 @@ class ProfileRepository {
       'password': password,
     };
     if (fbToken != null && fbToken.isNotEmpty) params["device_token"] = fbToken;
-    final response =
-        (await _apiService.dio.post(Api.API_LOGIN, data: params));
+    final response = (await _apiService.dio.post(Api.API_LOGIN, data: params));
     return response.data;
   }
 
@@ -169,8 +168,7 @@ class ProfileRepository {
       "who_earns": earning,
       "what_you_likes": likes,
     };
-    final response =
-        await _apiService.dio.post(Api.API_REGISTER, data: data);
+    final response = await _apiService.dio.post(Api.API_REGISTER, data: data);
     return response.data;
   }
 
