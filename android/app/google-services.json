@@ -1,0 +1,65 @@
+{
+  "project_info": {
+    "project_number": "719307898267",
+    "firebase_url": "https://simposi-1543861104398.firebaseio.com",
+    "project_id": "simposi-1543861104398",
+    "storage_bucket": "simposi-1543861104398.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:719307898267:android:275577213889f65ec1b53e",
+        "android_client_info": {
+          "package_name": "com.example.simposi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8R9A4167oDBB1avCcYCKfO5FExGUXnXM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "719307898267-ca8sp3ogcqkqtfcnnf0v5n8rem4pajg5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "CascadingEnterprises.Simposi"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:719307898267:android:7571fbb71874c31dc1b53e",
+        "android_client_info": {
+          "package_name": "com.simposi.simposi_app_v4"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8R9A4167oDBB1avCcYCKfO5FExGUXnXM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "719307898267-ca8sp3ogcqkqtfcnnf0v5n8rem4pajg5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "CascadingEnterprises.Simposi"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

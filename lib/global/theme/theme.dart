@@ -5,7 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'appcolors.dart';
 
@@ -19,12 +18,10 @@ class SimposiThemes {
     scaffoldBackgroundColor: SimposiAppColors.greyBackground,
 
     // Simposi Color Scheme
-      colorScheme: ColorScheme.light(
+      colorScheme: const ColorScheme.light(
         primary: SimposiAppColors.simposiLightText,
-        primaryVariant: SimposiAppColors.simposiDarkGrey,
         onPrimary: Colors.white,
         secondary: SimposiAppColors.simposiDarkBlue,
-        secondaryVariant: SimposiAppColors.simposiFadedBlue,
         onSecondary: Colors.white,
         background: SimposiAppColors.greyBackground,
         onBackground: SimposiAppColors.simposiDarkGrey,
@@ -36,7 +33,7 @@ class SimposiThemes {
 
 
     // Simposi Text Theme
-    textTheme: TextTheme(
+    textTheme: const TextTheme(
       // Get Started
       headline1: TextStyle(fontSize: 40, fontWeight: FontWeight.w800, color: SimposiAppColors.simposiDarkGrey),
       // App Bar Headers
@@ -72,14 +69,14 @@ class SimposiThemes {
     textButtonTheme: TextButtonThemeData (
         style: TextButton.styleFrom(
           primary: SimposiAppColors.simposiDarkBlue,
-          textStyle: TextStyle(
+          textStyle: const TextStyle(
             fontSize: 17,
           ),
         ),
     ),
 
 
-    inputDecorationTheme: InputDecorationTheme(
+    inputDecorationTheme: const InputDecorationTheme(
       contentPadding: EdgeInsets.all(20),
       labelStyle: TextStyle(
         color: SimposiAppColors.simposiLightText,
@@ -128,7 +125,7 @@ class SimposiThemes {
 
 // Simposi Dark Theme
   static final darkTheme = ThemeData(
-    colorScheme: ColorScheme.dark(),
+    colorScheme: const ColorScheme.dark(),
     fontFamily: 'Muli',
   );
 }

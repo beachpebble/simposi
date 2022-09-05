@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'dart:developer' as developer;
 
 import 'errors.dart';
 
@@ -15,8 +14,8 @@ class NetworkResponseSuccess extends NetworkResponse {
   List<Object> get props => [data];
 
   static NetworkResponseSuccess fromJson(Map json) {
-    var data = json.containsKey('data') ? json['data'] : null;
-    var message = json.containsKey('message') ? json['message'] : null;
+    final data = json.containsKey('data') ? json['data'] : null;
+    final message = json.containsKey('message') ? json['message'] : null;
     return NetworkResponseSuccess(data: data, message: message);
   }
 }
@@ -31,9 +30,17 @@ class NetworkResponseError extends NetworkResponse {
   List<Object> get props => [message, status];
 
   static NetworkResponseError fromJson(Map json) {
-    if (!json.containsKey('message') || !json.containsKey('status')) {
-      throw ParseException(message: "ResponseError doesn't contain mandatory fields");
+    if (!json.containsKey('error') && json.containsKey('status')) {
+      final Map error = json['error'];
+      if (error.containsKey('message')) {
+        return NetworkResponseError(error['message'], json['status']);
+      } else {
+        throw ParseException(
+            message: "ResponseError doesn't contain mandatory fields");
+      }
+    } else {
+      throw ParseException(
+          message: "ResponseError doesn't contain mandatory fields");
     }
-    return NetworkResponseError(json['message'], json['status']);
   }
 }

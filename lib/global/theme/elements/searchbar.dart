@@ -5,11 +5,7 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/global/theme/theme.dart';
-
 
 class ActivitySearch extends SearchDelegate<String> {
   final cities = [
@@ -22,31 +18,31 @@ class ActivitySearch extends SearchDelegate<String> {
 
   @override
   List<Widget> buildActions(BuildContext context) => [
-    IconButton(
-      icon: Icon(Icons.clear),
-      onPressed: () {},
-    )
-  ];
+        IconButton(
+          icon: const Icon(Icons.clear),
+          onPressed: () {},
+        )
+      ];
 
   @override
   Widget buildLeading(BuildContext context) => IconButton(
-    icon: Icon(Icons.arrow_back),
-    onPressed: () {},
-  );
+        icon: const Icon(Icons.arrow_back),
+        onPressed: () {},
+      );
 
   @override
   Widget buildResults(BuildContext context) => Center(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(Icons.location_city, size: 120),
-        const SizedBox(height: 48),
-        Text(
-          query,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.location_city, size: 120),
+            const SizedBox(height: 48),
+            Text(
+              query,
+            ),
+          ],
         ),
-      ],
-    ),
-  );
+      );
 
   @override
   Widget buildSuggestions(BuildContext context) {
@@ -55,20 +51,14 @@ class ActivitySearch extends SearchDelegate<String> {
     return buildSuggestionsSuccess(suggestions);
   }
 
-  Widget buildSuggestionsSuccess(
-      List<String> suggestions
-      ) => ListView.builder(
+  Widget buildSuggestionsSuccess(List<String> suggestions) => ListView.builder(
       itemCount: suggestions.length,
       itemBuilder: (context, index) {
         final suggestion = suggestions[index];
 
         return ListTile(
-          leading: Icon(Icons.location_city),
+          leading: const Icon(Icons.location_city),
           title: Text(suggestion),
-
         );
-      }
-
-  );
-
+      });
 }

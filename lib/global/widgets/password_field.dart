@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 
@@ -11,12 +10,13 @@ class PasswordField extends StatefulWidget {
       : super(key: key);
 
   @override
-  _PasswordFieldState createState() => _PasswordFieldState();
+  State createState() => _PasswordFieldState();
 }
 
 class _PasswordFieldState extends State<PasswordField> {
   bool _passwordVisible = true;
 
+  @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
@@ -27,7 +27,7 @@ class _PasswordFieldState extends State<PasswordField> {
       obscureText: _passwordVisible,
       showCursor: true,
 
-      style: TextStyle(
+      style: const TextStyle(
         color: SimposiAppColors.simposiLightText,
         fontWeight: FontWeight.w500,
         fontSize: 15,
@@ -35,8 +35,8 @@ class _PasswordFieldState extends State<PasswordField> {
 
       decoration: InputDecoration(
         labelText: widget.label,
-        contentPadding: EdgeInsets.all(20),
-        labelStyle: TextStyle(
+        contentPadding: const EdgeInsets.all(20),
+        labelStyle: const TextStyle(
           color: SimposiAppColors.simposiLightText,
           fontSize: 14,
           fontWeight: FontWeight.w500,
@@ -57,7 +57,7 @@ class _PasswordFieldState extends State<PasswordField> {
                 }),
 
         // INITIAL STATE
-        border: OutlineInputBorder(
+        border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(40.0)),
           borderSide: BorderSide(
             color: SimposiAppColors.simposiLightGrey,
@@ -66,7 +66,7 @@ class _PasswordFieldState extends State<PasswordField> {
 
         // FOCUS STATE
         focusColor: SimposiAppColors.simposiDarkBlue,
-        focusedBorder: OutlineInputBorder(
+        focusedBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(40.0)),
           borderSide: BorderSide(
             color: SimposiAppColors.simposiDarkBlue,
@@ -74,17 +74,17 @@ class _PasswordFieldState extends State<PasswordField> {
         ),
 
         // FOCUS ERROR STATE
-        focusedErrorBorder: OutlineInputBorder(
+        focusedErrorBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(40.0)),
             borderSide: BorderSide(
               color: SimposiAppColors.simposiPink,
             )),
 
         // ERROR STATE
-        errorStyle: TextStyle(
+        errorStyle: const TextStyle(
           color: SimposiAppColors.simposiPink,
         ),
-        errorBorder: OutlineInputBorder(
+        errorBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(40.0)),
             borderSide: BorderSide(
               color: SimposiAppColors.simposiPink,

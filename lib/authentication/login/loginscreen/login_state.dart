@@ -14,18 +14,17 @@ class LoginSuccess extends LoginState {}
 class LoginProgress extends LoginState {}
 
 class LoginUnconfirmed extends LoginState {
-  final String token;
 
-  LoginUnconfirmed(this.token);
+  const LoginUnconfirmed();
 
   @override
-  List<Object> get props => [token];
+  List<Object> get props => [];
 }
 
 class LoginError extends LoginState {
   final dynamic error;
 
-  LoginError(this.error);
+  const LoginError(this.error);
 
   @override
   List<Object> get props => [error];

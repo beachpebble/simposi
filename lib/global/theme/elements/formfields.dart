@@ -5,8 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 
@@ -35,14 +33,12 @@ class SimposiFormFieldwClear extends StatelessWidget {
       autocorrect: true,
       obscureText: false,
       showCursor: true,
-
       decoration: InputDecoration(
         labelText: fieldLabel,
-
         suffixIcon: fieldController.text.isEmpty
             ? Container(width: 0)
             : IconButton(
-                icon: Icon(Icons.close,
+                icon: const Icon(Icons.close,
                     size: 20, color: SimposiAppColors.simposiLightGrey),
                 onPressed: () => fieldController.clear(),
               ),
@@ -52,110 +48,43 @@ class SimposiFormFieldwClear extends StatelessWidget {
   }
 }
 
-// PASSWORD FIELD
-class SimposiPasswordField extends StatefulWidget {
-  const SimposiPasswordField({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  _SimposiPasswordFieldState createState() => _SimposiPasswordFieldState();
-}
-
-class _SimposiPasswordFieldState extends State<SimposiPasswordField> {
-  String _password = ' ';
-  bool _passwordVisible = true;
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController _passwordController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    _passwordController.addListener(() => setState(() {}));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: _passwordController,
-      keyboardType: TextInputType.visiblePassword,
-      textInputAction: TextInputAction.next,
-      enableSuggestions: true,
-      autocorrect: true,
-      obscureText: _passwordVisible,
-      showCursor: true,
-
-      decoration: InputDecoration(
-        labelText: ' Password',
-
-        suffixIcon: _passwordController.text.isEmpty
-            ? Container(width: 0)
-            : IconButton(
-                icon: Icon(
-                    _passwordVisible ? Icons.visibility : Icons.visibility_off,
-                    size: 20,
-                    color: SimposiAppColors.simposiLightGrey),
-                onPressed: () {
-                  setState(() {
-                    _passwordVisible = !_passwordVisible;
-                  });
-                }),
-      ),
-
-      // VALIDATION LOGIC
-      validator: (value) {
-        if (value!.isEmpty) {
-          return 'Password Required';
-        }
-        if (value.length < 8) {
-          return 'Must be at least 8 characters';
-        } else {
-          return null;
-        }
-      },
-
-      // OUTPUT ACTIONS
-      onSaved: (value) => setState(() => _password = value!),
-    );
-  }
-}
-
-
 // TEXT FIELD WITH COUNTER
 class SimposiCounterField extends StatefulWidget {
   final TextInputType inputType;
   final String fieldLabel;
   final int counterLength;
-  var textLength = 0;
-  final validationLogic;
 
-  SimposiCounterField({
-    Key? key,
+  final validationLogic;
+  final Function(String?)? onSave;
+  final TextEditingController fieldController;
+
+  const SimposiCounterField({
+    super.key,
     required this.inputType,
     required this.fieldLabel,
     required this.counterLength,
     required this.validationLogic,
-  }) : super(key: key);
+    this.onSave,
+    required this.fieldController,
+  });
 
   @override
-  _SimposiCounterFieldState createState() => _SimposiCounterFieldState();
+  State createState() => _SimposiCounterFieldState();
 }
 
 class _SimposiCounterFieldState extends State<SimposiCounterField> {
-  String _input = ' ';
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController _fieldController = TextEditingController();
+  int textLength = 0;
 
   @override
   void initState() {
     super.initState();
-    _fieldController.addListener(() => setState(() {}));
+    widget.fieldController.addListener(() => setState(() {}));
   }
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: _fieldController,
+      controller: widget.fieldController,
       keyboardType: TextInputType.name,
       textInputAction: TextInputAction.next,
       enableSuggestions: true,
@@ -164,7 +93,7 @@ class _SimposiCounterFieldState extends State<SimposiCounterField> {
       showCursor: true,
       maxLength: widget.counterLength,
 
-      style: TextStyle(
+      style: const TextStyle(
         color: SimposiAppColors.simposiLightText,
         fontWeight: FontWeight.w500,
       ),
@@ -172,7 +101,8 @@ class _SimposiCounterFieldState extends State<SimposiCounterField> {
       decoration: InputDecoration(
         labelText: widget.fieldLabel,
         // Counter
-        suffixText: '${widget.textLength.toString()}/${widget.counterLength.toString()}',
+        suffixText:
+            '${textLength.toString()}/${widget.counterLength.toString()}',
         counterText: "",
       ),
 
@@ -180,50 +110,39 @@ class _SimposiCounterFieldState extends State<SimposiCounterField> {
       validator: widget.validationLogic,
 
       // ACTION ON SAVE
-      onSaved: (value) => setState(() => _input = value!),
+      onSaved: (value) {
+        widget.onSave?.call(value);
+      },
       onChanged: (value) {
         setState(() {
-          widget.textLength = value.length;
+          textLength = value.length;
         });
       },
     );
   }
 }
 
-
-
 // LARGE TEXT AREA FIELD
-class SimposiLargeTextField extends StatefulWidget {
+class SimposiLargeTextField extends StatelessWidget {
   final String fieldLabel;
   final int textAreaLines;
   final validationLogic;
+  final Function(String?)? onSave;
+  final TextEditingController? fieldController;
 
   const SimposiLargeTextField({
     Key? key,
     required this.fieldLabel,
     required this.textAreaLines,
     required this.validationLogic,
+    this.onSave,
+    this.fieldController,
   }) : super(key: key);
-
-  @override
-  _SimposiLargeTextFieldState createState() => _SimposiLargeTextFieldState();
-}
-
-class _SimposiLargeTextFieldState extends State<SimposiLargeTextField> {
-  String _input = ' ';
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController _fieldController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    _fieldController.addListener(() => setState(() {}));
-  }
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: _fieldController,
+      controller: fieldController,
       keyboardType: TextInputType.multiline,
       textInputAction: TextInputAction.next,
       enableSuggestions: true,
@@ -232,50 +151,46 @@ class _SimposiLargeTextFieldState extends State<SimposiLargeTextField> {
       showCursor: true,
       maxLines: 5,
       textAlignVertical: TextAlignVertical.top,
-
       decoration: InputDecoration(
-        labelText: widget.fieldLabel,
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        labelText: fieldLabel,
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0)),
         ),
       ),
-
-      // VALIDATION LOGIC
-      validator: widget.validationLogic,
-
-      // ACTION ON SAVE
-      onSaved: (value) => setState(() => _input = value!),
+      validator: validationLogic,
+      onSaved: (value) => onSave?.call(value),
     );
   }
 }
-
-
 
 // TEXT PLAIN FIELD
 class SimposiPlainField extends StatefulWidget {
   final TextInputType inputType;
   final String fieldLabel;
   final validationLogic;
+  final TextEditingController? fieldController;
+  final Function(String?)? onSave;
 
-  SimposiPlainField({
+  const SimposiPlainField({
     Key? key,
     required this.inputType,
     required this.fieldLabel,
     required this.validationLogic,
+    this.fieldController,
+    this.onSave,
   }) : super(key: key);
 
   @override
-  _SimposiPlainFieldState createState() => _SimposiPlainFieldState();
+  State createState() => _SimposiPlainFieldState();
 }
 
 class _SimposiPlainFieldState extends State<SimposiPlainField> {
-  String _input = ' ';
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController _fieldController = TextEditingController();
+  late final TextEditingController _fieldController;
 
   @override
   void initState() {
     super.initState();
+    _fieldController = widget.fieldController ?? TextEditingController();
     _fieldController.addListener(() => setState(() {}));
   }
 
@@ -298,8 +213,7 @@ class _SimposiPlainFieldState extends State<SimposiPlainField> {
       validator: widget.validationLogic,
 
       // ACTION ON SAVE
-      onSaved: (value) => setState(() => _input = value!),
+      onSaved: (value) => widget.onSave?.call(value),
     );
   }
 }
-

@@ -8,7 +8,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -21,18 +21,35 @@ import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/utils/location.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 
+import '../../../app_router.dart';
 import 'signup6_location_cubit.dart';
 
-class SignUpForm6 extends StatefulWidget {
+class SignUpForm6 extends StatelessWidget {
+  final bool editMode;
+
+  const SignUpForm6({Key? key, this.editMode = false}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+        create: (context) => Signup6LocationCubit(
+            registrationCubit: context.read(),
+            profileBloc: context.read(),
+            editMode: editMode),
+        child: _SignUpForm6View());
+  }
+}
+
+class _SignUpForm6View extends StatefulWidget {
   @override
   _SignUpForm6State createState() => _SignUpForm6State();
 }
 
-class _SignUpForm6State extends State<SignUpForm6> {
+class _SignUpForm6State extends State<_SignUpForm6View> {
   double progress = 0.85;
   final _placeSearchController = TextEditingController();
-  Completer<GoogleMapController> _controller = Completer();
-  Completer<void> _initCompleter = Completer();
+  final Completer<GoogleMapController> _controller = Completer();
+  final Completer<void> _initCompleter = Completer();
 
   @override
   void initState() {
@@ -42,11 +59,11 @@ class _SignUpForm6State extends State<SignUpForm6> {
             .read<Signup6LocationCubit>()
             .selectInitialLocation(LatLng(value.latitude, value.longitude)))
         .catchError((e) {
-      showErrorToast("There is no location permission");
+      showErrorToast("There is no location permission !!!  $e");
       context.read<Signup6LocationCubit>().noPermission();
     });
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      await Future.delayed(Duration(milliseconds: 200));
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Future.delayed(const Duration(milliseconds: 200));
       _initCompleter.complete();
     });
   }
@@ -76,34 +93,32 @@ class _SignUpForm6State extends State<SignUpForm6> {
           return Column(
             children: [
               // Header
-              Container(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 45),
-                    LinearProgressIndicator(
-                      value: state.editMode ? 1 : progress,
-                      valueColor: AlwaysStoppedAnimation(
-                          SimposiAppColors.simposiDarkBlue),
-                      backgroundColor: SimposiAppColors.simposiFadedBlue,
-                    ),
-                    const SizedBox(height: 70),
-                    Text(
-                      'I want to meet nearby...',
-                      style: Theme.of(context).textTheme.headline3,
-                    ),
-                    const SizedBox(height: 20),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: _searchBar(),
-                    ),
-                    const SizedBox(height: 10),
-                  ],
-                ),
+              Column(
+                children: [
+                  const SizedBox(height: 45),
+                  LinearProgressIndicator(
+                    value: state.editMode ? 1 : progress,
+                    valueColor: const AlwaysStoppedAnimation(
+                        SimposiAppColors.simposiDarkBlue),
+                    backgroundColor: SimposiAppColors.simposiFadedBlue,
+                  ),
+                  const SizedBox(height: 70),
+                  Text(
+                    'I want to meet nearby...',
+                    style: Theme.of(context).textTheme.headline3,
+                  ),
+                  const SizedBox(height: 20),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: _searchBar(),
+                  ),
+                  const SizedBox(height: 10),
+                ],
               ),
 
               // Body
               Expanded(
-                child: Container(
+                child: SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: state.selectedLocation == null
                       ? Center(child: AppProgressIndicator())
@@ -141,8 +156,8 @@ class _SignUpForm6State extends State<SignUpForm6> {
                                                 .save();
                                           }
                                         : () {
-                                            Navigator.of(context)
-                                                .pushNamed('/signup7');
+                                            AutoRouter.of(context)
+                                                .push(const SignUpForm7Route());
                                           }
                                     : null),
                           ),
@@ -155,8 +170,8 @@ class _SignUpForm6State extends State<SignUpForm6> {
       ));
 
   Widget _rangeSlider(Signup6LocationState state) {
-    String units = localeIsImperial ? "miles" : "km";
-    double range = localeIsImperial ? state.rangeKm / 1.6 : state.rangeKm;
+    final units = localeIsImperial ? "miles" : "km";
+    var range = localeIsImperial ? state.rangeKm / 1.6 : state.rangeKm;
     if (range < 1) range = 1;
     if (range > 150) range = 150;
     return Column(
@@ -186,9 +201,9 @@ class _SignUpForm6State extends State<SignUpForm6> {
       controller: _placeSearchController,
       textCapitalization: TextCapitalization.words,
       keyboardType: TextInputType.streetAddress,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         hintText: 'Search a location',
-        suffixIcon: const Icon(Icons.search),
+        suffixIcon: Icon(Icons.search),
       ),
       onChanged: (value) =>
           context.read<Signup6LocationCubit>().searchPlace(value),
@@ -196,7 +211,7 @@ class _SignUpForm6State extends State<SignUpForm6> {
   }
 
   Widget _googleMap(Signup6LocationState state) {
-    double range = localeIsImperial ? state.rangeKm * 1.6 : state.rangeKm;
+    var range = localeIsImperial ? state.rangeKm * 1.6 : state.rangeKm;
     if (range < 1) range = 1;
     if (range > 150) range = 150;
     return FutureBuilder(
@@ -241,7 +256,7 @@ class _SignUpForm6State extends State<SignUpForm6> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
       child: Container(
-          decoration: new BoxDecoration(
+          decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
           ),
@@ -255,8 +270,8 @@ class _SignUpForm6State extends State<SignUpForm6> {
             ),
             onTap: () async {
               if (placesSearchResult.geometry != null) {
-                final GoogleMapController controller = await _controller.future;
-                var newLoc = LatLng(placesSearchResult.geometry!.location.lat,
+                final controller = await _controller.future;
+                final newLoc = LatLng(placesSearchResult.geometry!.location.lat,
                     placesSearchResult.geometry!.location.lng);
                 controller.animateCamera(CameraUpdate.newLatLng(newLoc));
                 setState(() {
@@ -271,22 +286,22 @@ class _SignUpForm6State extends State<SignUpForm6> {
 
   Set<Circle> _getCircle(LatLng? location, double range) => location == null
       ? {}
-      : Set.from([
+      : {
           Circle(
             strokeColor: SimposiAppColors.simposiLightBlue,
             strokeWidth: 1,
             fillColor: SimposiAppColors.simposiLightBlue.withOpacity(0.5),
-            circleId: CircleId("myplace"),
+            circleId: const CircleId("myplace"),
             center: location,
             radius: range * 1000,
           )
-        ]);
+        };
 
   Set<Marker> _getMarkers(LatLng? location) => location == null
       ? {}
-      : Set.from([
+      : {
           Marker(
-              markerId: MarkerId("Selected"),
+              markerId: const MarkerId("Selected"),
               position: location,
               draggable: true,
               onDragEnd: ((newPosition) {
@@ -294,10 +309,10 @@ class _SignUpForm6State extends State<SignUpForm6> {
                     .read<Signup6LocationCubit>()
                     .selectLocation(newPosition);
               }))
-        ]);
+        };
 
   static bool get localeIsImperial {
-    final String defaultLocale = Platform.localeName;
+    final defaultLocale = Platform.localeName;
     return defaultLocale.endsWith("US");
   }
 }

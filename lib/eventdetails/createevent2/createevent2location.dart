@@ -6,10 +6,8 @@
 */
 
 import 'dart:async';
-import 'dart:io';
-import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -17,22 +15,34 @@ import 'package:google_maps_webservice/places.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/progress.dart';
 import 'package:simposi_app_v4/utils/location.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
-import 'package:simposi_app_v4/global/widgets/progress.dart';
 
+import '../../app_router.dart';
 import 'createevent2_location_cubit.dart';
 
-class CreateEvent2 extends StatefulWidget {
+class CreateEvent2 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+        create: (context) =>
+            CreateEvent2LocationCubit(editEventCubit: context.read())
+              ..refreshInitial(),
+        child: _CreateEvent2View());
+  }
+}
+
+class _CreateEvent2View extends StatefulWidget {
   @override
   _CreateEvent2State createState() => _CreateEvent2State();
 }
 
-class _CreateEvent2State extends State<CreateEvent2> {
-  double progress = 0.85;
+class _CreateEvent2State extends State<_CreateEvent2View> {
+  double progress = 0.32;
   final _placeSearchController = TextEditingController();
-  Completer<GoogleMapController> _controller = Completer();
-  Completer<void> _initCompleter = Completer();
+  final Completer<GoogleMapController> _controller = Completer();
+  final Completer<void> _initCompleter = Completer();
 
   @override
   void initState() {
@@ -40,13 +50,13 @@ class _CreateEvent2State extends State<CreateEvent2> {
     determinePosition()
         .then((value) => context
             .read<CreateEvent2LocationCubit>()
-            .selectLocation(LatLng(value.latitude, value.longitude)))
+            .selectInitialLocation(LatLng(value.latitude, value.longitude)))
         .catchError((e) {
       showErrorToast("There is no location permission");
       context.read<CreateEvent2LocationCubit>().noPermission();
     });
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      await Future.delayed(Duration(milliseconds: 200));
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Future.delayed(const Duration(milliseconds: 200));
       _initCompleter.complete();
     });
   }
@@ -68,34 +78,32 @@ class _CreateEvent2State extends State<CreateEvent2> {
           return Column(
             children: [
               // Header
-              Container(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 45),
-                    LinearProgressIndicator(
-                      value: progress,
-                      valueColor:
-                          AlwaysStoppedAnimation(SimposiAppColors.simposiDarkBlue),
-                      backgroundColor: SimposiAppColors.simposiFadedBlue,
-                    ),
-                    const SizedBox(height: 70),
-                    Text(
-                      'I want to meet nearby...',
-                      style: Theme.of(context).textTheme.headline3,
-                    ),
-                    const SizedBox(height: 20),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: _searchBar(),
-                    ),
-                    const SizedBox(height: 10),
-                  ],
-                ),
+              Column(
+                children: [
+                  const SizedBox(height: 45),
+                  LinearProgressIndicator(
+                    value: progress,
+                    valueColor: const AlwaysStoppedAnimation(
+                        SimposiAppColors.simposiDarkBlue),
+                    backgroundColor: SimposiAppColors.simposiFadedBlue,
+                  ),
+                  const SizedBox(height: 70),
+                  Text(
+                    'I want to meet nearby...',
+                    style: Theme.of(context).textTheme.headline3,
+                  ),
+                  const SizedBox(height: 20),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: _searchBar(),
+                  ),
+                  const SizedBox(height: 10),
+                ],
               ),
 
               // Body
               Expanded(
-                child: Container(
+                child: SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: state.selectedLocation == null
                       ? Center(child: AppProgressIndicator())
@@ -114,9 +122,9 @@ class _CreateEvent2State extends State<CreateEvent2> {
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 40),
                 child: Column(
                   children: [
-                    // TODO: Remove Range Slider. It does not apply to events.
-                    Container(
-                      child: _rangeSlider(state),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(state.address ?? ""),
                     ),
                     const SizedBox(height: 10),
                     Container(
@@ -124,7 +132,8 @@ class _CreateEvent2State extends State<CreateEvent2> {
                       child: ContinueButton(
                           buttonAction: state.selectedLocation != null
                               ? () {
-                                  Navigator.of(context).pushNamed('/signup7');
+                                  AutoRouter.of(context).push(
+                                      const CreateEvent3ActivitiesRoute());
                                 }
                               : null),
                     ),
@@ -136,36 +145,14 @@ class _CreateEvent2State extends State<CreateEvent2> {
         },
       ));
 
-  Widget _rangeSlider(CreateEvent2LocationState state) {
-    String units = localeIsImperial ? "miles" : "km";
-    return Column(
-      children: [
-        const SizedBox(height: 5),
-        Text("Within ${state.range.round()} $units of this location"),
-        const SizedBox(height: 5),
-        Slider(
-          activeColor: SimposiAppColors.simposiDarkBlue,
-          value: state.range,
-          min: 1,
-          max: 150,
-          divisions: 100,
-          label: "${state.range.round()} $units",
-          onChanged: (double value) {
-            context.read<CreateEvent2LocationCubit>().selectRange(value);
-          },
-        )
-      ],
-    );
-  }
-
   Widget _searchBar() {
     return TextField(
       controller: _placeSearchController,
       textCapitalization: TextCapitalization.words,
       keyboardType: TextInputType.streetAddress,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         hintText: 'Search a location',
-        suffixIcon: const Icon(Icons.search),
+        suffixIcon: Icon(Icons.search),
       ),
       onChanged: (value) =>
           context.read<CreateEvent2LocationCubit>().searchPlace(value),
@@ -173,27 +160,28 @@ class _CreateEvent2State extends State<CreateEvent2> {
   }
 
   Widget _googleMap(CreateEvent2LocationState state) {
-    double range = localeIsImperial ? state.range * 1.6 : state.range;
     return FutureBuilder(
         future: _initCompleter.future,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           return snapshot.connectionState == ConnectionState.waiting
               ? Center(child: AppProgressIndicator())
-    : GoogleMap(
-        zoomControlsEnabled: true,
-        zoomGesturesEnabled: true,
-        myLocationEnabled: true,
-        mapType: MapType.normal,
-        initialCameraPosition:
-            CameraPosition(target: state.selectedLocation!, zoom: 11),
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
-        markers: _getMarkers(state.selectedLocation),
-        onTap: (loc) {
-          context.read<CreateEvent2LocationCubit>().selectLocation(loc);
-        },
-        circles: _getCircle(state.selectedLocation, range));
+              : GoogleMap(
+                  zoomControlsEnabled: true,
+                  zoomGesturesEnabled: true,
+                  myLocationEnabled: true,
+                  mapType: MapType.normal,
+                  initialCameraPosition:
+                      CameraPosition(target: state.selectedLocation!, zoom: 11),
+                  onMapCreated: (GoogleMapController controller) {
+                    _controller.complete(controller);
+                  },
+                  markers: _getMarkers(state.selectedLocation),
+                  onTap: (loc) {
+                    context
+                        .read<CreateEvent2LocationCubit>()
+                        .selectLocation(loc);
+                  },
+                );
         });
   }
 
@@ -216,7 +204,7 @@ class _CreateEvent2State extends State<CreateEvent2> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
       child: Container(
-          decoration: new BoxDecoration(
+          decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
           ),
@@ -230,12 +218,14 @@ class _CreateEvent2State extends State<CreateEvent2> {
             ),
             onTap: () async {
               if (placesSearchResult.geometry != null) {
-                final GoogleMapController controller = await _controller.future;
-                var newLoc = LatLng(placesSearchResult.geometry!.location.lat,
+                final controller = await _controller.future;
+                final newLoc = LatLng(placesSearchResult.geometry!.location.lat,
                     placesSearchResult.geometry!.location.lng);
                 controller.animateCamera(CameraUpdate.newLatLng(newLoc));
                 setState(() {
-                  context.read<CreateEvent2LocationCubit>().selectLocation(newLoc);
+                  context
+                      .read<CreateEvent2LocationCubit>()
+                      .selectLocation(newLoc);
                   _placeSearchController.clear();
                 });
               }
@@ -244,24 +234,11 @@ class _CreateEvent2State extends State<CreateEvent2> {
     );
   }
 
-  Set<Circle> _getCircle(LatLng? location, double range) => location == null
-      ? {}
-      : Set.from([
-          Circle(
-            strokeColor: SimposiAppColors.simposiLightBlue,
-            strokeWidth: 1,
-            fillColor: SimposiAppColors.simposiLightBlue.withOpacity(0.5),
-            circleId: CircleId("myplace"),
-            center: location,
-            radius: range * 1000,
-          )
-        ]);
-
   Set<Marker> _getMarkers(LatLng? location) => location == null
       ? {}
-      : Set.from([
+      : {
           Marker(
-              markerId: MarkerId("Selected"),
+              markerId: const MarkerId("Selected"),
               position: location,
               draggable: true,
               onDragEnd: ((newPosition) {
@@ -269,10 +246,5 @@ class _CreateEvent2State extends State<CreateEvent2> {
                     .read<CreateEvent2LocationCubit>()
                     .selectLocation(newPosition);
               }))
-        ]);
-
-  static bool get localeIsImperial {
-    final String defaultLocale = Platform.localeName;
-    return defaultLocale.endsWith("US");
-  }
+        };
 }

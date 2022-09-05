@@ -5,8 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -15,19 +13,17 @@ import 'package:simposi_app_v4/authentication/login/change_password/change_passw
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/password_field.dart';
+import 'package:simposi_app_v4/global/widgets/progress.dart';
 import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
-import 'package:simposi_app_v4/global/widgets/password_field.dart';
-import 'package:simposi_app_v4/global/widgets/progress.dart';
 
-/**
- * Use only for password change from settings
- */
+/// Use only for password change from settings
 class ChangePasswordScreen extends StatefulWidget {
   // Set Variables
   @override
-  _ChangePasswordScreenState createState() => _ChangePasswordScreenState();
+  State createState() => _ChangePasswordScreenState();
 }
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
@@ -54,7 +50,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) => BlocProvider(
         create: (context) => ChangePasswordCubit(
-            profileRepository: context.read(), authRepository: context.read()),
+            profileRepository: context.read(),
+            authenticationBloc: context.read()),
         child: KeyboardDismisser(
           child: Scaffold(
             backgroundColor: Colors.white,
@@ -63,47 +60,45 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             body: LayoutBuilder(builder:
                 (BuildContext context, BoxConstraints viewportConstraints) {
               return SingleChildScrollView(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: viewportConstraints.maxHeight,
                   ),
                   child: Container(
-                    padding: EdgeInsets.all(40),
+                    padding: const EdgeInsets.all(40),
                     child: Column(
                       children: [
                         // HEADER LOGO
-                        Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Image.asset("assets/images/logo.png"),
-                              Text(
-                                'simposi',
-                                style: TextStyle(
-                                  color: SimposiAppColors.simposiDarkBlue,
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 30,
-                                ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Image.asset("assets/images/logo.png"),
+                            const Text(
+                              'simposi',
+                              style: TextStyle(
+                                color: SimposiAppColors.simposiDarkBlue,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 30,
                               ),
-                              SizedBox(height: 20),
-                              // TITLE
-                              Text(
-                                'Create New Password',
-                                style: TextStyle(
-                                  fontSize: 19,
-                                  fontWeight: FontWeight.w900,
-                                  color: SimposiAppColors.simposiDarkGrey,
-                                ),
+                            ),
+                            const SizedBox(height: 20),
+                            // TITLE
+                            const Text(
+                              'Create New Password',
+                              style: TextStyle(
+                                fontSize: 19,
+                                fontWeight: FontWeight.w900,
+                                color: SimposiAppColors.simposiDarkGrey,
                               ),
-                              SizedBox(height: 10),
-                              Text(
-                                'Passwords must be at least 8 characters long.',
-                                textAlign: TextAlign.center,
-                              ),
-                              SizedBox(height: 25),
-                            ],
-                          ),
+                            ),
+                            const SizedBox(height: 10),
+                            const Text(
+                              'Passwords must be at least 8 characters long.',
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 25),
+                          ],
                         ),
 
                         // RESET PASSWORD FORM
@@ -121,7 +116,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                   controller: _passwordController,
                                   validator: getValidator(
                                       context, Validators.PASSWORD)),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               // PASSWORD FIELD
                               PasswordField(
                                   label: AppLocalizations.of(context)!
@@ -140,18 +135,18 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                       return null;
                                     }
                                   }),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               BlocConsumer<ChangePasswordCubit,
                                   ChangePasswordState>(
                                 listener: (context, state) {
                                   if (state is ChangePasswordSuccess) {
-                                    showInfoToast(
-                                        AppLocalizations.of(context)!
-                                            .passwordChangeSuccess);
+                                    showInfoToast(AppLocalizations.of(context)!
+                                        .passwordChangeSuccess);
                                     Navigator.of(context).pop();
-                                  } else if (state is ChangePasswordError)
+                                  } else if (state is ChangePasswordError) {
                                     showErrorToast(
                                         handleError(state.error, context));
+                                  }
                                 },
                                 builder: (context, state) {
                                   if (state is ChangePasswordLoading) {
@@ -177,22 +172,20 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             ],
                           ),
                         ),
-                        
+
                         // FOOTER
-                        Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              SizedBox(height: 20),
-                              Text(
-                                '© 2021 Simposi Inc.',
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: const [
+                            SizedBox(height: 20),
+                            Text(
+                              '© 2021 Simposi Inc.',
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w700,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

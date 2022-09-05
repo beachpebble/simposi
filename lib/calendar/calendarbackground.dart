@@ -5,9 +5,11 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+
+import '../app_router.dart';
 
 class SimposiCalendarBackground extends StatelessWidget {
   @override
@@ -21,29 +23,27 @@ class SimposiCalendarBackground extends StatelessWidget {
             "assets/images/backgroundcalendar.png",
           ),
         ),
-        SizedBox(height: 30.0),
+        const SizedBox(height: 30.0),
         Center(
           child: Text(
             "Hmm.. No plans?",
             style: Theme.of(context).textTheme.headline3,
           ),
         ),
-        SizedBox(height: 5.0),
-        Center(
+        const SizedBox(height: 5.0),
+        const Center(
           child: Text(
             "Meet new people by inviting \nthem to join you!",
             textAlign: TextAlign.center,
             style: TextStyle(),
           ),
         ),
-        SizedBox(height: 20.0),
+        const SizedBox(height: 20.0),
         SmallPinkButton(
             buttonLabel: 'Meet Now',
-            nextPage: '/createevent'
-        ),
+            nextPage: () =>
+                AutoRouter.of(context).push(const CreateEvent1Route())),
       ],
     );
   }
 }
-
-

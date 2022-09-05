@@ -1,27 +1,25 @@
 import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-import 'errors.dart';
+part 'interest.g.dart';
 
+@JsonSerializable(ignoreUnannotated: true)
 class Interest extends Equatable {
+  @JsonKey(name: 'id', required: true, disallowNullValue: true)
   final int id;
+  @JsonKey(name: 'title', required: true, disallowNullValue: true)
   final String title;
 
-  Interest({required this.id, required this.title});
+  const Interest({required this.id, required this.title});
 
-  static Interest fromJson(Map json) {
-    int? parsedId = json.containsKey('what_you_like_id') ? json['what_you_like_id'] : null;
-    String? parsedTitle = json.containsKey('title') ? json['title'] : null;
-
-    if (parsedId == null || parsedTitle == null)
-      throw ParseException(message: "Incorrect data structure");
-
-    return Interest(
-        id: parsedId, title: parsedTitle);
-  }
 
   @override
   List<Object> get props => [id, title];
 
   @override
   bool get stringify => true;
+
+  factory Interest.fromJson(Map<String, dynamic> json) => _$InterestFromJson(json);
+
+  Map<String, dynamic> toJson() => _$InterestToJson(this);
 }

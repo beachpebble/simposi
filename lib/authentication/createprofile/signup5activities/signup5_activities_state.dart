@@ -23,12 +23,13 @@ class Signup5ActivitiesState extends Equatable {
         interests: interests ?? this.interests,
         selected: selected ?? this.selected,
         filtered: filtered ?? this.filtered,
-        editMode: this.editMode);
+        editMode: editMode);
   }
 
   @override
   List<Object> get props => [selected, interests, filtered];
 
+  @override
   bool? get stringify => true;
 }
 

@@ -5,16 +5,16 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
-
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
+import 'package:simposi_app_v4/app_router.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/global/widgets/phone_field.dart';
-import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/global/widgets/progress.dart';
+import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'forgot_password_start_cubit.dart';
@@ -22,7 +22,7 @@ import 'forgot_password_start_cubit.dart';
 // FORGOT PASSWORD BOTTOM SHEET
 class ForgotPasswordForm extends StatefulWidget {
   @override
-  _ForgotPasswordFormState createState() => _ForgotPasswordFormState();
+  State createState() => _ForgotPasswordFormState();
 }
 
 class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
@@ -47,21 +47,21 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
   Widget build(BuildContext context) => KeyboardDismisser(
         child: BlocConsumer<ForgotPasswordStartCubit, ForgotPasswordStartState>(
           listener: (context, state) {
-            if (state is ForgotPasswordStartError)
-              //TODO make localization
+            if (state is ForgotPasswordStartError) {
               showErrorToast("Code was not sent");
-            else if (state is ForgotPasswordStartSuccess) {
+            } else if (state is ForgotPasswordStartSuccess) {
               showInfoToast("Code was sent via SMS");
-              Navigator.of(context).pop();
-              Navigator.of(context).pushNamed('/resetPassword', arguments: phone);
+              AutoRouter.of(context).pop();
+              AutoRouter.of(context)
+                  .push(ResetPasswordScreenRoute(phone: phone));
             }
           },
           builder: (context, state) {
             return Container(
               color: Colors.black54,
               child: Container(
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
+                  padding: const EdgeInsets.all(20),
+                  decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(20.0),
@@ -72,8 +72,8 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(height: 20),
-                      Text(
+                      const SizedBox(height: 20),
+                      const Text(
                         'Recover Password',
                         style: TextStyle(
                           color: SimposiAppColors.simposiDarkBlue,
@@ -81,10 +81,12 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                           fontWeight: FontWeight.w900,
                         ),
                       ),
-                      SizedBox(height: 10),
-                      Text(
-                          'Please enter your email\nto restore your password.'),
-                      SizedBox(height: 30),
+                      const SizedBox(height: 10),
+                      const Text(
+                        'Please enter your phone number\nto restore your password.',
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 30),
                       // FORGOT PASSWORD FORM
                       Form(
                         key: _formKey,
@@ -92,34 +94,38 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                           children: [
                             PhoneField(
                               controller: _phoneController,
-                              onSave: (value) =>
-                                  setState(() => phone = value),
+                              onSave: (value) => setState(() => phone = value),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             state is ForgotPasswordStartLoading
                                 ? AppProgressIndicator()
                                 : ContinueButton(
                                     buttonLabel: 'Reset Password',
-                                    buttonAction: _phoneController.text.isNotEmpty ? () {
-                                      final isValid =
-                                          _formKey.currentState!.validate();
+                                    buttonAction:
+                                        _phoneController.text.isNotEmpty
+                                            ? () {
+                                                final isValid = _formKey
+                                                    .currentState!
+                                                    .validate();
 
-                                      if (isValid) {
-                                        _formKey.currentState!.save();
-                                        print('Email: ${phone}');
-                                        context
-                                            .read<ForgotPasswordStartCubit>()
-                                            .sendForgotPasswordRequest(
-                                                phone: phone);
-                                      }
-                                    } : null),
+                                                if (isValid) {
+                                                  _formKey.currentState!.save();
+                                                  print('Email: $phone');
+                                                  context
+                                                      .read<
+                                                          ForgotPasswordStartCubit>()
+                                                      .sendForgotPasswordRequest(
+                                                          phone: phone);
+                                                }
+                                              }
+                                            : null),
                           ],
                         ),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       TextButton(
                           onPressed: _contactSupport,
-                          child: Text(
+                          child: const Text(
                             'Contact Support',
                             style: TextStyle(
                               color: SimposiAppColors.simposiDarkBlue,
@@ -127,7 +133,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                               fontWeight: FontWeight.w900,
                             ),
                           )),
-                      SizedBox(height: 150),
+                      const SizedBox(height: 150),
                     ],
                   )),
             );
@@ -137,8 +143,8 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
 
   void _contactSupport() async {
     _formKey.currentState!.save();
-    var url = 'mailto:support@simposi.com?subject=Account%20Recovery%20-%20$phone&body=$phone';
+    final url =
+        'mailto:support@simposi.com?subject=Account%20Recovery%20-%20$phone&body=$phone';
     await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
   }
-
 }

@@ -5,23 +5,18 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
-import 'package:flutter/cupertino.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
-import '../theme.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-
 
 // JUST A BACK BUTTON APP BAR
 class BasicFormAppBar extends StatelessWidget with PreferredSizeWidget {
   // Variables
+  @override
   final Size preferredSize;
 
   // Initiate Variables
-  BasicFormAppBar({Key, key})
-      : preferredSize = Size.fromHeight(70),
-        super(key: key);
+  BasicFormAppBar({super.key}) : preferredSize = const Size.fromHeight(70);
 
   // Screen
   @override
@@ -33,7 +28,7 @@ class BasicFormAppBar extends StatelessWidget with PreferredSizeWidget {
       foregroundColor: SimposiAppColors.simposiDarkGrey,
       leading: Builder(
         builder: (BuildContext context) {
-          return BackButton(
+          return const BackButton(
             color: SimposiAppColors.simposiDarkGrey,
           );
         },
@@ -42,25 +37,21 @@ class BasicFormAppBar extends StatelessWidget with PreferredSizeWidget {
   }
 }
 
-
-// TITLE AND TWO TEXT BUTTONS BACK AND NEXT
 class HeaderFormAppBar extends StatelessWidget with PreferredSizeWidget {
   // Variables
+  @override
   final Size preferredSize;
   final headerTitle;
-  final popPage;
   final nextButtonLabel;
-  final nextPage;
+  final VoidCallback onNext;
 
   // Initiate Variables
   HeaderFormAppBar({
     Key? key,
     required this.headerTitle,
-    required this.popPage,
     required this.nextButtonLabel,
-    required this.nextPage,
-  })
-      : preferredSize = Size.fromHeight(70),
+    required this.onNext,
+  })  : preferredSize = const Size.fromHeight(70),
         super(key: key);
 
   // Screen
@@ -71,26 +62,27 @@ class HeaderFormAppBar extends StatelessWidget with PreferredSizeWidget {
       elevation: 0.0,
       backgroundColor: Colors.white,
       foregroundColor: SimposiAppColors.simposiDarkGrey,
-
-      title: Text(headerTitle,
-          style: TextStyle(
-            color: SimposiAppColors.simposiDarkGrey,
-            fontSize: 17,
-            fontWeight: FontWeight.w700,
-          ),
+      title: Text(
+        headerTitle,
+        style: const TextStyle(
+          color: SimposiAppColors.simposiDarkGrey,
+          fontSize: 17,
+          fontWeight: FontWeight.w700,
+        ),
       ),
       leading: Container(
-        padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+        padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
         child: Builder(
           builder: (BuildContext context) {
             return TextButton(
-              onPressed: () => {
-                Navigator.of(context).pop(popPage),
+              onPressed: () {
+                AutoRouter.of(context).pop();
               },
-              child: Text('Cancel',
-              style: TextStyle(
-                color: SimposiAppColors.simposiDarkBlue,
-                fontSize: 17,
+              child: const Text(
+                'Cancel',
+                style: TextStyle(
+                  color: SimposiAppColors.simposiDarkBlue,
+                  fontSize: 17,
                 ),
               ),
             );
@@ -99,15 +91,14 @@ class HeaderFormAppBar extends StatelessWidget with PreferredSizeWidget {
       ),
       actions: <Widget>[
         TextButton(
-        onPressed: () => {
-          Navigator.of(context).pushNamed(nextPage),
-        },
-        child: Text(nextButtonLabel,
-          style: TextStyle(
-            fontSize: 17,
-            color: SimposiAppColors.simposiDarkBlue,
+          onPressed: onNext,
+          child: const Text(
+            "Submit",
+            style: TextStyle(
+              fontSize: 17,
+              color: SimposiAppColors.simposiDarkBlue,
+            ),
           ),
-        ),
         ),
       ],
     );

@@ -10,11 +10,11 @@ abstract class AppCubit<State> extends Cubit<State> with ErrorHandle {
 
   final AuthenticationBloc authenticationBloc;
 
-  LocalizedErrorType handleErrorWithAuth(dynamic exception) {
+  LocalizedErrorType handleErrorWithAuth(exception) {
     if (exception is AuthException) {
       authenticationBloc.add(LoggedOut());
       return LocalizedErrorType.AUTH;
-    } else if (exception is ApiException) {
+    } else if (exception is ServerException) {
       return exception.errorType;
     } else if (exception is DioError) {
       return handleDioException(exception);
@@ -25,8 +25,8 @@ abstract class AppCubit<State> extends Cubit<State> with ErrorHandle {
 }
 
 mixin ErrorHandle {
-  String getErrorMessage(dynamic error) {
-    if (error is ApiException) {
+  String getErrorMessage(error) {
+    if (error is ServerException) {
       return error.message;
     } else if (error is Exception) {
       return error.toString();
@@ -37,8 +37,9 @@ mixin ErrorHandle {
 }
 
 LocalizedErrorType handleDioException(DioError exception) {
-  if (exception.type == null) return LocalizedErrorType.DIO_DEFAULT;
   switch (exception.type) {
+    case DioErrorType.response:
+      return LocalizedErrorType.DIO_DEFAULT;
     case DioErrorType.cancel:
       return LocalizedErrorType.DIO_DEFAULT;
     case DioErrorType.connectTimeout:
@@ -48,12 +49,15 @@ LocalizedErrorType handleDioException(DioError exception) {
     case DioErrorType.sendTimeout:
       return LocalizedErrorType.DIO_TIMEOUT;
     case DioErrorType.other:
-      dynamic error = exception.error;
-      if (error is SocketException)
+      final dynamic error = exception.error;
+      if (error is SocketException) {
         return LocalizedErrorType.NETWORK;
-      else
+      } else {
         return LocalizedErrorType.DIO_DEFAULT;
+      }
     default:
       return LocalizedErrorType.DIO_DEFAULT;
   }
 }
+
+

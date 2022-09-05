@@ -5,8 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
@@ -14,17 +12,18 @@ import 'package:simposi_app_v4/global/theme/appcolors.dart';
 // TODO: Finish Setup
 class PinCodeFields extends StatefulWidget {
   @override
-  _PinCodeFieldsState createState() => _PinCodeFieldsState();
+  State createState() => _PinCodeFieldsState();
 }
 
 class _PinCodeFieldsState extends State<PinCodeFields> {
-  final TextEditingController _verificationCodeController = TextEditingController(text: '');
-  bool _isButtonDisabled = true;
+  final TextEditingController _verificationCodeController =
+      TextEditingController(text: '');
+  final bool _isButtonDisabled = true;
   late String errorText;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width * 0.8,
       child: PinCodeTextField(
         length: 6,
@@ -37,20 +36,16 @@ class _PinCodeFieldsState extends State<PinCodeFields> {
             shape: PinCodeFieldShape.box,
             fieldHeight: 50,
             fieldWidth:
-            ((MediaQuery.of(context).size.width * 0.8) - (5 * 7)) /
-                6,
+                ((MediaQuery.of(context).size.width * 0.8) - (5 * 7)) / 6,
             borderRadius: BorderRadius.circular(25),
             borderWidth: 1,
             inactiveColor: SimposiAppColors.simposiLightGrey,
             selectedColor: SimposiAppColors.simposiDarkBlue,
             disabledColor: SimposiAppColors.simposiLightGrey,
-            activeColor: SimposiAppColors.simposiDarkBlue
-        ),
+            activeColor: SimposiAppColors.simposiDarkBlue),
         onChanged: (value) => setState(() => errorText = value),
         appContext: context,
       ),
     );
   }
-
 }
-

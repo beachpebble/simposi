@@ -1,57 +1,48 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:simposi_app_v4/model/master_data.dart';
-import 'package:simposi_app_v4/repository/auth_repository.dart';
-import 'package:simposi_app_v4/repository/profile_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'authentication_event.dart';
-
 part 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
-  AuthenticationBloc({required AuthRepository authManager, required ProfileRepository profileRepository})
-      : _authManager = authManager,_profileRepository = profileRepository,
-        super(AuthenticationLoading());
+  static const String kTokenKey = 'token_key';
+  String? _token;
 
-  final AuthRepository _authManager;
-  final ProfileRepository _profileRepository;
-
-  late MasterData masterData;
-
-  String? get token => _authManager.jwt;
-
-  @override
-  Stream<AuthenticationState> mapEventToState(
-    AuthenticationEvent event,
-  ) async* {
-    if (event is ReloadAuthEvent) {
-      yield AuthenticationLoading();
-      await _authManager.loadAuth();
-      try {
-        MasterData mData = await _profileRepository.getMasterData();
-        masterData = mData;
-
-      } catch (e) {
-        yield AuthenticatedError();
-        return;
-      }
-      if (_authManager.authorized) {
-        await _profileRepository.refreshProfile();
-        yield Authenticated();
+  AuthenticationBloc() : super(AuthenticationLoading()) {
+    on<ReloadAuthEvent>((event, emit) async {
+      emit(AuthenticationLoading());
+      final sp = await SharedPreferences.getInstance();
+      _token = sp.getString(kTokenKey);
+      if (_token?.isNotEmpty ?? false) {
+        emit(Authenticated());
       } else {
-        yield NotAuthenticated();
+        emit(const NotAuthenticated());
       }
-    } else if (event is LogOut) {
-      _authManager.logout();
-      yield NotAuthenticated();
-    } else if (event is LoggedOut) {
-      yield NotAuthenticated();
-    } else if (event is SaveAuthEvent) {
-      _authManager.saveAuth(event.token);
-      yield Authenticated();
-    }
+    });
+    on<LogOut>((event, emit) async {
+      final sp = await SharedPreferences.getInstance();
+      sp.remove(kTokenKey);
+      emit(const NotAuthenticated());
+    });
+    on<Auth401>((event, emit) async {
+      if (state is Authenticated) {
+        final sp = await SharedPreferences.getInstance();
+        await sp.remove(kTokenKey);
+        emit(const NotAuthenticated(loginScreen: true));
+      }
+    });
+    on<LoggedOut>((event, emit) async {
+      emit(const NotAuthenticated());
+    });
+    on<SaveAuthEvent>((event, emit) async {
+      final sp = await SharedPreferences.getInstance();
+      _token = event.token;
+      await sp.setString(kTokenKey, event.token);
+      emit(Authenticated());
+    });
   }
+
+  String? get token => _token;
 }

@@ -5,37 +5,35 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simposi_app_v4/bloc/rsvp/rsvp_bloc.dart';
 import 'package:simposi_app_v4/global/theme/elements/counterbubble.dart';
-import '../theme.dart';
-import '../appcolors.dart';
-import 'simposiappbar.dart';
-import 'simposinavicons.dart';
+
 import '../../../calendar/simposicalendar.dart';
 import '../../../discover/discoverscreen.dart';
 import '../../../notifications/alertsscreen.dart';
 import '../../../profile/profilescreen.dart';
+import '../appcolors.dart';
+import 'simposinavicons.dart';
 
 // Simposi Page Template
 class SimposiHome extends StatefulWidget {
-
   @override
-  _SimposiHomeState createState() => _SimposiHomeState();
+  State createState() => _SimposiHomeState();
 }
 
 class _SimposiHomeState extends State<SimposiHome> {
   // Set Home
   int simposiNavTab = 0;
+
   // Set Nav Bar Pages
-  List<Widget> _simposiPages = [
-    SimposiCalendar(),
-    DiscoverScreen(),
+  final List<Widget> _simposiPages = [
+    const SimposiCalendar(),
+    const DiscoverScreen(),
     AlertsScreen(),
     ProfileScreen(),
   ];
-
-
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -56,34 +54,35 @@ class _SimposiHomeState extends State<SimposiHome> {
             });
           },
           selectedItemColor: SimposiAppColors.simposiDarkGrey,
-          unselectedLabelStyle: TextStyle(
+          unselectedLabelStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w800,
             color: SimposiAppColors.simposiLightText,
           ),
-          selectedLabelStyle: TextStyle(
+          selectedLabelStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w800,
             color: SimposiAppColors.simposiDarkGrey,
           ),
           items: [
             BottomNavigationBarItem(
-              icon: Stack(
-                  children: <Widget>[
+              icon: BlocBuilder<RsvpBloc, RsvpState>(
+                builder: (context, state) {
+                  return Stack(children: <Widget>[
                     Container(
-                      padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
+                      padding: const EdgeInsets.fromLTRB(0, 15, 0, 10),
                       alignment: Alignment.center,
-                      child: Icon(SimposiNav.calendar),
+                      child: const Icon(SimposiNav.calendar),
                     ),
-                    Container(
-                      child: Positioned(
+                    if (state is RsvpLoaded && state.invited > 0)
+                      Positioned(
                         right: 25,
                         child: SimposiCounterBubble(
-                            count: '2', // TODO: Enable Counter for RSVPs where status = invited, hide if 0
+                          count: state.invited.toString(),
                         ),
                       ),
-                    ),
-                  ]
+                  ]);
+                },
               ),
               label: 'Socials',
             ),
@@ -91,18 +90,20 @@ class _SimposiHomeState extends State<SimposiHome> {
               icon: Stack(
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
+                    padding: const EdgeInsets.fromLTRB(0, 15, 0, 10),
                     alignment: Alignment.center,
-                    child: Icon(SimposiNav.carddeck),
+                    child: const Icon(SimposiNav.carddeck),
                   ),
-                  Container(
-                    child: Positioned(
-                      right: 25,
-                      child: SimposiCounterBubble(
-                          count: '134', // TODO: Enable counter for Discover Cards, hide if 0
-                      ),
-                    ),
-                  ),
+
+                  // Container(
+                  //   child: Positioned(
+                  //     right: 25,
+                  //     child: SimposiCounterBubble(
+                  //       count:
+                  //       '134', // TODO: Enable counter for Discover Cards, hide if 0
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
               label: 'Discover',
@@ -111,26 +112,27 @@ class _SimposiHomeState extends State<SimposiHome> {
               icon: Stack(
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
+                    padding: const EdgeInsets.fromLTRB(0, 15, 0, 10),
                     alignment: Alignment.center,
-                    child: Icon(SimposiNav.alerts),
+                    child: const Icon(SimposiNav.alerts),
                   ),
-                  Container(
-                    child: Positioned(
-                      right: 25,
-                      child: SimposiCounterBubble(
-                          count: '1', // TODO: Enable counter for unread alert messages, hide if 0
-                      ),
-                    ),
-                  ),
+                  // Container(
+                  //   child: Positioned(
+                  //     right: 25,
+                  //     child: SimposiCounterBubble(
+                  //       count:
+                  //       '1', // TODO: Enable counter for unread alert messages, hide if 0
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
               label: 'Alerts',
             ),
             BottomNavigationBarItem(
               icon: Container(
-                padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
-                child: Icon(SimposiNav.profile),
+                padding: const EdgeInsets.fromLTRB(0, 15, 0, 10),
+                child: const Icon(SimposiNav.profile),
               ),
               label: 'Profile',
             ),

@@ -5,99 +5,152 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
-import 'package:simposi_app_v4/global/routegenerator.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:simposi_app_v4/bloc/app_setup/app_setup_cubit.dart';
+import 'package:simposi_app_v4/bloc/profile/profile_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
-import 'package:simposi_app_v4/global/theme/theme.dart';
+import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/model/generation.dart';
+import 'package:simposi_app_v4/repository/profile_repository.dart';
 
-class CreateEvent5 extends StatelessWidget {
-  double progress = 0.70;
+import '../app_router.dart';
+import 'create_event_screen.dart';
+import 'cubit/event_edit_cubit.dart';
+
+//AppLocalizations.of(context)!.wantToMeetTitle,
+
+class CreateEvent5Generations extends CreateEventScreen {
+  const CreateEvent5Generations({bool editMode = false})
+      : super(editMode: editMode);
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    backgroundColor: Colors.white,
-    extendBodyBehindAppBar: true,
-    appBar: BasicFormAppBar(),
-    body: Column(
-      children: [
-        // Header
-        Container(
-          child: Column(
+  State<StatefulWidget> createState() {
+    return _CreateEvent5GenerationsState();
+  }
+}
+
+class _CreateEvent5GenerationsState
+    extends CreateEventScreenState<CreateEvent5Generations> {
+  Set<Generation> _selected = {};
+
+  void _selectGeneration(Generation generation) {
+    setState(() {
+      if (_selected.contains(generation)) {
+        _selected.remove(generation);
+      } else {
+        _selected.add(generation);
+      }
+    });
+    context.read<EventEditCubit>().stage5Generations(generation: _selected);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _selected = widget.editMode
+        ? context
+                .read<ProfileRepository>()
+                .profile
+                .userMeta
+                ?.wantToMeetGenerations
+                .toSet() ??
+            {}
+        : context.read<EventEditCubit>().wantToMeetGenerations ?? {};
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      extendBodyBehindAppBar: true,
+      appBar: BasicFormAppBar(),
+      body: Column(
+        children: [
+          Column(
             children: [
               const SizedBox(height: 45),
               LinearProgressIndicator(
-                value: progress,
+                value: getProgressValue(),
                 valueColor: const AlwaysStoppedAnimation(
                     SimposiAppColors.simposiDarkBlue),
                 backgroundColor: SimposiAppColors.simposiFadedBlue,
               ),
               const SizedBox(height: 70),
               Text(
-                'Who do you want to meet ?',
+                AppLocalizations.of(context)!.wantToMeetTitle,
                 style: Theme.of(context).textTheme.headline3,
               ),
               const SizedBox(height: 10),
             ],
           ),
-        ),
 
-        // Body
-        Expanded(
-          child: Container(
-            padding: EdgeInsets.fromLTRB(40, 10, 40, 20),
-            child: Column(
-              children: [
-                // TODO: Convert to Toggle Buttons (copy generations implementation from authentication)
-                // iGen Button
-                BigGBSelectButton(
-                  buttonLabel: 'iGen (1996 - Present)',
-                  buttonAction: null),
-                SizedBox(height: 10),
-                // Millennial Button
-                BigGBSelectButton(
-                  buttonLabel: 'Millennial (1981 - 1995)',
-                  buttonAction: null),
-                SizedBox(height: 10),
-                // Gen X Button
-                BigGBSelectButton(
-                  buttonLabel: 'Gen X (1965 - 1980)',
-                  buttonAction: null),
-                SizedBox(height: 10),
-                // Boomer Button
-                BigGBSelectButton(
-                  buttonLabel: 'Boomer (1946 - 1964)',
-                  buttonAction: null),
-                SizedBox(height: 10),
-                // Silent Button
-                BigGBSelectButton(
-                  buttonLabel: 'Silent (1928 - 1945)',
-                  buttonAction: null),
-
-              ],
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(40, 10, 40, 20),
+              child: MediaQuery.removePadding(
+                removeTop: true,
+                context: context,
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: context
+                      .read<AppSetupCubit>()
+                      .masterData
+                      .generations
+                      .length,
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(height: 10);
+                  },
+                  itemBuilder: (context, index) {
+                    return BigGBSelectButton(
+                        buttonLabel: context
+                            .read<AppSetupCubit>()
+                            .masterData
+                            .generations[index]
+                            .title,
+                        isSelected: _selected.contains(context
+                            .read<AppSetupCubit>()
+                            .masterData
+                            .generations[index]),
+                        buttonAction: () {
+                          _selectGeneration(context
+                              .read<AppSetupCubit>()
+                              .masterData
+                              .generations[index]);
+                        });
+                  },
+                ),
+              ),
             ),
           ),
-        ),
 
-        // Footer
-        Container(
-          padding: const EdgeInsets.fromLTRB(40, 10, 40, 40),
-          child:
-          Column(
-            children: [
-              // TODO: Disable Button until user has selected a generation
-              BigGBSelectButton(
-                buttonLabel: 'Continue',
-                buttonAction: () => {
-                  Navigator.of(context).pushNamed('/createevent6'),
-                },
-              ),
-            ],
-          ),
-        ),
-      ],
-    ),
-  );
+          // Footer
+          getFooter()
+        ],
+      ),
+    );
+  }
+
+  @override
+  VoidCallback? continueAction() => _selected.isNotEmpty
+      ? () {
+          AutoRouter.of(context).push(CreateEvent6Route());
+        }
+      : null;
+
+  @override
+  VoidCallback? saveAction() => _selected.isNotEmpty
+      ? () {
+          context
+              .read<ProfileBloc>()
+              .add(ProfileUpdateWantToMeetGeneration(_selected.toList()));
+        }
+      : null;
+
+  @override
+  double progress() => 0.80;
 }

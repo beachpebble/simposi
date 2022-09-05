@@ -9,17 +9,17 @@ class ResendCountDown extends AnimatedWidget {
   final Animation<int> animation;
 
   @override
-  build(BuildContext context) {
-    Duration clockTimer = Duration(seconds: animation.value);
+  Padding build(BuildContext context) {
+    final clockTimer = Duration(seconds: animation.value);
 
-    String timerText =
+    final timerText =
         'Resend in ${clockTimer.inSeconds.remainder(60).toString()} seconds';
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Text(
-        "$timerText",
-        style: TextStyle(
+        timerText,
+        style: const TextStyle(
           fontSize: 16,
         ),
       ),

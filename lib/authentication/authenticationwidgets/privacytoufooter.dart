@@ -5,16 +5,11 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
+
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:simposi_app_v4/app_router.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
-import 'package:simposi_app_v4/profile/termsofuse.dart';
-import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import '../../global/theme/elements/simposiappbar.dart';
-import 'package:simposi_app_v4/global/theme/theme.dart';
-import '../../global/theme/elements/simposiicons.dart';
-
-
 
 class PrivacyTOUFooter extends StatelessWidget {
   final Color footerColor;
@@ -31,10 +26,10 @@ class PrivacyTOUFooter extends StatelessWidget {
           color: footerColor,
           buttonLabel: 'Privacy',
           footerButtonAlign: TextAlign.right,
-          nextPage: '/privacy',
+          nextPage: () => AutoRouter.of(context).push(const PrivacyScreenRoute()),
         ),
         Container(
-          padding: EdgeInsets.fromLTRB(0, 0, 12, 0),
+          padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
           child: Icon(
             Icons.circle,
             color: footerColor,
@@ -45,11 +40,11 @@ class PrivacyTOUFooter extends StatelessWidget {
           color: footerColor,
           buttonLabel: 'Terms of Use',
           footerButtonAlign: TextAlign.left,
-          nextPage: '/termsofuse',
+          nextPage: ()=> AutoRouter.of(context)
+              .push(const TermsOfUseRoute()),
         ),
-        SizedBox(width: 15),
+        const SizedBox(width: 15),
       ],
     );
   }
 }
-

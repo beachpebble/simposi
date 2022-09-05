@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
 enum LocalizedErrorType {
-  PARSE_JWT_ERROR,
   PARSE_ERROR,
   AUTH,
   SERVER_ERROR,
@@ -31,32 +30,11 @@ class ParseException implements Exception {
 
   @override
   String toString() {
-    if (message.isNotEmpty)
+    if (message.isNotEmpty) {
       return message;
-    else
+    } else {
       return "Parse exception";
-  }
-}
-
-/**
-    Errors from API layer, like serverside status errors like missing parameters,
-    or some server exceptions, so everything when response from server is received
-    but contains status with error code
-    !!! Not errors from network layers when http ststus code is not 200/201
-    see @ServerException
- */
-class ApiException implements Exception {
-  final String message;
-  final LocalizedErrorType errorType;
-
-  ApiException({required this.errorType, this.message = ""});
-
-  @override
-  String toString() {
-    if (message.isNotEmpty)
-      return message;
-    else
-      return "Unknown API exception";
+    }
   }
 }
 
@@ -72,46 +50,32 @@ class ServerException implements Exception {
 
   @override
   String toString() {
-    if (message.isNotEmpty)
+    if (message.isNotEmpty) {
       return message;
-    else
+    } else {
       return "Unknown ServerException";
+    }
   }
 }
 
-/**
-    Errors from network layer in cases when http code is not 200*
- */
-class AppStateException implements Exception {
-  final String message;
-  final LocalizedErrorType errorType;
-
-  AppStateException({this.errorType = LocalizedErrorType.APP_STATE, this.message = ""});
-
-  @override
-  String toString() {
-    if (message.isNotEmpty)
-      return message;
-    else
-      return "Unknown AppStateException";
-  }
-}
-
-class AuthException extends ApiException {
+class AuthException extends ServerException {
   AuthException({String message = ""})
       : super(errorType: LocalizedErrorType.AUTH, message: message);
 }
 
 //TODO LOcalize
-String handleError(dynamic exception, BuildContext context) {
+String handleError(exception, BuildContext context) {
   if (exception is AuthException) {
-      return "Auth error ${exception.message}";
-  } else if (exception is ApiException) {
-    return "Api error ${exception.message}";
+    return "Auth error ${exception.message}";
+  } else if (exception is ServerException) {
+    return "Server error ${exception.message}";
   } else if (exception is DioError) {
     return getDioException(exception, context);
   } else if (exception is ParseException) {
     return "Data parse error";
+  }
+  if (exception is String) {
+    return exception;
   } else {
     return "Unknown error";
   }
@@ -121,8 +85,8 @@ String handleError(dynamic exception, BuildContext context) {
 String getDioException(DioError dioError, BuildContext context) {
   switch (dioError.type) {
     case DioErrorType.response:
-      return "Server error: ${_getDioResponseError(dioError)}";
-      case DioErrorType.cancel:
+      return "Server error: ${getDioResponseError(dioError)}";
+    case DioErrorType.cancel:
       return "Request cancelled";
     case DioErrorType.connectTimeout:
       return "Connection timeout";
@@ -131,26 +95,42 @@ String getDioException(DioError dioError, BuildContext context) {
     case DioErrorType.sendTimeout:
       return "Send timeout timeout";
     case DioErrorType.other:
-      dynamic error = dioError.error;
-      if (error is SocketException)
+      final dynamic error = dioError.error;
+      if (error is SocketException) {
         return "Network error";
-      else
-        return dioError.message.isEmpty == true ? "Unknown Dio error" : dioError.message;
+      } else {
+        return dioError.message.isEmpty == true
+            ? "Unknown Dio error"
+            : dioError.message;
+      }
     default:
-      return dioError.message.isEmpty == true ? "Unknown Dio error" : dioError.message;
+      return dioError.message.isEmpty == true
+          ? "Unknown Dio error"
+          : dioError.message;
   }
 }
 
-String _getDioResponseError(DioError dioError) {
+String getDioResponseError(DioError dioError) {
   if (dioError.type == DioErrorType.response && dioError.response != null) {
-    Response response = dioError.response!;
-    try {
-      var body = response.data is String ? jsonDecode(response.data) : response.data;
-      if (body is Map && body.containsKey('message')) {
-        return body['message'];
-      }
-    } catch (e) {
+    final response = dioError.response!;
 
+    final body =
+        response.data is String ? jsonDecode(response.data) : response.data;
+    if (body is Map && body.containsKey('error')) {
+      final Map? error = body['error'];
+      if (error != null && error.containsKey('message')) {
+        final message = error['message'];
+        if (message is String) {
+          return message;
+        } else if (message is Map) {
+          var error = "";
+          for (final List f in message.values) {
+            final fs = f.join(", ");
+            error += fs;
+          }
+          return error;
+        }
+      }
     }
   }
   return "Dio response error: ${dioError.message}";

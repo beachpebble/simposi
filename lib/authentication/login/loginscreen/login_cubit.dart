@@ -1,16 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:localstorage/localstorage.dart';
 import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/model/errors.dart';
-import 'package:simposi_app_v4/repository/api_service.dart';
-import 'package:simposi_app_v4/repository/auth_repository.dart';
 import 'package:simposi_app_v4/repository/profile_repository.dart';
 
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit({required this.authenticationBloc, required this.profileRepository})
+  LoginCubit(
+      {required this.authenticationBloc, required this.profileRepository})
       : super(LoginInitial());
 
   final AuthenticationBloc authenticationBloc;
@@ -20,23 +18,27 @@ class LoginCubit extends Cubit<LoginState> {
     emit(LoginProgress());
 
     try {
-      Map data = await profileRepository.login(login, password);
-
-      if (data.containsKey('apiAccessToken') &&
-          data['apiAccessToken'] != null && data.containsKey('confirmed') &&
-          data['confirmed'] != null ) {
-        await profileRepository.setProfile(data);
-        if (data['confirmed'] == 1 ) {
+      final response = await profileRepository.login(login, password);
+      final Map data = response['data'];
+      if (data.containsKey('user') && data['user'] != null) {
+        final Map<String, dynamic> user = data['user'];
+        if (data.containsKey('token') &&
+            data['token'] != null &&
+            user.containsKey('verified') &&
+            user['verified'] == true) {
+          await profileRepository.setProfile(user);
+          authenticationBloc.add(SaveAuthEvent(data['token']));
           emit(LoginSuccess());
-          authenticationBloc.add(SaveAuthEvent(data['apiAccessToken']));
         } else {
-          emit(LoginUnconfirmed(data['apiAccessToken']));
+          await profileRepository.setProfile(user);
+          emit(const LoginUnconfirmed());
         }
       } else {
         emit(LoginError(AuthException(
-            message: "Login successful but does not contain token or required fields")));
+            message:
+                "Login successful but does not contain token or required fields")));
       }
-    }  catch (e) {
+    } catch (e) {
       emit(LoginError(e));
     }
   }

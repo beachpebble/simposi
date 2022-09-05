@@ -5,30 +5,34 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
-
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:simposi_app_v4/authentication/createprofile/signup8validate/signup8_validate_cubit.dart';
 import 'package:simposi_app_v4/authentication/login/reset_password_start/forgot_password_start_cubit.dart';
+import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/global/widgets/forgot_password_button.dart';
 import 'package:simposi_app_v4/global/widgets/phone_field.dart';
 import 'package:simposi_app_v4/global/widgets/progress.dart';
 import 'package:simposi_app_v4/model/errors.dart';
+import 'package:simposi_app_v4/repository/profile_repository.dart';
 import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
 
+import '../../../app_router.dart';
 import '../reset_password_start/forgotpasswordbottomsheet.dart';
 import 'login_cubit.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   // Set Variables
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  State createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
@@ -37,8 +41,8 @@ class _LoginScreenState extends State<LoginScreen> {
   String password = '';
   bool _passwordVisible = true;
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -63,25 +67,24 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) => KeyboardDismisser(
         child: BlocProvider(
           create: (context) => LoginCubit(
-              authenticationBloc: context.read(),
-              profileRepository: context.read()),
+              authenticationBloc: context.read<AuthenticationBloc>(),
+              profileRepository: context.read<ProfileRepository>()),
           child: Scaffold(
             backgroundColor: Colors.white,
-            body: LayoutBuilder(builder:
-                (BuildContext context, BoxConstraints viewportConstraints) {
+            body: LayoutBuilder(builder: (context, viewportConstraints) {
               return SingleChildScrollView(
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: viewportConstraints.maxHeight,
                   ),
                   child: Container(
-                    padding: EdgeInsets.all(40),
+                    padding: const EdgeInsets.all(40),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         // LOGO HEADER
-                        Container(
+                        SizedBox(
                           height: 250,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -89,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Image.asset("assets/images/logo.png"),
                               Text(
                                 AppLocalizations.of(context)!.loginTitle,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: SimposiAppColors.simposiDarkBlue,
                                   fontWeight: FontWeight.w900,
                                   fontSize: 30,
@@ -100,88 +103,89 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         // TODO: Validate Account Exists and Start a New Page Stack with Home (Tracy you need to learn how to reset the Page Stack instead of pushnamed)
                         // LOGIN FORM
-                        Container(
-                          child: Form(
-                            key: _formKey,
-                            child: Column(
-                              children: [
-                                // EMAIL FIELD
-                                PhoneField(
-                                  controller: _phoneController,
-                                  onSave: (value) =>
-                                      setState(() => phone = value),
-                                ),
-                                SizedBox(height: 10),
+                        Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              // EMAIL FIELD
+                              PhoneField(
+                                controller: _phoneController,
+                                onSave: (value) =>
+                                    setState(() => phone = value),
+                              ),
+                              const SizedBox(height: 10),
 
-                                // PASSWORD FIELD
-                                _passwordField(),
-                                SizedBox(height: 10),
-                                BlocConsumer<LoginCubit, LoginState>(
-                                  listener: (context, state) {
-                                    if (state is LoginError) {
-                                      showErrorToast(
-                                          handleError(state.error, context));
-                                    } else if (state is LoginUnconfirmed) {
-                                      Navigator.of(context).pushNamed(
-                                          '/signup8',
-                                          arguments: ValidateParameters(
-                                              phone, state.token));
-                                    }
-                                  },
-                                  builder: (context, state) {
-                                    return state is LoginProgress
-                                        ? AppProgressIndicator()
-                                        : ContinueButton(
-                                            buttonLabel:
-                                                AppLocalizations.of(context)!
-                                                    .loginLogInButton,
-                                            buttonAction: _nextEnabled()
-                                                ? () {
-                                                    final isValid = _formKey
-                                                        .currentState!
-                                                        .validate();
+                              // PASSWORD FIELD
+                              _passwordField(),
+                              const SizedBox(height: 10),
+                              BlocConsumer<LoginCubit, LoginState>(
+                                listener: (context, state) {
+                                  if (state is LoginError) {
+                                    showErrorToast(
+                                        handleError(state.error, context));
+                                  } else if (state is LoginUnconfirmed) {
+                                    AutoRouter.of(context).push(
+                                        SignUpForm8Route(
+                                            validateParameters:
+                                                ValidateParameters(phone)));
+                                    // Navigator.of(context).pushNamed(
+                                    //     '/signup8',
+                                    //     arguments: ValidateParameters(
+                                    //         phone));
+                                  }
+                                },
+                                builder: (context, state) {
+                                  return state is LoginProgress
+                                      ? AppProgressIndicator()
+                                      : ContinueButton(
+                                          buttonLabel:
+                                              AppLocalizations.of(context)!
+                                                  .loginLogInButton,
+                                          buttonAction: _nextEnabled()
+                                              ? () {
+                                                  final isValid = _formKey
+                                                      .currentState!
+                                                      .validate();
 
-                                                    if (isValid) {
-                                                      _formKey.currentState!
-                                                          .save();
-                                                      print('Phone: ${phone}');
-                                                      print(
-                                                          'Password: ${password}');
-                                                      context
-                                                          .read<LoginCubit>()
-                                                          .login(
-                                                              phone, password);
-                                                    }
+                                                  if (isValid) {
+                                                    _formKey.currentState!
+                                                        .save();
+                                                    print('Phone: $phone');
+                                                    print(
+                                                        'Password: $password');
+                                                    context
+                                                        .read<LoginCubit>()
+                                                        .login(phone, password);
                                                   }
-                                                : null);
-                                  },
-                                ),
-                                SizedBox(height: 10),
-                                ForgotPasswordTextButton(
-                                  onClick: () {
-                                    showModalBottomSheet<void>(
-                                      isScrollControlled: true,
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return BlocProvider<
-                                            ForgotPasswordStartCubit>(
-                                          create: (context) =>
-                                              ForgotPasswordStartCubit(
-                                                  profileRepository:
-                                                      context.read()),
-                                          child: ForgotPasswordForm(),
-                                        );
-                                      },
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
+                                                }
+                                              : null);
+                                },
+                              ),
+                              const SizedBox(height: 10),
+                              ForgotPasswordTextButton(
+                                onClick: () {
+                                  showModalBottomSheet<void>(
+                                    isScrollControlled: true,
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return BlocProvider<
+                                          ForgotPasswordStartCubit>(
+                                        create: (context) =>
+                                            ForgotPasswordStartCubit(
+                                                profileRepository:
+                                                    context.read()),
+                                        child: ForgotPasswordForm(),
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                            ],
                           ),
                         ),
 
                         // Footer
-                        Container(
+                        SizedBox(
                           height: 150,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -190,26 +194,26 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: Text(
                                   AppLocalizations.of(context)!
                                       .loginRegisterButton,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: SimposiAppColors.simposiDarkBlue,
                                     fontWeight: FontWeight.w900,
                                     fontSize: 15,
                                   ),
                                 ),
                                 onPressed: () => {
-                                  Navigator.of(context)
-                                      .pushReplacementNamed('/signup1')
+                                  AutoRouter.of(context)
+                                      .replace(const SignUpForm1Route())
                                 },
                               ),
-                              SizedBox(height: 10),
-                              Text(
+                              const SizedBox(height: 10),
+                              const Text(
                                 '© 2021 Simposi Inc.',
                                 style: TextStyle(
                                   fontSize: 11,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
-                              SizedBox(height: 20),
+                              const SizedBox(height: 20),
                             ],
                           ),
                         ),
@@ -233,7 +237,7 @@ class _LoginScreenState extends State<LoginScreen> {
         obscureText: _passwordVisible,
         showCursor: true,
 
-        style: TextStyle(
+        style: const TextStyle(
           color: SimposiAppColors.simposiLightText,
           fontWeight: FontWeight.w500,
           fontSize: 15,
@@ -241,8 +245,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
         decoration: InputDecoration(
           labelText: ' Password',
-          contentPadding: EdgeInsets.all(20),
-          labelStyle: TextStyle(
+          contentPadding: const EdgeInsets.all(20),
+          labelStyle: const TextStyle(
             color: SimposiAppColors.simposiLightText,
             fontSize: 14,
             fontWeight: FontWeight.w500,
@@ -265,7 +269,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   }),
 
           // INITIAL STATE
-          border: OutlineInputBorder(
+          border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(40.0)),
             borderSide: BorderSide(
               color: SimposiAppColors.simposiLightGrey,
@@ -274,7 +278,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
           // FOCUS STATE
           focusColor: SimposiAppColors.simposiDarkBlue,
-          focusedBorder: OutlineInputBorder(
+          focusedBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(40.0)),
             borderSide: BorderSide(
               color: SimposiAppColors.simposiDarkBlue,
@@ -282,17 +286,17 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
 
           // FOCUS ERROR STATE
-          focusedErrorBorder: OutlineInputBorder(
+          focusedErrorBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(40.0)),
               borderSide: BorderSide(
                 color: SimposiAppColors.simposiPink,
               )),
 
           // ERROR STATE
-          errorStyle: TextStyle(
+          errorStyle: const TextStyle(
             color: SimposiAppColors.simposiPink,
           ),
-          errorBorder: OutlineInputBorder(
+          errorBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(40.0)),
               borderSide: BorderSide(
                 color: SimposiAppColors.simposiPink,

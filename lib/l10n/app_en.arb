@@ -24,5 +24,60 @@
   "validatePhoneNotEmpty": "Phone Required",
   "validateEmailNotEmpty": "Email Required",
   "validateEmailNotValid": "Email Not Valid",
-  "validateUrlNotValid": "URL Not Valid"
+  "validateUrlNotValid": "URL Not Valid",
+
+  "wantToMeetTitle": "Who do you want to meet ?",
+
+  "logoutDialogTitle": "Logout",
+  "logoutDialogContent": "Do you want to logout?",
+  "logoutDialogYes": "Yes",
+  "logoutDialogNo": "No",
+
+  "eventDetailsMenuCancelRsvp": "Cancel RSVP",
+  "eventDetailsMenuCancelEvent": "Cancel Event",
+  "eventDetailsMenuEditEvent": "Edit Event",
+  "eventDetailsMenuReport": "Report Social",
+
+  "cancelEventDialogTitle": "Confirm Cancellation",
+  "cancelEventText": "This will cancel the event and notify all participants. This action can not be undone. Are you sure you want to cancel?",
+  "cancelEventUserText": "Are you sure you want to cancel your RSVP to this activity?",
+  "cancelEventCancel": "Cancel",
+  "cancelEventConfirm": "Confirm",
+
+  "cancelRsvpDialogTitle": "Confirm Cancellation",
+  "cancelRsvpText": "Are you sure you want to cancel your RSVP to this activity?",
+  "cancelRsvpCancel": "Cancel",
+  "cancelRsvpConfirm": "Confirm",
+
+
+  "groupFinderTitle": "Group Finder",
+  "groupFinderSessionExpired": "This session will expire in {time}",
+  "@groupFinderSessionExpired" : {
+    "placeholders": {
+      "time": {}
+    }
+  },
+  "groupFinderSelectSomeone": "Select someone",
+  "groupFinderSelectSomeoneExtended": "Select someone to view below",
+  "groupFinderArrived": "{count1} out of {count2} have arrived",
+  "@groupFinderArrived" : {
+    "placeholders": {
+      "count1": {},
+      "count2": {}
+    }
+  },
+  "groupFinder12m": "1-2m",
+  "groupFinder210m": "2-10m",
+  "groupFinder1030m": "10-30m",
+  "groupFinderMe": "Me",
+
+  "checkInPermissionDialogTitle": "Location permission",
+  "checkInPermissionDialogContent": "To continue check in location permission is needed. you can set it up on application permission settings.",
+  "checkInPermissionDialogSettings": "Open App Settings",
+  "checkInPermissionDialogCancel": "Cancel",
+  "checkInCancelRsvp": "Cancel RSVP",
+  "checkInCancelText1": "First to Arrive",
+  "checkInCancelText2": "Ditch Fashion Show",
+  "checkInCancelText3": "First to arrive picks the meeting spot.",
+  "checkInCancelText4": "Find a good location to wait and then use \nthe button below to set the meeting \\nlocation and check in."
 }

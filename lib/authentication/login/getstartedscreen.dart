@@ -5,9 +5,10 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:simposi_app_v4/app_router.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 
@@ -17,15 +18,13 @@ class GetStartedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: SimposiAppColors.simposiDarkBlue,
-
         body: Container(
           decoration: const BoxDecoration(
-            image: const DecorationImage(
-                image: const AssetImage("assets/images/background.png"),
+            image: DecorationImage(
+                image: AssetImage("assets/images/background.png"),
                 fit: BoxFit.contain,
                 alignment: Alignment.topLeft),
           ),
-
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -34,7 +33,8 @@ class GetStartedScreen extends StatelessWidget {
                     height: 100,
                     padding: const EdgeInsets.only(top: 40),
                     child: LoginForwardTextButton(
-                      onClick: () => Navigator.of(context).pushNamed('/login'),
+                      onClick: () =>
+                          AutoRouter.of(context).push(const LoginScreenRoute()),
                     )),
 
                 // BODY
@@ -49,7 +49,7 @@ class GetStartedScreen extends StatelessWidget {
                         children: [
                           const Text(
                             'simposi',
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.white,
                               fontFamily: 'Muli',
                               fontWeight: FontWeight.w900,
@@ -62,10 +62,10 @@ class GetStartedScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       Row(
-                        children: [
-                          const Text(
+                        children: const [
+                          Text(
                             'A new way to match and meet \npeople with the same interests.',
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w700,
                               letterSpacing: 1.5,
@@ -77,9 +77,8 @@ class GetStartedScreen extends StatelessWidget {
                       Row(
                         children: [
                           GetStartedButton(
-                            onClick: () =>
-                                Navigator.of(context).pushNamed('/signup1'),
-                          ),
+                              onClick: () => AutoRouter.of(context)
+                                  .push(const SignUpForm1Route())),
                         ],
                       ),
                     ],

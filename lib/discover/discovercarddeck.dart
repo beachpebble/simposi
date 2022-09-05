@@ -5,16 +5,14 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposiappbar.dart';
-import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
-
 
 class DiscoverCardDeck extends StatefulWidget {
+  const DiscoverCardDeck({super.key});
+
   @override
-  _DiscoverCardDeckState createState() => _DiscoverCardDeckState();
+  State createState() => _DiscoverCardDeckState();
 }
 
 class _DiscoverCardDeckState extends State<DiscoverCardDeck> {
@@ -24,7 +22,7 @@ class _DiscoverCardDeckState extends State<DiscoverCardDeck> {
       child: Stack(
         children: [
           // CARD BACKGROUND
-          Container(
+          SizedBox(
             height: MediaQuery.of(context).size.width * 1.4,
             width: MediaQuery.of(context).size.width * 0.95,
             child: Card(
@@ -33,11 +31,12 @@ class _DiscoverCardDeckState extends State<DiscoverCardDeck> {
               ),
               child: ShaderMask(
                 shaderCallback: (rect) {
-                  return LinearGradient(
+                  return const LinearGradient(
                     begin: Alignment.center,
                     end: Alignment.bottomCenter,
                     colors: [Colors.white, Colors.transparent],
-                  ).createShader(Rect.fromLTRB(0, 100, rect.width, rect.height));
+                  ).createShader(
+                      Rect.fromLTRB(0, 100, rect.width, rect.height));
                 },
                 blendMode: BlendMode.dstIn,
                 child: ClipRRect(
@@ -52,25 +51,27 @@ class _DiscoverCardDeckState extends State<DiscoverCardDeck> {
           ),
 
           Positioned(
-            bottom:30,
+            bottom: 30,
             left: 20,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Ditch Fashion Show',
+              children: const [
+                Text(
+                  'Ditch Fashion Show',
                   style: TextStyle(
                     fontSize: 21,
                     fontWeight: FontWeight.w900,
                     color: SimposiAppColors.simposiDarkGrey,
-                  ),),
-                  Text('Event Time',
-                    style: TextStyle(
-                      fontSize: 13,
-                    ),
                   ),
-
-                ],
-              ),
+                ),
+                Text(
+                  'Event Time',
+                  style: TextStyle(
+                    fontSize: 13,
+                  ),
+                ),
+              ],
+            ),
           ),
 
 // Insert RSVP Counter HERE
@@ -78,8 +79,7 @@ class _DiscoverCardDeckState extends State<DiscoverCardDeck> {
           Positioned(
             top: 20,
             right: 20,
-            child:
-            Stack(
+            child: Stack(
               alignment: Alignment.center,
               children: [
                 Tooltip(
@@ -88,29 +88,33 @@ class _DiscoverCardDeckState extends State<DiscoverCardDeck> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     color: SimposiAppColors.simposiPink,
                   ),
                   child: Column(
-                    children: [
+                    children: const [
                       // TODO: Enable IF ELSE statement on these dots for how many people have RSVPd (Pink or LightGrey)
                       // TODO: Color from bottom to top as RSVPs come in
-                      Icon(Icons.circle,
+                      Icon(
+                        Icons.circle,
                         color: SimposiAppColors.simposiLightGrey,
                         size: 10,
                       ),
                       SizedBox(height: 5),
-                      Icon(Icons.circle,
+                      Icon(
+                        Icons.circle,
                         color: SimposiAppColors.simposiLightGrey,
                         size: 10,
                       ),
                       SizedBox(height: 5),
-                      Icon(Icons.circle,
+                      Icon(
+                        Icons.circle,
                         color: SimposiAppColors.simposiLightGrey,
                         size: 10,
                       ),
                       SizedBox(height: 5),
-                      Icon(Icons.circle,
+                      Icon(
+                        Icons.circle,
                         color: SimposiAppColors.simposiLightGrey,
                         size: 10,
                       ),
@@ -120,8 +124,6 @@ class _DiscoverCardDeckState extends State<DiscoverCardDeck> {
               ],
             ),
           ),
-
-
         ],
       ),
     );

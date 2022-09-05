@@ -5,158 +5,193 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
+import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import '../global/routegenerator.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simposi_app_v4/bloc/profile/profile_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import '../global/theme/elements/simposiappbar.dart';
-import 'package:simposi_app_v4/global/theme/theme.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
+import 'package:simposi_app_v4/global/widgets/progress.dart';
+import 'package:simposi_app_v4/model/profile.dart';
+
+import '../app_router.dart';
+import '../global/theme/elements/simposiappbar.dart';
 
 class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ProfileBloc, ProfileState>(
+      bloc: context.read<ProfileBloc>(),
+      builder: (context, state) {
+        if (state is ProfileLoaded) {
+          return ProfileScreenView(profile: state.userProfile);
+        } else if (state is ProfileLoadError) {
+          return const Scaffold(
+              //TODO wrap
+              body: Center(child: Text("Profile not loaded")));
+        } else {
+          return Scaffold(
+              body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AppProgressIndicator(),
+            ],
+          ));
+        }
+      },
+    );
+  }
+}
+
+class ProfileScreenView extends StatelessWidget {
+  final Profile profile;
+
+  const ProfileScreenView({Key? key, required this.profile}) : super(key: key);
+
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: SimposiAppBar(
           // TODO: Insert username and city variables
-          simposiTitle: 'Flora',
-          simposiSubTitle: Text('Vancouver',
+          simposiTitle: profile.userName,
+          simposiSubTitle: Text(
+            profile.userPhone,
             style: const TextStyle(
               color: SimposiAppColors.simposiLightText,
               fontSize: 13,
             ),
           ),
           simposiAction: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
-            child: IconButton(
-                icon: const Icon(Icons.settings_outlined,
-                color: SimposiAppColors.simposiLightText,
-                size: 30),
-                onPressed: () => {
-                  Navigator.of(context).pushNamed('/profilemenu'),
-                }),
-          ),
-          ),
+              padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
+              child: IconButton(
+                  icon: const Icon(Icons.settings_outlined,
+                      color: SimposiAppColors.simposiLightText, size: 30),
+                  onPressed: () =>
+                      AutoRouter.of(context).push(const ProfileMenuRoute()))),
+        ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Profile Image
             Expanded(
-              child: Container(
-                  // TODO: Replace Image URL with Variable from Profile
-                  child: Image.asset(
-                    "assets/images/profileplaceholder.png",
-                    fit: BoxFit.cover,
-                  )),
+              child: CachedNetworkImage(
+                imageUrl: profile.profilePhoto.url,
+                width: 100,
+                height: 100,
+                imageBuilder: (context, imageProvider) => Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                placeholder: (context, url) =>
+                    Center(child: AppProgressIndicator()),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+              ),
             ),
 
             // Engagement Stats
             Container(
               color: Colors.white,
               height: 70,
-              child: Row(
-                  children: <Widget>[
-                  Expanded(
-                    child: Container(
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          // TODO: Turn these into a ListTile's
-                          // TODO: Enable Profile Counters
-                          children: <Widget>[
-                            // TODO: Enable Invitation Counter (Counts every RSVP received regardless if it was accepted)
-                            Text( '10',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                            const SizedBox(height: 5),
-                            Text( 'Invitations',
-                              style: const TextStyle(
-                                color: SimposiAppColors.simposiLightText,
-                                fontSize: 13,
-                              ),
-                            ),
-                          ]
-                      ),
-                    ),
-                  ),
-
-                  Expanded(
-                    child: Container(
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            // TODO: Enable Check In Counter (Counts everytime user checked in for an event)
-                            Text(
-                              '10',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              'Event Attended',
-                              style: TextStyle(
-                                color: SimposiAppColors.simposiLightText,
-                                fontSize: 13,
-                              ),
-                            ),
-                          ]),
-                    ),
-                  ),
-
-                  Expanded(
-                    child: Container(
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            // TODO: Enable People Counter (Counts every affinity survey sent.)
-                            Text(
-                              '10',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              'People Met',
-                              style: TextStyle(
-                                color: SimposiAppColors.simposiLightText,
-                                fontSize: 13,
-                              ),
-                            ),
-                          ]),
-                    ),
-                  ),
-                ]),
-              ),
-
-              // Subscribe Footer Area
-              Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(height: 10),
-                    Text('Get Unlimited Access',
-                        style: Theme.of(context).textTheme.headline4),
-                    SizedBox(height: 10),
-                    Text(
-                        'Subscribe for unlimited access and \n meet as many people as you like.',
-                    style: Theme.of(context).textTheme.caption,
-                    ),
-                    SizedBox(height: 10),
-                    // TODO: Update transition to draw bottom sheet instead of screen
-                    SubscribeButton(
-                      nextPage: '/subscribe',),
-                    SizedBox(height: 10),
-                    Text(
-                        'Free Users will always be able to \ncreate or attend one meetup per month.',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.caption
-                    ),
-                    SizedBox(height: 10),
-                  ],
+              child: Row(children: <Widget>[
+                Expanded(
+                  child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                      // TODO: Turn these into a ListTile's
+                      // TODO: Enable Profile Counters
+                      children: const <Widget>[
+                        // TODO: Enable Invitation Counter (Counts every RSVP received regardless if it was accepted)
+                        Text(
+                          '10',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          'Invitations',
+                          style: TextStyle(
+                            color: SimposiAppColors.simposiLightText,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ]),
                 ),
-              ),
+                Expanded(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const <Widget>[
+                        // TODO: Enable Check In Counter (Counts everytime user checked in for an event)
+                        Text(
+                          '10',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          'Event Attended',
+                          style: TextStyle(
+                            color: SimposiAppColors.simposiLightText,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ]),
+                ),
+                Expanded(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const <Widget>[
+                        // TODO: Enable People Counter (Counts every affinity survey sent.)
+                        Text(
+                          '10',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          'People Met',
+                          style: TextStyle(
+                            color: SimposiAppColors.simposiLightText,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ]),
+                ),
+              ]),
+            ),
+
+            // Subscribe Footer Area
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 10),
+                Text('Get Unlimited Access',
+                    style: Theme.of(context).textTheme.headline4),
+                const SizedBox(height: 10),
+                Text(
+                  'Subscribe for unlimited access and \n meet as many people as you like.',
+                  style: Theme.of(context).textTheme.caption,
+                ),
+                const SizedBox(height: 10),
+                // TODO: Update transition to draw bottom sheet instead of screen
+                SubscribeButton(
+                  onClick: () => AutoRouter.of(context)
+                      .push(const SimposiSubscribeRoute()),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                    'Free Users will always be able to \ncreate or attend one meetup per month.',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.caption),
+                const SizedBox(height: 10),
+              ],
+            ),
           ],
         ),
       );

@@ -16,7 +16,7 @@ class ForgotPasswordStartSuccess extends ForgotPasswordStartState {}
 class ForgotPasswordStartError extends ForgotPasswordStartState {
   final dynamic error;
 
-  ForgotPasswordStartError(this.error);
+  const ForgotPasswordStartError(this.error);
 
   @override
   List<Object> get props => [error];

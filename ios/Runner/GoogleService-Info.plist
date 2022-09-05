@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>719307898267-gpn8pbf1hktfcrco48bn6v8ou57jbj3a.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.719307898267-gpn8pbf1hktfcrco48bn6v8ou57jbj3a</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAJVRRCc6etYWXIfO2gPDq9b1dOru33bM0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>719307898267</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.simposi</string>
+	<key>PROJECT_ID</key>
+	<string>simposi-1543861104398</string>
+	<key>STORAGE_BUCKET</key>
+	<string>simposi-1543861104398.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:719307898267:ios:789db3720e8f202bc1b53e</string>
+	<key>DATABASE_URL</key>
+	<string>https://simposi-1543861104398.firebaseio.com</string>
+</dict>
+</plist>

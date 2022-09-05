@@ -5,12 +5,11 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class SubscriptionPurchase extends StatelessWidget {
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) => const Scaffold(
 //    appBar: SimposiAppBar('Flora',
 //      simposiSubTitle: 'Vancouver',
 //    ),

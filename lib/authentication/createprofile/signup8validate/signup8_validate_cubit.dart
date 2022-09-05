@@ -11,28 +11,26 @@ class Signup8ValidateCubit extends Cubit<Signup8ValidateState> {
       {required ValidateParameters validateParameters,
       required this.authenticationBloc,
       required this.profileRepository})
-      : this.token = validateParameters.token,
-        this.phone = validateParameters.phone,
+      : phone = validateParameters.phone,
         super(Signup8ValidateInitial());
 
-  final String token;
   final String phone;
   final ProfileRepository profileRepository;
   final AuthenticationBloc authenticationBloc;
 
   Future<void> validate(String code) async {
-    if (!(state is Signup8ValidateLoading)) {
+    if (state is! Signup8ValidateLoading) {
       emit(Signup8ValidateLoading());
       try {
-        String? token = await profileRepository.acceptCode(phone, code);
-        if (token!= null) {
-          emit(Signup8ValidateSuccess("Validated"));
-          await Future.delayed(Duration(seconds: 1));
+        final token = await profileRepository.acceptCode(phone, code);
+        if (token != null) {
+          emit(const Signup8ValidateSuccess("Validated"));
+          await Future.delayed(const Duration(seconds: 1));
           authenticationBloc.add(SaveAuthEvent(token));
         } else {
-          emit(Signup8ValidateError(ServerException(errorType: LocalizedErrorType.UNEXPECTED)));
+          emit(Signup8ValidateError(
+              ServerException(errorType: LocalizedErrorType.UNEXPECTED)));
         }
-
       } catch (e) {
         emit(Signup8ValidateError(e));
       }
@@ -40,10 +38,10 @@ class Signup8ValidateCubit extends Cubit<Signup8ValidateState> {
   }
 
   Future<void> resend() async {
-    if (!(state is Signup8ValidateLoading)) {
+    if (state is! Signup8ValidateLoading) {
       emit(Signup8ValidateLoading());
       try {
-        await profileRepository.sendConfirmationCode(phone);
+        await profileRepository.requestConfirmationCode(phone);
         emit(Signup8ResendSuccess());
       } catch (e) {
         emit(Signup8ValidateError(e));
@@ -54,7 +52,6 @@ class Signup8ValidateCubit extends Cubit<Signup8ValidateState> {
 
 class ValidateParameters {
   final String phone;
-  final String token;
 
-  ValidateParameters(this.phone, this.token);
+  ValidateParameters(this.phone);
 }

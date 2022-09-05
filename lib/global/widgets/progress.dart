@@ -1,13 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AppProgressIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: CircularProgressIndicator(),
+    return const SizedBox(
       width: 48,
       height: 48,
+      child: CircularProgressIndicator(),
     );
   }
 

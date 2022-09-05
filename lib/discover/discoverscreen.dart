@@ -5,8 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposiappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
@@ -14,6 +12,8 @@ import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'discovercarddeck.dart';
 
 class DiscoverScreen extends StatelessWidget {
+  const DiscoverScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: SimposiAppBar(
@@ -29,13 +29,8 @@ class DiscoverScreen extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              child:
-                  // TODO: Enable IF Statement, IF Have Events show Discover Card Deck ELSE show Background
-//          SimposiDiscoverBackground(),
-                  DiscoverCardDeck(),
-            ),
+          children: const [
+            DiscoverCardDeck(),
           ],
         ),
       );

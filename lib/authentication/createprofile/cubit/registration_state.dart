@@ -19,11 +19,10 @@ class RegistrationError extends RegistrationState {
 }
 
 class RegistrationWaitCode extends RegistrationState {
-  final String token;
   final String phone;
 
-  RegistrationWaitCode(this.token, this.phone);
+  RegistrationWaitCode(this.phone);
 
   @override
-  List<Object> get props => [token];
+  List<Object> get props => [phone];
 }

@@ -5,157 +5,246 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:simposi_app_v4/eventdetails/eventwidgets/datetimepicker.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/formfields.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
-import 'package:simposi_app_v4/global/theme/elements/dialoguewidget.dart';
+import 'package:simposi_app_v4/global/widgets/event_photo_pick.dart';
+import 'package:simposi_app_v4/utils/toast_utils.dart';
 
+import '../app_router.dart';
+import 'cubit/event_edit_cubit.dart';
 
-class CreateEvent1 extends StatelessWidget {
-  double progress = 0.14;
-  // NOTE: Progress Bar is top widget in content and is extended behind a Transparent AppBar.
-  // This is not a great solution but simplest I could conceive of, it will cause display to be weird on non-notched phones
+class CreateEvent1 extends StatefulWidget {
+  static const double progress = 0.16;
 
   @override
-  Widget build(BuildContext context) => KeyboardDismisser(
-    child: Scaffold(
-      backgroundColor: Colors.white,
-      extendBodyBehindAppBar: true,
+  State<CreateEvent1> createState() => _CreateEvent1State();
+}
 
-      appBar: BasicFormAppBar(),
+class _CreateEvent1State extends State<CreateEvent1> {
+  final _formKey = GlobalKey<FormState>();
+  String? _filePath;
+  String? _fileUrl;
+  DateTime? _dateTime;
+  DateTime? _dateTimeValue;
+  late final TextEditingController _dateController;
+  late final TextEditingController _titleController;
+  late final TextEditingController _descriptionController;
 
-      body: LayoutBuilder(builder:
-        (BuildContext context, BoxConstraints viewportConstraints) {
-        return SingleChildScrollView(
-        child: ConstrainedBox(
-            constraints: BoxConstraints(
-            minHeight: viewportConstraints.maxHeight,
-        ),
-          child: IntrinsicHeight(
-            child: Container(
-              child: Column(
-                children: [
-                // Header
-                Container(
+  @override
+  void initState() {
+    super.initState();
+    _fileUrl = context.read<EventEditCubit>().photoUrl;
+    _dateTime = context.read<EventEditCubit>().dateTime ??
+        DateTime.now().add(const Duration(hours: 2));
+    _dateTimeValue = context.read<EventEditCubit>().dateTime ?? _dateTime;
+    _dateController = TextEditingController(
+        text: DateFormat('yyyy-MM-dd – hh:mm a').format(_dateTimeValue!))
+      ..addListener(() {
+        setState(() {});
+      });
+    _titleController =
+        TextEditingController(text: context.read<EventEditCubit>().title ?? "")
+          ..addListener(() {
+            setState(() {});
+          });
+
+    _descriptionController =
+        TextEditingController(text: context.read<EventEditCubit>().description)
+          ..addListener(() {
+            setState(() {});
+          });
+  }
+
+  @override
+  void dispose() {
+    _dateController.dispose();
+    _titleController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        backgroundColor: Colors.white,
+        extendBodyBehindAppBar: true,
+        appBar: BasicFormAppBar(),
+        body: LayoutBuilder(builder:
+            (BuildContext context, BoxConstraints viewportConstraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: viewportConstraints.maxHeight,
+              ),
+              child: IntrinsicHeight(
+                child: Form(
+                  key: _formKey,
                   child: Column(
                     children: [
-                      const SizedBox(height: 45),
-                      LinearProgressIndicator(
-                        value: progress,
-                        valueColor: AlwaysStoppedAnimation(SimposiAppColors.simposiDarkBlue),
-                        backgroundColor: SimposiAppColors.simposiFadedBlue,
-                      ),
-                      const SizedBox(height: 70),
-                      Text('Post an activity \nand start meeting new people.',
-                        style: Theme.of(context).textTheme.headline3,
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 20),
-                      Container(
-                        width: double.infinity,
-                        child: AddEventImageButton(),
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Body
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-                    child: Column(
-                      children: [
-                        SimposiCounterField(
-                            inputType: TextInputType.text,
-                            fieldLabel: 'Title',
-                            counterLength: 60,
-                            validationLogic: (value) {
-                              if (value!.length < 4) {
-                                return 'Please enter a Title for your activity';
-                              } else {
-                                return null;
-                              }
-                            },
-                        ),
-                        const SizedBox(height: 10),
-
-                        GestureDetector(
-                          onTap:() => showSheet(
-                            context,
-                            // TODO: Enable this to set the variable and write it into the form field
-                            onClicked: () => {
-                            Navigator.of(context).pushNamed('/createevent1')
-                            },
-                            child: Container(
-                              height: 300,
-                              child: SimposiDateTimePicker()
-                            ),
+                      // Header
+                      Column(
+                        children: [
+                          const SizedBox(height: 45),
+                          const LinearProgressIndicator(
+                            value: CreateEvent1.progress,
+                            valueColor: AlwaysStoppedAnimation(
+                                SimposiAppColors.simposiDarkBlue),
+                            backgroundColor: SimposiAppColors.simposiFadedBlue,
                           ),
-                          child: AbsorbPointer(
-                            child: SimposiPlainField(
-                                inputType: TextInputType.datetime,
-                                fieldLabel: 'Date & Time',
+                          const SizedBox(height: 70),
+                          Text(
+                            'Post an activity \nand start meeting new people.',
+                            style: Theme.of(context).textTheme.headline3,
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 20),
+                          EventPhotoPick(
+                            initialImage:
+                                context.read<EventEditCubit>().photoUrl,
+                            imageSelectCallback: (val) {
+                              print("selected image $val");
+                              setState(() {
+                                _filePath = val;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+
+                      // Body
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 40, vertical: 10),
+                          child: Column(
+                            children: [
+                              SimposiCounterField(
+                                inputType: TextInputType.text,
+                                fieldLabel: 'Title',
+                                counterLength: 60,
+                                fieldController: _titleController,
                                 validationLogic: (value) {
                                   if (value!.length < 4) {
-                                    return 'Please enter a Date & Time';
+                                    return 'Please enter a Title for your activity';
                                   } else {
                                     return null;
                                   }
                                 },
-                            ),
+                              ),
+                              const SizedBox(height: 10),
+                              GestureDetector(
+                                onTap: () {
+                                  _dateTimeValue = _dateTime ??
+                                      DateTime.now()
+                                          .add(const Duration(hours: 2));
+                                  showCupertinoModalPopup(
+                                    context: context,
+                                    builder: (context) => CupertinoActionSheet(
+                                      actions: [
+                                        SizedBox(
+                                            height: 300,
+                                            child: SimposiDateTimePicker(
+                                              initial: _dateTime,
+                                              callback: (dt) {
+                                                _dateTimeValue = dt;
+                                              },
+                                            ))
+                                      ],
+                                      cancelButton: CupertinoActionSheetAction(
+                                        child: const Text('Save'),
+                                        onPressed: () {
+                                          _dateTime = _dateTimeValue;
+                                          _dateController.text =
+                                              DateFormat('yyyy-MM-dd – hh:mm a')
+                                                  .format(_dateTime!);
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: AbsorbPointer(
+                                  child: SimposiPlainField(
+                                    inputType: TextInputType.datetime,
+                                    fieldLabel: 'Date & Time',
+                                    fieldController: _dateController,
+                                    validationLogic: (value) {
+                                      if (value!.length < 4) {
+                                        return 'Please enter a Date & Time';
+                                      } else {
+                                        return null;
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              SimposiLargeTextField(
+                                fieldLabel: 'Description',
+                                textAreaLines: 10,
+                                fieldController: _descriptionController,
+                                validationLogic: (value) {
+                                  if (value!.length < 4) {
+                                    return 'Please enter a description';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              ),
+                              const SizedBox(height: 10),
+                              ContinueButton(
+                                  buttonLabel: 'Submit',
+                                  buttonAction: _nextEnabled()
+                                      ? () {
+                                          if (_formKey.currentState!
+                                              .validate()) {
+                                            if (_filePath?.isNotEmpty == true ||
+                                                _fileUrl?.isNotEmpty == true) {
+                                              _formKey.currentState!.save();
+                                              context
+                                                  .read<EventEditCubit>()
+                                                  .stage1(
+                                                      title:
+                                                          _titleController.text,
+                                                      description:
+                                                          _descriptionController
+                                                              .text,
+                                                      dateTime: _dateTime!,
+                                                      file: _filePath,
+                                                      url: _fileUrl);
+                                              AutoRouter.of(context).push(
+                                                  const CreateEvent2Route());
+                                            } else {
+                                              showErrorToast("Add photo");
+                                            }
+                                          }
+                                        }
+                                      : null)
+                            ],
                           ),
                         ),
-                        const SizedBox(height: 10),
-
-                        SimposiLargeTextField(
-                            fieldLabel: 'Description',
-                            textAreaLines: 10,
-                            validationLogic: (value) {
-                              if (value!.length < 4) {
-                                return 'Please enter a description';
-                              } else {
-                                return null;
-                              }
-                            },
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-
-
-              ],
+              ),
             ),
-           ),
-          ),
-        ),
+          );
+        }),
       );
-    }),
-  ),
-);
 
-  static void showSheet(
-      BuildContext context, {
-        required Widget child,
-        required VoidCallback onClicked,
-      }) =>
-      showCupertinoModalPopup(
-        context: context,
-        builder: (context) => CupertinoActionSheet(
-          actions: [
-              child,
-          ],
-          cancelButton: CupertinoActionSheetAction(
-            child: Text('Save'),
-            onPressed: onClicked,
-          ),
-      ),
-  );
+  bool _nextEnabled() {
+    if (_titleController.text.isNotEmpty &&
+        _descriptionController.text.isNotEmpty &&
+        _dateController.text.isNotEmpty) return true;
+    return false;
+  }
 }
-

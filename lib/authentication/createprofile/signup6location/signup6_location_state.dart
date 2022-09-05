@@ -17,11 +17,11 @@ class Signup6LocationState extends Equatable {
 
   static Signup6LocationState initial(
       double? range, double? latitude, double? longitude, bool editMode) {
-    LatLng? location = (latitude != null && longitude != null)
+    final location = (latitude != null && longitude != null)
         ? LatLng(latitude, longitude)
         : null;
     return Signup6LocationState(
-        selectedLocation: location, searchResults: [], rangeKm: range ?? 1, editMode: editMode);
+        selectedLocation: location, searchResults: const [], rangeKm: range ?? 1, editMode: editMode);
   }
 
   Signup6LocationState copyWith(
@@ -32,8 +32,8 @@ class Signup6LocationState extends Equatable {
     return Signup6LocationState(
         selectedLocation: selectedLocation ?? this.selectedLocation,
         searchResults: searchResults ?? this.searchResults,
-        rangeKm: range ?? this.rangeKm,
-        editMode: this.editMode);
+        rangeKm: range ?? rangeKm,
+        editMode: editMode);
   }
 }
 

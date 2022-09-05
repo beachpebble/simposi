@@ -9,7 +9,7 @@ class MasterData extends Equatable {
   final List<Generation> generations;
   final List<Earning> earnings;
 
-  MasterData(this.interests, this.generations, this.earnings);
+  const MasterData(this.interests, this.generations, this.earnings);
 
   @override
   List<Object?> get props => [interests, generations, earnings];

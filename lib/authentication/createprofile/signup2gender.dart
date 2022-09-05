@@ -5,25 +5,24 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
-
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simposi_app_v4/app_router.dart';
 import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
+import 'package:simposi_app_v4/bloc/profile/profile_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import 'package:simposi_app_v4/model/gender.dart';
-import 'package:simposi_app_v4/profile/bloc/profile_edit_cubit.dart';
-import 'package:simposi_app_v4/global/widgets/progress.dart';
 
 import 'registration_profile_screen.dart';
 
 class SignUpForm2 extends RegistrationProfileScreen {
-  SignUpForm2({bool editMode = false}) : super(editMode: editMode);
+  const SignUpForm2({bool editMode = false}) : super(editMode: editMode);
 
   @override
-  _SignUpForm2State createState() => _SignUpForm2State();
+  State createState() => _SignUpForm2State();
 }
 
 class _SignUpForm2State extends RegistrationProfileScreenState<SignUpForm2> {
@@ -34,10 +33,14 @@ class _SignUpForm2State extends RegistrationProfileScreenState<SignUpForm2> {
   void initState() {
     super.initState();
     _isLgbt = widget.editMode
-        ? context.read<ProfileEditCubit>().profile.isLgbt
+        ? (context.read<ProfileBloc>().state as ProfileLoaded)
+            .userProfile
+            .isLgbt
         : context.read<RegistrationCubit>().lgbt;
     _selected = widget.editMode
-        ? context.read<ProfileEditCubit>().profile.gender
+        ? (context.read<ProfileBloc>().state as ProfileLoaded)
+            .userProfile
+            .gender
         : context.read<RegistrationCubit>().gender;
   }
 
@@ -68,24 +71,22 @@ class _SignUpForm2State extends RegistrationProfileScreenState<SignUpForm2> {
       body: Column(
         children: [
           // Header
-          Container(
-            child: Column(
-              children: [
-                const SizedBox(height: 45),
-                LinearProgressIndicator(
-                  value: getProgressValue(),
-                  valueColor: const AlwaysStoppedAnimation(
-                      SimposiAppColors.simposiDarkBlue),
-                  backgroundColor: SimposiAppColors.simposiFadedBlue,
-                ),
-                const SizedBox(height: 70),
-                Text(
-                  'I indentify as...',
-                  style: Theme.of(context).textTheme.headline3,
-                ),
-                const SizedBox(height: 10),
-              ],
-            ),
+          Column(
+            children: [
+              const SizedBox(height: 45),
+              LinearProgressIndicator(
+                value: getProgressValue(),
+                valueColor: const AlwaysStoppedAnimation(
+                    SimposiAppColors.simposiDarkBlue),
+                backgroundColor: SimposiAppColors.simposiFadedBlue,
+              ),
+              const SizedBox(height: 70),
+              Text(
+                'I indentify as...',
+                style: Theme.of(context).textTheme.headline3,
+              ),
+              const SizedBox(height: 10),
+            ],
           ),
 
           // Body
@@ -111,22 +112,22 @@ class _SignUpForm2State extends RegistrationProfileScreenState<SignUpForm2> {
                   const SizedBox(height: 30),
                   // Also Member Divider
                   Row(
-                    children: [
+                    children: const [
                       Expanded(
-                        child: const Divider(
+                        child: Divider(
                           endIndent: 10,
                           color: SimposiAppColors.simposiLightText,
                         ),
                       ),
-                      const Text(
+                      Text(
                         'Also member of',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: SimposiAppColors.simposiLightText,
                           fontSize: 13,
                         ),
                       ),
                       Expanded(
-                        child: const Divider(
+                        child: Divider(
                           indent: 10,
                           color: SimposiAppColors.simposiLightText,
                         ),
@@ -156,14 +157,16 @@ class _SignUpForm2State extends RegistrationProfileScreenState<SignUpForm2> {
   @override
   VoidCallback? continueAction() => _selected != null
       ? () {
-          Navigator.of(context).pushNamed('/signup3');
+          AutoRouter.of(context).push(SignUpForm3Route());
         }
       : null;
 
   @override
   VoidCallback? saveAction() => _selected != null
       ? () {
-          context.read<ProfileEditCubit>().indentifyAs(_selected!, _isLgbt);
+          print("selected $_selected");
+          context.read<ProfileBloc>().add(
+              ProfileUpdateIndentifyAs(gender: _selected!, isLgbt: _isLgbt));
         }
       : null;
 

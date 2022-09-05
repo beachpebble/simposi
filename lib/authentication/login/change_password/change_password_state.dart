@@ -19,7 +19,7 @@ class ChangePasswordSuccess extends ChangePasswordState {
 class ChangePasswordError extends ChangePasswordState {
   final dynamic error;
 
-  ChangePasswordError(this.error);
+  const ChangePasswordError(this.error);
 
   @override
   List<Object> get props => [error];

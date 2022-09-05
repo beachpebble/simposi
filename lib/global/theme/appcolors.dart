@@ -5,7 +5,6 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class SimposiAppColors {
@@ -21,7 +20,7 @@ class SimposiAppColors {
 }
 
 class LGBTQGradientMask extends StatelessWidget {
-  LGBTQGradientMask({required this.child});
+  const LGBTQGradientMask({required this.child});
 
   final Widget child;
 
@@ -29,7 +28,7 @@ class LGBTQGradientMask extends StatelessWidget {
   Widget build(BuildContext context) {
     return ShaderMask(
       shaderCallback: (bounds) =>
-          LinearGradient(
+          const LinearGradient(
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
             colors: [

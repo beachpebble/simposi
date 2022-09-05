@@ -5,10 +5,9 @@
 *  Copyright ©2018-2021 Simposi Inc. All rights reserved.
 */
 
-import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
-import 'package:simposi_app_v4/calendar/calendarwidgets/checkinbottomsheet.dart';
 import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 
 // TODO: Create & Insert Variables for Invitation Thumbnails
@@ -30,7 +29,7 @@ class PickInvitationThumbnail extends StatelessWidget {
             elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
-              side: BorderSide(
+              side: const BorderSide(
                 color: SimposiAppColors.simposiLightText,
                 width: 0.5,
                 style: BorderStyle.solid,
@@ -41,7 +40,8 @@ class PickInvitationThumbnail extends StatelessWidget {
                 // TODO: Set Image Variable to pull from DB
                 // BACKGROUND IMAGE
                 Center(
-                  child: Image.asset("assets/images/pickinvitebackground4.png",
+                  child: Image.asset(
+                    "assets/images/pickinvitebackground4.png",
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -49,7 +49,7 @@ class PickInvitationThumbnail extends StatelessWidget {
                 // PREVIEW OVERLAY
                 Center(
                   child: Container(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     // color: Colors.black12,
                     child: SizedBox(
                       height: 30,
@@ -72,7 +72,7 @@ class PickInvitationThumbnail extends StatelessWidget {
         // TODO: Final State - On Click of Select Button - Charge users appstore account, create invite, generate receipt and all of that
         // Select Button
         Container(
-          padding: EdgeInsets.only(top: 5),
+          padding: const EdgeInsets.only(top: 5),
           child: SizedBox(
             height: 30,
             child: SmallBlueButton(
@@ -81,9 +81,7 @@ class PickInvitationThumbnail extends StatelessWidget {
             ),
           ),
         )
-
       ],
     );
   }
 }
-

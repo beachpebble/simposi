@@ -1,10 +1,8 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:simposi_app_v4/model/earning.dart';
 import 'package:simposi_app_v4/model/errors.dart';
 import 'package:simposi_app_v4/model/gender.dart';
-import 'package:simposi_app_v4/model/generation.dart';
 import 'package:simposi_app_v4/model/interest.dart';
 import 'package:simposi_app_v4/repository/profile_repository.dart';
 
@@ -19,10 +17,9 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   String? path;
   String? name;
   String? phone;
-  String? email;
   String? password;
   Gender? gender;
-  Set<Generation>? generations;
+  int? generation;
   Set<Earning>? earnings;
   Set<Interest>? interests;
   bool lgbt = false;
@@ -44,9 +41,9 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   }
 
   void setGenerations({
-    required Set<Generation> generations,
+    required int generation,
   }) async {
-    this.generations = generations;
+    this.generation = generation;
   }
 
   void setEarnings({
@@ -80,7 +77,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     required int agreeNum,
     required bool agreeVal,
   }) {
-    this.stage8Agree[agreeNum] = agreeVal;
+    stage8Agree[agreeNum] = agreeVal;
   }
 
   void reset() {
@@ -88,10 +85,9 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     path = null;
     name = null;
     phone = null;
-    email = null;
     password = null;
     gender = null;
-    generations = null;
+    generation = null;
     earnings = null;
     interests = null;
     lgbt = false;
@@ -104,36 +100,30 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   Future<void> finish() async {
     emit(RegistrationLoading());
     try {
-      Map data = await profileRepository.sendRegistration(
+      final data = await profileRepository.sendRegistration(
         name: name!,
         image: path!,
         phone: phone!,
         password: password!,
         latitude: latitude!.toString(),
         longitude: longitude!.toString(),
-        distance: range ?? 1,
-        gender: gender!.id,
+        distance: range?.round().toString() ?? "1",
+        gender: gender!.id.toString(),
         isLgbt: lgbt,
-        generation: generations!.map((e) => e.id).toList(),
-        earning: earnings!.map((e) => e.id).toList(),
-        likes: interests!.map((e) => e.id).toList(),
+        //TODO clean this
+        generation: generation!,
+        earning: earnings?.map((e) => e.id).toList() ?? [],
+        likes: interests?.map((e) => e.id).toList() ?? [],
       );
 
-      if (data.containsKey("apiAccessToken")) {
-        await profileRepository.setProfile(data);
-        var apiToken = data["apiAccessToken"];
-        if (apiToken! != null) {
-          emit(RegistrationWaitCode(apiToken, phone!));
-          reset();
-        } else {
-          emit(RegistrationError(ServerException(
-              errorType: LocalizedErrorType.UNEXPECTED,
-              message: "There is no token in response")));
-        }
+      if (data.containsKey("data")) {
+        await profileRepository.setProfile(data['data']['user']);
+        emit(RegistrationWaitCode(phone!));
+        reset();
       } else {
         emit(RegistrationError(ServerException(
             errorType: LocalizedErrorType.UNEXPECTED,
-            message: "There is no token in response")));
+            message: "There is no user in response")));
       }
     } catch (e) {
       emit(RegistrationError(e));
