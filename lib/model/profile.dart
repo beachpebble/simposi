@@ -57,7 +57,7 @@ class Profile extends Equatable {
     required: false,
     disallowNullValue: false,
   )
-  final Image profilePhoto;
+  final String? profilePhoto;
 
   @JsonKey(
     name: 'is_lgbtq',

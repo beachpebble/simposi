@@ -43,7 +43,7 @@ Profile _$ProfileFromJson(Map<String, dynamic> json) {
     userId: json['id'] as int,
     userName: json['name'] as String,
     userPhone: json['phone'] as String,
-    profilePhoto: Image.fromJson(json['profile_photo'] as Map<String, dynamic>),
+    profilePhoto: json['profile_photo'],
     isLgbt: _parseJsonIntToBool(json['is_lgbtq']),
     gender: _genderFromJson(json['gender']),
     generationId: json['generations_identity_id'] as int,

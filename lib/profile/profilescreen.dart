@@ -77,7 +77,7 @@ class ProfileScreenView extends StatelessWidget {
             // Profile Image
             Expanded(
               child: CachedNetworkImage(
-                imageUrl: profile.profilePhoto.url,
+                imageUrl: profile.profilePhoto ?? "",
                 width: 100,
                 height: 100,
                 imageBuilder: (context, imageProvider) => Container(
