@@ -19,6 +19,8 @@ import 'package:simposi_app_v4/utils/toast_utils.dart';
 import '../../app_router.dart';
 
 class SignUpForm7 extends StatefulWidget {
+  const SignUpForm7({super.key});
+
   @override
   State createState() => _SignUpForm7State();
 }

@@ -26,6 +26,8 @@ import '../../authenticationwidgets/privacytoufooter.dart';
 import 'signup1_create_account_cubit.dart';
 
 class SignUpForm1 extends StatefulWidget {
+  const SignUpForm1({super.key});
+
   @override
   State createState() => _SignUpForm1State();
 }

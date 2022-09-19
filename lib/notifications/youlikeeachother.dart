@@ -11,6 +11,8 @@ import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 import 'package:simposi_app_v4/notifications/widgets/sharemydetailsbottomcard.dart';
 
 class YouLikeEachOther extends StatelessWidget {
+  const YouLikeEachOther({super.key});
+
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: Colors.white,

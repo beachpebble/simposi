@@ -12,6 +12,8 @@ import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 class PrivacyScreen extends StatelessWidget {
   final double progress = 0.22;
 
+  const PrivacyScreen({super.key});
+
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: Colors.white,

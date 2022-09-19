@@ -21,6 +21,8 @@ import 'createevent_activities_cubit.dart';
 class CreateEvent3Activities extends StatelessWidget {
   final double progress = 0.48;
 
+  const CreateEvent3Activities({super.key});
+
   @override
   Widget build(BuildContext context) => BlocProvider(
         create: (context) => CreateEventActivitiesCubit(

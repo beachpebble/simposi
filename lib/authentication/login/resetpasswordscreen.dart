@@ -15,6 +15,8 @@ import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import '../../app_router.dart';
 
 class ResetPassword extends StatefulWidget {
+  const ResetPassword({super.key});
+
   // Set Variables
   @override
   State createState() => _ResetPasswordState();

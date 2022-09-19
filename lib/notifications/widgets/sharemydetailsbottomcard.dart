@@ -14,6 +14,8 @@ import 'package:simposi_app_v4/global/theme/elements/social_icons.dart';
 // TODO: Trigger Check In Bottom Sheet from Check In Notification (Banner/Lockscreen) - so they land on Socials with Bottom Sheet open
 // BOTTOM SHEET TRIGGER BUTTON (SPECIALIZED)
 class ShareDetailsButton extends StatelessWidget {
+  const ShareDetailsButton({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -31,7 +33,7 @@ class ShareDetailsButton extends StatelessWidget {
             isScrollControlled: true,
             context: context,
             builder: (BuildContext context) {
-              return ShareDetailsPopup();
+              return const ShareDetailsPopup();
             },
           );
         },
@@ -47,6 +49,8 @@ class ShareDetailsButton extends StatelessWidget {
 
 // SHARE DETAILS BOTTOM SHEET
 class ShareDetailsPopup extends StatefulWidget {
+  const ShareDetailsPopup({super.key});
+
   @override
   State createState() => _ShareDetailsPopupState();
 }

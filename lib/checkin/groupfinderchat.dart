@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 
 class GroupFinderChat extends StatelessWidget {
+  const GroupFinderChat({super.key});
+
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: BasicFormAppBar(),

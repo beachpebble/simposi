@@ -19,6 +19,8 @@ import 'package:simposi_app_v4/utils/toast_utils.dart';
 import 'package:simposi_app_v4/utils/validators.dart';
 
 class EmergencyContact extends StatefulWidget {
+  const EmergencyContact({super.key});
+
   // Set Variables
   @override
   State createState() => _EmergencyContactState();

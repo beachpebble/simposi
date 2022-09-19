@@ -8,6 +8,8 @@
 import 'package:flutter/material.dart';
 
 class FirstToArrive extends StatelessWidget {
+  const FirstToArrive({super.key});
+
   @override
   Widget build(BuildContext context) => const Scaffold(
 //    appBar: SimposiAppBar('Flora',

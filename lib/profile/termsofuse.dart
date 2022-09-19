@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:simposi_app_v4/global/theme/elements/formappbar.dart';
 
 class TermsOfUse extends StatelessWidget {
+  const TermsOfUse({super.key});
+
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: Colors.white,

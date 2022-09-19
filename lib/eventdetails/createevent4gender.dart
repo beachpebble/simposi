@@ -21,7 +21,7 @@ import 'create_event_screen.dart';
 import 'cubit/event_edit_cubit.dart';
 
 class CreateEvent4 extends CreateEventScreen {
-  const CreateEvent4({bool editMode = false}) : super(editMode: editMode);
+  const CreateEvent4({super.key, bool editMode = false}) : super(editMode: editMode);
 
   @override
   State createState() => _SignUpForm2State();

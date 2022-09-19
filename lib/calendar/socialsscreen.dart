@@ -14,6 +14,8 @@ import 'calendarbackground.dart';
 // import '../theme/elements/calendarbackground.dart';
 
 class SocialsScreen extends StatelessWidget {
+  const SocialsScreen({super.key});
+
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: SimposiAppBar(

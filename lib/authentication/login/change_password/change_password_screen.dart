@@ -21,6 +21,8 @@ import 'package:simposi_app_v4/utils/validators.dart';
 
 /// Use only for password change from settings
 class ChangePasswordScreen extends StatefulWidget {
+  const ChangePasswordScreen({super.key});
+
   // Set Variables
   @override
   State createState() => _ChangePasswordScreenState();

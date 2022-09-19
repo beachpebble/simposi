@@ -20,7 +20,7 @@ import 'package:simposi_app_v4/model/earning.dart';
 import 'registration_profile_screen.dart';
 
 class SignUpForm4 extends RegistrationProfileScreen {
-  const SignUpForm4({bool editMode = false}) : super(editMode: editMode);
+  const SignUpForm4({super.key, bool editMode = false}) : super(editMode: editMode);
 
   @override
   State createState() => _SignUpForm4State();

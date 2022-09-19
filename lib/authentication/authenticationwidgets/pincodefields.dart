@@ -11,6 +11,8 @@ import 'package:simposi_app_v4/global/theme/appcolors.dart';
 
 // TODO: Finish Setup
 class PinCodeFields extends StatefulWidget {
+  const PinCodeFields({super.key});
+
   @override
   State createState() => _PinCodeFieldsState();
 }
@@ -18,7 +20,6 @@ class PinCodeFields extends StatefulWidget {
 class _PinCodeFieldsState extends State<PinCodeFields> {
   final TextEditingController _verificationCodeController =
       TextEditingController(text: '');
-  final bool _isButtonDisabled = true;
   late String errorText;
 
   @override

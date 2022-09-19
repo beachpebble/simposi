@@ -20,7 +20,7 @@ import 'cubit/registration_cubit.dart';
 import 'registration_profile_screen.dart';
 
 class SignUpForm3 extends RegistrationProfileScreen {
-  const SignUpForm3({bool editMode = false}) : super(editMode: editMode);
+  const SignUpForm3({super.key, bool editMode = false}) : super(editMode: editMode);
 
   @override
   State createState() => _SignUpForm3State();

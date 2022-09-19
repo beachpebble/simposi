@@ -8,6 +8,8 @@
 import 'package:flutter/material.dart';
 
 class NewTimeSuggestedAlert extends StatelessWidget {
+  const NewTimeSuggestedAlert({super.key});
+
   @override
   Widget build(BuildContext context) => const Scaffold(
 //    appBar: SimposiAppBar('Flora',

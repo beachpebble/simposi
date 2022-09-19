@@ -17,6 +17,8 @@ import 'eventwidgets/pickinvitationthumbnails.dart';
 class CreateEvent7 extends StatelessWidget {
   final double progress = 1.0;
 
+  const CreateEvent7({super.key});
+
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: Colors.white,

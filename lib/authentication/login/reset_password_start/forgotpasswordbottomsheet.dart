@@ -21,6 +21,8 @@ import 'forgot_password_start_cubit.dart';
 
 // FORGOT PASSWORD BOTTOM SHEET
 class ForgotPasswordForm extends StatefulWidget {
+  const ForgotPasswordForm({super.key});
+
   @override
   State createState() => _ForgotPasswordFormState();
 }

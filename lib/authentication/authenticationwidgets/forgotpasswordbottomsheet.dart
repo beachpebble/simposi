@@ -12,11 +12,13 @@ import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 
 // FORGOT PASSWORD BOTTOM SHEET TRIGGER BUTTON (SPECIALIZED)
 class ForgotPasswordTextButton extends StatelessWidget {
+  const ForgotPasswordTextButton({super.key});
+
   @override
   Widget build(BuildContext context) {
     return TextButton(
       style: TextButton.styleFrom(
-        primary: SimposiAppColors.simposiDarkBlue,
+        foregroundColor: SimposiAppColors.simposiDarkBlue,
         textStyle: const TextStyle(
           fontFamily: 'Muli',
           fontSize: 15,
@@ -42,7 +44,7 @@ class ForgotPasswordTextButton extends StatelessWidget {
           isScrollControlled: true,
           context: context,
           builder: (BuildContext context) {
-            return ForgotPasswordForm();
+            return const ForgotPasswordForm();
           },
         );
       },
@@ -52,6 +54,8 @@ class ForgotPasswordTextButton extends StatelessWidget {
 
 // FORGOT PASSWORD BOTTOM SHEET
 class ForgotPasswordForm extends StatefulWidget {
+  const ForgotPasswordForm({super.key});
+
   @override
   State createState() => _ForgotPasswordFormState();
 }
@@ -122,7 +126,6 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
 
                               if (isValid) {
                                 _formKey.currentState!.save();
-                                print('Email: $email');
                                 Navigator.of(context)
                                     .pushReplacementNamed('/createpassword');
                               }

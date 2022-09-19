@@ -8,6 +8,8 @@
 import 'package:flutter/material.dart';
 
 class AdminAlert extends StatelessWidget {
+  const AdminAlert({super.key});
+
   @override
   Widget build(BuildContext context) => const Scaffold(
 //    appBar: SimposiAppBar('Flora',

@@ -14,6 +14,8 @@ import '../global/theme/elements/simposiappbar.dart';
 import 'alertsbackground.dart';
 
 class AlertsScreen extends StatelessWidget {
+  const AlertsScreen({super.key});
+
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: SimposiAppBar(
@@ -31,7 +33,7 @@ class AlertsScreen extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [SimposiAlertsBackground()],
+          children: const [SimposiAlertsBackground()],
         ),
       );
 }

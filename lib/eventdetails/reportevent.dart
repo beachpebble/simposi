@@ -14,6 +14,8 @@ import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 enum ReportOption { offensivephoto, offensivedescription, other }
 
 class ReportEvent extends StatefulWidget {
+  const ReportEvent({super.key});
+
   @override
   State createState() => _ReportEventState();
 }

@@ -14,6 +14,8 @@ import '../app_router.dart';
 import '../eventdetails/cubit/event_edit_cubit.dart';
 
 class SimposiAlertsBackground extends StatelessWidget {
+  const SimposiAlertsBackground({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(

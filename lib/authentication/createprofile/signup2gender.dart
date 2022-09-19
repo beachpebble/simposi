@@ -19,7 +19,7 @@ import 'package:simposi_app_v4/model/gender.dart';
 import 'registration_profile_screen.dart';
 
 class SignUpForm2 extends RegistrationProfileScreen {
-  const SignUpForm2({bool editMode = false}) : super(editMode: editMode);
+  const SignUpForm2({super.key, bool editMode = false}) : super(editMode: editMode);
 
   @override
   State createState() => _SignUpForm2State();

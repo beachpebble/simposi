@@ -12,6 +12,8 @@ import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import '../app_router.dart';
 
 class SimposiCalendarBackground extends StatelessWidget {
+  const SimposiCalendarBackground({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(

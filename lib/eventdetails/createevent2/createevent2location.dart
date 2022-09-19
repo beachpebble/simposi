@@ -23,6 +23,8 @@ import '../../app_router.dart';
 import 'createevent2_location_cubit.dart';
 
 class CreateEvent2 extends StatelessWidget {
+  const CreateEvent2({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

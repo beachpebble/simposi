@@ -20,7 +20,7 @@ class SimposiAppColors {
 }
 
 class LGBTQGradientMask extends StatelessWidget {
-  const LGBTQGradientMask({required this.child});
+  const LGBTQGradientMask({super.key, required this.child});
 
   final Widget child;
 

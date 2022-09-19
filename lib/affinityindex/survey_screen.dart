@@ -15,6 +15,8 @@ import 'package:simposi_app_v4/model/survey_required.dart';
 import 'affinityratingcards.dart';
 
 class SurveyScreen extends StatelessWidget {
+  const SurveyScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

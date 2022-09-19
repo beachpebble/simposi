@@ -35,7 +35,7 @@ class RouteGenerator {
       // case '/proposenewtime':
       //   return MaterialPageRoute(builder: (_) => ProposeNewTime());
       case '/reportevent':
-        return MaterialPageRoute(builder: (_) => ReportEvent());
+        return MaterialPageRoute(builder: (_) => const ReportEvent());
 
       // Check In
       // case '/firsttoarrive':

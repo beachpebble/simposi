@@ -16,7 +16,7 @@ class CreateEvent2LocationState extends Equatable {
   List<Object?> get props => [selectedLocation, searchResults, address];
 
   static CreateEvent2LocationState initial(double? latitude, double? longitude) {
-    final location = (latitude != null && longitude != null) ?  LatLng(latitude, longitude) : LatLng(0, 0);
+    final location = (latitude != null && longitude != null) ?  LatLng(latitude, longitude) : const LatLng(0, 0);
     return CreateEvent2LocationState(selectedLocation: location, searchResults: const [], address: null );
   }
 

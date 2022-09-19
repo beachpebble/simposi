@@ -15,6 +15,8 @@ import 'package:simposi_app_v4/global/theme/elements/simposibuttons.dart';
 import '../authenticationwidgets/privacytoufooter.dart';
 
 class GetStartedScreen extends StatelessWidget {
+  const GetStartedScreen({super.key});
+
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: SimposiAppColors.simposiDarkBlue,

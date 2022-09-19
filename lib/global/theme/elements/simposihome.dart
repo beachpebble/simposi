@@ -19,6 +19,8 @@ import 'simposinavicons.dart';
 
 // Simposi Page Template
 class SimposiHome extends StatefulWidget {
+  const SimposiHome({super.key});
+
   @override
   State createState() => _SimposiHomeState();
 }

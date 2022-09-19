@@ -24,6 +24,8 @@ import 'cubit/event_edit_cubit.dart';
 class CreateEvent1 extends StatefulWidget {
   static const double progress = 0.16;
 
+  const CreateEvent1({super.key});
+
   @override
   State<CreateEvent1> createState() => _CreateEvent1State();
 }

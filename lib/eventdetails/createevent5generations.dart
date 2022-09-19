@@ -24,7 +24,7 @@ import 'cubit/event_edit_cubit.dart';
 //AppLocalizations.of(context)!.wantToMeetTitle,
 
 class CreateEvent5Generations extends CreateEventScreen {
-  const CreateEvent5Generations({bool editMode = false})
+  const CreateEvent5Generations({super.key, bool editMode = false})
       : super(editMode: editMode);
 
   @override
