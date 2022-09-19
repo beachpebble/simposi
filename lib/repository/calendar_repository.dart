@@ -23,11 +23,15 @@ class CalendarRepository {
       'dataFrom': DateFormat('yyyy-MM-dd hh:mm:ss').format(from),
       'dataTo': DateFormat('yyyy-MM-dd hh:mm:ss').format(to),
     });
-    final Map? data = response.data["data"];
-    if (data != null) {
-      final List rsvpsMap = data['rsvps'];
-      final rsvps = rsvpsMap.map((e) => Rsvp.fromJson(e)).toList();
-      return rsvps;
+
+    if (response.data["data"] != null) {
+      if (response.data["data"] is Map) {
+        final Map? data = response.data["data"];
+        final List rsvpsMap = data?['rsvps'];
+        final rsvps = rsvpsMap.map((e) => Rsvp.fromJson(e)).toList();
+        return rsvps;
+      }
+      return [];
     } else {
       throw ParseException(
           errorType: LocalizedErrorType.PARSE_ERROR,
