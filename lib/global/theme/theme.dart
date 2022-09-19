@@ -68,7 +68,7 @@ class SimposiThemes {
     // Text Button Theme
     textButtonTheme: TextButtonThemeData (
         style: TextButton.styleFrom(
-          primary: SimposiAppColors.simposiDarkBlue,
+          foregroundColor: SimposiAppColors.simposiDarkBlue,
           textStyle: const TextStyle(
             fontSize: 17,
           ),

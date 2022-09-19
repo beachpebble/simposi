@@ -29,7 +29,7 @@ class TinyTextButton extends StatelessWidget {
     return TextButton(
       style: TextButton.styleFrom(
         backgroundColor: Colors.transparent,
-        primary: color,
+        foregroundColor: color,
         textStyle: const TextStyle(
           fontFamily: 'Muli',
           fontSize: 11,
@@ -69,7 +69,7 @@ class SimposiTextButton extends StatelessWidget {
     return TextButton(
         style: TextButton.styleFrom(
           backgroundColor: Colors.transparent,
-          primary: SimposiAppColors.simposiDarkBlue,
+          foregroundColor: SimposiAppColors.simposiDarkBlue,
           textStyle: TextStyle(
             fontFamily: 'Muli',
             fontSize: fontSize,
@@ -97,7 +97,7 @@ class LoginForwardTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
         style: TextButton.styleFrom(
-          primary: Colors.white,
+          foregroundColor: Colors.white,
           textStyle: const TextStyle(
             fontFamily: 'Muli',
             fontSize: 15,
@@ -134,8 +134,8 @@ class GetStartedButton extends StatelessWidget {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
           elevation: 0,
-          primary: Colors.white,
-          onPrimary: SimposiAppColors.simposiDarkGrey,
+          backgroundColor: Colors.white,
+          foregroundColor: SimposiAppColors.simposiDarkGrey,
           textStyle: const TextStyle(
             fontFamily: 'Muli',
             fontSize: 17,
@@ -339,7 +339,7 @@ class SubscribeButton extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(50, 15, 50, 15),
         shape: const StadiumBorder(),
         elevation: 0,
-        primary: SimposiAppColors.simposiDarkBlue,
+        backgroundColor: SimposiAppColors.simposiDarkBlue,
       ),
 
       // ACTION
@@ -367,8 +367,8 @@ class SmallPinkButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        primary: Colors.white,
-        onPrimary: SimposiAppColors.simposiPink,
+        backgroundColor: Colors.white,
+        foregroundColor: SimposiAppColors.simposiPink,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(20)),
           side: BorderSide(color: SimposiAppColors.simposiPink, width: 1.0),
@@ -402,8 +402,8 @@ class SmallBlueButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        primary: SimposiAppColors.simposiDarkBlue,
-        onPrimary: Colors.white,
+        backgroundColor: SimposiAppColors.simposiDarkBlue,
+        foregroundColor: Colors.white,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(20)),
           side: BorderSide(color: SimposiAppColors.simposiDarkBlue, width: 0),
@@ -570,8 +570,8 @@ class SimposiBigButton extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           elevation: 0,
-          primary: buttonColor,
-          onPrimary: textColor,
+          backgroundColor: buttonColor,
+          foregroundColor: textColor,
           textStyle: const TextStyle(
             fontFamily: 'Muli',
             fontSize: 17,

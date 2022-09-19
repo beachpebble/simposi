@@ -10,7 +10,7 @@ class ForgotPasswordTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       style: TextButton.styleFrom(
-        primary: SimposiAppColors.simposiDarkBlue,
+        foregroundColor: SimposiAppColors.simposiDarkBlue,
         textStyle: const TextStyle(
           fontFamily: 'Muli',
           fontSize: 15,

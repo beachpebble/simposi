@@ -32,7 +32,7 @@ class CheckInButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        primary: SimposiAppColors.simposiPink,
+        foregroundColor: SimposiAppColors.simposiPink,
         shape: const StadiumBorder(),
       ),
 

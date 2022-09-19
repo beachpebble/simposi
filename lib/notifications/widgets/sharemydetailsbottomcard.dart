@@ -22,7 +22,7 @@ class ShareDetailsButton extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: SimposiAppColors.simposiDarkGrey,
+          backgroundColor: SimposiAppColors.simposiDarkGrey,
           shape: const StadiumBorder(),
           padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
         ),
