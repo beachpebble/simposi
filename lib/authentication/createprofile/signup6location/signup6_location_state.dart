@@ -19,9 +19,12 @@ class Signup6LocationState extends Equatable {
       double? range, double? latitude, double? longitude, bool editMode) {
     final location = (latitude != null && longitude != null)
         ? LatLng(latitude, longitude)
-        : null;
+        : const LatLng(0, 0);
     return Signup6LocationState(
-        selectedLocation: location, searchResults: const [], rangeKm: range ?? 1, editMode: editMode);
+        selectedLocation: location,
+        searchResults: const [],
+        rangeKm: range ?? 1,
+        editMode: editMode);
   }
 
   Signup6LocationState copyWith(
