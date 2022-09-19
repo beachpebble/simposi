@@ -5,29 +5,29 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 
 class Api {
-  static const String TEST =
+  static const String apiPath =
       "https://phplaravel-742854-2530276.cloudwaysapps.com";
 
-  static const String API_LOGIN = "/api/v1/login";
-  static const String API_CHANGE_PASSWORD = "/api/v1/forgot-password";
-  static const String API_ACCEPT_CODE = "/api/v1/verification/sms-code";
-  static const String API_UPLOAD_AVATAR = "/api/v1/upload-profile-photo";
-  static const String API_MASTER_DATA = "/api/v1/dictionaries";
-  static const String API_REGISTER = "/api/v1/register";
-  static const String API_USER_EXISTS = "/api/v1/verification/check-phone";
-  static const String API_USER_EDIT = "/api/v1/user/update-profile";
-  static const String API_RSVP_STATUS = "/api/v1/rsvps/status/change";
-  static const String API_REFRESH_LOCATOR = "/api/v1/refreshlocator";
-  static const String API_CHECKIN = "/api/v1/events/check-in";
-  static const String API_GROUP_FINDER = "/api/v1/events/group-finder";
-  static const String API_PROFILE = "/api/v1/user/profile";
-  static const String API_EVENT = "/api/v1/events";
-  static const String API_EVENT_CANCEL = "/api/v1/events/cancel";
-  static const String API_GET_SURVEY_REQUESTS = "/api/v1/survey";
-  static const String API_SEND_SURVEY = "/api/v1/survey";
-  static const String API_UPDATE_FB_TOKEN = "/api/v1/update-device-token";
+  static const String apiLogin = "/api/v1/login";
+  static const String apiChangePassword = "/api/v1/forgot-password";
+  static const String apiAcceptCode = "/api/v1/verification/sms-code";
+  static const String apiUploadAvatar = "/api/v1/upload-profile-photo";
+  static const String apiMasterData = "/api/v1/dictionaries";
+  static const String apiRegister = "/api/v1/register";
+  static const String apiUserExists = "/api/v1/verification/check-phone";
+  static const String apiUserEdit = "/api/v1/user/update-profile";
+  static const String apiRSVPStatus = "/api/v1/rsvps/status/change";
+  static const String apiRefreshLocator = "/api/v1/refreshlocator";
+  static const String apiCheckIn = "/api/v1/events/check-in";
+  static const String apiGroupFinder = "/api/v1/events/group-finder";
+  static const String apiProfile = "/api/v1/user/profile";
+  static const String apiEvent = "/api/v1/events";
+  static const String apiEventCancel = "/api/v1/events/cancel";
+  static const String apiGetSurveyRequests = "/api/v1/survey";
+  static const String apiSendSurvey = "/api/v1/survey";
+  static const String apiUpdateFacebookToken = "/api/v1/update-device-token";
 
-  static const String RSVP_LIST = "/api/v1/rsvps/info";
+  static const String apiRsvpList = "/api/v1/rsvps/info";
 }
 
 class ApiService {
@@ -35,7 +35,7 @@ class ApiService {
   late Dio _dio;
   late CookieJar _cookieJar;
 
-  ApiService({this.baseUrl = Api.TEST}) {
+  ApiService({this.baseUrl = Api.apiPath}) {
     _dio = Dio();
     _dio.options.baseUrl = baseUrl;
     _dio.options.connectTimeout = 10000;
@@ -66,7 +66,7 @@ class AuthApiService {
 
   AuthApiService({
     required AuthenticationBloc authenticationBloc,
-    this.baseUrl = Api.TEST,
+    this.baseUrl = Api.apiPath,
   }) : _authenticationBloc = authenticationBloc {
     _authenticationBloc.stream.listen((state) {
       if (state is Authenticated) {

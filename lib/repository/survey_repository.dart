@@ -10,7 +10,7 @@ class SurveyRepository {
   SurveyRepository(this._apiService);
 
   Future<List<SurveyRequired>> getAllSurveyRequests() async {
-    final response = await _apiService.dio.get(Api.API_GET_SURVEY_REQUESTS);
+    final response = await _apiService.dio.get(Api.apiGetSurveyRequests);
     final Map? data = response.data["data"];
     if (data != null) {
       final List surveysMap = data['surveys'];
@@ -24,6 +24,6 @@ class SurveyRepository {
   }
 
   Future submitSurvey(Survey survey) async {
-    await _apiService.dio.post(Api.API_SEND_SURVEY);
+    await _apiService.dio.post(Api.apiSendSurvey);
   }
 }

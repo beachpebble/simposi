@@ -32,7 +32,7 @@ class AppSetupCubit extends Cubit<AppSetupState> {
   MasterData get masterData => _masterData;
 
   Future<MasterData> _getMasterData() async {
-    final response = await _apiService.dio.get(Api.API_MASTER_DATA);
+    final response = await _apiService.dio.get(Api.apiMasterData);
     final Map? data = response.data['data'];
     var interestList = <Interest>[];
     if (data != null &&

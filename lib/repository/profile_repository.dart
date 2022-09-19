@@ -42,7 +42,7 @@ class ProfileRepository {
       print("Fb token was not changed");
     } else {
       print("Fb token was changed. Set new one. ");
-      await _authApiService.dio.post(Api.API_UPDATE_FB_TOKEN, data: {
+      await _authApiService.dio.post(Api.apiUpdateFacebookToken, data: {
         'device_token': newToken,
       });
       await storage.setItem("fbToken", newToken);
@@ -50,7 +50,7 @@ class ProfileRepository {
   }
 
   Future<ProfileStatus> refreshStatus() async {
-    final response = await _authApiService.dio.get(Api.API_PROFILE);
+    final response = await _authApiService.dio.get(Api.apiProfile);
     final Map data = response.data;
 
     if (data["data"] != null) {
@@ -71,18 +71,18 @@ class ProfileRepository {
       'password': password,
     };
     if (fbToken != null && fbToken.isNotEmpty) params["device_token"] = fbToken;
-    final response = (await _apiService.dio.post(Api.API_LOGIN, data: params));
+    final response = (await _apiService.dio.post(Api.apiLogin, data: params));
     return response.data;
   }
 
   Future changePassword(String password, String token) async {
-    await _authApiService.dio.post(Api.API_CHANGE_PASSWORD, data: {
+    await _authApiService.dio.post(Api.apiChangePassword, data: {
       'password': password,
     });
   }
 
   Future<String?> acceptCode(String phone, String code) async {
-    final response = await _apiService.dio.post(Api.API_ACCEPT_CODE, data: {
+    final response = await _apiService.dio.post(Api.apiAcceptCode, data: {
       'code': code,
       'phone': phone,
     });
@@ -108,7 +108,7 @@ class ProfileRepository {
       ),
     });
     final response =
-        await _apiService.dio.post(Api.API_UPLOAD_AVATAR, data: formData);
+        await _apiService.dio.post(Api.apiUploadAvatar, data: formData);
     final Map? data = response.data;
     final String? name = data?["data"]?['name'];
     if (name != null) {
@@ -128,7 +128,7 @@ class ProfileRepository {
       "phone": phone,
     };
     final response =
-        await _apiService.dio.post(Api.API_USER_EXISTS, data: data);
+        await _apiService.dio.post(Api.apiUserExists, data: data);
     final bool? isPhoneUsed = response.data?['data']?['isPhoneUsed'];
     if (isPhoneUsed == null) {
       throw ParseException(
@@ -168,12 +168,12 @@ class ProfileRepository {
       "who_earns": earning,
       "what_you_likes": likes,
     };
-    final response = await _apiService.dio.post(Api.API_REGISTER, data: data);
+    final response = await _apiService.dio.post(Api.apiRegister, data: data);
     return response.data;
   }
 
   Future requestConfirmationCode(String phone) async {
-    await _apiService.dio.get("${Api.API_ACCEPT_CODE}/$phone");
+    await _apiService.dio.get("${Api.apiAcceptCode}/$phone");
   }
 
   Future<Profile> updateProfile({
@@ -304,7 +304,7 @@ class ProfileRepository {
 
   Future<Profile> updateProfileFields(Map<String, Object> data) async {
     final response =
-        await _authApiService.dio.put(Api.API_USER_EDIT, data: data);
+        await _authApiService.dio.put(Api.apiUserEdit, data: data);
     final Map<String, dynamic>? user = response.data["data"]?["user"];
     if (user != null) {
       await setProfile(user);
