@@ -152,7 +152,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 },
                                 builder: (context, state) {
                                   if (state is ChangePasswordLoading) {
-                                    return AppProgressIndicator();
+                                    return const AppProgressIndicator();
                                   } else {
                                     return BigGBSelectButton(
                                         buttonLabel:

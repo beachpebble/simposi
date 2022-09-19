@@ -160,7 +160,7 @@ Route<Object?> cancelRsvpDialog(BuildContext context, Rsvp rsvp) {
           return (state is RsvpActionLoading)
               ? CupertinoAlertDialog(
                   content: Column(
-                  children: [
+                  children: const [
                     AppProgressIndicator(),
                   ],
                 ))
@@ -207,7 +207,7 @@ Route<Object?> cancelEventDialog(BuildContext context, Rsvp rsvp,
           return (state is RsvpActionLoading)
               ? CupertinoAlertDialog(
                   content: Column(
-                  children: [
+                  children: const [
                     AppProgressIndicator(),
                   ],
                 ))

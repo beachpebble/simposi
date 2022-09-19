@@ -123,7 +123,7 @@ class _CheckInPopupState extends State<CheckInPopup> {
                 builder: (context, state) {
                   return (state is CheckInLoading)
                       ? Column(
-                          children: [AppProgressIndicator()],
+                          children: const [AppProgressIndicator()],
                         )
                       : Column(
                           children: [

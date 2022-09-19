@@ -85,7 +85,7 @@ class AffinityRatingCard extends StatelessWidget {
                                     ),
                                   ),
                                   placeholder: (context, url) =>
-                                      Center(child: AppProgressIndicator()),
+                                      const Center(child: AppProgressIndicator()),
                                   errorWidget: (context, url, error) =>
                                       const Icon(Icons.error),
                                 ) /*ClipRRect(

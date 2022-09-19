@@ -33,8 +33,8 @@ class _SimposiHomeState extends State<SimposiHome> {
   final List<Widget> _simposiPages = [
     const SimposiCalendar(),
     const DiscoverScreen(),
-    AlertsScreen(),
-    ProfileScreen(),
+    const AlertsScreen(),
+    const ProfileScreen(),
   ];
 
   @override

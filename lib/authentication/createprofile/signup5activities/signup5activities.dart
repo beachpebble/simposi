@@ -114,7 +114,7 @@ class SignUpForm5 extends StatelessWidget {
 
                         // Footer
                         state is Signup5ActivitiesStatLoading
-                            ? AppProgressIndicator()
+                            ? const AppProgressIndicator()
                             : Container(
                                 padding:
                                     const EdgeInsets.fromLTRB(40, 10, 40, 40),

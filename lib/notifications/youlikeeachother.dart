@@ -125,7 +125,7 @@ class YouLikeEachOther extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 30),
-                  ShareDetailsButton(),
+                  const ShareDetailsButton(),
                   const SizedBox(height: 30),
                 ],
               ),

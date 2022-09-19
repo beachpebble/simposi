@@ -42,7 +42,7 @@ class SurveyScreen extends StatelessWidget {
       children: [
         const Text("Loading surveys"),
         Row(
-          children: [AppProgressIndicator()],
+          children: const [AppProgressIndicator()],
         )
       ],
     );
@@ -61,7 +61,7 @@ class SurveyScreen extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         Row(
-          children: [AppProgressIndicator()],
+          children: const [AppProgressIndicator()],
         )
       ],
     );

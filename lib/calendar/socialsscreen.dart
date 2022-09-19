@@ -35,7 +35,7 @@ class SocialsScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
 
           // TODO: Enable IF Have Events show calendar ELSE show Background
-          children: [
+          children: const [
             SimposiCalendarBackground(),
 //            SimposiCalendar(),
           ],

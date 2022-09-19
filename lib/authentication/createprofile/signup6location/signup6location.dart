@@ -121,7 +121,7 @@ class _SignUpForm6State extends State<_SignUpForm6View> {
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: state.selectedLocation == null
-                      ? Center(child: AppProgressIndicator())
+                      ? const Center(child: AppProgressIndicator())
                       : Stack(
                           children: [
                             _googleMap(state),
@@ -134,7 +134,7 @@ class _SignUpForm6State extends State<_SignUpForm6View> {
 
               // Footer
               state is Signup6LocationStateLoading
-                  ? AppProgressIndicator()
+                  ? const AppProgressIndicator()
                   : Container(
                       padding: const EdgeInsets.fromLTRB(10, 10, 10, 40),
                       child: Column(
@@ -218,7 +218,7 @@ class _SignUpForm6State extends State<_SignUpForm6View> {
         future: _initCompleter.future,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           return snapshot.connectionState == ConnectionState.waiting
-              ? Center(child: AppProgressIndicator())
+              ? const Center(child: AppProgressIndicator())
               : GoogleMap(
                   zoomControlsEnabled: true,
                   zoomGesturesEnabled: true,

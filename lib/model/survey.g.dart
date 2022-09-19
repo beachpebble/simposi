@@ -27,7 +27,7 @@ Map<String, dynamic> _$SurveyToJson(Survey instance) {
     'rate': instance.rate,
   };
 
-  void writeNotNull(String key, dynamic value) {
+  void writeNotNull(String key, value) {
     if (value != null) {
       val[key] = value;
     }

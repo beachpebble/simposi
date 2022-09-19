@@ -49,7 +49,7 @@ abstract class RegistrationProfileScreenState<T>
       },
       builder: (context, state) {
         return state is ProfileEditLoading
-            ? AppProgressIndicator()
+            ? const AppProgressIndicator()
             : ContinueButton(
                 buttonLabel: 'Save',
                 buttonAction: saveAction(),

@@ -36,7 +36,7 @@ class ProfileScreen extends StatelessWidget {
           return Scaffold(
               body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: const [
               AppProgressIndicator(),
             ],
           ));
@@ -89,7 +89,7 @@ class ProfileScreenView extends StatelessWidget {
                   ),
                 ),
                 placeholder: (context, url) =>
-                    Center(child: AppProgressIndicator()),
+                    const Center(child: AppProgressIndicator()),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),

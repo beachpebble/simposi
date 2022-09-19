@@ -60,13 +60,13 @@ class RouteGenerator {
 
       // Alerts & Notifications
       case '/adminalert':
-        return MaterialPageRoute(builder: (_) => AdminAlert());
+        return MaterialPageRoute(builder: (_) => const AdminAlert());
       case '/alertsscreen':
-        return MaterialPageRoute(builder: (_) => AlertsScreen());
+        return MaterialPageRoute(builder: (_) => const AlertsScreen());
       case '/newtimesuggested':
-        return MaterialPageRoute(builder: (_) => NewTimeSuggestedAlert());
+        return MaterialPageRoute(builder: (_) => const NewTimeSuggestedAlert());
       case '/youlikeeachother':
-        return MaterialPageRoute(builder: (_) => YouLikeEachOther());
+        return MaterialPageRoute(builder: (_) => const YouLikeEachOther());
 
       // Default Error Message
     }

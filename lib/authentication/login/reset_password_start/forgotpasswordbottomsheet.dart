@@ -100,7 +100,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                             ),
                             const SizedBox(height: 10),
                             state is ForgotPasswordStartLoading
-                                ? AppProgressIndicator()
+                                ? const AppProgressIndicator()
                                 : ContinueButton(
                                     buttonLabel: 'Reset Password',
                                     buttonAction:

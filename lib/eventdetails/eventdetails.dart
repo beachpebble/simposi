@@ -91,7 +91,7 @@ class _EventDetailsState extends State<EventDetails> {
                       ),
                     ),
                     placeholder: (context, url) =>
-                        Center(child: AppProgressIndicator()),
+                        const Center(child: AppProgressIndicator()),
                     errorWidget: (context, url, error) => const Icon(Icons.error),
                   ),
                 ),
@@ -317,7 +317,7 @@ class _EventDetailsState extends State<EventDetails> {
         future: _initCompleter.future,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           return snapshot.connectionState == ConnectionState.waiting
-              ? Center(child: AppProgressIndicator())
+              ? const Center(child: AppProgressIndicator())
               : SizedBox(
                   height: 150,
                   child: GoogleMap(

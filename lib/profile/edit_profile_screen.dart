@@ -199,7 +199,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     },
                     builder: (context, state) {
                       return state is ProfileEditLoading
-                          ? Center(child: AppProgressIndicator())
+                          ? const Center(child: AppProgressIndicator())
                           : ContinueButton(
                               buttonLabel: 'Save',
                               buttonAction: () {

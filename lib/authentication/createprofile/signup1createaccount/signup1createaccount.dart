@@ -175,7 +175,7 @@ class _SignUpForm1State extends State<SignUpForm1> {
 
                                     // SUBMIT BUTTON
                                     state is Signup1CreateAccountLoading
-                                        ? AppProgressIndicator()
+                                        ? const AppProgressIndicator()
                                         : ContinueButton(
                                             buttonLabel: 'Submit',
                                             buttonAction: _nextEnabled()

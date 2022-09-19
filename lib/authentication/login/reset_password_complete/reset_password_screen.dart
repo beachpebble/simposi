@@ -241,7 +241,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
                                 },
                                 builder: (context, state) {
                                   if (state is ResetPasswordCompleteProgress) {
-                                    return AppProgressIndicator();
+                                    return const AppProgressIndicator();
                                   } else {
                                     return Column(
                                       children: [

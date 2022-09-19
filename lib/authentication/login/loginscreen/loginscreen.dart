@@ -136,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 },
                                 builder: (context, state) {
                                   return state is LoginProgress
-                                      ? AppProgressIndicator()
+                                      ? const AppProgressIndicator()
                                       : ContinueButton(
                                           buttonLabel:
                                               AppLocalizations.of(context)!
@@ -174,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             ForgotPasswordStartCubit(
                                                 profileRepository:
                                                     context.read()),
-                                        child: ForgotPasswordForm(),
+                                        child: const ForgotPasswordForm(),
                                       );
                                     },
                                   );

@@ -83,7 +83,7 @@ class InvitationCard extends StatelessWidget {
                     return state is RsvpActionLoading
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
+                            children: const [
                               AppProgressIndicator(),
                             ],
                           )

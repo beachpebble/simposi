@@ -108,7 +108,7 @@ class _CreateEvent2State extends State<_CreateEvent2View> {
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: state.selectedLocation == null
-                      ? Center(child: AppProgressIndicator())
+                      ? const Center(child: AppProgressIndicator())
                       : Stack(
                           children: [
                             _googleMap(state),
@@ -166,7 +166,7 @@ class _CreateEvent2State extends State<_CreateEvent2View> {
         future: _initCompleter.future,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           return snapshot.connectionState == ConnectionState.waiting
-              ? Center(child: AppProgressIndicator())
+              ? const Center(child: AppProgressIndicator())
               : GoogleMap(
                   zoomControlsEnabled: true,
                   zoomGesturesEnabled: true,

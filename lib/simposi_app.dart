@@ -68,7 +68,7 @@ class _SimposiAppState extends State<SimposiApp> {
           } else if (state is AppSetupError) {
             return AppSetupErrorScreen(error: state.error);
           } else {
-            return SplashScreen();
+            return const SplashScreen();
           }
         },
       ),

@@ -176,7 +176,7 @@ class _SignUpForm8State extends State<SignUpForm8>
                               },
                               builder: (context, state) {
                                 return state is Signup8ValidateLoading
-                                    ? AppProgressIndicator()
+                                    ? const AppProgressIndicator()
                                     : Column(
                                         children: [
                                           ContinueButton(

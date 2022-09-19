@@ -206,7 +206,7 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
                 return Expanded(
                   child: Center(
                     child: Column(
-                      children: [
+                      children: const [
                         AppProgressIndicator(),
                       ],
                     ),

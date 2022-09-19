@@ -165,7 +165,7 @@ class _SignUpForm4State extends CreateEventScreenState<CreateEvent6> {
       },
       builder: (context, state) {
         return state is EventEditLoading
-            ? AppProgressIndicator()
+            ? const AppProgressIndicator()
             : ContinueButton(
                 buttonLabel: "Save",
                 buttonAction: () {

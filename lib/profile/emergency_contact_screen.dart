@@ -124,7 +124,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
                             },
                             builder: (context, state) {
                               return state is ProfileEditLoading
-                                  ? Center(child: AppProgressIndicator())
+                                  ? const Center(child: AppProgressIndicator())
                                   : ContinueButton(
                                       buttonLabel: 'Save',
                                       buttonAction: _nextEnabled()
