@@ -30,6 +30,7 @@ class EventEditCubit extends Cubit<EventEditState> {
   double? longitude;
   String? city;
   String? address;
+  String? locationName;
 
   bool editMode = false;
 
@@ -49,12 +50,14 @@ class EventEditCubit extends Cubit<EventEditState> {
       {required double latitude,
       required double longitude,
       required String city,
-      required String address}) {
+      required String address,
+      required String locationName}) {
     print("WTF");
     this.latitude = latitude;
     this.longitude = longitude;
     this.city = city;
     this.address = address;
+    this.locationName = locationName;
   }
 
   void setInterests({
@@ -106,6 +109,7 @@ class EventEditCubit extends Cubit<EventEditState> {
         latitude: latitude!.toString(),
         longitude: longitude!.toString(),
         address: address?.toString() ?? "",
+        locationName: locationName.toString(),
         city: city?.toString() ?? "",
         wantToMeetGender: wantToMeetGender!,
         wantToMeetEarnings: wantToMeetEarnings!,

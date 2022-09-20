@@ -25,17 +25,20 @@ class CreateEvent2LocationCubit extends Cubit<CreateEvent2LocationState> {
     emit(state.copyWith(searchResults: response.results));
   }
 
-
-
   Future<void> refreshInitial() async {
     if (state.selectedLocation != null) {
-      final placemarks = await placemarkFromCoordinates(state.selectedLocation!.latitude, state.selectedLocation!.longitude);
+      final placemarks = await placemarkFromCoordinates(
+          state.selectedLocation!.latitude, state.selectedLocation!.longitude);
       if (placemarks.isNotEmpty) {
         final place = placemarks.first;
         final address = "${place.subAdministrativeArea}, ${place.street}";
         emit(state.copyWith(address: address));
         editEventCubit.stage2SetLocation(
-            latitude: state.selectedLocation!.latitude, longitude: state.selectedLocation!.longitude, city: place.subAdministrativeArea??"", address: place.street??"");
+            latitude: state.selectedLocation!.latitude,
+            longitude: state.selectedLocation!.longitude,
+            city: place.subAdministrativeArea ?? "",
+            address: place.street ?? "",
+            locationName: place.name ?? "");
       }
     }
   }
@@ -49,20 +52,28 @@ class CreateEvent2LocationCubit extends Cubit<CreateEvent2LocationState> {
 
 //TODO make smarter
   Future<void> selectLocation(LatLng location) async {
-    emit(state.copyWith(selectedLocation: location, searchResults: [], ));
-    final placemarks = await placemarkFromCoordinates(location.latitude, location.longitude);
+    emit(state.copyWith(
+      selectedLocation: location,
+      searchResults: [],
+    ));
+    final placemarks =
+        await placemarkFromCoordinates(location.latitude, location.longitude);
     if (placemarks.isNotEmpty) {
       final place = placemarks.first;
       final address = "${place.subAdministrativeArea}, ${place.street}";
-      emit(state.copyWith(selectedLocation: location, searchResults: [], address: address));
+      emit(state.copyWith(
+          selectedLocation: location, searchResults: [], address: address));
       editEventCubit.stage2SetLocation(
-          latitude: location.latitude, longitude: location.longitude, city: place.subAdministrativeArea??"", address: place.street??"");
+          latitude: location.latitude,
+          longitude: location.longitude,
+          city: place.subAdministrativeArea ?? "",
+          address: place.street ?? "",
+          locationName: place.name ?? "");
     }
-
   }
 
   Future<void> noPermission() async {
-    emit(state.copyWith(selectedLocation: const LatLng(48.4613359, 35.0627361)));
+    emit(
+        state.copyWith(selectedLocation: const LatLng(48.4613359, 35.0627361)));
   }
-
 }
