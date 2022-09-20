@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:simposi_app_v4/bloc/rsvp/rsvp_bloc.dart';
 import 'package:simposi_app_v4/model/rsvp.dart';
@@ -32,7 +32,8 @@ class RsvpActionBloc extends Bloc<RsvpActionEvent, RsvpActionState> {
     });
 
     on<RsvpActionAccepted>((event, emit) async {
-      if (event.rsvp.status.title == RsvpStatus.INVITED || event.rsvp.status.title == RsvpStatus.OPENED) {
+      if (event.rsvp.status.title == RsvpStatus.INVITED ||
+          event.rsvp.status.title == RsvpStatus.OPENED) {
         emit(RsvpActionLoading());
         try {
           final updated = await _calendarRepository.acceptRsvp(event.rsvp.id);
@@ -45,7 +46,8 @@ class RsvpActionBloc extends Bloc<RsvpActionEvent, RsvpActionState> {
     });
 
     on<RsvpActionDeclined>((event, emit) async {
-      if (event.rsvp.status.title == RsvpStatus.INVITED || event.rsvp.status.title == RsvpStatus.OPENED) {
+      if (event.rsvp.status.title == RsvpStatus.INVITED ||
+          event.rsvp.status.title == RsvpStatus.OPENED) {
         emit(RsvpActionLoading());
         try {
           final updated = await _calendarRepository.declineRsvp(event.rsvp.id);

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:geolocator/geolocator.dart';
@@ -180,8 +180,8 @@ class GroupFinderBloc extends Bloc<GroupFinderEvent, GroupFinderState> {
         _rsvpBloc.add(RefreshRequested(
             DateTime.now().subtract(
                 const Duration(days: AppConstants.calendarDayInterval)),
-            DateTime.now().add(
-                const Duration(days: AppConstants.calendarDayInterval))));
+            DateTime.now()
+                .add(const Duration(days: AppConstants.calendarDayInterval))));
       }
     }
   }

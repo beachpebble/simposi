@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/bloc/profile/profile_bloc.dart';
 import 'package:simposi_app_v4/bloc/survey/survey_bloc.dart';
@@ -18,7 +18,8 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
   final ProfileBloc _profileBloc;
   final SurveyBloc _surveyBloc;
 
-  NavigationBloc(AuthenticationBloc authBloc, ProfileBloc profileBloc, SurveyBloc surveyBloc)
+  NavigationBloc(AuthenticationBloc authBloc, ProfileBloc profileBloc,
+      SurveyBloc surveyBloc)
       : _authBloc = authBloc,
         _profileBloc = profileBloc,
         _surveyBloc = surveyBloc,
@@ -34,7 +35,6 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
           print("!----- authSubscription  3");
           add(GotNotAuthenticated());
         }
-
       } else if (state is Authenticated) {
         add(GotAuthenticated());
       }
@@ -48,7 +48,7 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
         if (_authBloc.state is Authenticated) {
           add(GotProfileLoaded());
         }
-      }else if (state is ProfileOnSurvey) {
+      } else if (state is ProfileOnSurvey) {
         if (_authBloc.state is Authenticated) {
           add(GotOnSurvey());
         }

@@ -1,9 +1,10 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
+import 'package:simposi_app_v4/app_constants.dart';
 import 'package:simposi_app_v4/eventdetails/cubit/event_edit_cubit.dart';
 import 'package:geocoding/geocoding.dart';
 
@@ -16,9 +17,7 @@ class CreateEvent2LocationCubit extends Cubit<CreateEvent2LocationState> {
 
   final EventEditCubit editEventCubit;
 
-  //TODO move keys to one place
-  final places =
-      GoogleMapsPlaces(apiKey: "AIzaSyAcFxt9w_8X_0G5j1VTZuTL4BvhChT9cYI");
+  final places = GoogleMapsPlaces(apiKey: AppConstants.googleApiKey);
 
   Future<void> searchPlace(String searchStr) async {
     final response = await places.searchByText(searchStr);

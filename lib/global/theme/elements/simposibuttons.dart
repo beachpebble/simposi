@@ -267,6 +267,7 @@ class BigGBSelectButton extends StatelessWidget {
 class BigButton extends StatefulWidget {
   // Set Variables
   final String buttonLabel;
+  // ignore: prefer_typing_uninitialized_variables
   final buttonAction;
   final Color buttonColor;
   final Color textColor;
@@ -390,6 +391,7 @@ class SmallPinkButton extends StatelessWidget {
 class SmallBlueButton extends StatelessWidget {
   // Set Variables
   final String buttonLabel;
+  // ignore: prefer_typing_uninitialized_variables
   final nextPage;
 
   const SmallBlueButton({

@@ -41,7 +41,9 @@ class HeaderFormAppBar extends StatelessWidget with PreferredSizeWidget {
   // Variables
   @override
   final Size preferredSize;
+  // ignore: prefer_typing_uninitialized_variables
   final headerTitle;
+  // ignore: prefer_typing_uninitialized_variables
   final nextButtonLabel;
   final VoidCallback onNext;
 

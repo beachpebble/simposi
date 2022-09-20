@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
 
 import 'utils.dart';

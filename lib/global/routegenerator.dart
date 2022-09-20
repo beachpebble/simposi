@@ -16,6 +16,7 @@ import 'package:simposi_app_v4/notifications/alertsscreen.dart';
 import 'package:simposi_app_v4/notifications/newtimesuggestedalert.dart';
 import 'package:simposi_app_v4/notifications/youlikeeachother.dart';
 
+// ignore: provide_deprecation_message
 @deprecated
 class RouteGenerator {
   static const String FORGOT_PASSWORD_DL = "/ResetPassword?token=";

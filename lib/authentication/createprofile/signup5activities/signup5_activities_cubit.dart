@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simposi_app_v4/authentication/createprofile/cubit/registration_cubit.dart';
 import 'package:simposi_app_v4/bloc/profile/profile_bloc.dart';
 import 'package:simposi_app_v4/model/interest.dart';
@@ -15,9 +15,8 @@ class Signup5ActivitiesCubit extends Cubit<Signup5ActivitiesState> {
   final ProfileRepository profileRepository;
   late StreamSubscription profileEditSubscription;
 
-  Signup5ActivitiesCubit(
-      this.interests, this.registrationCubit, this.profileBloc,this.profileRepository,
-      {bool editMode = false})
+  Signup5ActivitiesCubit(this.interests, this.registrationCubit,
+      this.profileBloc, this.profileRepository, {bool editMode = false})
       : super(Signup5ActivitiesState(
             interests: interests,
             filtered: interests,
@@ -31,7 +30,8 @@ class Signup5ActivitiesCubit extends Cubit<Signup5ActivitiesState> {
       } else if (state is ProfileEditSuccess) {
         emit(Signup5ActivitiesStateSuccessChange(state: this.state));
       } else if (state is ProfileEditError) {
-        emit(Signup5ActivitiesStateErrorChange(state: this.state, error:state.error ));
+        emit(Signup5ActivitiesStateErrorChange(
+            state: this.state, error: state.error));
       } else {
         emit(this.state.copyWith());
       }

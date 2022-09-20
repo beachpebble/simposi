@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:simposi_app_v4/bloc/auth/authentication_bloc.dart';
 import 'package:simposi_app_v4/bloc/fcm/fcm_bloc.dart';
@@ -23,7 +23,10 @@ class RsvpBloc extends Bloc<RsvpEvent, RsvpState> {
   late StreamSubscription authSubscription;
   late StreamSubscription fcmSubscription;
 
-  RsvpBloc(AuthenticationBloc authBloc, FcmBloc fcmBloc, CalendarRepository calendarRepository,
+  RsvpBloc(
+      AuthenticationBloc authBloc,
+      FcmBloc fcmBloc,
+      CalendarRepository calendarRepository,
       ProfileRepository profileRepository)
       : _calendarRepository = calendarRepository,
         _profileRepository = profileRepository,
@@ -33,8 +36,8 @@ class RsvpBloc extends Bloc<RsvpEvent, RsvpState> {
         _loadedEvents.clear();
       } else if (state is Authenticated) {
         add(RefreshRequested(
-            DateTime.now()
-                .subtract(const Duration(days: AppConstants.calendarDayInterval)),
+            DateTime.now().subtract(
+                const Duration(days: AppConstants.calendarDayInterval)),
             DateTime.now()
                 .add(const Duration(days: AppConstants.calendarDayInterval))));
       }
@@ -43,10 +46,10 @@ class RsvpBloc extends Bloc<RsvpEvent, RsvpState> {
     fcmSubscription = fcmBloc.stream.listen((state) {
       if (state is NewRsvpReceived) {
         add(RefreshRequested(
-        DateTime.now().subtract(
-  const Duration(days: AppConstants.calendarDayInterval)),
-  DateTime.now().add(const Duration(
-  days: AppConstants.calendarDayInterval))));
+            DateTime.now().subtract(
+                const Duration(days: AppConstants.calendarDayInterval)),
+            DateTime.now()
+                .add(const Duration(days: AppConstants.calendarDayInterval))));
       }
     });
     on<RefreshRequested>((event, emit) async {
@@ -64,7 +67,7 @@ class RsvpBloc extends Bloc<RsvpEvent, RsvpState> {
     on<RsvpOpened>((event, emit) async {
       final loadedEvents = <EventModel>[..._loadedEvents];
       loadedEvents.removeWhere((element) => element.rsvp.id == event.rsvp.id);
-      final tmp  = EventModel(
+      final tmp = EventModel(
           rsvp: event.rsvp,
           normalizedDate: event.rsvp.date,
           myId: _profileRepository.profile.userId);
@@ -75,7 +78,7 @@ class RsvpBloc extends Bloc<RsvpEvent, RsvpState> {
     });
     on<RsvpAccepted>((event, emit) async {
       final loadedEvents = <EventModel>[..._loadedEvents];
-      final tmp  = EventModel(
+      final tmp = EventModel(
           rsvp: event.rsvp,
           normalizedDate: event.rsvp.date,
           myId: _profileRepository.profile.userId);
@@ -100,18 +103,21 @@ class RsvpBloc extends Bloc<RsvpEvent, RsvpState> {
   }
 
   Future<List<EventModel>> _getRsvps(DateTime from, DateTime to) async {
-    final rsvps =
-        await _calendarRepository.getAllevents(from, to);
-    return rsvps.where((element) => element.status.id != RsvpStatus.CANCELED_ID && element.status.id != RsvpStatus.DECLINED_ID)
+    final rsvps = await _calendarRepository.getAllevents(from, to);
+    return rsvps
+        .where((element) =>
+            element.status.id != RsvpStatus.CANCELED_ID &&
+            element.status.id != RsvpStatus.DECLINED_ID)
         .map((e) => EventModel(
-        rsvp: e,
-        normalizedDate: e.date,
-        myId: _profileRepository.profile.userId))
+            rsvp: e,
+            normalizedDate: e.date,
+            myId: _profileRepository.profile.userId))
         .toList()
       ..sort(dateComparator);
   }
 
-  int Function(EventModel a, EventModel b) dateComparator = (EventModel a, EventModel b) {
+  int Function(EventModel a, EventModel b) dateComparator =
+      (EventModel a, EventModel b) {
     final ams = a.rsvp.event.datetime.millisecondsSinceEpoch;
     final bms = b.rsvp.event.datetime.millisecondsSinceEpoch;
     return ams.compareTo(bms);

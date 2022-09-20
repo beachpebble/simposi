@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:simposi_app_v4/model/rsvp.dart';
@@ -26,8 +26,12 @@ class CheckInBloc extends Bloc<CheckInEvent, CheckInState> {
       }
 
       try {
-        await _calendarRepository.checkIn(rsvpId: event.rsvp.id, eventId: event.rsvp.event.id);
-        await _calendarRepository.groupFinder(eventId: event.rsvp.event.id, latitude: p.latitude.toString(), longitude: p.longitude.toString());
+        await _calendarRepository.checkIn(
+            rsvpId: event.rsvp.id, eventId: event.rsvp.event.id);
+        await _calendarRepository.groupFinder(
+            eventId: event.rsvp.event.id,
+            latitude: p.latitude.toString(),
+            longitude: p.longitude.toString());
         emit(CheckInSuccess());
       } catch (e) {
         emit(CheckInError(e));

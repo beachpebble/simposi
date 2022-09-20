@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:simposi_app_v4/eventdetails/cubit/event_edit_cubit.dart';
 import 'package:simposi_app_v4/model/interest.dart';

@@ -24,9 +24,8 @@ import 'package:simposi_app_v4/utils/validators.dart';
 
 import 'reset_password_complete_cubit.dart';
 
-/**
-Use only for pwd change before login
- */
+// Use only for pwd change before login
+
 class ResetPasswordScreen extends StatefulWidget {
   final String phone;
 

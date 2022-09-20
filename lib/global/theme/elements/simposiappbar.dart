@@ -12,8 +12,11 @@ class SimposiAppBar extends StatelessWidget with PreferredSizeWidget {
   // Set Variables
   @override
   final Size preferredSize;
+  // ignore: prefer_typing_uninitialized_variables
   final simposiTitle;
+  // ignore: prefer_typing_uninitialized_variables
   final simposiSubTitle;
+  // ignore: prefer_typing_uninitialized_variables
   final simposiAction;
 
   SimposiAppBar({

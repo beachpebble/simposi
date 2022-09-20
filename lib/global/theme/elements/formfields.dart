@@ -12,6 +12,7 @@ import 'package:simposi_app_v4/global/theme/appcolors.dart';
 class SimposiFormFieldwClear extends StatelessWidget {
   final String inputType;
   final String fieldLabel;
+  // ignore: prefer_typing_uninitialized_variables
   final validationLogic;
   final TextEditingController fieldController;
 
@@ -54,6 +55,7 @@ class SimposiCounterField extends StatefulWidget {
   final String fieldLabel;
   final int counterLength;
 
+  // ignore: prefer_typing_uninitialized_variables
   final validationLogic;
   final Function(String?)? onSave;
   final TextEditingController fieldController;
@@ -126,6 +128,7 @@ class _SimposiCounterFieldState extends State<SimposiCounterField> {
 class SimposiLargeTextField extends StatelessWidget {
   final String fieldLabel;
   final int textAreaLines;
+  // ignore: prefer_typing_uninitialized_variables
   final validationLogic;
   final Function(String?)? onSave;
   final TextEditingController? fieldController;
@@ -167,6 +170,7 @@ class SimposiLargeTextField extends StatelessWidget {
 class SimposiPlainField extends StatefulWidget {
   final TextInputType inputType;
   final String fieldLabel;
+  // ignore: prefer_typing_uninitialized_variables
   final validationLogic;
   final TextEditingController? fieldController;
   final Function(String?)? onSave;

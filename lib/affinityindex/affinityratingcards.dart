@@ -8,8 +8,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/src/provider.dart';
 import 'package:simposi_app_v4/app_router.dart';
 import 'package:simposi_app_v4/bloc/survey/survey_bloc.dart';
 import 'package:simposi_app_v4/global/theme/appcolors.dart';
@@ -84,8 +84,8 @@ class AffinityRatingCard extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  placeholder: (context, url) =>
-                                      const Center(child: AppProgressIndicator()),
+                                  placeholder: (context, url) => const Center(
+                                      child: AppProgressIndicator()),
                                   errorWidget: (context, url, error) =>
                                       const Icon(Icons.error),
                                 ) /*ClipRRect(
@@ -153,7 +153,8 @@ class AffinityRatingCard extends StatelessWidget {
                             userId: surveyRequired.id,
                             eventId: surveyRequired.eventId,
                             rate: 4)));
-                        AutoRouter.of(context).push(const YouLikeEachOtherRoute());
+                        AutoRouter.of(context)
+                            .push(const YouLikeEachOtherRoute());
                       },
                       child: Image.asset(
                         "assets/images/ratingheart1.png",
