@@ -34,9 +34,9 @@ class RsvpBloc extends Bloc<RsvpEvent, RsvpState> {
       } else if (state is Authenticated) {
         add(RefreshRequested(
             DateTime.now()
-                .subtract(const Duration(days: AppConstants.CALENDAR_DAYS_INTERVAL)),
+                .subtract(const Duration(days: AppConstants.calendarDayInterval)),
             DateTime.now()
-                .add(const Duration(days: AppConstants.CALENDAR_DAYS_INTERVAL))));
+                .add(const Duration(days: AppConstants.calendarDayInterval))));
       }
     });
 
@@ -44,9 +44,9 @@ class RsvpBloc extends Bloc<RsvpEvent, RsvpState> {
       if (state is NewRsvpReceived) {
         add(RefreshRequested(
         DateTime.now().subtract(
-  const Duration(days: AppConstants.CALENDAR_DAYS_INTERVAL)),
+  const Duration(days: AppConstants.calendarDayInterval)),
   DateTime.now().add(const Duration(
-  days: AppConstants.CALENDAR_DAYS_INTERVAL))));
+  days: AppConstants.calendarDayInterval))));
       }
     });
     on<RefreshRequested>((event, emit) async {

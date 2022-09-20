@@ -79,9 +79,9 @@ void main() {
                     context.read(), context.read())
                   ..add(RefreshRequested(
                       DateTime.now().subtract(const Duration(
-                          days: AppConstants.CALENDAR_DAYS_INTERVAL)),
+                          days: AppConstants.calendarDayInterval)),
                       DateTime.now().add(const Duration(
-                          days: AppConstants.CALENDAR_DAYS_INTERVAL))))),
+                          days: AppConstants.calendarDayInterval))))),
             BlocProvider(create: (context) => CalendarBloc(context.read())),
             BlocProvider(
                 create: (context) => RsvpActionBloc(

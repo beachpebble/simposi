@@ -179,9 +179,9 @@ class GroupFinderBloc extends Bloc<GroupFinderEvent, GroupFinderState> {
         _profileBloc.add(const ProfileReload());
         _rsvpBloc.add(RefreshRequested(
             DateTime.now().subtract(
-                const Duration(days: AppConstants.CALENDAR_DAYS_INTERVAL)),
+                const Duration(days: AppConstants.calendarDayInterval)),
             DateTime.now().add(
-                const Duration(days: AppConstants.CALENDAR_DAYS_INTERVAL))));
+                const Duration(days: AppConstants.calendarDayInterval))));
       }
     }
   }
