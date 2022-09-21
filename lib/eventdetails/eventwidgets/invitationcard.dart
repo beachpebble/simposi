@@ -98,7 +98,7 @@ class InvitationCard extends StatelessWidget {
                                     'RSVP ${DateFormat('MMM dd, yyyy').format(eventModel.rsvp.fullDate)}',
                                 buttonAction: () => {
                                   AutoRouter.of(context).pushNativeRoute(
-                                      _dialogBuilder(context, null))
+                                      _dialogBuilder(context, eventModel))
                                   // Navigator.of(context)
                                   //     .restorablePush(_dialogBuilder),
                                 },
@@ -158,13 +158,17 @@ class InvitationCard extends StatelessWidget {
       );
 
   // DIALOGUE
-  Route<Object?> _dialogBuilder(BuildContext context, Object? arguments) {
+  Route<Object?> _dialogBuilder(BuildContext context, EventModel eventModel) {
+    // ignore: omit_local_variable_types
+    final String modalTitle =
+        "${eventModel.rsvp.event.title} on ${DateFormat('MMM dd, yyyy').format(eventModel.rsvp.fullDate)}";
+
     return CupertinoDialogRoute<void>(
       context: context,
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
           title: const Text('You\'re Going!'),
-          content: const Text('Ditch Fashion Show \n Sept. 16, 2021'),
+          content: Text(modalTitle),
           actions: <Widget>[
             CupertinoDialogAction(
                 // TODO: Enable click to open a bottom sheet which list share options, like copy url, SMS, email, whatsapp, messenger, etc.
