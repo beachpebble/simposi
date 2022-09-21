@@ -27,7 +27,6 @@ class Rsvp extends Equatable {
     required this.status,
   });
 
-
   @override
   List<Object?> get props => [id, event, status];
 

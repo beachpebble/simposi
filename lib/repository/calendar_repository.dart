@@ -25,10 +25,13 @@ class CalendarRepository {
     });
 
     if (response.data["data"] != null) {
-      if (response.data["data"] is Map) {
-        final Map? data = response.data["data"];
-        final List rsvpsMap = data?['rsvps'];
-        final rsvps = rsvpsMap.map((e) => Rsvp.fromJson(e)).toList();
+      if (response.data["data"] is List) {
+        final List? rsvpsMap = response.data["data"];
+        final rsvps = <Rsvp>[];
+        for (final rsvp in rsvpsMap!) {
+          final aRsvp = Rsvp.fromJson(rsvp);
+          rsvps.add(aRsvp);
+        }
         return rsvps;
       }
       return [];

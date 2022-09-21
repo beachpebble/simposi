@@ -66,7 +66,7 @@ Event _$EventFromJson(Map<String, dynamic> json) {
     locationName: json['location_name'] as String,
     locationAddress: json['location_address'] as String,
     locationCity: json['location_city'] as String,
-    isLgbt: json['is_lgbtq'] as bool,
+    isLgbt: (json['is_lgbtq'] == 1) as bool,
     wantToMeetGenders: (json['want_to_meets'] as List<dynamic>)
         .map((e) => Gender.fromJson(e as Map<String, dynamic>))
         .toList(),

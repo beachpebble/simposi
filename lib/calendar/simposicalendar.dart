@@ -159,9 +159,8 @@ class _SimposiCalendarState extends State<SimposiCalendar> {
                 BlocBuilder<RsvpBloc, RsvpState>(
                   builder: (context, state) {
                     return SimposiCounterBubble(
-                      count: state is RsvpLoaded
-                          ? state.accepted.toString()
-                          : '0', // TODO: Set Variable for Counter which displays RSVPs where status = Accepted or Created by ELSE display 0
+                      count:
+                          state is RsvpLoaded ? state.accepted.toString() : '0',
                     );
                   },
                 ),
